@@ -28,7 +28,7 @@ const submitHandler = async (values:{email:string,password:string,phone:string,t
       try{
         const res = await axios({
           method:'POST',
-          url:'https://smnk-v1-0.vercel.app/api/users/signup',
+          url:'https://smnk.vercel.app/api/users/signup',
           data:values
       })
       const data = await res.data
