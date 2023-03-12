@@ -75,7 +75,7 @@ useEffect(()=>{
     isLoginDetailsValid: login.getIsDetailsValid() && otpValidator.getIsOtpValid(),
     errMsg : loginValidator.getErrorMsg()
   })
-  },[values])
+  })
 
  
 

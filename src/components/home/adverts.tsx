@@ -2,6 +2,10 @@ import Image from "next/image";
 import styles from '../../styles/home/advertslider.module.css'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83ad3a1a9ec41e15f2a309a8ea22d20bcaa95fad
 import { useState } from "react";
 
 export default function AdvertSlider(){

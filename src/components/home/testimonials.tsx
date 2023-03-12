@@ -1,10 +1,13 @@
 import Image from "next/image";
 import styles from '../../styles/home/testimonials.module.css'
+<<<<<<< HEAD
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { CardContent, CardHeader, IconButton } from "@mui/material";
+=======
+>>>>>>> 83ad3a1a9ec41e15f2a309a8ea22d20bcaa95fad
 import { useState } from "react";
-import { Card, CardMedia } from "@mui/material";
+import { Card, CardMedia ,CardContent, CardHeader,} from "@mui/material";
 
 export default function Testimonials(){
     const testimonies = [

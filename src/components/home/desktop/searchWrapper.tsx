@@ -8,7 +8,11 @@ export default function DesktopSearchBox(){
 
         <InputBase 
         placeholder="search for jobs and talent"
+<<<<<<< HEAD
        
+=======
+        
+>>>>>>> 83ad3a1a9ec41e15f2a309a8ea22d20bcaa95fad
         endAdornment={<IconButton><MoreVertIcon/></IconButton>}
         sx={{
             border:'1px solid grey',

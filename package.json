@@ -21,6 +21,11 @@
     "@types/react-dom": "18.0.10",
     "axios": "^1.3.4",
     "bcrypt": "^5.1.0",
+<<<<<<< HEAD
+=======
+    "eslint": "8.33.0",
+    "eslint-config-next": "13.1.6",
+>>>>>>> 83ad3a1a9ec41e15f2a309a8ea22d20bcaa95fad
     "formik": "^2.2.9",
     "formik-mui": "^5.0.0-alpha.0",
     "mongoose": "^7.0.1",
