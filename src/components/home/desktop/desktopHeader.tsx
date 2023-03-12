@@ -1,4 +1,4 @@
-import Grid from "@material-ui/core/Grid";
+import {Grid} from "@mui/material";
 import SMNK from "../smnk";
 import DesktopAccount from "./desktopAccount";
 import Menu from "./menu";

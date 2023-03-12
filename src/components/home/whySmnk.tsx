@@ -1,4 +1,4 @@
-import { CardHeader } from "@material-ui/core";
+import { CardHeader } from "@mui/material";
 import { Box, Card, CardContent, Paper, Typography } from "@mui/material";
 import Link from "next/link";
 

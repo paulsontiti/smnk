@@ -1,5 +1,4 @@
 import { IconButton, InputBase, Typography } from "@mui/material";
-import SearchIcon from '@material-ui/icons/Search';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
@@ -9,7 +8,7 @@ export default function DesktopSearchBox(){
 
         <InputBase 
         placeholder="search for jobs and talent"
-        startAdornment={<SearchIcon/>}
+       
         endAdornment={<IconButton><MoreVertIcon/></IconButton>}
         sx={{
             border:'1px solid grey',

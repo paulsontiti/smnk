@@ -2,11 +2,11 @@ import { useRouter } from 'next/router';
 import { Box, Paper, TextField ,Container,Typography, Button} from "@mui/material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import LoginDetails from "../classes/login";
-import UseForm from "../utils/useForm";
-import LoginValidator from "../classes/validators/loginValidator";
-import OtpValidator from "../classes/validators/otpValidator";
-import Otp from "../classes/otp";
+import LoginDetails from "../src/account/classes/login";
+import UseForm from "../src/account/utils/useForm";
+import LoginValidator from "../src/account/classes/validators/loginValidator";
+import OtpValidator from "../src/account/classes/validators/otpValidator";
+import Otp from "../src/account/classes/otp";
 
 jest.mock('next/router', () => require('next-router-mock'));
 
