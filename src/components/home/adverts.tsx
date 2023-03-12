@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from '../../styles/home/advertslider.module.css'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { IconButton } from "@material-ui/core";
+
 import { useState } from "react";
 
 export default function AdvertSlider(){
