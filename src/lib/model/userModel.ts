@@ -1,7 +1,7 @@
 import { Schema,model,models } from "mongoose";
 import bcrypt from 'bcrypt'
 
-const  userType = 'skilled worker' | 'client'
+
 
 const userSchema = new Schema({
     email:{
@@ -36,7 +36,7 @@ userSchema.pre('save',async function(next){
         const hashedPassword = await bcrypt.hash(this.password,salt)
         this.password = hashedPassword
         next()
-    }catch(error){
+    }catch(error:any){
         next(error)
     }
 })

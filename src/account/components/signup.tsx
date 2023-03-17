@@ -1,13 +1,21 @@
-import { Box, FormGroup, TextField ,Card,Typography, Button, CardContent} from "@mui/material";
+import { Box, FormGroup, TextField ,Card,CardHeader,CardActions, Button, CardContent} from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios"
 import { Field, Form, Formik ,ErrorMessage} from "formik";
 import {object,string} from 'yup'
-import Radio from '@mui/material/Radio';
+import RadioButtonGroup from "@/components/radioButtonGroup";
 
 
-const initialValues={
+
+type signUpDetails ={
+  email:string
+  phone:string
+  password:string
+  confirmPassword:string
+  type:'Skilled Worker' | 'Client'
+}
+const initialValues : signUpDetails={
   email:'',
   phone:'',
   password:'',
@@ -22,13 +30,13 @@ export default function SignUp(){
 
 
 //sign up submit handler
-const submitHandler = async (values:{email:string,password:string,phone:string,type:string})=>{
+const submitHandler = async (values:signUpDetails)=>{
 
   
       try{
         const res = await axios({
           method:'POST',
-          url:'https://smnk.vercel.app/api/users/signup',
+          url:`${process.env.SMNK_URL}api/users/signup`,
           data:values
       })
       const data = await res.data
@@ -36,13 +44,14 @@ const submitHandler = async (values:{email:string,password:string,phone:string,t
       if(data.isSignUpValid){
         alert(data.Message)
                 
-          router.push('/')
+          router.push('/account/login')
         
       }else{
         alert(data.Message)
       }
       
       }catch(err:any){
+        
         alert(err.response.data.Message)
       }
 }
@@ -77,11 +86,11 @@ const formikSubmitHandler = (values:any,formikHelpers:any)=>{
   return(
 
     <Card sx={{
-      width:'400px',
-      height:'700px'
+      marginTop:'5rem'
     }}>
+      <CardHeader title='Create an account with SMNK'/>
       <CardContent>
-          <Typography variant="h5">Create an account with SMNK</Typography>
+          
           <Formik initialValues={initialValues} onSubmit={formikSubmitHandler} validationSchema={signupSchema}>
             
            {({values,errors,touched,isSubmitting,isValidating}) => (
@@ -100,27 +109,25 @@ const formikSubmitHandler = (values:any,formikHelpers:any)=>{
                 </Box>
                 <Box  marginBottom={2}>
                 <FormGroup>
-                <Field type='password ' name='password' as={TextField} label="Password"/>
+                <Field type='password' name='password' as={TextField} label="Password"/>
                 <ErrorMessage name="password"/>
                 </FormGroup>
                 </Box>
                 <Box  marginBottom={2}>
                 <FormGroup>
-                <Field type='password ' name='confirmPassword' as={TextField} label="Confirm Password"/>
+                <Field type='password' name='confirmPassword' as={TextField} label="Confirm Password"/>
                 <ErrorMessage name="confirmPassword"/>
                 </FormGroup>
                 </Box>
                 <Box  marginBottom={2}>
-                  <Typography>
-                  <Field type="radio" name="type" value="Skilled Worker" as={Radio} />
-                  Skilled Worker
-                  </Typography>
-                   <Typography>
-                   <Field type="radio" name="type" value="Client" as={Radio}/>
-                   Client
-                   </Typography>
+                 <RadioButtonGroup radios={['Skilled Worker', 'Client']}/>
                 </Box>
-                <Button variant="outlined" fullWidth type="submit" disabled={isSubmitting || isValidating}>Sign Up</Button>
+                <CardActions>
+                <Button sx={{
+                  marginBottom:'1rem'
+                }} variant="contained" fullWidth type="submit" disabled={isSubmitting || isValidating}>Sign Up</Button>
+                
+                </CardActions>
                 <Link href="/account/login">already have an account? Login</Link>
             {/* <pre>{JSON.stringify(values,null,4)}</pre> */}
            

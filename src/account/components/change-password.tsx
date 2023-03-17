@@ -1,4 +1,4 @@
-import { Box, FormGroup, TextField ,Card,Typography, Button, CardContent} from "@mui/material";
+import { Box, FormGroup, TextField ,Card,CardHeader,CardActions, Button, CardContent} from "@mui/material";
 import { useRouter } from "next/router";
 import axios from "axios"
 import { Field, Form, Formik ,ErrorMessage} from "formik";
@@ -25,7 +25,7 @@ const submitHandler = async (values:{email:string,password:string,phone:string})
       try{
         const res = await axios({
           method:'POST',
-          url:'https://smnk.vercel.app/api/users/change-password',
+          url:`${process.env.SMNK_URL}api/users/change-password`,
           data:values
       })
       const data = await res.data
@@ -74,11 +74,11 @@ const formikSubmitHandler = (values:any,formikHelpers:any)=>{
   return(
 
     <Card sx={{
-      width:'400px',
-      height:'500px'
+      marginTop:'5rem'
     }}>
+      <CardHeader title='Change Your Password'/>
       <CardContent>
-          <Typography variant="h5">Create an account with SMNK</Typography>
+        
           <Formik initialValues={initialValues} onSubmit={formikSubmitHandler} validationSchema={changePasswordSchema}>
             
            {({values,errors,touched,isSubmitting,isValidating}) => (
@@ -97,18 +97,20 @@ const formikSubmitHandler = (values:any,formikHelpers:any)=>{
                 </Box>
                 <Box  marginBottom={2}>
                 <FormGroup>
-                <Field type='password ' name='password' as={TextField} label="New Password"/>
+                <Field type='password' name='password' as={TextField} label="New Password"/>
                 <ErrorMessage name="password"/>
                 </FormGroup>
                 </Box>
                 <Box  marginBottom={2}>
                 <FormGroup>
-                <Field type='password ' name='confirmPassword' as={TextField} label="Confirm Password"/>
+                <Field type='password' name='confirmPassword' as={TextField} label="Confirm Password"/>
                 <ErrorMessage name="confirmPassword"/>
                 </FormGroup>
                 </Box>
                
-                <Button variant="outlined" fullWidth type="submit" disabled={isSubmitting || isValidating}>Change Password</Button>
+                <CardActions>
+                    <Button variant="contained" fullWidth type="submit" disabled={isSubmitting || isValidating}>Change Password</Button>
+                </CardActions>
               
             {/* <pre>{JSON.stringify(values,null,4)}</pre> */}
            

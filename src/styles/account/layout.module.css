@@ -3,7 +3,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 5rem 10rem;
 }
 
 .wrapper{
@@ -11,7 +10,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 2rem;
 }
 
 .imgStyle{

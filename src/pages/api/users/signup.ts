@@ -1,7 +1,7 @@
 import dbConnect from '../../../lib/mongoose'
 import User from '../../../lib/model/userModel'
 
-export default async function handler(req,res){
+export default async function handler(req:any,res:any){
     await dbConnect()
         const {email,phone,password,type} = req.body
         if(email && phone && password && type){
@@ -21,7 +21,7 @@ export default async function handler(req,res){
                    
                 }
             
-        }catch(err){
+        }catch(err:any){
             res.status(400).json({isSignUpValid:false,Message:err.message})
         }
         

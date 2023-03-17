@@ -1,9 +1,12 @@
-import { Box, FormGroup, TextField ,Card,Typography, Button, CardContent} from "@mui/material";
+import { Box, FormGroup, TextField ,Card,CardHeader,CardActions, Button, CardContent} from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import axios from "axios"
 import { Field, Form, Formik ,ErrorMessage} from "formik";
 import {object,string} from 'yup'
+import { login } from "@/store/slices/userSlice";
+import { useDispatch ,useSelector} from "react-redux";
+import { AppDispatch,RootState } from "@/store";
+import {useEffect} from 'react'
 
 
 const initialValues={
@@ -13,49 +16,40 @@ const initialValues={
 
 
 export default function Login(){
-  const router = useRouter()
+  const router = useRouter() 
+  
+  const {loginDetails,user} = useSelector((state:RootState)=>state.users)
      
+  const dispatch = useDispatch<AppDispatch>()
 
 
 //login submit handler
 const submitHandler = async (values:{email:string,password:string})=>{
 
-  
-      try{
-        const res = await axios({
-          method:'POST',
-          url:'https://smnk.vercel.app/api/users/login',
-          data:values
-      })
-      const data = await res.data
-      
-      if(data.isLoginValid){
-        alert(data.Message)
-                
-          router.push('/')
-        
-      }else{
-        alert(data.Message)
-      }
-      
-      }catch(err:any){
-        alert(err.response.data.Message)
-      }
+  await dispatch(login(values))
 }
 
   const loginSchema = object({
                               email: string().email('invalid email').required('Email is required'),
                               password: string().required('Password is required'),
                             })
+
+  useEffect(()=>{
+    if(loginDetails && loginDetails.isLoginValid && user && user.type === 'Skilled Worker'){
+      router.push('/sw-dashboard')
+    }else{
+      router.push('/account/login')
+    }
+  },[loginDetails,user,router])
   
   return(
 
     <Card sx={{
-      width:'400px',
-      height:'400px'
+      marginTop:'5rem'
     }}>
+      <CardHeader title='Login to your  account'/>
       <CardContent>
-          <Typography variant="h5">Login to your  account</Typography>
+          
           <Formik initialValues={initialValues} onSubmit={(values,formikHelpers)=>{
 
             return new Promise(res=>{
@@ -79,11 +73,13 @@ const submitHandler = async (values:{email:string,password:string})=>{
                 </Box>
                 <Box  marginBottom={2}>
                 <FormGroup>
-                <Field type='password ' name='password' as={TextField} label="Password"/>
+                <Field type='password' name='password' as={TextField} label="Password"/>
                 <ErrorMessage name="password"/>
                 </FormGroup>
                 </Box>
-                <Button variant="text" type="submit" fullWidth disabled={isSubmitting || isValidating}>Login</Button>
+               <CardActions>
+               <Button variant="contained" type="submit" fullWidth disabled={isSubmitting || isValidating}>Login</Button>
+               </CardActions>
                 <Link href="/account/forgotpassword" >forgot password?</Link>
             {/* <pre>{JSON.stringify(values,null,4)}</pre>
             <pre>{JSON.stringify(errors,null,4)}</pre> */}
