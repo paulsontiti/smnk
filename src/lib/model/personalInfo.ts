@@ -19,6 +19,7 @@ const personalInfoSchema = new Schema({
         required:true,
         unique:true,
         trim:true,
+        lowercase:true
     },
     address:{
         type:{

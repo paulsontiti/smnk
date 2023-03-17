@@ -33,11 +33,11 @@ export default function IndividualForm({router,type}:{router:any,type:string}){
     {id:3, name:'Akwaibom',lgas:[{id:1,name:'Abia North'},{id:2,name:'Abia South'},{id:3,name:'Abia East'}]}
   ]
 
-  // useEffect(()=>{
-  //   if(addedInfoDetails.isInfoAdded){
-  //     router.push('/sw-dashboard/personal-info')
-  //   }
-  // },[addedInfoDetails])
+  useEffect(()=>{
+    if(addedInfoDetails && addedInfoDetails.isInfoAdded){
+      router.push('/sw-dashboard/personal-info')
+    }
+  },[addedInfoDetails,router])
   
     
 const individualInfoSchema = object({
@@ -77,7 +77,7 @@ const individualInfoSchema = object({
     const submitValues : SubmitInfoValues = {
                                             firstName:values.firstName,
                                             lastName:values.lastName,
-                                            userName:values.userName,
+                                            userName:values.userName.toLowerCase(),
                                             description:values.description,
                                             address:{
                                                         state: values.state,
@@ -88,8 +88,8 @@ const individualInfoSchema = object({
                                               userId:_id
                                         }
     if(_id){
-      dispatch(addUserInfo(submitValues))
-      router.push('/sw-dashboard/personal-info')
+      await dispatch(addUserInfo(submitValues))
+      
     }else{
       alert('Bad request!!!! No user id')
     }                                        

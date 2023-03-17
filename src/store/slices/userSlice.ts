@@ -81,7 +81,7 @@ export const fetchUserInfo = createAsyncThunk('users/getUserInfo',async(userId:s
           })
         const data = await res.data
         
-        if(data.isInfoAdded){
+        if(data.isInfoEdited){
           alert(data.message)
            return data
           
@@ -97,12 +97,19 @@ export const fetchUserInfo = createAsyncThunk('users/getUserInfo',async(userId:s
 
   
    type AddedInfoDetails={isInfoAdded:boolean,message:string}
+   type EditedInfoDetails={isInfoEdited:boolean,message:string}
 
 const initialState = {
     loginDetails:{} as UserLoginDetails,
-    user:{} as User,
-    info:{} as PersonalInfo,
+
+    user: typeof window !== 'undefined' && 
+                    JSON.parse(localStorage.getItem('user') as string),
+                                        
+    info: typeof window !== 'undefined' && 
+                    JSON.parse(localStorage.getItem('user') as string) ,
+    
     addedInfoDetails:{} as AddedInfoDetails,
+    editedInfoDetails:{} as EditedInfoDetails,
     loading:false
 }
 
@@ -112,12 +119,14 @@ const userSlice = createSlice({
     reducers:{
         logout:(state)=>{           
             state.loginDetails = {} as UserLoginDetails,
-            state.user = {} as User
+            localStorage.removeItem('user')
+            localStorage.removeItem('info')
         }
     },
     extraReducers:(builder)=>{
         builder.addCase(fetchUser.fulfilled,(state,action)=>{
             state.loading = false
+            
             state.user = action.payload
         })
         builder.addCase(fetchUser.pending,(state)=>{
@@ -125,6 +134,7 @@ const userSlice = createSlice({
         })
         builder.addCase(fetchUserInfo.fulfilled,(state,action)=>{
             state.loading = false
+            localStorage.setItem('info',JSON.stringify(action.payload))
             state.info = action.payload
         })
         builder.addCase(fetchUserInfo.pending,(state)=>{
@@ -134,6 +144,11 @@ const userSlice = createSlice({
             state.loading = false
             
             state.loginDetails = action.payload.loginDetails 
+            localStorage.setItem('user',JSON.stringify(action.payload.user))
+
+            console.log(typeof window !== 'undefined' && 
+            JSON.parse(JSON.stringify(localStorage.getItem('user'))))
+
             state.user = action.payload.user 
         })
         builder.addCase(login.pending,(state)=>{
@@ -149,7 +164,7 @@ const userSlice = createSlice({
         builder.addCase(editUserInfo.fulfilled,(state,action)=>{
             state.loading = false
             
-            state.addedInfoDetails = action.payload
+            state.editedInfoDetails = action.payload
         })
         builder.addCase(editUserInfo.pending,(state)=>{
             state.loading = true

@@ -15,33 +15,33 @@ export default async function handler(req:any,res:any){
                 
                 
                 if(existingInfoWithId){
-                    const existingInfoWithUsername = await PersonalInfo.findOne({userName:userName})
+                    const existingInfoWithUsername = await PersonalInfo.findOne({userName:userName.toLowerCase()})
                     
 
                     if(existingInfoWithUsername && (existingInfoWithId && existingInfoWithId.userId && existingInfoWithId.userId.toString())
                      !== (existingInfoWithUsername && existingInfoWithUsername.userId && existingInfoWithUsername.userId.toString())){
-                        res.status(400).json({isInfoAdded:false,
+                        res.status(400).json({isInfoEdited:false,
                             message:"An account already exist with the username,please choose anothe user name"})
                     }else{
                         
                         await PersonalInfo.deleteOne({userId:userId})
                         const info = await PersonalInfo.create(req.body)
-                        res.status(201).json({isInfoAdded:true,
+                        res.status(201).json({isInfoEdited:true,
                                 message:"Your Personal Info was successfully edited"})
                     }
                     
                 }else{
-                        res.status(400).json({isInfoAdded:false,message:"Bad request"})
+                        res.status(400).json({isInfoEdited:false,message:"Bad request"})
                     }
                    
             
             }catch(err:any){
                 console.log(err)
-                res.status(400).json({isInfoAdded:false,message:err.message})
+                res.status(400).json({isInfoEdited:false,message:err.message})
             }
         
         }else{
-            res.status(400).json({isInfoAdded:false,message:"Incomplete personal info"})
+            res.status(400).json({isInfoEdited:false,message:"Incomplete personal info"})
         }
        
     

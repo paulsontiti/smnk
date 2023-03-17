@@ -1,6 +1,5 @@
 
 import { Box, FormGroup, TextField ,Button} from "@mui/material";
-import axios from "axios"
 import { Field, Form, Formik ,ErrorMessage} from "formik";
 import {object,string} from 'yup'
 import { RootState,AppDispatch } from '@/store';
@@ -20,18 +19,18 @@ type State = {
    
 export default function EditPersonalIndividualInfoForm({router,type}:{router:any,type:string}){
 
-  const {info,addedInfoDetails} = useSelector((state:RootState)=>state.users)
+  const {info,editedInfoDetails} = useSelector((state:RootState)=>state.users)
   const {_id} = useSelector((state:RootState)=>state.users.user)
   const dispatch = useDispatch<AppDispatch>()
 
   const [lgas,setLgas] = useState<LGA[]>([])
   const [state,setState] = useState('')
 
-  // useEffect(()=>{
-  //   if(addedInfoDetails && addedInfoDetails.isInfoAdded){
-   
-  //   }
-  // },[addedInfoDetails])
+  useEffect(()=>{
+    if(editedInfoDetails && editedInfoDetails.isInfoEdited){
+      router.push('/sw-dashboard/personal-info')
+    }
+  },[editedInfoDetails,router])
 
   
   
@@ -108,7 +107,6 @@ const individualInfoSchema = object({
                                         }
     if(_id){
       await dispatch(editUserInfo(submitValues))
-      router.push('/sw-dashboard/personal-info')
     }else{
       alert('Bad request!!!! No user id')
     } 

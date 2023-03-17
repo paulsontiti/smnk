@@ -17,7 +17,7 @@ export default function Layout(props:{children:any}){
     useEffect(()=>{
         
         _id && dispatch(fetchUserInfo(_id))
-    },[_id])
+    },[_id,dispatch])
 
     return(
         <>
