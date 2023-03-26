@@ -19,6 +19,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/otp.jsx", "src/account/classes/otp.js", "src/account/components/passwordHide"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/otp.jsx", "src/account/classes/otp.js", "src/account/components/passwordHide", "src/pages/account/[id].js"],
   "exclude": ["node_modules"]
 }

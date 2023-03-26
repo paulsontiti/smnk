@@ -1,9 +1,9 @@
-import UserLoginDetails from "@/lib/types/userLoginDetails";
-import PersonalInfo from "@/lib/types/userInfo";
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import User from "@/lib/types/user";
-import SubmitInfoValues from "@/lib/types/submitInfo";
+import { signUpDetails } from "@/lib/types/signUp";
+import { CompanyInfo, IndividualPersonalInfo, User } from "@/lib/types/userInfo";
+import { userJSON } from "@/lib/utils/user";
 
 
 
@@ -13,16 +13,22 @@ export const fetchUser = createAsyncThunk('users/getUser',async(thunkApi)=>{
  return data
 })
 
-export const fetchUserInfo = createAsyncThunk('users/getUserInfo',async(userId:string)=>{
-    try{
-        const res = await axios(`${process.env.SMNK_URL}api/sw-dashboard/${userId}`)
-        const data = await res.data
-        return data
-    }catch(err){
-        console.log(err)
-        return
-    }
+   export const signUp = createAsyncThunk('users/signUp',async(values:signUpDetails)=>{
+        try{
+              const res = await axios({
+                                          method:'POST',
+                                          url:`${process.env.SMNK_URL}api/users/signup`,
+                                          data:values
+                                      })
+            const data = await res.data
+            alert(data.message)
+            return data.user        
+        }catch(err:any){
+          alert(err.response.data.message)
+          console.log(err)
+        }
    })
+
 
    export const login = createAsyncThunk('users/login',async(values:any)=>{
     try{
@@ -44,83 +50,48 @@ export const fetchUserInfo = createAsyncThunk('users/getUserInfo',async(userId:s
       
       }catch(err:any){
         console.log(err)
-        alert(err.message)
+        alert(err.response.data.loginDetails.message)
+        return err
       }
    })
 
-   export const addUserInfo = createAsyncThunk('users/addUserInfo',async(submitValues:SubmitInfoValues)=>{
+   export const changePassword = createAsyncThunk('users/changePassword',async(values:any)=>{
     try{
         const res = await axios({
-              method:'POST',
-              url:`${process.env.SMNK_URL}api/sw-dashboard/add-personal-info`,
-              data:submitValues
-          })
-        const data = await res.data
-        
-        if(data.isInfoAdded){
-          alert(data.message)
-          
-           return data
-          
-        }else{
-          alert(data.message)
-          
-        }
-        
-    }catch(err:any){
-      alert(err.response.data.message)
-    }
+          method:'POST',
+          url:`${process.env.SMNK_URL}api/sw-dashboard/change-password`,
+          data:values
+      })
+      const data = await res.data
+      
+      if(data.isChangePasswordSuccessful){
+        alert(data.message)
+        return data
+      }else{
+        alert(data.message)
+        return
+      }
+      
+      }catch(err:any){
+        alert(err.response.data.message)
+        return
+      }
    })
 
-   export const editUserInfo = createAsyncThunk('users/editUserInfo',async(submitValues:SubmitInfoValues)=>{
-    try{
-        const res = await axios({
-              method:'POST',
-              url:`${process.env.SMNK_URL}api/sw-dashboard/edit-personal-info`,
-              data:submitValues
-          })
-        const data = await res.data
-        
-        if(data.isInfoEdited){
-          alert(data.message)
-           return data
-          
-        }else{
-          alert(data.message)
-          
-        }
-        
-    }catch(err:any){
-      alert(err.response.data.message)
-    }
-   })
 
-  
-   type AddedInfoDetails={isInfoAdded:boolean,message:string}
-   type EditedInfoDetails={isInfoEdited:boolean,message:string}
 
-const initialState = {
-    loginDetails:{} as UserLoginDetails,
 
-    user: typeof window !== 'undefined' && 
-                    JSON.parse(localStorage.getItem('user') as string),
-                                        
-    info: typeof window !== 'undefined' && 
-                    JSON.parse(localStorage.getItem('user') as string) ,
-    
-    addedInfoDetails:{} as AddedInfoDetails,
-    editedInfoDetails:{} as EditedInfoDetails,
-    loading:false
-}
-
+ const initialState = {
+    user: userJSON() ? userJSON() : {} as User,
+    loading:false,
+} 
 const userSlice = createSlice({
     name:'users',
     initialState,
     reducers:{
-        logout:(state)=>{           
-            state.loginDetails = {} as UserLoginDetails,
+        logout:(state)=>{   
+            state.user = {} as User
             localStorage.removeItem('user')
-            localStorage.removeItem('info')
         }
     },
     extraReducers:(builder)=>{
@@ -132,43 +103,41 @@ const userSlice = createSlice({
         builder.addCase(fetchUser.pending,(state)=>{
             state.loading = true
         })
-        builder.addCase(fetchUserInfo.fulfilled,(state,action)=>{
-            state.loading = false
-            localStorage.setItem('info',JSON.stringify(action.payload))
-            state.info = action.payload
-        })
-        builder.addCase(fetchUserInfo.pending,(state)=>{
-            state.loading = true
-        })
+    
+
+
         builder.addCase(login.fulfilled,(state,action)=>{
             state.loading = false
-            
-            state.loginDetails = action.payload.loginDetails 
             localStorage.setItem('user',JSON.stringify(action.payload.user))
-
-            console.log(typeof window !== 'undefined' && 
-            JSON.parse(JSON.stringify(localStorage.getItem('user'))))
-
-            state.user = action.payload.user 
+            state.user = action.payload.user
         })
         builder.addCase(login.pending,(state)=>{
             state.loading = true
         })
-        builder.addCase(addUserInfo.fulfilled,(state,action)=>{
+
+        builder.addCase(signUp.fulfilled,(state,action)=>{
+          state.loading = false
+         
+          localStorage.setItem('user',JSON.stringify(action.payload))
+
+          state.user = action.payload
+      })
+      builder.addCase(signUp.pending,(state)=>{
+          state.loading = true
+      })
+
+        builder.addCase(changePassword.fulfilled,(state,action)=>{
             state.loading = false
-            state.addedInfoDetails = action.payload
+            localStorage.removeItem('user')
+            localStorage.setItem('user',JSON.stringify(action.payload.user))
+
+            state.user = action.payload.user
         })
-        builder.addCase(addUserInfo.pending,(state)=>{
+        builder.addCase(changePassword.pending,(state)=>{
             state.loading = true
         })
-        builder.addCase(editUserInfo.fulfilled,(state,action)=>{
-            state.loading = false
-            
-            state.editedInfoDetails = action.payload
-        })
-        builder.addCase(editUserInfo.pending,(state)=>{
-            state.loading = true
-        })
+
+       
     }
 })
 

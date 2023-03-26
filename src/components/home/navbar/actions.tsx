@@ -1,4 +1,4 @@
-import {Box, Grid, Typography} from '@mui/material'
+import {Box, Button, Grid, Typography} from '@mui/material'
 import Link from 'next/link'
 import { useSelector,useDispatch } from 'react-redux'
 import { RootState,AppDispatch } from '@/store'
@@ -7,14 +7,20 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LoginButton from './loginButton'
 import SignUpButton from './signUpButton'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 export default function AccountActions(){
 
-    const {loginDetails} = useSelector((state:RootState)=>state.users)
-    const dispatch = useDispatch()
+const router = useRouter()
 
+    const {user} = useSelector((state:RootState)=>state.users)
+    const dispatch = useDispatch()
+    
     const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
+
+
 
     return(
         <Box sx={{
@@ -22,16 +28,15 @@ export default function AccountActions(){
             alignItems:'center',
             justifyContent:'flex-end'
         }}>
-            {loginDetails && loginDetails.token ?  <>
-                                <Link href='/' onClick={()=>{dispatch(logout())}} style={{
-                                textDecoration:'none',
-                                display:'block',
+            {user && user._id ?  <>
+                                <Button size='small' onClick={()=>{dispatch(logout())}} style={{
+                                
                                 padding:'0.3rem 0.5rem',
                                 backgroundColor:'green',
                                 color:'white',
                                 borderRadius:'20px',
                                 margin:'.1rem .1rem'
-                            }}>Logout</Link>
+                            }}>Logout</Button>
                                 </>: <>
                                {!matches &&  <LoginButton/>}
                            <SignUpButton/>

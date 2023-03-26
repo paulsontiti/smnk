@@ -1,7 +1,7 @@
 import { Box, FormGroup, TextField ,Card,CardHeader,CardActions, Button, CardContent} from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Field, Form, Formik ,ErrorMessage} from "formik";
+import { Field,FastField, Form, Formik ,ErrorMessage} from "formik";
 import {object,string} from 'yup'
 import { login } from "@/store/slices/userSlice";
 import { useDispatch ,useSelector} from "react-redux";
@@ -18,7 +18,7 @@ const initialValues={
 export default function Login(){
   const router = useRouter() 
   
-  const {loginDetails,user} = useSelector((state:RootState)=>state.users)
+  const {user} = useSelector((state:RootState)=>state.users)
      
   const dispatch = useDispatch<AppDispatch>()
 
@@ -35,12 +35,17 @@ const submitHandler = async (values:{email:string,password:string})=>{
                             })
 
   useEffect(()=>{
-    if(loginDetails && loginDetails.isLoginValid && user && user.type === 'Skilled Worker'){
-      router.push('/sw-dashboard')
-    }else{
+    if(user){
+      if(user.type === 'Skilled Worker'){
+        router.push('/sw-dashboard')
+      }else if(user.type === 'Client'){
+        router.push('/c-dashboard')
+      }
+    }
+    else{
       router.push('/account/login')
     }
-  },[loginDetails,user,router])
+  },[user,router])
   
   return(
 
@@ -57,7 +62,7 @@ const submitHandler = async (values:{email:string,password:string})=>{
                   const msg = await submitHandler(values)
                   res(msg)
                   }).catch((err)=>{
-                    console.log(err)
+                   res(err)
                   })              
             })
 
@@ -67,7 +72,7 @@ const submitHandler = async (values:{email:string,password:string})=>{
             <Form>
                 <Box marginBottom={2}  marginTop={2}>
                 <FormGroup>
-                    <Field type='email' name='email' as={TextField} label="Email"/>
+                    <FastField type='email' name='email' as={TextField} label="Email"/>
                     <ErrorMessage name="email"/>
                 </FormGroup>
                 </Box>

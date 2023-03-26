@@ -1,64 +1,40 @@
-import { Box, FormGroup, TextField ,Card,CardHeader,CardActions, Button, CardContent} from "@mui/material";
+import { Box, FormGroup, TextField ,Card,CardHeader,CardActions, Button, CardContent, Radio, FormControlLabel} from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import axios from "axios"
 import { Field, Form, Formik ,ErrorMessage} from "formik";
 import {object,string} from 'yup'
-import RadioButtonGroup from "@/components/radioButtonGroup";
+import { signUpDetails } from "@/lib/types/signUp";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { signUp } from "@/store/slices/userSlice";
+import {useEffect} from 'react'
+import { RadioGroup } from "@mui/material";
 
 
-
-type signUpDetails ={
-  email:string
-  phone:string
-  password:string
-  confirmPassword:string
-  type:'Skilled Worker' | 'Client'
-}
 const initialValues : signUpDetails={
   email:'',
   phone:'',
   password:'',
   confirmPassword:'',
-  type:'Skilled Worker'
+  type:'Skilled Worker',
+  typeClass:'Individual'
 }
-
 
 export default function SignUp(){
   const router = useRouter()
+  const {user} = useSelector((state:RootState)=>state.users)
      
+  const dispatch = useDispatch<AppDispatch>()
 
 
 //sign up submit handler
 const submitHandler = async (values:signUpDetails)=>{
-
-  
-      try{
-        const res = await axios({
-          method:'POST',
-          url:`${process.env.SMNK_URL}api/users/signup`,
-          data:values
-      })
-      const data = await res.data
-      
-      if(data.isSignUpValid){
-        alert(data.Message)
-                
-          router.push('/account/login')
-        
-      }else{
-        alert(data.Message)
-      }
-      
-      }catch(err:any){
-        
-        alert(err.response.data.Message)
-      }
+    dispatch(signUp(values))      
 }
 
 //formik submit handler
 const formikSubmitHandler = (values:any,formikHelpers:any)=>{
-
+  
     return new Promise(res=>{
           formikHelpers.validateForm().then(async (data:any)=>{
             if(values.password !== values.confirmPassword){
@@ -71,6 +47,7 @@ const formikSubmitHandler = (values:any,formikHelpers:any)=>{
           
           }).catch((err:any)=>{
             console.log(err)
+            res(err)
           })              
     })
 
@@ -83,6 +60,19 @@ const formikSubmitHandler = (values:any,formikHelpers:any)=>{
                               confirmPassword: string().required('Confirm Password is required'),
                             })
   
+
+
+useEffect(()=>{
+  if(user){
+    if(user.type === 'Skilled Worker'){
+      router.push('/sw-dashboard')
+    }else if(user.type === 'Client'){
+      router.push('/c-dashboard')
+    }
+  }
+},[user,router])
+
+
   return(
 
     <Card sx={{
@@ -94,6 +84,7 @@ const formikSubmitHandler = (values:any,formikHelpers:any)=>{
           <Formik initialValues={initialValues} onSubmit={formikSubmitHandler} validationSchema={signupSchema}>
             
            {({values,errors,touched,isSubmitting,isValidating}) => (
+            
             <Form>
                 <Box marginBottom={2}  marginTop={2}>
                 <FormGroup>
@@ -120,17 +111,40 @@ const formikSubmitHandler = (values:any,formikHelpers:any)=>{
                 </FormGroup>
                 </Box>
                 <Box  marginBottom={2}>
-                 <RadioButtonGroup radios={['Skilled Worker', 'Client']}/>
+                  <RadioGroup name="type" value={values.type}>
+                    
+                 <Box>
+                    <Field   value='Skilled Worker' as={Radio} label='Skilled Worker' />
+                    <span>Skilled Worker</span>
+                 </Box>
+                    <Box>
+                        <Field value='Client'  as={Radio} label='Client' />
+                        <span>Client</span>
+                    </Box>
+                  </RadioGroup>
+                    
+                </Box>
+                <Box  marginBottom={2}>
+                  <RadioGroup name="typeClass" value={values.typeClass}>
+                    
+                 <Box>
+                    <Field   value='Individual' as={Radio} label='Individual' />
+                    <span>Individual</span>
+                 </Box>
+                    <Box>
+                        <Field value='Company'  as={Radio} label='Company' />
+                        <span>Company</span>
+                    </Box>
+                  </RadioGroup>
+                    
                 </Box>
                 <CardActions>
                 <Button sx={{
-                  marginBottom:'1rem'
+                  marginBottom:'2rem'
                 }} variant="contained" fullWidth type="submit" disabled={isSubmitting || isValidating}>Sign Up</Button>
                 
                 </CardActions>
                 <Link href="/account/login">already have an account? Login</Link>
-            {/* <pre>{JSON.stringify(values,null,4)}</pre> */}
-           
             </Form>
            )}
             

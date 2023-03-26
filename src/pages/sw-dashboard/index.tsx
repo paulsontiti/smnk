@@ -1,5 +1,5 @@
 
-import Layout from "@/swDashboard/components/layout";
+import Layout from "@/components/dashboard/layout";
 
 export default function Dashboard(){
 

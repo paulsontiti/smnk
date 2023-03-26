@@ -22,9 +22,12 @@ const userSchema = new Schema({
     },
     type:{
         type:String,
-        
         required:true
-    }
+    },
+    typeClass:{
+        type:String,
+        required:true
+    },
 },
 {
     timestamps:true,
