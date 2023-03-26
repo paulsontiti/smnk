@@ -28,10 +28,6 @@ const personalInfoSchema = new Schema({
         trim:true,
         min:200
     },
-    type:{
-        type:String,
-        required:true
-    },
     userId:{ 
         type: Schema.Types.ObjectId,
         ref: 'User',
