@@ -64,7 +64,7 @@ export default function BankDetails(){
                             </Grid>
                         </CardContent>
                         <CardActions>
-                            <Link href={`/sw-dashboard/bank-details/${data._id}`} style={{
+                            <Link href={`/sw-dashboard/bank-details/${_id}`} style={{
                                                 textDecoration:'none',
                                                 display:'block',
                                                 padding:'0.5rem 1rem',

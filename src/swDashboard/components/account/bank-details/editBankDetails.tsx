@@ -1,6 +1,5 @@
 
 import useSWR from 'swr'
-import axios from 'axios';
 import EditBankDetailsForm from './editBankDetailsForm';
 import { getUserBankDetails } from '@/lib/utils/user';
 
@@ -18,7 +17,7 @@ export default function EditBankDetails({id}:{id:string}){
                 )
             }
             
-           
+           console.log(id)
             if(!data) return <p>loading...........</p>
 
             return(
