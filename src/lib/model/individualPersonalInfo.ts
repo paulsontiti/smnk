@@ -5,12 +5,12 @@ const personalInfoSchema = new Schema({
     firstName:{
         type:String,
         required:true,
-        trim:true,
+        trim:true,lowercase:true
     },
     lastName:{
         type:String,
         required:true,
-        trim:true,
+        trim:true,lowercase:true
     },
     userName:{
         type:String,
@@ -26,7 +26,7 @@ const personalInfoSchema = new Schema({
         type:String,
         required:true,
         trim:true,
-        min:200
+        max:200
     },
     userId:{ 
         type: Schema.Types.ObjectId,

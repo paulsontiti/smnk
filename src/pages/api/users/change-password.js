@@ -19,24 +19,24 @@ export default async function handler(req,res){
                             type: existingUserWithEmail.type
                         }
                             const deletedUser = await User.deleteOne({email:email})
-                            console.log(deletedUser)
+                            //console.log(deletedUser)
                             if(deletedUser){
                                 const user = await User.create(newUser)
-                                res.status(201).json({isChangePasswordSuccessful:true,Message:"Your Password was successfully changed",user})
+                                res.status(201).json({successful:true,message:"Your Password was successfully changed",user})
                             }          
                     }else{
-                        res.status(400).json({isChangePasswordSuccessful:false,Message:"Phone Number does not exist"})
+                        res.status(400).json({successful:false,message:"Phone Number does not exist"})
                     }
                 }else{
                     
-                    res.status(400).json({isChangePasswordSuccessful:false,Message:"Email does not exist"})
+                    res.status(400).json({successful:false,message:"Email does not exist"})
                 }
             }catch(err){
-                res.status(400).json({isChangePasswordSuccessful:false,Message:err.message})
+                res.status(400).json({successful:false,message:err.message})
             }
         
         }else{
-            res.status(400).json({isChangePasswordSuccessful:false,Message:"Invalid details"})
+            res.status(400).json({successful:false,message:"Invalid details"})
         }
        
     

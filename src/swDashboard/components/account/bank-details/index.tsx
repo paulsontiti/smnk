@@ -1,19 +1,13 @@
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import useSWR from 'swr'
-import axios from 'axios';
-import { Box, Card, CardActions, CardContent, CardHeader, Grid, Typography } from '@mui/material';
-import Link from 'next/link';
+import { Card, CardActions, CardContent, Button, Grid, Typography } from '@mui/material';
 import { getUserBankDetails } from '@/lib/utils/user';
-
-
-
-
-  
+import {useRouter} from 'next/router'
 
 export default function BankDetails(){
     
-
+const router = useRouter()
       
     const {_id} = useSelector((state:RootState)=>state.users.user)
 
@@ -24,14 +18,9 @@ export default function BankDetails(){
 
 
     return(
-        <Box sx={{
-            display:'flex',
-            alignItems:'center',
-            justifyContent:'center'
-        }}>
-            <Card sx={{marginTop:5}} 
-                    >
-                        <CardHeader title='My Bank Details'></CardHeader>
+        <>
+            <h4>Bank Details</h4>
+            <Card>
            
                         <CardContent>
                             <Grid container marginBottom={2}>
@@ -64,20 +53,13 @@ export default function BankDetails(){
                             </Grid>
                         </CardContent>
                         <CardActions>
-                            <Link href={`/sw-dashboard/bank-details/${_id}`} style={{
-                                                textDecoration:'none',
-                                                display:'block',
-                                                padding:'0.5rem 1rem',
-                                                backgroundColor:'green',
-                                                color:'white',
-                                                borderRadius:'20px',
-                                                margin:'.3rem .5rem'
-                                            }}
-                            >Edit Bank Details</Link>
+                            <Button size='small' variant='contained' fullWidth onClick={()=>{
+                                router.push(`/sw-dashboard/bank-details/${_id}`)
+                            }}>Edit Bank Details</Button>
                            
                         </CardActions>            
            </Card>
-        </Box>
+        </>
         
     )
 }

@@ -16,24 +16,24 @@ export default async function handler(req:any,res:any){
                 if(deleted.acknowledged){
                     const serv = await BankDetail.create(req.body)
                     if(serv){
-                        res.status(201).json({isBankDetailsEdited:true,
+                        res.status(201).json({successful:true,
                             message:"Your Bank Details  was successfully edited"})
                     }else{
-                        res.status(400).json({isBankDetailsEdited:false,message:"Unable to edit your bank details"})
+                        res.status(400).json({successful:false,message:"Unable to edit your bank details"})
                     }
                     
                 }else{
-                    res.status(400).json({isBankDetailsEdited:false,message:"Unable to edit your bank details"})
+                    res.status(400).json({successful:false,message:"Unable to edit your bank details"})
                 }
                 
                    
             
             }catch(err:any){
-                res.status(400).json({isBankDetailsEdited:false,message:err.message})
+                res.status(400).json({successful:false,message:err.message})
             }
             
         }else{
-            res.status(400).json({isBankDetailsEdited:false,message:"Incomplete bank details info"})
+            res.status(400).json({successful:false,message:"Incomplete bank details info"})
         }
        
     

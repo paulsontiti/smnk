@@ -6,7 +6,9 @@ import { RootState} from '@/store';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useRouter } from "next/router";
-import { BankDetails, addEditBankDetails, bankDetailsSchema } from "@/lib/types/bank-details";
+import { BankDetails,bankDetailsFormControls, bankDetailsSchema, bankDetailsSubmitHandler } from "@/lib/types/bank-details";
+import { FormParams, createFormObject } from "@/lib/form";
+import FormikContainer from "@/components/form/formikContainer";
 
 
 
@@ -25,77 +27,33 @@ export default function AddBankDetailsForm(){
       
     }
 
-    
-  //add experience submit handler
-  const submitHandler = async (values:BankDetails)=>{
-    values.userId= _id
-   //return  console.log(values)
-    if(_id){
-      const data:any = await addEditBankDetails(values,axios,'add-bank-details')
-      
-      if(data.isBankDetailsAdded){
-        alert(data.message)
-        router.push('/sw-dashboard/bank-details')
+    //formik submit handler
+    const formikSubmitHandler = (values:any,formikHelpers:any)=>{
+  
+      if(values.userId){
+        return new Promise(res=>{
+              formikHelpers.validateForm().then(async (data:any)=>{
+                  const msg = await bankDetailsSubmitHandler(values,router,'api/sw-dashboard/bank-details/add-bank-details')
+                  res(msg)
+              }).catch((err:any)=>{
+                console.log('Error from formik ',err)
+                res(err)
+              })              
+        })
       }else{
-        alert(data.message)
-        return
+        alert('Invalid request, Please provide UserId')
       }
-      
-    }else{
-      alert('Bad request!!!! No user id')
-    }                                        
-}
   
-  //formik submit handler
-  const formikSubmitHandler = (values:any,formikHelpers:any)=>{
+    }
   
-    return new Promise(res=>{
-          formikHelpers.validateForm().then(async (data:any)=>{
-              const msg = await submitHandler(values)
-              res(msg)
-          }).catch((err:any)=>{
-            console.log('Error from formik ',err)
-            res(err)
-          })              
-    })
-
-  }
-
-
-    return(
-        <Formik initialValues={initialValues} onSubmit={formikSubmitHandler} validationSchema={bankDetailsSchema}>
-            
-        {({values,errors,touched,isSubmitting,isValidating}) => (
-         <Form>
-           
-             <Box marginBottom={2}  marginTop={2}>
-             <FormGroup>
-                 <Field name='accountName' as={TextField} label="Account Name"/>
-                 <ErrorMessage name="accountName"/>
-             </FormGroup>
-             </Box>
-            
-             <Box  marginBottom={2}>
-             <FormGroup>
-             <Field name='accountNumber' as={TextField} label="AccountNumber" type='number'/>
-             <ErrorMessage name="accountNumber"/>
-             </FormGroup>
-            </Box>
-            
-             <Box  marginBottom={2}>
-             <FormGroup>
-             <Field name='bankName' as={TextField} label="Bank Name"/>
-             <ErrorMessage name="desbankNamecription"/>
-             </FormGroup>
-             </Box>
-            
-             <Button variant="contained" fullWidth type="submit" disabled={isSubmitting || isValidating}>Add Bank Details</Button>
-             
-         <pre>{JSON.stringify(values,null,4)}</pre>
-        
-         </Form>
-        )}
-         
-       </Formik>
-    )
+  
+    const formParams:FormParams ={
+      formObject : createFormObject(formikSubmitHandler,bankDetailsSchema,initialValues,bankDetailsFormControls),
+      buttonLabel:'Add Bank Details',
+      headerTitle:'Add Your Bank Details'
+    }
+      return(
+          <FormikContainer formParams={formParams}/>
+      )
+  
 }

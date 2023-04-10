@@ -15,24 +15,24 @@ export default async function handler(req:any,res:any){
                 if(deleted.acknowledged){
                     const serv = await Service.create(req.body)
                     if(serv){
-                        res.status(201).json({isServiceAdded:true,
+                        res.status(201).json({successful:true,
                             message:"Your Service  was successfully edited"})
                     }else{
-                        res.status(400).json({isServiceAdded:false,message:"Unable to edit your service"})
+                        res.status(400).json({successful:false,message:"Unable to edit your service"})
                     }
                     
                 }else{
-                    res.status(400).json({isServiceAdded:false,message:"Unable to edit your service"})
+                    res.status(400).json({successful:false,message:"Unable to edit your service"})
                 }
                 
                    
             
             }catch(err:any){
-                res.status(400).json({isServiceAdded:false,message:err.message})
+                res.status(400).json({successful:false,message:err.message})
             }
             
         }else{
-            res.status(400).json({isServiceAdded:false,message:"Incomplete service info"})
+            res.status(400).json({successful:false,message:"Incomplete service info"})
         }
        
     

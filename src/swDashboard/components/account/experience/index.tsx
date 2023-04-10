@@ -11,112 +11,51 @@ export default function ExperienceComponent(){
 
     const {_id} = useSelector((state:RootState)=>state.users.user)
     const {data,error} = useSWR('getExp',getUserExp(_id))
-
+    
     if(error) return <p>An Error occurred</p>
-    if(!data) return <p>loading.....</p>
+    if(!Array.isArray(data)) return <p>loading.....</p>
     if(data.length < 1) return <p>No Experience Available. Please Provide Your Experience Details</p>
 
     return(
         <Box >
+            <h4>All Experiences</h4>
             {data.map((exp:Experience,i:number)=>{
                     return(
                         <>
-                        <Card key={i} sx={{marginTop:'1rem'}}
-                        >
-                            <CardHeader title={exp.title.toUpperCase()}></CardHeader>
+                        <Card key={i} sx={{marginTop:'1rem'}}>
                             <CardContent>
+                                <Box>
+                                    <h5>Role Title</h5>
+                                    <p>{exp.title}</p>
+                                </Box>
+                                <Box>
+                                    <h5>Company/Employer</h5>
+                                    <p>{exp.company}</p>
+                                </Box>
+                                <Box>
+                                    <h5>State</h5>
+                                    <p>{exp.state}</p>
+                                </Box>
+                                <Box>
+                                    <h5>LGA</h5>
+                                    <p>{exp.lga}</p>
+                                </Box>
+                                <Box>
+                                    <h5>Company Address</h5>
+                                    <p>{exp.address}</p>
+                                </Box>
+                                <Box>
+                                    <h5>Start Date</h5>
+                                    <p>{exp.startDate.toString().slice(0,10)}</p>
+                                </Box>
                             
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>Company:  </Typography>
-                                <Typography>{exp.company}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>State:  </Typography>
-                                <Typography>{exp.state}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>LGA:  </Typography>
-                                <Typography>{exp.lga}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>City:  </Typography>
-                                <Typography>{exp.city}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>Street Address:  </Typography>
-                                <Typography>{exp.address}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>Start Month:  </Typography>
-                                <Typography>{exp.startMonth}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>Start Year:  </Typography>
-                                <Typography>{exp.startYear}</Typography>
-                            </Box>
-                            {!exp.onRole ? <>
-                                <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>End Month:  </Typography>
-                                <Typography>{exp.endMonth}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>End Year:  </Typography>
-                                <Typography>{exp.endYear}</Typography>
-                            </Box>
-                                            </> : <Typography>Currently on this role</Typography>}
+                                {!exp.onRole ? <>
+                                                    <Box>
+                                                        <h5>End State</h5>
+                                                        <p>{exp.endDate?.toString().slice(0,10)}</p>
+                                                    </Box>
+                                                </> 
+                                            : <h5 style={{color:'green'}}>Currently on this role</h5>}
                             </CardContent>
                             <CardActions>
                             <Link href={`/sw-dashboard/experience/${exp._id}`} style={{

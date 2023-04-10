@@ -3,6 +3,7 @@ import User from '../../../lib/model/userModel'
 
 export default async function handler(req:any,res:any){
     await dbConnect()
+    console.log('Hello from user signup')
         const {email,phone,password,type,typeClass} = req.body
         
         if(email && phone && password && type && typeClass){

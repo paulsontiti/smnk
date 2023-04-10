@@ -1,8 +1,11 @@
-import { Box, FormGroup, TextField ,Card,CardHeader,CardActions, Button, CardContent} from "@mui/material";
+
 import { useRouter } from "next/router";
 import axios from "axios"
-import { Field, Form, Formik ,ErrorMessage} from "formik";
-import {object,string} from 'yup'
+import {object,ref,string} from 'yup'
+import { FormControls, FormParams, createFormObject } from "@/lib/form";
+import FormikContainer from "@/components/form/formikContainer";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 
 const initialValues={
@@ -15,7 +18,7 @@ const initialValues={
 
 export default function ChangePassword(){
   const router = useRouter()
-     
+  const {user} = useSelector((state:RootState)=>state.users)
 
 
 //sign up submit handler
@@ -30,17 +33,31 @@ const submitHandler = async (values:{email:string,password:string,phone:string})
       })
       const data = await res.data
       
-      if(data.isChangePasswordSuccessful){
-        alert(data.Message)
+      if(data.successful){
+        alert(data.message)
                 
-          router.push('/account/login')
+        if(user){
+
+          switch(true){
+            case user.type === 'skilled worker':
+              router.push('/sw-dashboard')
+              break
+            case user.type === 'client':
+              router.push('/c-dashboard')
+              break
+            case user.type === 'admin':
+              router.push('/a-dashboard')
+              break
+            
+          }
+        } 
         
       }else{
-        alert(data.Message)
+        alert(data.message)
       }
       
       }catch(err:any){
-        alert(err.response.data.Message)
+        alert(err.response.data.message)
       }
 }
 
@@ -49,13 +66,8 @@ const formikSubmitHandler = (values:any,formikHelpers:any)=>{
 
     return new Promise(res=>{
           formikHelpers.validateForm().then(async (data:any)=>{
-            if(values.password !== values.confirmPassword){
-                formikHelpers.setFieldError('confirmPassword','Password does not match with Confirm Password')
-                res(false)
-            }else{
-                const msg = await submitHandler(values)
-          res(msg)
-            }
+            const msg = await submitHandler(values)
+            res(msg)
           
           }).catch((err:any)=>{
             console.log(err)
@@ -68,57 +80,25 @@ const formikSubmitHandler = (values:any,formikHelpers:any)=>{
                               email: string().email('invalid email').required('Email is required'),
                               phone: string().required('Phone is required'),
                               password: string().required('New Password is required'),
-                              confirmPassword: string().required('Confirm Password is required'),
+                              confirmPassword: string().oneOf([ref('password'),''],'Passwords must match').required('Confirm Password is required'),
                             })
-  
-  return(
 
-    <Card sx={{
-      marginTop:'5rem'
-    }}>
-      <CardHeader title='Change Your Password'/>
-      <CardContent>
-        
-          <Formik initialValues={initialValues} onSubmit={formikSubmitHandler} validationSchema={changePasswordSchema}>
-            
-           {({values,errors,touched,isSubmitting,isValidating}) => (
-            <Form>
-                <Box marginBottom={2}  marginTop={2}>
-                <FormGroup>
-                    <Field type='email' name='email' as={TextField} label="Email"/>
-                    <ErrorMessage name="email"/>
-                </FormGroup>
-                </Box>
-                <Box marginBottom={2}  marginTop={2}>
-                <FormGroup>
-                    <Field type='phone' name='phone' as={TextField} label="Phone Number"/>
-                    <ErrorMessage name="phone"/>
-                </FormGroup>
-                </Box>
-                <Box  marginBottom={2}>
-                <FormGroup>
-                <Field type='password' name='password' as={TextField} label="New Password"/>
-                <ErrorMessage name="password"/>
-                </FormGroup>
-                </Box>
-                <Box  marginBottom={2}>
-                <FormGroup>
-                <Field type='password' name='confirmPassword' as={TextField} label="Confirm Password"/>
-                <ErrorMessage name="confirmPassword"/>
-                </FormGroup>
-                </Box>
-               
-                <CardActions>
-                    <Button variant="contained" fullWidth type="submit" disabled={isSubmitting || isValidating}>Change Password</Button>
-                </CardActions>
-              
-            {/* <pre>{JSON.stringify(values,null,4)}</pre> */}
-           
-            </Form>
-           )}
-            
-          </Formik>
-      </CardContent>
-    </Card>
-  )
-        }
+const forgotPasswordFormControls: FormControls[] = [
+{name:'email',label:'Email',control:'input',type:'email'},
+{name:'phone',label:'Phone Number',control:'input',type:'phone'},
+{name:'password',label:'Password',control:'input',type:'password'},
+{name:'confirmPassword',label:'Confirm Password',control:'input',type:'password'}
+]
+
+
+const formParams:FormParams ={
+formObject:createFormObject(formikSubmitHandler,changePasswordSchema,initialValues,forgotPasswordFormControls),
+buttonLabel:'Change Password',
+headerTitle:'Change Your Password'
+}
+
+return(
+
+<FormikContainer formParams={formParams}/>
+)
+ }

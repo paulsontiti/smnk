@@ -6,15 +6,12 @@ type Experience={
     company:string,
     state:string,
     lga:string,
-    city:string,
     address:string,
     onRole:boolean,
-    startMonth:string,
-    startYear:string,
-    endMonth:string,
-    endYear:string,
+    startDate:Date,
+    endDate?:Date,
     description:string,
-    files:string[]
+    files?:string[]
 }
 
 export default Experience

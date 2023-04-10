@@ -1,6 +1,5 @@
-import { useRouter } from "next/router";
+
 import useSWR from 'swr'
-import axios from 'axios';
 import EditServiceForm from './editServiceForm';
 import { getUserServices } from "@/lib/utils/user";
 
@@ -21,7 +20,7 @@ export default function EditService({id}:{id:string}){
             if(!data) return <p>loading...........</p>
 
             return(
-            <EditServiceForm initialValues={data} id={id}/>
+            <EditServiceForm id={id}/>
             )
     
     

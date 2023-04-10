@@ -11,16 +11,8 @@ export default function EditCompanyProfile(){
     
     return(
         <Layout>
-            <Box 
-            >
-                <Card >
-                    <CardHeader title='Edit Your Company Profile'/>
-                    <CardContent>
-                        
-                        <EditCompanyProfileForm router={router}/>
-                    </CardContent>
-                </Card>
-             </Box>
+            
+            <EditCompanyProfileForm router={router}/>
         </Layout>
         
     )

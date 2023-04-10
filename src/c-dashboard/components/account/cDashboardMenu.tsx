@@ -22,17 +22,12 @@ export default function CDashboardMenu() {
 
 
   const [openAccount, setOpenAccount] = React.useState(true);
-  const [openProfile, setOpenProfile] = React.useState(true);
   const [openJob, setOpenJob] = React.useState(true);
   const [openCustomer, setOpenCustomer] = React.useState(true);
 
   const accountHandleClick = () => {
     setOpenAccount(!openAccount);
   };
-
-  const profileHandleClick=()=>{
-    setOpenProfile(!openProfile);
-  }
 
   const jobHandleClick=()=>{
     setOpenJob(!openJob);
@@ -78,8 +73,11 @@ export default function CDashboardMenu() {
       </ListItemButton>
       <Collapse in={openJob} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
+        <ListItemButton  sx={{ ml: 4 }}>
+          <Link href='/c-dashboard/job'>Jobs</Link>    
+          </ListItemButton>
           <ListItemButton  sx={{ ml: 4 }}>
-          <ListItemText primary="Create Job" />      
+          <Link href='/c-dashboard/job/create-job'>Create New Job</Link>    
           </ListItemButton>
           <ListItemButton  sx={{ ml: 4 }}>
           <ListItemText primary="View Reports" />      

@@ -17,11 +17,10 @@ export default function EditBankDetails({id}:{id:string}){
                 )
             }
             
-           console.log(id)
             if(!data) return <p>loading...........</p>
 
             return(
-            <EditBankDetailsForm initialValues={data} id={id}/>
+            <EditBankDetailsForm initialValues={data}/>
             )
     
     

@@ -13,20 +13,20 @@ export default async function handler(req:any,res:any){
                 
                 const serv = await Service.create(req.body)
                 if(serv){
-                    res.status(201).json({isServiceAdded:true,
+                    res.status(201).json({successful:true,
                         message:"Your Service  was successfully added"})
                 }else{
-                    res.status(401).json({isServiceAdded:false,
+                    res.status(401).json({successful:false,
                         message:"An error occured, please try again"})
                 }
             
             }catch(err:any){
                 console.log(err)
-                res.status(400).json({isServiceAdded:false,message:'Internal server error,please try again'})
+                res.status(400).json({successful:false,message:'Internal server error,please try again'})
             }
             
         }else{
-            res.status(400).json({isServiceAdded:false,message:"Incomplete service info"})
+            res.status(400).json({isServisuccessfulceAdded:false,message:"Incomplete service info"})
         }
        
     

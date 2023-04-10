@@ -1,5 +1,6 @@
 import useSWR from 'swr'
 import axios from 'axios';
+import { CompanyInfo } from '../types/userInfo';
 
 export const getUserInfo = (userId:string)=>{
   const res = async ()=>{
@@ -92,8 +93,10 @@ export const userJSON = ()=>{
         //console.log(userStr)
         if(userStr){
            const user = JSON.parse(JSON.stringify(userStr))
-            //console.log(JSON.parse(user))
-            return JSON.parse(user)
+            if(user !== 'undefined'){
+              //console.log(user )
+              return JSON.parse(user)
+            }
         }
       }
    }

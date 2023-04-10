@@ -9,38 +9,20 @@ import Link from "next/link";
 
 import {useSelector } from 'react-redux'
 import {RootState } from '@/store'
-import useSWR from 'swr'
-import axios from 'axios';
 import { CustomerService } from '@/components/dashboard/customerService';
 import UserInfoLink from '../individual/info';
 import CompanyProfileLink from '../company/profileLink';
 import ExpLink from './experience/expLink';
 import ServiceLink from './service/serviceLink';
 import BankDetailsLink from './bank-details/bankDetailsLink';
+import { useRouter } from 'next/router';
+import RecommendedJobsLink from '@/components/dashboard/RecommendedJobsLink';
 
-// const isExpAdded = (action:string,userId:string)=>{
-//   const {data,error} = useSWR('getExps',async ()=>{
-//     try{
-//             const res = await axios({
-//                     method:'POST',
-//                     url:`${process.env.SMNK_URL}api/sw-dashboard/experience-utils`,
-//                     data:{action,userId}
-//                 })
-//             const data = await res.data
-//             return data
-    
-//     }catch(err:any){
-//         console.log(err)
-//         return
-//     }
-//   })
-//   return {data,error}
-// }
 
-   
 
 export default function SWDashboardMenu() {
   const {user} = useSelector((state:RootState)=>state.users)
+  const router = useRouter()
 
   const {bankDetailsAdded} = useSelector((state:RootState)=>state.bankDetails)
 
@@ -88,7 +70,7 @@ export default function SWDashboardMenu() {
       </ListItemButton>
       <Collapse in={openProfile} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-         {user && user.typeClass === 'Individual' ? <UserInfoLink/>: <CompanyProfileLink/>}
+         {user && user.typeClass === 'individual' ? <UserInfoLink/>: <CompanyProfileLink/>}
           <ExpLink/>
           <ServiceLink/>
           <BankDetailsLink/>
@@ -103,7 +85,7 @@ export default function SWDashboardMenu() {
       </ListItemButton>
       <ListItemButton  sx={{ ml: 4 }}>
        
-      <Link href='/sw-dashboard/change-password'>
+      <Link href='/dashboard/change-password'>
                   
                   <ListItemText  primary='Change Password' />
               </Link>
@@ -124,14 +106,19 @@ export default function SWDashboardMenu() {
       </ListItemButton>
       <Collapse in={openJob} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton  sx={{ ml: 4 }}>
-          <ListItemText primary="Recommended" />      
+          <RecommendedJobsLink/>
+          <ListItemButton  sx={{ ml: 4 }}  onClick={()=>{
+                                              router.push('/dashboard/job/proposal')
+                                            }}>
+          <ListItemText primary="Proposals" />      
           </ListItemButton>
-          <ListItemButton  sx={{ ml: 4 }}>
-          <ListItemText primary="Current" />      
+          <ListItemButton  sx={{ ml: 4 }} onClick={()=>{
+                                              router.push('/dashboard/job/current')
+                                            }}>
+          <ListItemText primary="Current Job" />      
           </ListItemButton>
           <ListItemButton sx={{ ml: 4 }}>
-          <ListItemText primary="Done" />      
+          <ListItemText primary="Done Jobs" />      
           </ListItemButton>
     
         </List>

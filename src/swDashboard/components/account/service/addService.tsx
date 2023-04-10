@@ -6,7 +6,6 @@ export default function AddService(){
 
     return(
         <Layout>
-
             <AddServiceForm/>
         </Layout>
     )

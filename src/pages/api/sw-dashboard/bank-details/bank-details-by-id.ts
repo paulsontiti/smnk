@@ -5,7 +5,6 @@ export default async function handler(req:any,res:any){
     await dbConnect()
 
       const {id} = req.body
-        //console.log(id)
         if(id){
                 try{
                     const bd = await BankDetail.findOne({_id:id})

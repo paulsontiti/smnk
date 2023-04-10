@@ -1,15 +1,15 @@
 import Layout from "@/components/dashboard/layout";
-import Payment from "@/components/dashboard/payment";
+import PaymentForUpgrade from "@/components/payment/PaymentForUpgrade";
 import { useRouter } from "next/router";
 
 export default function PaymentPage(){
 
     const router = useRouter()
-    const {query:{visibility}} = router
-    console.log(visibility)
+    const packageName = router.query.visibility as string
+
     return(
         <Layout>
-            <Payment/>
+            <PaymentForUpgrade packageName={packageName}/>
         </Layout>
     )
 }

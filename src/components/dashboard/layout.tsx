@@ -1,5 +1,5 @@
 import {Box,Grid} from '@mui/material'
-import Logout from '../../swDashboard/components/account/logout'
+import Logout from './logout'
 import DP from '../../swDashboard/components/account/dp'
 import { useSelector} from 'react-redux'
 import { RootState} from '@/store'
@@ -7,6 +7,7 @@ import MenuDrawer from '../../swDashboard/components/account/menuDrawer'
 import DashboardBreadcrumb from '../../swDashboard/components/breadcrumbs/dashboard'
 import CDashboardMenu from '@/c-dashboard/components/account/cDashboardMenu'
 import SWDashboardMenu from '../../swDashboard/components/account/swDashboardMenu'
+import DashboardHeader from './DashboardHeader'
 
 
 export default function Layout(props:{children:any}){
@@ -19,8 +20,8 @@ export default function Layout(props:{children:any}){
              <Box sx={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                 <MenuDrawer>
                     <>
-                        <Logout/>
-                       {user && user.type === 'Client' ? <CDashboardMenu/>: <SWDashboardMenu/>}
+                        <DashboardHeader/>
+                       {user && user.type === 'client' ? <CDashboardMenu/>: <SWDashboardMenu/>}
                     </>
                 </MenuDrawer>
                 <DashboardBreadcrumb/>

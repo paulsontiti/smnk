@@ -13,10 +13,10 @@ const platinium={
   ]
 }
 
-export const Platinium = () => {
+export const Platinium = ({packageName}:{packageName:string}) => {
   return (
     <Card>
-    <CardHeader title={platinium.name}></CardHeader>
+    <h4>{platinium.name}</h4>
     <CardContent>
      <Box>
         <Typography sx={{fontWeight:'bold'}}>{`NGN ${platinium.price}/month`}</Typography>
@@ -34,7 +34,7 @@ export const Platinium = () => {
     </CardContent>
     <CardActions>
    
-     <Upgrade visibility='Platinium'/>
+     <Upgrade visibility='Platinium' packageName={packageName}/>
     </CardActions>
   </Card>
   )

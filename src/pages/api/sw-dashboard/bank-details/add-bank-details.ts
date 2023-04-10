@@ -13,16 +13,16 @@ export default async function handler(req:any,res:any){
             try{
                 
                 const bd = await BankDetail.create(req.body)
-                res.status(201).json({isBankDetailsAdded:true,
+                res.status(201).json({successful:true,
                         message:"Your Bank Details  was successfully added"})
                    
             
             }catch(err:any){
-                res.status(400).json({isBankDetailsAdded:false,message:err.message})
+                res.status(400).json({successful:false,message:err.message})
             }
             
         }else{
-            res.status(400).json({isBankDetailsAdded:false,message:"Incomplete bank details info"})
+            res.status(400).json({successful:false,message:"Incomplete bank details info"})
         }
        
     

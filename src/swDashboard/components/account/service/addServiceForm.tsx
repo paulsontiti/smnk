@@ -6,7 +6,9 @@ import { RootState} from '@/store';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useRouter } from "next/router";
-import { Service, addEditService, serviceDetailsSchema } from "@/lib/types/service";
+import { Service,serviceDetailsSchema, serviceFormControls, serviceSubmitHandler } from "@/lib/types/service";
+import { FormParams, createFormObject } from "@/lib/form";
+import FormikContainer from "@/components/form/formikContainer";
 
 
 
@@ -19,100 +21,41 @@ export default function AddServiceForm(){
       
   const initialValues :Service={
       title:'',
-      skills:[''],
+      skills:[],
       description:'',
       category:'',
       userId:_id,
       
     }
 
-    
-  //add experience submit handler
-  const submitHandler = async (values:Service)=>{
-    values.userId= _id
-    if(values.skills.length < 1){
-      alert('Add at least a skill')
-      return
-    }else{
-      if(_id){
-        const data:any = await addEditService(values,axios,'add-service')
-        
-        if(data.isServiceAdded){
-          alert(data.message)
-          router.push('/sw-dashboard/service')
-        }else{
-          alert(data.message)
-          return
-        }
-        
-      }else{
-        alert('Bad request!!!! No user id')
-      } 
-    }
-   //return  console.log(values)
-                                          
-}
+
   
   //formik submit handler
   const formikSubmitHandler = (values:any,formikHelpers:any)=>{
   
-    return new Promise(res=>{
-          formikHelpers.validateForm().then(async (data:any)=>{
-              const msg = await submitHandler(values)
-              res(msg)
-          }).catch((err:any)=>{
-            console.log('Error from formik ',err)
-            res(err)
-          })              
-    })
+    if(values.userId){
+      return new Promise(res=>{
+            formikHelpers.validateForm().then(async (data:any)=>{
+                const msg = await serviceSubmitHandler(values,router,'api/sw-dashboard/service/add-service')
+                res(msg)
+            }).catch((err:any)=>{
+              console.log('Error from formik ',err)
+              res(err)
+            })              
+      })
+    }else{
+      alert('Invalid request, Please provide UserId')
+    }
 
   }
 
 
+  const formParams:FormParams ={
+    formObject : createFormObject(formikSubmitHandler,serviceDetailsSchema,initialValues,serviceFormControls),
+    buttonLabel:'Add Service',
+    headerTitle:'Add Your Service'
+  }
     return(
-        <Formik initialValues={initialValues} onSubmit={formikSubmitHandler} validationSchema={serviceDetailsSchema}>
-            
-        {({values,errors,touched,isSubmitting,isValidating}) => (
-         <Form>
-           
-             <Box marginBottom={2}  marginTop={2}>
-             <FormGroup>
-                 <Field name='title' as={TextField} label="Title"/>
-                 <ErrorMessage name="title"/>
-             </FormGroup>
-             </Box>
-             <Box marginBottom={2}  marginTop={2}>
-             <FormGroup>
-                 <Field name='skills[0]' as={TextField} label="Skill One"/>
-                 <ErrorMessage name="skills[0]"/>
-             </FormGroup>
-             </Box>
-             
-             <Box  marginBottom={2}>
-             <FormGroup>
-             <Field name='skills[1]' as={TextField} label="Skill Two"/>
-             </FormGroup>
-             </Box>
-             <Box  marginBottom={2}>
-             <FormGroup>
-             <Field name='category' as={TextField} label="Category"/>
-             <ErrorMessage name="category"/>
-             </FormGroup>
-            </Box>
-            
-             <Box  marginBottom={2}>
-             <FormGroup>
-             <Field name='description' as={TextField} multiline minRows={10} label="Description"/>
-             <ErrorMessage name="description"/>
-             </FormGroup>
-             </Box>
-            
-             <Button variant="contained" fullWidth type="submit" disabled={isSubmitting || isValidating}>Add Service</Button>
-             
-        
-         </Form>
-        )}
-         
-       </Formik>
+        <FormikContainer formParams={formParams}/>
     )
 }

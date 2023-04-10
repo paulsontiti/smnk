@@ -9,12 +9,14 @@ const userSchema = new Schema({
         required:true,
         unique:true,
         trim:true,
+        lowercase:true
     },
     phone:{
         type:String,
         required:true,
         unique:true,
         trim:true,
+        lowercase:true
     },
     password:{
         type:String,
@@ -22,11 +24,13 @@ const userSchema = new Schema({
     },
     type:{
         type:String,
-        required:true
+        required:true,
+        lowercase:true
     },
     typeClass:{
         type:String,
-        required:true
+        required:true,
+        lowercase:true
     },
 },
 {

@@ -19,31 +19,17 @@ const experienceSchema = new Schema({
         type:Boolean,
         default:false
     },
-    state:{type:String,required:true,
-        lowercase:true},
-    lga:{type:String,required:true,
-        lowercase:true},
-    address:{type:String,required:true,
-        lowercase:true},
+    state:{type:String,required:true},
+    lga:{type:String,required:true},
+    address:{type:String,required:true},
     description:{
         type:String,
         required:true,
         trim:true,
-        min:200
+        max:200
     },
-    city:{
-        type:String,
-        required:true,
-        lowercase:true
-    },
-    startMonth:{type:String,required:true,
-        lowercase:true},
-    startYear:{type:String,required:true,
-        lowercase:true},
-    endMonth:{type:String,
-        lowercase:true},
-    endYear:{type:String,
-        lowercase:true},
+    startDate:{type:Date,required:true},
+    endDate:Date,
     userId:{ 
         type: Schema.Types.ObjectId,
         ref: 'User',

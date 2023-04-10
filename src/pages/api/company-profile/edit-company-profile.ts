@@ -14,15 +14,20 @@ export default async function handler(req:any,res:any){
             
             if(deleted.acknowledged){
                 const profile = await CompanyProfile.create(req.body)
-                res.status(201).json({profileEdited:true,message:"Your Company profile was successfully edited",profile})              
+                if(profile){
+
+                    res.status(201).json({successful:true,message:"Your Company profile was successfully edited"})              
+                }else{
+                    res.status(400).json({successful:false,message:"Sorry an error occurred,please try again"})
+                }
         
             }
         }catch(err:any){
             console.log(err)
-            res.status(400).json({profileEdited:false,message:'something went wrong, please try again'})
+            res.status(400).json({successful:false,message:'something went wrong, please try again'})
         }
     
     }else{
-        res.status(400).json({profileEdited:false,message:"Incomplete profile info"})
+        res.status(400).json({successful:false,message:"Incomplete profile info"})
     }    
 }

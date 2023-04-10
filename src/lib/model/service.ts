@@ -17,11 +17,12 @@ const serviceSchema = new Schema({
         type:String,
         required:true,
         trim:true,
-        min:200
+        max:200
     },
     category:{
         type:String,
-        required:true
+        required:true,
+        lowercase:true
     },
     userId:{ 
         type: Schema.Types.ObjectId,

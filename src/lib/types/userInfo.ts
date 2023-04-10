@@ -21,8 +21,10 @@ export type LGA = {
   }
 
   export type CompanyInfo ={
+    _id?:string
     name:string,
     email:string,
+    phone:string,
     state:string,
     lga:string,
     officeAddress:string,

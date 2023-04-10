@@ -13,7 +13,7 @@ const gold = {
     'Free adds on Facebook and Instagram'
   ]
 }
-export const Gold = () => {
+export const Gold = ({packageName}:{packageName:string}) => {
   return (
     <Card>
       <CardHeader title={gold.name}/>
@@ -33,7 +33,7 @@ export const Gold = () => {
        
       </CardContent>
       <CardActions>
-        <Upgrade visibility='Gold'/>
+        <Upgrade visibility='Gold' packageName={packageName}/>
       </CardActions>
     </Card>
   )

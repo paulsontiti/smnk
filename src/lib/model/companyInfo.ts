@@ -15,6 +15,12 @@ const companyInfoSchema = new Schema({
         trim:true,
         lowercase:true
     },
+    phone:{
+        type:String,
+        required:true,
+        trim:true,
+        lowercase:true
+    },
     state:{type:String,required:true},
     lga:{type:String,required:true},
     officeAddress:{type:String,required:true},
@@ -22,7 +28,7 @@ const companyInfoSchema = new Schema({
         type:String,
         required:true,
         trim:true,
-        min:200
+        max:200
     },
     userId:{ 
         type: Schema.Types.ObjectId,

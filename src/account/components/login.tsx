@@ -1,4 +1,4 @@
-import { Box, FormGroup, TextField ,Card,CardHeader,CardActions, Button, CardContent} from "@mui/material";
+import { Box, FormGroup, TextField ,Card,CardHeader,CardActions, Button, CardContent, ListItemButton, ListItemText} from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Field,FastField, Form, Formik ,ErrorMessage} from "formik";
@@ -7,6 +7,8 @@ import { login } from "@/store/slices/userSlice";
 import { useDispatch ,useSelector} from "react-redux";
 import { AppDispatch,RootState } from "@/store";
 import {useEffect} from 'react'
+import { FormControls, FormParams, createFormObject } from "@/lib/form";
+import FormikContainer from "@/components/form/formikContainer";
 
 
 const initialValues={
@@ -34,66 +36,58 @@ const submitHandler = async (values:{email:string,password:string})=>{
                               password: string().required('Password is required'),
                             })
 
-  useEffect(()=>{
-    if(user){
-      if(user.type === 'Skilled Worker'){
-        router.push('/sw-dashboard')
-      }else if(user.type === 'Client'){
-        router.push('/c-dashboard')
-      }
-    }
-    else{
-      router.push('/account/login')
-    }
-  },[user,router])
+                            useEffect(()=>{
+                              if(user){
+                          
+                                switch(true){
+                                  case user.type === 'skilled worker':
+                                    router.push('/sw-dashboard')
+                                    break
+                                  case user.type === 'client':
+                                    router.push('/c-dashboard')
+                                    break
+                                  case user.type === 'admin':
+                                    router.push('/a-dashboard')
+                                    break
+                                  
+                                }
+                              }   
+                            },[user,router])
   
-  return(
+ //formik submit handler
+const formikSubmitHandler = (values:any,formikHelpers:any)=>{
 
-    <Card sx={{
-      marginTop:'5rem'
-    }}>
-      <CardHeader title='Login to your  account'/>
-      <CardContent>
-          
-          <Formik initialValues={initialValues} onSubmit={(values,formikHelpers)=>{
+      return new Promise(res=>{
+        formikHelpers.validateForm().then(async (data:any)=>{
+        const msg = await submitHandler(values)
+        res(msg)
+        }).catch((err:any)=>{
+        res(err)
+        })              
+    })
+  }
 
-            return new Promise(res=>{
-                  formikHelpers.validateForm().then(async (data)=>{
-                  const msg = await submitHandler(values)
-                  res(msg)
-                  }).catch((err)=>{
-                   res(err)
-                  })              
-            })
 
-          }} validationSchema={loginSchema}>
-            
-           {({values,errors,touched,isSubmitting,isValidating}) => (
-            <Form>
-                <Box marginBottom={2}  marginTop={2}>
-                <FormGroup>
-                    <FastField type='email' name='email' as={TextField} label="Email"/>
-                    <ErrorMessage name="email"/>
-                </FormGroup>
-                </Box>
-                <Box  marginBottom={2}>
-                <FormGroup>
-                <Field type='password' name='password' as={TextField} label="Password"/>
-                <ErrorMessage name="password"/>
-                </FormGroup>
-                </Box>
-               <CardActions>
-               <Button variant="contained" type="submit" fullWidth disabled={isSubmitting || isValidating}>Login</Button>
-               </CardActions>
-                <Link href="/account/forgotpassword" >forgot password?</Link>
-            {/* <pre>{JSON.stringify(values,null,4)}</pre>
-            <pre>{JSON.stringify(errors,null,4)}</pre> */}
-            </Form>
-           )}
-            
-          </Formik>
-      </CardContent>
-    </Card>
-  )
+
+
+
+const loginFormControls: FormControls[] = [
+{name:'email',label:'Email',control:'input',type:'email'},
+{name:'password',label:'Password',control:'input',type:'password'}
+]
+
+
+const formParams:FormParams ={
+formObject:createFormObject(formikSubmitHandler,loginSchema,initialValues,loginFormControls),
+buttonLabel:'Login',
+headerTitle:'Login To Your SMNK Account'
+}
+
+return(
+    <>
+        <FormikContainer formParams={formParams}/>
+        <Link href='/account/forgotpassword'>forgot password?</Link>
+    </>
+)
           }
     

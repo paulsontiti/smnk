@@ -1,15 +1,15 @@
-import {Box, Card, CardContent, CardHeader,CardActions} from '@mui/material'
+import {Box, Card, CardContent, Button,CardActions} from '@mui/material'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
-import {Typography} from '@mui/material'
-import Link from 'next/link'
 import { getCompanyProfile } from '@/lib/utils/user'
 import useSWR from 'swr'
-
+import {useRouter} from 'next/router'
   
 
 export default function CompanyProfile(){
 
+
+    const router = useRouter()
     const {_id} = useSelector((state:RootState)=>state.users.user)
     const {data,error} =useSWR('getProfile',getCompanyProfile(_id))
     
@@ -17,81 +17,44 @@ export default function CompanyProfile(){
     if(!data) return <p>loading.....</p>
     
     return(
-            <Card sx={{backgroundColor:'gray'}}>
-                <CardHeader title='Company Profile'></CardHeader>
+            <Card>
                 <CardContent>
-                <Box sx={{
-                            display:'flex',
-                            alignItems:'center',
-                            justifyContent:'center',
-                            marginTop:'1rem',
-                        }}
+                <h4>{`Company's Profile`}</h4>
+                <Box 
                 >
-                    <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>Company Name:  </Typography>
-                    <Typography>{data.name}</Typography>
+                    <h5>Company Name:  </h5>
+                    <p>{data.name}</p>
                 </Box>
-                <Box sx={{
-                            display:'flex',
-                            alignItems:'center',
-                            justifyContent:'center',
-                            marginTop:'1rem'
-                        }}
-                >
-                    <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>Company Email:  </Typography>
-                    <Typography>{data.email}</Typography>
+                <Box>
+                    <h5>Company Email:  </h5>
+                    <p>{data.email}</p>
+                </Box>
+                <Box>
+                    <h5>Company Phone Number:  </h5>
+                    <p>{data.phone}</p>
                 </Box>
                 
-                <Box sx={{
-                            display:'flex',
-                            alignItems:'center',
-                            justifyContent:'center',
-                            marginTop:'1rem'
-                        }}
-                >
-                    <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>State:  </Typography>
-                    <Typography>{data.state}</Typography>
+                <Box>
+                    <h5>State:  </h5>
+                    <p>{data.state}</p>
                 </Box>
-                <Box sx={{
-                            display:'flex',
-                            alignItems:'center',
-                            justifyContent:'center',
-                            marginTop:'1rem'
-                        }}
-                >
-                    <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>L.G.A:  </Typography>
-                    <Typography>{data.lga}</Typography>
+                <Box>
+                    <h5>L.G.A:  </h5>
+                    <p>{data.lga}</p>
                 </Box>
-                <Box sx={{
-                            display:'flex',
-                            alignItems:'center',
-                            justifyContent:'center',
-                            marginTop:'1rem'
-                        }}
-                >
-                    <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>Office Address:  </Typography>
-                    <Typography>{data.officeAddress}</Typography>
+                <Box>
+                    <h5>Office Address:  </h5>
+                    <p>{data.officeAddress}</p>
                 </Box>
-                <Box sx={{
-                            display:'flex',
-                            alignItems:'center',
-                            justifyContent:'center',
-                            marginTop:'1rem'
-                        }}
-                >
-                    <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>Description:  </Typography>
-                    <Typography>{data.description}</Typography>
+                <Box>
+                    <h5>Description:  </h5>
+                    <p>{data.description}</p>
                 </Box>
                 </CardContent>
                 <CardActions>
-                <Link href='/dashboard/company/edit-company-profile' style={{
-                                    textDecoration:'none',
-                                    display:'block',
-                                    padding:'0.5rem 1rem',
-                                    backgroundColor:'green',
-                                    color:'white',
-                                    borderRadius:'20px',
-                                    margin:'.3rem .5rem'
-                                }}>Edit Info</Link>
+                <Button size='small' variant='contained' fullWidth onClick={()=>{
+                    router.push('/dashboard/company/edit-company-profile')
+                }}>Edit Info</Button>
                 </CardActions>
             </Card>
         

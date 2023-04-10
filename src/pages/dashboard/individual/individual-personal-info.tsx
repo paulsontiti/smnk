@@ -11,9 +11,9 @@ import useSWR from 'swr'
 export default function IndividualPersonalInfo(){
     const {_id} = useSelector((state:RootState)=>state.users.user)
     const {data,error} = useSWR('getUser',getUserInfo(_id))
-    
+
     if(error) return <p>Error occurred</p>
-    if(!data) return <p>loading.....</p>
+    if(!data) return <p>No Personal Info</p>
     return(
         <Box >
             

@@ -6,6 +6,7 @@ import useSWR from 'swr'
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { getCompanyProfile } from '@/lib/utils/user';
+import { CompanyInfo } from '@/lib/types/userInfo';
 
 
 export default function CompanyProfileLink(){
