@@ -44,7 +44,7 @@ function RecommendedJobs() {
     if(jobs.length === 1 && jobs[0].length === 0) return <p>No Recommended Jobs. Please Upgrade to a higher package or add your profile and services</p>
     //console.log(jobs)
   return (
-    <Box>
+    <Box sx={{marginLeft:'1rem'}}>
 
       <h2>All Jobs</h2>
       {

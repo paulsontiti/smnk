@@ -14,7 +14,8 @@ export type Job ={
     endDate:Date | null,
     agreeToTerms:boolean,
     userId:string,
-    _id:string
+    _id:string,
+    label:string
 }
 
 export const getDate = (date:Date | null)=> {
@@ -24,7 +25,6 @@ export const getDate = (date:Date | null)=> {
 export const jobSchema = object({
     title: string().required('Title is required'),
     description: string().required('Job Description is required'),
-    category: string().required('Category is required'),
     type: string().required('Type of Job is required'),
     state: string().when('type',{is:'physical',then:string().required('State is required')}),
     lga: string().when('type',{is:'physical',then:string().required('LGA is required')}),

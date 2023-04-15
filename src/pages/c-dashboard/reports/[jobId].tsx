@@ -10,6 +10,7 @@ function JobReportsPage() {
     const router = useRouter()
     const id = router.query.jobId as string
     const [reports,setReports] = useState<Report[]>()
+    const [error,setError] = useState()
     
     useEffect(()=>{
         (
@@ -24,13 +25,14 @@ function JobReportsPage() {
                     
                 }catch(err:any){
                   console.log(err)
-                  return err
+                  setError(err)
                 }
             }
         )()
     },[id])
 
-    if(!reports) return <p>loading......</p>
+    if(error) return <Layout><p>Error occurred</p></Layout>
+    if(Array.isArray(reports) && reports.length === 0) return <Layout><p>No Reports Yet</p></Layout>
   return (
     <Layout>
        {

@@ -11,14 +11,12 @@ export default async function handler(req:any,res:any){
     if(userId){
 
         try{
-            const proposals = await Proposal.find({userId:userId})
-
-            let currentJob
-            for(let pro of proposals){
-                if(pro.accepted){
-                    currentJob = await Job.findOne({_id:pro.jobId})
-                }
+            const pros = await Proposal.find({userId:userId,accepted:true})
+            let currentJob 
+            for(const pro of pros){
+                currentJob = await Job.findOne({_id:pro.jobId,approved:false})
             }
+                
             res.status(201).json(currentJob)
         }catch(err){
             console.log(err)

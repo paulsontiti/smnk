@@ -9,14 +9,14 @@ export default function Jobs(){
     const {data,error} = useSWR('getjobs',getAllJobs())
 
     if(error) return <p>An Error occurred</p>
-    if(!Array.isArray(data)) return <p>loading.....</p>
+    if(!data) return <p>loading.....</p>
     if(data.length < 1) return <p>No Jobs Available.</p>
 
     return(
        <>
        <Typography sx={{fontSize:'2rem', fontWeight:'bold'}}>All Jobs</Typography>
-            {data.map((job,i)=>(
-                <JobComponent job={job} key={i}/>
+            {data.map((job:any)=>(
+                <JobComponent job={job} key={job._id}/>
             ))}
        </>
         

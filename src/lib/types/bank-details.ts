@@ -5,7 +5,7 @@ import { FormControls } from '../form'
 
 
 export type BankDetails ={
-    accounName:string,
+    accountName:string,
    
     accountNumber:string,
     bankName:string,

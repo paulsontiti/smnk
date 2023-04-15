@@ -1,5 +1,5 @@
 import React from 'react'
-
+import LoadingButton from '@mui/lab/LoadingButton';
 import {Button,Box} from '@mui/material'
 import { Form, Formik} from "formik";
 import FormControl from './formControl';
@@ -25,9 +25,18 @@ function FormikContainer({formParams}:{formParams:FormParams}) {
                             disabled={disableFiled(field.name,values[field.fieldToCheckAgainst as string] )}
                             options={getOptions(field.name,values[field.fieldToCheckAgainst as string],field.options as any[])} />
             ))}
-            <Button type='submit' variant='contained' fullWidth disabled={!isValid || isValidating || isSubmitting}>{formParams.buttonLabel}</Button>
-            {/* <pre>{JSON.stringify(values,null,4)}</pre> */}
-           {/* <pre>{JSON.stringify(errors,null,4)}</pre> */}
+            <LoadingButton type='submit'
+                           variant='contained' 
+                           fullWidth 
+                           disabled={!isValid || 
+                                      isValidating ||
+                                       isSubmitting}
+                          loading={isSubmitting}
+                          
+            >{formParams.buttonLabel}
+            </LoadingButton>
+            {/* <pre>{JSON.stringify(values,null,4)}</pre>
+           <pre>{JSON.stringify(errors,null,4)}</pre> */}
            
         </Form>
         )}

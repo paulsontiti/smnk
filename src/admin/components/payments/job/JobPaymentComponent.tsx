@@ -41,7 +41,8 @@ function JobPaymentsComponent({payment}:{payment:JobPaymentDetails}) {
           <CardContent>
               <h5>Job Details</h5>
               <Box>
-                  
+                  <h6>Job ID:</h6>
+                  <p>{payment.jobId}</p>
               </Box>
           </CardContent>
       </Card>

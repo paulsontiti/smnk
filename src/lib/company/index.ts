@@ -1,6 +1,7 @@
 import axios from "axios"
 import { CompanyInfo, User } from "../types/userInfo"
-import {FormControls, states } from "../form"
+import {FormControls, states, statess } from "../form"
+import { top100Films } from "@/components/form/AutoComplete"
 
   //sign up submit handler
   export const companyProfileSubmitHandler = async (values:CompanyInfo,user:User,router:any,url:string)=>{
@@ -30,6 +31,7 @@ import {FormControls, states } from "../form"
     }
 
   export const profileFormControls:FormControls[] = [
+    
     {name:'name',label:'Company Name',control:'input'},
     {name:'email',label:'Company Email',control:'input',type:'email'},
     {name:'phone',label:'Company Phone Number',control:'input',type:'phone'},

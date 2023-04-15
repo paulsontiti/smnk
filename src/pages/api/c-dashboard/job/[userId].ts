@@ -10,9 +10,9 @@ export default async function handler(req:any,res:any){
         
         if(userId){
                 try{
-                    const job = await Job.find({userId:userId})
+                    const jobs = await Job.find({userId,approved:false})
                     
-                    res.status(201).json(job)
+                    res.status(201).json(jobs)
                 }catch(err:any){
                     console.log(err)
                     res.status(400).json({message:"Server Error"})

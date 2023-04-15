@@ -1,14 +1,18 @@
-import {Box, Card, CardContent, CardHeader,CardActions} from '@mui/material'
+import {Box, Card, CardContent, CardHeader,CardActions, Grid} from '@mui/material'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import {Typography,Button} from '@mui/material'
 import Link from 'next/link'
 import { getUserInfo } from '@/lib/utils/user'
 import useSWR from 'swr'
+import { useRouter } from 'next/router'
 
   
 
 export default function IndividualPersonalInfo(){
+
+    const router = useRouter()
+
     const {_id} = useSelector((state:RootState)=>state.users.user)
     const {data,error} = useSWR('getUser',getUserInfo(_id))
 
@@ -17,81 +21,62 @@ export default function IndividualPersonalInfo(){
     return(
         <Box >
             
-                        <Card sx={{backgroundColor:'gray'}}
-                        >
-                            <CardHeader title='Personal Info'></CardHeader>
+                        <Card>
                             <CardContent>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem',
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>First Name:  </Typography>
-                                <Typography>{data.firstName}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>Last Name:  </Typography>
-                                <Typography>{data.lastName}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>User Name:  </Typography>
-                                <Typography>{data.userName}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>State:  </Typography>
-                                <Typography>{data.state}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>L.G.A:  </Typography>
-                                <Typography>{data.lga}</Typography>
-                            </Box>
-                            <Box sx={{
-                                        display:'flex',
-                                        alignItems:'center',
-                                        justifyContent:'center',
-                                        marginTop:'1rem'
-                                    }}
-                            >
-                                <Typography sx={{marginRight:'1rem',fontWeight:'bold'}}>Street Address:  </Typography>
-                                <Typography>{data.address}</Typography>
-                            </Box>
+                            <h4>Personal Info</h4>
+                            <Grid container spacing={1} >
+                                <Grid item xs={6}>
+                                    <span>First Name:  </span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>{data.firstName}</span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>Last Name:  </span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>{data.lastName}</span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>UserName:  </span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>{data.userName}</span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>State:  </span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>{data.state}</span>
+                                </Grid>
+                            <Grid item xs={6}>
+                                    <span>L.G.A:  </span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>{data.lga}</span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>Address:  </span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>{data.address}</span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <span>Description:  </span>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <p>{data.description}</p>
+                                </Grid>
+                                
+                            </Grid>
+                           
                             </CardContent>
                             <CardActions>
-                            <Link href='/dashboard/individual/edit-personal-individual-info' style={{
-                                                textDecoration:'none',
-                                                display:'block',
-                                                padding:'0.5rem 1rem',
-                                                backgroundColor:'green',
-                                                color:'white',
-                                                borderRadius:'20px',
-                                                margin:'.3rem .5rem'
-                                            }}>Edit Info</Link>
+                                <Button fullWidth size='small'
+                                        onClick={()=>{
+                                            router.push('/dashboard/individual/edit-personal-individual-info') 
+                                        }}variant='contained'
+                                >Edit Info</Button>
                             </CardActions>
                         </Card>
            

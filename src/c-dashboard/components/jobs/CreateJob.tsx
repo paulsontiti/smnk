@@ -22,7 +22,8 @@ function CreateJob() {
         endDate: null,
         agreeToTerms:false,
         userId:_id,
-        _id:''
+        _id:'',
+        label:''
           
         }
   return (

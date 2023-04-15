@@ -117,7 +117,9 @@ export default function SWDashboardMenu() {
                                             }}>
           <ListItemText primary="Current Job" />      
           </ListItemButton>
-          <ListItemButton sx={{ ml: 4 }}>
+          <ListItemButton sx={{ ml: 4 }}onClick={()=>{
+                                              router.push('/dashboard/job/done')
+                                            }}>
           <ListItemText primary="Done Jobs" />      
           </ListItemButton>
     

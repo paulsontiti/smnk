@@ -22,14 +22,14 @@ export default async function handler(req:any,res:any){
                     const jobs:JobDetails[][]  = [[]]
 
                     if(info){
-                        const jobsByLocation = await Job.find({state:info.state})
+                        const jobsByLocation = await Job.find({state:info.state,approved:false,proposalAccepted:false})
                         jobs.push(jobsByLocation)
                     }
                     if(serv){
-                        const jobsByService = await Job.find({category:serv.category})
+                        const jobsByService = await Job.find({category:serv.category,approved:false,proposalAccepted:false})
                         jobs.push(jobsByService)
-                        const jobsByTitle = await Job.find({title:serv.title})
-                        jobs.push(jobsByTitle)
+                        // const jobsByTitle = await Job.find({title:serv.title,approved:false})
+                        // jobs.push(jobsByTitle)
                     }
                     
                     res.status(201).json(jobs)
@@ -45,14 +45,14 @@ export default async function handler(req:any,res:any){
                     const jobs:JobDetails[][]  = []
                     
                     if(info){
-                        const jobsByLocation = await Job.find({state:info.state})
+                        const jobsByLocation = await Job.find({state:info.state,approved:false,proposalAccepted:false})
                         jobs.push(jobsByLocation)
                     }
                     if(serv){
-                        const jobsByService = await Job.find({category:serv.category})
+                        const jobsByService = await Job.find({category:serv.category,approved:false,proposalAccepted:false})
                         jobs.push(jobsByService)
-                        const jobsByTitle = await Job.find({title:serv.title})
-                        jobs.push(jobsByTitle)
+                        // const jobsByTitle = await Job.find({title:serv.title})
+                        // jobs.push(jobsByTitle)
                     }
                     
                         res.status(201).json(jobs)

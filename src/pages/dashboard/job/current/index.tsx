@@ -29,8 +29,12 @@ function CurrentJobPage() {
                 }
             }
         )()
-    })
-    if(!job) return <p>loading....</p>
+    },[_id])
+    if(!job) return (
+    <Layout>
+      <p>No current Job</p>
+    </Layout>
+    )
    
   return (
     <Layout>

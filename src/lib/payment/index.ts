@@ -149,3 +149,26 @@ export const paymentFormControls:FormControls[]  = [
   {name:'dop',label:'Date Of Payment',control:'date'},
   //{name:'pop',label:'Please Upload Proof Of Payment',control:'file',type:'file'},
 ]
+
+export const confirmPayment = async(jobId:string)=>{
+    
+  try{
+        if(jobId){
+                const res = await axios({
+                    method:'POST',
+                    url:`${process.env.SMNK_URL}api/job/confirm-payment`,
+                    data:{jobId}
+                })
+                const data = await res.data
+                
+          return data
+          }else{
+            console.log('Invalid request')
+          }
+            
+        
+  }catch(err:any){
+    console.log(err)
+    return err
+  }
+}

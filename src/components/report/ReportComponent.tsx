@@ -13,7 +13,7 @@ const approveJob = async(router:any,jobId:string)=>{
               })
             const data = await res.data
             alert(data.message)
-            if(data.successfull){
+            if(data.successful){
               router.push('/c-dashboard')
             }
             
@@ -42,8 +42,18 @@ function ReportComponent({report}:{report:Report}) {
                     approveJob(router,report.jobId)
                   }}
           >Approve</Button>
-          <Button  size='small' sx={{textTransform:'capitalize'}} variant='contained' color='warning'>Correct</Button>
-          <Button  size='small' sx={{textTransform:'capitalize'}} variant='contained' color='error'>Complain</Button>
+          <Button  size='small' sx={{textTransform:'capitalize'}}
+                   variant='contained' color='warning'
+                   onClick={()=>{
+                    router.push(`/report/corrections/${report.jobId}`)
+                  }}
+          >Correct</Button>
+          <Button  size='small' sx={{textTransform:'capitalize'}}
+                   variant='contained' color='error'
+                   onClick={()=>{
+                    router.push(`/report/complaint/${report.jobId}`)
+                  }}
+          >Complain</Button>
         </CardActions>
     </Card>
   )

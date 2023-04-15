@@ -18,7 +18,6 @@ export default function ADashboardMenu() {
 
   const [openAccount, setOpenAccount] = React.useState(true);
   const [openJob, setOpenJob] = React.useState(true);
-  const [openCustomer, setOpenCustomer] = React.useState(true);
 
   const accountHandleClick = () => {
     setOpenAccount(!openAccount);
@@ -28,9 +27,6 @@ export default function ADashboardMenu() {
     setOpenJob(!openJob);
   }
 
-  const customerHandleClick=()=>{
-    setOpenCustomer(!openCustomer);
-  }
 
   return (
     <List
@@ -90,7 +86,18 @@ export default function ADashboardMenu() {
     
         </List>
       </Collapse> 
-      
+      <ListItemButton sx={{ml:1}} onClick={()=>{router.push(`/a-dashboard/sw`)}}>
+       
+        <ListItemText primary="Skilled Workers" />
+      </ListItemButton>
+      <ListItemButton sx={{ml:1}} onClick={()=>{router.push(`/a-dashboard/clients`)}}>
+       
+       <ListItemText primary="Clients" />
+     </ListItemButton>
+     <ListItemButton sx={{ml:1}} onClick={()=>{router.push(`/a-dashboard/ads/create`)}}>
+       
+       <ListItemText primary="Place Ad" />
+     </ListItemButton>
     </List>
   );
 }

@@ -10,25 +10,15 @@ export default async function handler(req:any,res:any){
     if(paymentId){
         
         try{
-            const payment = await JobPayment.findOne({_id:paymentId})
-            const newPayment = {
-                confirm:true,
-                bankName:payment.bankName,
-                accountName:payment.accountName,
-                amountPaid:payment.amountPaid,
-                dop:payment.dop,
-                userId:payment.userId,
-                jobId:payment.jobId
-            }
-            const deleted = await JobPayment.deleteOne({_id:paymentId})
-            if(deleted.acknowledged){
-                const payment = await JobPayment.create(newPayment)
-                //console.log(payment)
+            const payment = await JobPayment.findOneAndUpdate({_id:paymentId},{confirm:true},{new:true})
+           
+            
                 if(payment){
 
                     res.status(201).json(payment.confirm)
+                }else{
+                    res.status(201).json(false)
                 }
-            }
             
         }catch(err){
             console.log(err)

@@ -5,21 +5,19 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import Link from "next/link";
-
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { CustomerService } from '@/components/dashboard/customerService';
 import UserInfoLink from '@/swDashboard/components/individual/info';
 import CompanyProfileLink from '@/swDashboard/components/company/profileLink';
-
+import {useRouter} from 'next/router'
 
 
    
 
 export default function CDashboardMenu() {
   const {user} = useSelector((state:RootState)=>state.users)
-
+const router = useRouter()
 
   const [openAccount, setOpenAccount] = React.useState(true);
   const [openJob, setOpenJob] = React.useState(true);
@@ -51,14 +49,12 @@ export default function CDashboardMenu() {
       </ListItemButton>
       <Collapse in={openAccount} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-        {user && user.typeClass === 'Individual' ? <UserInfoLink/>: <CompanyProfileLink/>}
+        {user && user.typeClass === 'individual' ? <UserInfoLink/>: <CompanyProfileLink/>}
       
-      <ListItemButton  sx={{ ml: 4 }}>
-       
-      <Link href='/sw-dashboard/change-password'>
-                  
-                  <ListItemText  primary='Change Password' />
-              </Link>
+      <ListItemButton  sx={{ ml: 4 }} onClick={()=>{
+        router.push('/dashboard/change-password')
+      }}>
+        <ListItemText  primary='Change Password' />
       </ListItemButton>
       <ListItemButton  sx={{ ml: 4 }}>
         
@@ -73,16 +69,21 @@ export default function CDashboardMenu() {
       </ListItemButton>
       <Collapse in={openJob} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-        <ListItemButton  sx={{ ml: 4 }}>
-          <Link href='/c-dashboard/job'>Jobs</Link>    
+        <ListItemButton  sx={{ ml: 4 }} onClick={()=>{
+          router.push('/c-dashboard/job')
+        }}>
+          <ListItemText primary="Jobs" />     
           </ListItemButton>
-          <ListItemButton  sx={{ ml: 4 }}>
-          <Link href='/c-dashboard/job/create-job'>Create New Job</Link>    
+          <ListItemButton  sx={{ ml: 4 }} onClick={()=>{
+            router.push('/c-dashboard/job/create-job') 
+          }}>
+            
+          <ListItemText primary="Create new Job" />        
           </ListItemButton>
-          <ListItemButton  sx={{ ml: 4 }}>
-          <ListItemText primary="View Reports" />      
-          </ListItemButton>
-          <ListItemButton sx={{ ml: 4 }}>
+          
+          <ListItemButton sx={{ ml: 4 }} onClick={()=>{
+            router.push('/c-dashboard/job/completed-jobs') 
+          }}>
           <ListItemText primary="Completed Jobs" />      
           </ListItemButton>
     

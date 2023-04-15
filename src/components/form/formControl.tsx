@@ -6,8 +6,11 @@ import RadioControl from './Radio'
 import CheckBoxControl from './CheckBoxControl'
 import DateControl from './DateControl'
 import FileControl from './FileControl'
+import RatingControl from './RatingControl'
+import UploadFile from './UploadFile'
+import AutoCompleteComponent from './AutoComplete'
 
-function FormControl({control,value,...rest}:any) {
+function FormControl({control,...rest}:any) {
     switch(control){
         case 'input':
             return <Input {...rest}/>
@@ -22,7 +25,13 @@ function FormControl({control,value,...rest}:any) {
         case 'date':
             return <DateControl {...rest}/>  
         case 'file':
-            return <FileControl {...rest}/>   
+            return <FileControl {...rest}/>
+        case 'rating':
+                return <RatingControl {...rest}/>  
+        case 'file':
+            return <UploadFile {...rest}/>
+        case 'auto':
+                return <AutoCompleteComponent {...rest}/>
         default:
             return null
     }

@@ -5,7 +5,7 @@ import {object,string} from 'yup'
 
 
  //sign up submit handler
- export const submitHandler = async (values:IndividualPersonalInfo,_id:string,router:any)=>{
+ export const editInfoSubmitHandler = async (values:IndividualPersonalInfo,_id:string,router:any)=>{
     if(_id){
       try{
         const res = await axios({
@@ -38,9 +38,4 @@ import {object,string} from 'yup'
     lga: string().required('L.G.A is required'),
     description: string().min(200,'Description should be at least 200 characters').required('Description is required'),
   })
-  
-  export  const states=[
-    {id:1, name:'Abia',lgas:[{id:1,name:'Abia North'},{id:2,name:'Abia South'},{id:3,name:'Abia East'}]},
-    {id:2, name:'Adamawa',lgas:[{id:1,name:'Abia North'},{id:2,name:'Abia South'},{id:3,name:'Abia East'}]},
-    {id:3, name:'Akwaibom',lgas:[{id:1,name:'Abia North'},{id:2,name:'Abia South'},{id:3,name:'Abia East'}]}
-  ]
+ 

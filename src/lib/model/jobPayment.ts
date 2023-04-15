@@ -9,7 +9,7 @@ const jobPaymentSchema = new Schema({
         lowercase:true
     },
     accountName:{
-        type:[String],
+        type:String,
         required:true,
         trim:true,
         lowercase:true

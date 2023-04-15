@@ -10,8 +10,8 @@ function JobComponent({job}:{job:Job}) {
         <Card  sx={{marginTop:'1rem'}}>
         <CardContent>
         <JobDetails job={job}/>
-        <h4>Recommended Skilled Workers</h4>
-            <RecommendedSWInfo job={job}/>
+        {/* <h4>Recommended Skilled Workers</h4>
+            <RecommendedSWInfo job={job}/> */}
         </CardContent>
         <CardActions>
         

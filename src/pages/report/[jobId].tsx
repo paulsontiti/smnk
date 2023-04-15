@@ -12,6 +12,7 @@ function ReportPage() {
   const {user} = useSelector((state:RootState)=>state.users)
 
   const [job,setJob] = useState<Job>()
+  const [error,setError] = useState()
     
     useEffect(()=>{
         (
@@ -26,13 +27,14 @@ function ReportPage() {
                     
                 }catch(err:any){
                   console.log(err)
-                  return err
+                  setError(err)
                 }
             }
         )()
     },[user._id])
 
-    if(!job) return <p>loading....</p>
+    if(error) return <Layout><p>Error occurred</p></Layout>
+    if(!job) return <Layout><p>loading....</p></Layout>
   return (
     <Layout>
         <JobReportForm jobId={job._id} senderId={user._id} url={RedirectUser(user)}/>

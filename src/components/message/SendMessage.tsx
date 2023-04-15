@@ -4,6 +4,7 @@ import { FormControlObject, FormControls, FormParams, createFormObject } from '@
 import { object, string } from 'yup'
 import { Message, messageSubmitHandler } from '@/lib/message'
 import {useRouter} from 'next/router'
+import SendIcon from '@mui/icons-material/Send';
 
 
 function SendMessage({receiverId,senderId,url}:{receiverId:string,senderId:string,url:string}) {
@@ -40,8 +41,9 @@ const validationSchema = object({
 
         const formParams:FormParams ={
           formObject : createFormObject(formikSubmitHandler,validationSchema,initialValues,messageFormControls),
-          buttonLabel:'Send Message',
-          headerTitle: `What's on your mind`
+          buttonLabel:'Send',
+          headerTitle: `What's on your mind`,
+          endIcon: <SendIcon/>
         }
         
   return (

@@ -21,7 +21,7 @@ export const CustomerService = ({customerHandleClick,openCustomer}:
      </ListItemButton>
      <Collapse in={openCustomer} timeout="auto" unmountOnExit>
        <List component="div" disablePadding>
-         <ListItemButton  sx={{ ml: 4 }}>
+         <ListItemButton  sx={{ ml: 4 }} onClick={()=> router.push('/message/admin-contact')}>
          <ListItemText primary="Admin's Contacts" />      
          </ListItemButton>
          <ListItemButton  sx={{ ml: 4 }} onClick={()=> router.push('/message/customer-service')}>

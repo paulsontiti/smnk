@@ -27,6 +27,7 @@ function ProposalComponent() {
                     d.job &&  <Card>
                     <h4>{`Proposal ID: ${d.pro._id}`}</h4>
                     <CardContent>
+                        <pre>{JSON.stringify(d.job,null,4)}</pre>
                         <h5>Job Details</h5>
                         <Box sx={{display:'flex', alignItems:'center',justifyContent:'space-between'}}>
                         <h5>Title:</h5>

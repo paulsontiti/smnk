@@ -1,15 +1,17 @@
-import Link from "next/link";
+
+import {Button} from '@mui/material'
+import {useRouter } from 'next/router'
 
 export default function SignUpButton(){
+    const router = useRouter()
 
     return(
-        <Link href='/account/signup' style={{
-            textDecoration:'none',
-            display:'block',
-            padding:'0.3rem .5rem',
-            backgroundColor:'navy',
-            color:'white',
-            borderRadius:'20px',
-        }}>Sign Up</Link>
+        <Button onClick={()=>{
+                            router.push('/account/signup') 
+                        }} 
+                sx={{textTransform:'capitalize',margin:'1rem .5rem'}}
+                variant='contained'
+                size='small'
+        >Sign Up</Button>
     )
 }

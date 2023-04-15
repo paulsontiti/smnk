@@ -16,7 +16,7 @@ function DropdownMenu({name,label,options,...rest}:
         <option value=''>Select .......</option>
             {
                Array.isArray(options) && options.map((opt)=>(
-                    <option key={opt.name} value={opt.name}>{opt.name}</option>
+                    <option key={opt.label} value={opt.label}>{opt.label}</option>
                 ))
             }
         </Field>

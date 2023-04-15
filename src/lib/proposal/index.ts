@@ -75,14 +75,14 @@ export const getProposalsByUserId = (id:string)=>{
     return res
   }
   
-  export const acceptProposal = async(propId:string)=>{
+  export const acceptProposal = async(propId:string,swId:string)=>{
     
           try{
                 if(propId){
                         const res = await axios({
                             method:'POST',
                             url:`${process.env.SMNK_URL}api/users/proposal/jobs/accept`,
-                            data:{propId}
+                            data:{propId,swId}
                         })
                         const data = await res.data
                         
@@ -140,4 +140,48 @@ export const getProposalsByUserId = (id:string)=>{
       console.log(err)
       return err
     }
+}
+export const isJobApproved = async(jobId:string)=>{
+    
+  try{
+      if(jobId){
+          const res = await axios({
+              method:'POST',
+              url:`${process.env.SMNK_URL}api/job/is-job-approved`,
+              data:{jobId}
+          })
+          const data = await res.data
+      
+    return data
+    }else{
+      console.log('Invalid request')
+    }
+      
+      
+  }catch(err:any){
+    console.log(err)
+    return err
+  }
+}
+export const isJobRated = async(jobId:string)=>{
+    
+  try{
+      if(jobId){
+          const res = await axios({
+              method:'POST',
+              url:`${process.env.SMNK_URL}api/rating/is-job-rated`,
+              data:{jobId}
+          })
+          const data = await res.data
+      
+    return data
+    }else{
+      console.log('Invalid request')
+    }
+      
+      
+  }catch(err:any){
+    console.log(err)
+    return err
+  }
 }

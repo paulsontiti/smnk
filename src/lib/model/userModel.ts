@@ -32,6 +32,7 @@ const userSchema = new Schema({
         required:true,
         lowercase:true
     },
+    rating:Number
 },
 {
     timestamps:true,

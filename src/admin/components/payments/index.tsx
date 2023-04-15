@@ -1,8 +1,8 @@
 import { JobPaymentDetails, UpgradePaymentDetails, getAllPayments } from '@/lib/payment'
 import React from 'react'
 import useSWR from 'swr'
-import AllPaymentsComponent from './job/JobPaymentComponent'
 import UpgradePaymentsComponent from './upgrade/UpgradePaymentsComponent'
+import JobPaymentsComponent from './job/JobPaymentComponent'
 
 
 function AllPayments() {
@@ -17,7 +17,10 @@ function AllPayments() {
     <>
       {
          data.jobPayments && data.jobPayments.map((payment:JobPaymentDetails)=>(
-          <AllPaymentsComponent key={payment._id} payment={payment}/>
+          <>
+            <h2>Job Payments</h2>
+            <JobPaymentsComponent key={payment._id} payment={payment}/>
+          </>
          ))
       }
         {

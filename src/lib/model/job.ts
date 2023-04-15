@@ -36,7 +36,13 @@ const jobSchema = new Schema({
     
     endDate:{type:Date, required:true},
     agreeToTerms:{type:Boolean,default:false},
-    approved:Boolean,
+    approved:{type:Boolean,default:false},
+    proposalAccepted:{type:Boolean,default:false},
+    swPaid:{type:Boolean,default:false},
+    swId:{ 
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+     },
     userId:{ 
         type: Schema.Types.ObjectId,
         ref: 'User',

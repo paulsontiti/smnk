@@ -20,7 +20,7 @@ export default function AddBankDetailsForm(){
   const {_id} = useSelector((state:RootState)=>state.users.user)
       
   const initialValues :BankDetails={
-      accounName:'',
+      accountName:'',
       accountNumber:'',
       bankName:'',
       userId:_id,
