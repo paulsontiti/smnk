@@ -49,9 +49,9 @@ export const fetchUser = createAsyncThunk('users/getUser',async(thunkApi)=>{
       }
       
       }catch(err:any){
+        alert(err.message)
         console.log(err)
-        alert(err.response.data.loginDetails.message)
-        return err
+        //return err
       }
    })
 
