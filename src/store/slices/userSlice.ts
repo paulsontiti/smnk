@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { signUpDetails } from "@/lib/types/signUp";
-import { CompanyInfo, IndividualPersonalInfo, User } from "@/lib/types/userInfo";
+import { User } from "@/lib/types/userInfo";
 import { userJSON } from "@/lib/utils/user";
 
 
@@ -38,16 +38,9 @@ export const fetchUser = createAsyncThunk('users/getUser',async(thunkApi)=>{
           data:values
       })
       const data = await res.data
-      if(data.loginDetails.isLoginValid){
-        alert(data.loginDetails.message)
+        alert(data.message)
              return data   
-          //router.push('/')
-        
-      }else{
-        alert(data.loginDetails.message)
-        return data
-      }
-      
+         
       }catch(err:any){
         alert(err.message)
         console.log(err)
