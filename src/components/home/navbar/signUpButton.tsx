@@ -12,6 +12,7 @@ export default function SignUpButton(){
                 sx={{textTransform:'capitalize',margin:'1rem .5rem'}}
                 variant='contained'
                 size='small'
+                fullWidth
         >Sign Up</Button>
     )
 }

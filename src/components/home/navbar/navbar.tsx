@@ -20,10 +20,10 @@ export default function Navbar(){
                         <h5>SMNK</h5>
                 </Grid>
                
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                     <NavSearchBox/>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                     <AccountActions/>
                 </Grid>
             </Grid>
