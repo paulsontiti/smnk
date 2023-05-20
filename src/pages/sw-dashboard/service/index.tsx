@@ -4,9 +4,10 @@ import Layout from "@/components/dashboard/layout";
 export default function ServicePage(){
 
     return(
-        <Layout>
-            <Service/>
-        </Layout>
+        // <Layout>
+        //     <Service/>
+        // </Layout>
+        <p></p>
         
     )
 }

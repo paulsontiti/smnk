@@ -7,6 +7,7 @@ export default function EditBankDetails() {
     user: { bankDetails },
   } = useSelector((state: RootState) => state.users);
   
+  return <p></p>
 
-  return <EditBankDetailsForm initialValues={bankDetails} />;
+  // return <EditBankDetailsForm initialValues={bankDetails  && bankDetails} />;
 }

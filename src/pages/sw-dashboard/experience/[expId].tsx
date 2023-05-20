@@ -10,13 +10,14 @@ export default function EditExperiencePage() {
 
   
   useEffect(() => {
-    if (!expIndex) {
+    if ( isNaN(Number(expIndex))) {
       router.push("/sw-dashboard/experience/");
     }
   }, [expIndex, router]);
   return (
-    <Layout>
-      <EditExperience router={router} index={Number(expIndex)} />
-    </Layout>
+    // <Layout>
+    //   <EditExperience router={router} index={Number(expIndex)} />
+    <p></p>
+    // </Layout>
   );
 }
