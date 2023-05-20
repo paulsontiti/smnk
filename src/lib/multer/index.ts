@@ -16,14 +16,11 @@ export const multerHandler = nextConnect({
   })
   
 export const multerUpload= (storageUrl:string)=>{
-  console.log(storageUrl)
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        console.log('Hello from uploader')
-        cb(null, path.join(process.cwd(),'public',storageUrl))
+        cb(null, path.join(process.cwd(),'/tmp/public',storageUrl))
       },
       filename: function (req, file, cb) {
-        console.log(file)
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
         cb(null, uniqueSuffix + path.extname(file.originalname))
       }
