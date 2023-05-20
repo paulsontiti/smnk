@@ -6,12 +6,10 @@ import {useRouter} from 'next/router'
 import { Correction, correctionSubmitHandler } from '@/lib/correction'
 
 
-function CorrectionForm({jobId,senderId,url}:{jobId:string,senderId:string,url:string}) {
-    
+function CorrectionForm({jobId,reportId,url}:{jobId:string,reportId:string,url:string}) {
     const router = useRouter()
      //formik submit handler
   const formikSubmitHandler = (values:any,formikHelpers:any)=>{
-   
     return new Promise(res=>{
      
           formikHelpers.validateForm().then(async (data:any)=>{
@@ -27,7 +25,7 @@ function CorrectionForm({jobId,senderId,url}:{jobId:string,senderId:string,url:s
 
 }
 
-const initialValues:Correction = {correction:'',subject:'',senderId,jobId,read:false,seen:false}
+const initialValues:Correction = {correction:'',subject:'',reportId,jobId,read:false,seen:false}
 const validationSchema = object({
     correction:string().required('Correction is required'),
   subject:string().required('Subject is required'),
@@ -40,7 +38,7 @@ const validationSchema = object({
 
         const formParams:FormParams ={
           formObject : createFormObject(formikSubmitHandler,validationSchema,initialValues,correctionFormControls),
-          buttonLabel:'Send Correction',
+          buttonLabel:'Send',
           headerTitle: `What's wrong`
         }
         

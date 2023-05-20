@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from 'next/link';
+import { useRouter } from 'next/dist/client/router';
 
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   event.preventDefault();
@@ -8,6 +9,8 @@ function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
 }
 
 export default function DashboardBreadcrumb() {
+  const router = useRouter()
+    //console.log(router)
   return (
     <div onClick={handleClick} style={{display:'flex',alignItems:'center',justifyContent:'flex-start',marginLeft:'.5rem'}}>
       <Breadcrumbs aria-label="breadcrumb">

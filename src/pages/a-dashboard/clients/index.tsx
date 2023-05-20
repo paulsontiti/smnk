@@ -1,26 +1,49 @@
-import AdminLayout from '@/admin/components/adminLayout'
-import ClientDetails from '@/components/client/ClientDetails'
-import { getAllClients } from '@/lib/clients'
-import React from 'react'
-import useSWR from 'swr'
+import AdminLayout from "@/admin/components/adminLayout";
+import React from "react";
+import useSWR from "swr";
+import { Backdrop, CircularProgress,Alert,AlertTitle } from "@mui/material";
+import UsersDetailsTable from "@/admin/components/sw/UsersDetailsTable";
+import { getAllClients } from "@/lib/clients";
 
-function Clients() {
+function SW() {
+  const { data, error } = useSWR("getClients", getAllClients());
 
-    const {data,error} = useSWR('getClients',getAllClients())
-
-    if(error) return <AdminLayout><p>An Error occurred</p></AdminLayout>
-    if(!data) return <AdminLayout><p>loading.....</p></AdminLayout>
-    if(Array.isArray(data) && data.length < 1) return <AdminLayout><p>No Clients Available.</p></AdminLayout>
-    //console.log(data)
+  if (error)
+    return (
+      <AdminLayout>
+        <Alert severity="error">
+          <AlertTitle>Server Error</AlertTitle>
+          An Error occurred fetching data from the server — <strong>Please try again or refresh the page</strong>
+        </Alert>
+      </AdminLayout>
+    );
+  if (!data)
+    return (
+      <AdminLayout>
+        
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={!data}
+        >
+          <CircularProgress color="info" />
+        </Backdrop>
+      </AdminLayout>
+    );
+  if (Array.isArray(data) && data.length < 1)
+    return (
+      <AdminLayout>
+        <Alert severity="info">
+          <AlertTitle>Server Error</AlertTitle>
+          An Error occurred fetching data from the server — <strong>Please try again or refresh the page</strong>
+        </Alert>
+      </AdminLayout>
+    );
+  //console.log(data)
   return (
     <AdminLayout>
-        {
-            Array.isArray(data) && data.map((d)=>(
-                <ClientDetails key={d._id} client={d}/>
-            ))
-        }
+      <UsersDetailsTable users={data}/>
     </AdminLayout>
-  )
+  );
 }
 
-export default Clients
+export default SW;

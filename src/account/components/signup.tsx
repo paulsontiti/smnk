@@ -1,4 +1,4 @@
-
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useRouter } from "next/router";
 import {object,ref,string} from 'yup'
 import { signUpDetails } from "@/lib/types/signUp";
@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from "@/store";
 import { signUp } from "@/store/slices/userSlice";
 import {useEffect} from 'react'
 import FormikContainer from "@/components/form/formikContainer";
-import { FormControlObject, FormControls, FormParams, createFormObject } from "@/lib/form";
+import {FormControls, FormParams, createFormObject } from "@/lib/form";
 
 
 const initialValues : signUpDetails={
@@ -84,12 +84,12 @@ const signUpFormControls: FormControls[] = [
     {name:'password',label:'Password',control:'input',type:'password'},
     {name:'confirmPassword',label:'Confirm Password',control:'input',type:'password'},
     {name:'type',label:'Are you a Skilled Worker Or a Client',control:'radio',options:[
-      {key:'Skilled Worker',value:'Skilled Worker'},
-      {key:'Client',value:'Client'},
+      {label:'Skilled Worker',value:'Skilled Worker'},
+      {label:'Client',value:'Client'},
     ]},
     {name:'typeClass',label:'Are you an Individual Or a Company',control:'radio',options:[
-      {key:'Individual',value:'Individual'},
-      {key:'Company',value:'Company'},
+      {label:'Individual',value:'Individual'},
+      {label:'Company',value:'Company'},
     ]},
   ]
 
@@ -97,7 +97,8 @@ const signUpFormControls: FormControls[] = [
 const formParams:FormParams ={
   formObject:createFormObject(formikSubmitHandler,signupSchema,initialValues,signUpFormControls),
   buttonLabel:'SignUp',
-  headerTitle:'Create Your SMNK Account'
+  headerTitle:'Create Your SMNK Account',
+  endIcon:<AccountBoxIcon/>
 }
 
   return(

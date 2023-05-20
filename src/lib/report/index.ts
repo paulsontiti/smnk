@@ -1,17 +1,16 @@
 import axios from "axios"
 
-export type Report={
+export type ReportDetails={
   _id?:string,
   subject:string,
   report:string,
-  senderId:string,
   jobId:string
+  reportFile:any
 }
   //payment submit handler
-  export const reportSubmitHandler = async (values:Report,router:any,url:string)=>{
+  export const reportSubmitHandler = async (values:any,router:any,url:string)=>{
     
     try{
-        if(values.senderId && values.jobId){
                 const res = await axios({
                     method:'POST',
                     url:`${process.env.SMNK_URL}api/report/create-report`,
@@ -22,17 +21,41 @@ export type Report={
                 if(data.successful){
                     router.push(url)
                 }
-          }else{
-            console.log('Invalid request')
-          }
-            
-        
   }catch(err:any){
     console.log(err)
     return err
   }
 }
-
+  //payment submit handler
+  export const readReport = async (jobId:string,reportId:string)=>{
+    
+    try{
+                const res = await axios({
+                    method:'POST',
+                    url:`${process.env.SMNK_URL}api/report/read-report`,
+                    data:{jobId,reportId}
+                })
+               
+                
+  }catch(err:any){
+    console.log(err)
+  }
+}
+//payment submit handler
+export const readCorrection = async (jobId:string,reportId:string)=>{
+    
+  try{
+              const res = await axios({
+                  method:'POST',
+                  url:`${process.env.SMNK_URL}api/report/read-correction`,
+                  data:{jobId,reportId}
+              })
+             
+              
+}catch(err:any){
+  console.log(err)
+}
+}
 // export const unreadMessagesCount = async (receiverId:string)=>{
     
 //   try{

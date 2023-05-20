@@ -21,9 +21,9 @@ export default function Logout(){
     return(           
            
         <Button  size='small' onClick={logoutHandler}
-            sx={{margin:'1rem 1rem'}}
+            sx={{textTransform:'capitalize'}}
             endIcon={<LogoutIcon/>}
             variant='contained'
-        ></Button>
+        >Logout</Button>
     )
 }

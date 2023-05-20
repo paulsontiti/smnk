@@ -1,25 +1,15 @@
 import {Box, Card, CardContent, CardHeader,CardActions} from '@mui/material'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
-import {Typography} from '@mui/material'
 import Link from 'next/link'
-import { getUserExp } from '@/lib/utils/user'
-import Experience from '@/lib/types/experience'
-import useSWR from 'swr'
 
 export default function ExperienceComponent(){
 
-    const {_id} = useSelector((state:RootState)=>state.users.user)
-    const {data,error} = useSWR('getExp',getUserExp(_id))
+    const {user} = useSelector((state:RootState)=>state.users)
     
-    if(error) return <p>An Error occurred</p>
-    if(!Array.isArray(data)) return <p>loading.....</p>
-    if(data.length < 1) return <p>No Experience Available. Please Provide Your Experience Details</p>
-
     return(
         <Box >
-            <h4>All Experiences</h4>
-            {data.map((exp:Experience,i:number)=>{
+            {user && user.experience && user.experience.map((exp,i)=>{
                     return(
                         <>
                         <Card key={i} sx={{marginTop:'1rem'}}>
@@ -58,7 +48,7 @@ export default function ExperienceComponent(){
                                             : <h5 style={{color:'green'}}>Currently on this role</h5>}
                             </CardContent>
                             <CardActions>
-                            <Link href={`/sw-dashboard/experience/${exp._id}`} style={{
+                            <Link href={`/sw-dashboard/experience/${user.experience.findIndex(e=>e.startDate === exp.startDate )}`} style={{
                                                 textDecoration:'none',
                                                 display:'block',
                                                 padding:'0.5rem 1rem',

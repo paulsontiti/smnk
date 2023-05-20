@@ -24,9 +24,6 @@ export default function SWDashboardMenu() {
   const {user} = useSelector((state:RootState)=>state.users)
   const router = useRouter()
 
-  const {bankDetailsAdded} = useSelector((state:RootState)=>state.bankDetails)
-
-
   const [openAccount, setOpenAccount] = React.useState(true);
   const [openProfile, setOpenProfile] = React.useState(true);
   const [openJob, setOpenJob] = React.useState(true);
@@ -76,27 +73,23 @@ export default function SWDashboardMenu() {
           <BankDetailsLink/>
         </List>
       </Collapse>
-      <ListItemButton  sx={{ ml: 4 }}>
-      
-      <Link href='/sw-dashboard/visibility'>
-                  
-                  <ListItemText  primary='Boost Visibility' />
-              </Link>
-      </ListItemButton>
-      <ListItemButton  sx={{ ml: 4 }}>
-       
-      <Link href='/dashboard/change-password'>
-                  
-                  <ListItemText  primary='Change Password' />
-              </Link>
-      </ListItemButton>
-      <ListItemButton  sx={{ ml: 4 }}>
-        
-      <Link href='/dashboard/terms-and-condition'>
-                  
-                  <ListItemText  primary='Terms & Conditions' />
-              </Link>
-      </ListItemButton>
+      <ListItemButton  sx={{ ml: 4 }}  onClick={()=>{
+                                              router.push('/sw-dashboard/visibility')
+                                            }}>
+          <ListItemText primary='Boost Visibility' />      
+          </ListItemButton>
+          <ListItemButton  sx={{ ml: 4 }}  onClick={()=>{
+                                              router.push('/dashboard/change-password')
+                                            }}>
+          <ListItemText primary='Change Password' />      
+          </ListItemButton>
+          <ListItemButton  sx={{ ml: 4 }}  onClick={()=>{
+                                              router.push('/dashboard/terms-and-condition')
+                                            }}>
+          <ListItemText primary='Terms & Conditions'/>      
+          </ListItemButton>
+    
+ 
         </List>
       </Collapse>
       <ListItemButton sx={{ml:1}} onClick={jobHandleClick}>
@@ -107,11 +100,7 @@ export default function SWDashboardMenu() {
       <Collapse in={openJob} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <RecommendedJobsLink/>
-          <ListItemButton  sx={{ ml: 4 }}  onClick={()=>{
-                                              router.push('/dashboard/job/proposal')
-                                            }}>
-          <ListItemText primary="Proposals" />      
-          </ListItemButton>
+       
           <ListItemButton  sx={{ ml: 4 }} onClick={()=>{
                                               router.push('/dashboard/job/current')
                                             }}>

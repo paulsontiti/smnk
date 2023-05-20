@@ -7,6 +7,7 @@ import useSWR from 'swr'
 import { getUserInfo } from "@/lib/utils/user";
 import FormikContainer from "@/components/form/formikContainer";
 import { FormControls, FormParams, createFormObject, states } from "@/lib/form";
+import { useEffect, useState } from 'react';
 
 
 
@@ -16,11 +17,19 @@ export default function EditIndividualInfoForm(){
 const router = useRouter()
 
 const {_id} = useSelector((state:RootState)=>state.users.user)
+const [data,setData] = useState<any>()
    
       
     
-const {data,error} = useSWR('getUserInfo',getUserInfo(_id))
-if(error) return <p>Error ocurred</p>
+useEffect(()=>{
+  (
+    async()=>{
+      const res = await getUserInfo(_id)
+      setData(res.data)
+    }
+  )()
+},[_id])
+
 if(!data) return <p>loading..............</p>
 
   //formik submit handler

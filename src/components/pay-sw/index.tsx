@@ -29,8 +29,7 @@ function UserBankDetails({userId}:{userId:string}) {
             }
         )()
     },[userId])
-    
-    if(!bankDetails) return <p>No data</p>
+    if(!bankDetails?.accountName) return <p>No Bank Details</p>
 
   return (
     <>

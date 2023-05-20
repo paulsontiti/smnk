@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
+import LoginIcon from '@mui/icons-material/Login';
 
 export default function LoginButton(){
     const router = useRouter()
@@ -9,6 +10,7 @@ export default function LoginButton(){
         <Button sx={{textTransform:'capitalize',margin:'1rem .5rem'}}
                 variant="outlined"
                 size="small"
+                endIcon={<LoginIcon/>}
                 onClick={()=>{
                                 router.push('/account/login') 
                         }} 

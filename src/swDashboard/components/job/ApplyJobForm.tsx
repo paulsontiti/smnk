@@ -19,32 +19,42 @@ function ApplyJobForm({userId,jobId}:{userId:string,jobId:string}) {
     })
 
     const submitHandler = async (values:any)=>{
-        if(values.jobId && values.userId){
-            const res = await axios({
-                method:'POST',
-                url:`${process.env.SMNK_URL}api/users/proposal/create-proposal`,
-                data:values
-            })
-            const data = await res.data
-            
-            alert(data.message)
+      
+        try{
 
-            if(data.successful){
-              router.push('/dashboard/job/recommended-jobs')
-            }
-            
-          }else{
-            alert('Bad request!!!! No user id')
-          } 
+          const res = await axios({
+              method:'POST',
+              url:`${process.env.SMNK_URL}api/users/proposal/create-proposal`,
+              data:values
+          })
+          const data = await res.data
+          
+          alert(data.message)
+
+          if(data.successful){
+            router.push('/dashboard/job/recommended-jobs')
+          }
+          
+        }catch(err:any){
+          console.log(err)
+          return err
+        }
+          
     }
 
 
      //formik submit handler
   const formikSubmitHandler = (values:any,formikHelpers:any)=>{
-   
+    const formData = new FormData()
+    
+    formData.append('proposalFile',values.proposalFile) 
+    formData.append('content',values.content) 
+    formData.append('userId',values.userId) 
+    formData.append('jobId',values.jobId) 
+
     return new Promise(res=>{
           formikHelpers.validateForm().then(async (data:any)=>{
-               submitHandler(values)
+               submitHandler(formData)
               res(data)
           }).catch((err:any)=>{
             console.log('Error from formik ',err)
@@ -58,12 +68,12 @@ function ApplyJobForm({userId,jobId}:{userId:string,jobId:string}) {
     const proposlFormControls:FormControls[] =[
             
           {name:'content',label:'Proposal',control:'textarea'},
+          {name:'proposalFile',label:'Attatch a file',control:'file',initiaValues:initialValues}
         ]
 
         const formParams:FormParams ={
-          formObject:createFormObject(formikSubmitHandler,
-            object({content: string().required('Proposal Content is required')}),initialValues,proposlFormControls),
-          buttonLabel:'Submit Proposal',
+          formObject:createFormObject(formikSubmitHandler,applyJobSchema,initialValues,proposlFormControls),
+          buttonLabel:'Submit',
           headerTitle:`What's your proposal`
           }
 

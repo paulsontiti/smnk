@@ -11,7 +11,7 @@ export default async function handler(req,res){
         const {email,password} = req.body
         if(email && password){
             const user = await User.findOne({email:email})
-
+            
             if(!user) {
                 res.status(201).json({message:"invalid login details"})
             } else{

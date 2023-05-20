@@ -1,5 +1,4 @@
-
-import UpgradePayment from "@/lib/model/upgradePayment"
+import User from "@/lib/model/userModel"
 import dbConnect from "@/lib/mongoose"
 
 
@@ -7,28 +6,20 @@ export default async function handler(req:any,res:any){
     //get database connection
     await dbConnect()
 
-    const {paymentId} = req.body
-    if(paymentId){
+    const {userId,subscribedDate,expiringDate} = req.body
+    if(userId && subscribedDate && expiringDate){
         
         try{
-            const payment = await UpgradePayment.findOne({_id:paymentId})
-            const newPayment = {
-                confirm:true,
-                bankName:payment.bankName,
-                accountName:payment.accountName,
-                amountPaid:payment.amountPaid,
-                dop:payment.dop,
-                userId:payment.userId,
-                packageName:payment.packageName
-            }
-            const deleted = await UpgradePayment.deleteOne({_id:paymentId})
-            if(deleted.acknowledged){
-                const payment = await UpgradePayment.create(newPayment)
-                //console.log(payment)
-                if(payment){
+            const user = await User.findOne({_id:userId})
+           
+            if(user){
+                const subscription = user.subscription
+                const sub = {...subscription,popConfirmed:true,subscribedDate,expiringDate}
+                user.subscription = sub
+                const newUser = await user.save()
+               
+                res.status(201).json(newUser.subscription.popConfirmed)
 
-                    res.status(201).json(payment.confirm)
-                }
             }
             
         }catch(err){
@@ -37,7 +28,7 @@ export default async function handler(req:any,res:any){
         }
         
     }else{
-        res.status(400).json({message:"Invalid request. Please provide Proposal Id"})
+        res.status(400).json({message:"Invalid request. Please provide the required details"})
     }
     
     

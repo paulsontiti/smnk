@@ -4,7 +4,6 @@ export type Complaint={
   _id?:string,
   subject:string,
   complaint:string,
-  senderId:string,
   jobId:string,
   seen:boolean,
   read:boolean
@@ -13,7 +12,7 @@ export type Complaint={
   export const complaintSubmitHandler = async (values:Complaint,router:any,url:string)=>{
     
     try{
-        if(values.senderId && values.jobId){
+        if( values.jobId){
                 const res = await axios({
                     method:'POST',
                     url:`${process.env.SMNK_URL}api/complaint/make-complaint`,
@@ -35,22 +34,25 @@ export type Complaint={
   }
 }
 
-export const getAllComplaints = ()=>{
-    const res = async ()=>{
-        try{
-            const res = await axios({
-                  method:'GET',
-                  url:`${process.env.SMNK_URL}api/complaint`
-              })
-            const data = await res.data
-           return data
-            
-        }catch(err:any){
-          console.log(err)
-          return err
-        }
-       }
-    return res
+export const getAllComplaints = async(jobId:string)=>{
+  let data
+  let error
+   if(jobId){
+      try{
+        const res = await axios({
+              method:'GET',
+              url:`${process.env.SMNK_URL}api/complaint/${jobId}`
+          })
+         data = await res.data
+        
+    }catch(err:any){
+      console.log(err)
+      error =  err
+    }
+   }else{
+    alert('invalid request')
+   }
+        return {data,error}
   }
 
 // export const unreadMessagesCount = async (receiverId:string)=>{

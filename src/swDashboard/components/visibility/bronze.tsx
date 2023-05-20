@@ -13,7 +13,7 @@ const bronze = {
     'Three(3) free adds on Facebook'
   ]
 }
-export const Bronze = ({packageName}:{packageName:string}) => {
+export const Bronze = () => {
   return (
     <Card>
       <CardHeader title={bronze.name}/>
@@ -33,7 +33,7 @@ export const Bronze = ({packageName}:{packageName:string}) => {
        
       </CardContent>
       <CardActions>
-       <Upgrade visibility='Bronze' packageName={packageName}/>
+       <Upgrade visibility='Bronze'/>
       </CardActions>
     </Card>
   )

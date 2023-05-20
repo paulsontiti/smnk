@@ -34,10 +34,53 @@ userId:string
 
 
  export type User ={
-    _id:string
-    email:string
-phone:string
-password:string
-type: string
-typeClass: string
+  _id:string,
+  email:string,
+phone:string,
+type:string,
+typeClass:string,
+onAJob:boolean,
+rating:number,
+comments:[
+    {
+        comment:string,
+        clientId:string,
+    }
+],
+dpFileName:string,
+active:boolean,
+services:[
+    {
+        title:string,
+        skills:string[],
+        description:string,
+        category:string
+    }
+],
+subscription:{
+    type:string,
+    subscribedDate:Date,
+    expiringDate:Date,
+    pop:string,
+    popConfirmed:boolean,
+    amountPaid:number
+},
+bankDetails:{
+    accountName:string,
+    accountNumber:string,
+    bankName:string,
+},
+experience:[
+    {
+        title:string,
+        company:string,
+        onRole:boolean,
+        state:string,
+        lga:string,
+        address:string,
+        description:string,
+        startDate:Date,
+        endDate:Date,
+    }
+]
 }

@@ -12,7 +12,7 @@ import { FormControls } from '../form'
     dop:Date | null,
     userId:string,
     confirm:boolean
-    //pop:object
+    pop:any
   }
 
   export interface JobPaymentDetails extends PaymentDetails{
@@ -97,17 +97,16 @@ export const getAllPayments = ()=>{
   return res
 }
 
-export const confirmJobPayment = async(paymentId:string)=>{
+export const confirmJobPayment = async(jobId:string)=>{
     
   try{
-      if(paymentId){
+      if(jobId){
           const res = await axios({
               method:'POST',
               url:`${process.env.SMNK_URL}api/payment/job/confirm-payment`,
-              data:{paymentId}
+              data:{jobId}
           })
           const data = await res.data
-      
     return data
     }else{
       console.log('Invalid request')
@@ -120,14 +119,18 @@ export const confirmJobPayment = async(paymentId:string)=>{
   }
 }
 
-export const confirmUpgradePayment = async(paymentId:string)=>{
-    
+export const confirmUpgradePayment = async(userId:string)=>{
+    const subscribedDate = new Date()
+    const expYear = subscribedDate.getFullYear()
+    const expMonth =subscribedDate.getMonth() + 1
+    const expDate = subscribedDate.getDate()
+    const expiringDate = new Date(expYear,expMonth,expDate)
   try{
-      if(paymentId){
+      if(userId){
           const res = await axios({
               method:'POST',
               url:`${process.env.SMNK_URL}api/payment/upgrade/confirm-payment`,
-              data:{paymentId}
+              data:{userId,subscribedDate,expiringDate}
           })
           const data = await res.data
       
@@ -157,6 +160,29 @@ export const confirmPayment = async(jobId:string)=>{
                 const res = await axios({
                     method:'POST',
                     url:`${process.env.SMNK_URL}api/job/confirm-payment`,
+                    data:{jobId}
+                })
+                const data = await res.data
+                
+          return data
+          }else{
+            console.log('Invalid request')
+          }
+            
+        
+  }catch(err:any){
+    console.log(err)
+    return err
+  }
+}
+
+export const confirmSWPaid = async(jobId:string)=>{
+    
+  try{
+        if(jobId){
+                const res = await axios({
+                    method:'POST',
+                    url:`${process.env.SMNK_URL}api/job/confirm-sw-paid`,
                     data:{jobId}
                 })
                 const data = await res.data

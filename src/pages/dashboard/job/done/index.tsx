@@ -1,6 +1,7 @@
 import Layout from '@/components/dashboard/layout'
 import JobDetailsComponent from '@/components/job/JobDetails'
 import { RootState } from '@/store'
+import { Typography } from '@mui/material'
 import axios from 'axios'
 import React,{useEffect,useState} from 'react'
 import { useSelector } from 'react-redux'
@@ -35,8 +36,12 @@ function DoneJobsPage() {
     })
 
 
-    if(error) return <Layout><p>Error occurred</p></Layout>
-    if(Array.isArray(jobs) && jobs.length < 1) return <Layout><p>No Done Jobs</p></Layout>
+    if(error) return <Layout><Typography sx={{
+      margin:'1rem 1rem' 
+    }}>Error occurred</Typography></Layout>
+    if(Array.isArray(jobs) && jobs.length < 1) return <Layout><Typography sx={{
+      margin:'1rem 1rem' 
+    }}>No Done Jobs</Typography></Layout>
 
   return (
     <Layout>

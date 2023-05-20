@@ -10,8 +10,8 @@ export default async function handler(req:any,res:any){
     if(jobId){
         
         try{
-            const job = await Job.findOneAndUpdate({_id:jobId},{swPaid:true},{new:true})
-                if(job.swPaid){
+            const job = await Job.findOneAndUpdate({_id:jobId},{popConfirmed:true},{new:true})
+                if(job.popConfirmed){
                     res.status(201).json(true)
                 }else{
                     res.status(201).json(false)

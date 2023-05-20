@@ -1,59 +1,99 @@
-import SMNKBankDetails from '@/components/payment/smnkBankDetais'
-import FormikContainer from '@/components/form/formikContainer'
-import {FormControls, FormParams, createFormObject } from '@/lib/form'
-import {JobPaymentDetails, paymentSchema, jobPaymentSubmitHandler, } from '@/lib/payment'
-import { useRouter } from 'next/router'
-import React from 'react'
+
+import React, { useState } from "react";
+import {IconButton,Typography } from "@mui/material";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import UploadIcon from "@mui/icons-material/Upload";
+import axios from "axios";
+import SMNKBankDetails from "./smnkBankDetais";
+import Image from 'next/image'
+import {useRouter} from 'next/router'
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 
-function TransferForJobPaymentForm({jobId,userId}:{jobId:string,userId:string}) {
 
+function TransferForJobPaymentForm({jobId}:{jobId:string}) {
+const {_id} = useSelector((state:RootState)=>state.users.user)
   const router = useRouter()
 
-const initialValues: JobPaymentDetails ={
-  accountName:'',
-  bankName:'',
-  amountPaid:0,
-  userId,
-  jobId,
-  dop: null,
-  confirm:false
-}
-const formikSubmitHandler = (values:JobPaymentDetails,formikHelpers:any)=>{
-  //console.log(values)
-  return new Promise(res=>{
-      formikHelpers.validateForm().then(async (data:any)=>{
-          const msg = await jobPaymentSubmitHandler(values,router)
-          res(msg)
-      }).catch((err:any)=>{
-          res(err)
-      })              
-  })
+  const [file, setFile] = useState<any>();
+  const [displayFile, setDisplayFile] = useState('');
 
-}
-
-    const formControls:FormControls[]  = [
-        {name:'bankName',label:'Bank',control:'input'},
-        {name:'accountName',label:'Bank Account Name',control:'input'},
-        {name:'amountPaid',label:'Amount Paid',control:'input',type:'number'},
-        {name:'dop',label:'Date Of Payment',control:'date'},
-        //{name:'pop',label:'Please Upload Proof Of Payment',control:'file',type:'file'},
-    ]
-
+  const handleChange = (e: any) => {
+    const file = e.target.files[0];
+    setFile(file);
+    const fileReader = new FileReader();
+    fileReader.onload = (e: any) => {
+      setDisplayFile(e.target.result);
+    };
     
-const formParams:FormParams ={
-  formObject : createFormObject(formikSubmitHandler,paymentSchema,initialValues,formControls),
-  buttonLabel:'Submit Transfer Details',
-  headerTitle:'Provide Transfer Details'
-}
+    file && fileReader.readAsDataURL(file);
+  };
+
+  const submitHandler = async (e:any) => {
+    e.preventDefault()
+    try {
+      if (file) {
+        const formData = new FormData()
+        formData.append('pop',file) 
+        formData.append('jobId',jobId)
+        formData.append('userId',_id)
+
+        const res = await axios({
+          method: "POST",
+          url: `${process.env.SMNK_URL}/api/multer/pop`,
+          data: formData,
+        });
+        const data = await res.data;
+        alert(data.message)
+        if(data.successful){
+          router.push('/c-dashboard')
+        }
+        // setDp(data);
+        // setFile('')
+      } else {
+        console.log("Invalid request");
+      }
+    } catch (err: any) {
+      console.log(err);
+      return false;
+    }
+  };
+  
+
   return (
     <>
-        <SMNKBankDetails/>
-        
-        <FormikContainer formParams={formParams}/>
+      <SMNKBankDetails/>
+      <form
+        onSubmit={submitHandler}
+        encType="multipart/form-data"
+      >
+        <IconButton color="primary" type="submit">
+          {
+            
+          file  && (
+            <>
+              <Image src={displayFile} alt="image to upload" width={100} height={100}/>
+              <UploadIcon />
+            </>
+          )}
+        </IconButton>
+        <IconButton color="primary" aria-label="upload picture" component="label">
+          <input
+            name="pop"
+            onChange={handleChange}
+            hidden
+            accept="image/*"
+            type="file"
+          />
+                        <PhotoCamera />
+          {!file && <>
+                        <Typography sx={{marginRight:'1rem'}} component='span'>Upload Proof of Payment</Typography>
+                    </>}
+        </IconButton>
+      </form>
     </>
-    
-  )
+  );
 }
 
-export default TransferForJobPaymentForm
+export default TransferForJobPaymentForm;

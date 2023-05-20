@@ -9,7 +9,7 @@ export type Rating={
   raterId:string,
   jobId:string
 }
-  //payment submit handler
+  //rating submit handler
   export const ratingSubmitHandler = async (values:Rating,router:any,url:string)=>{
     
     try{
@@ -33,6 +33,28 @@ export type Rating={
     console.log(err)
     return err
   }
+}
+
+ //get skilled worker average rating
+ export const getSWRating = async (userId:string,setRating:any,setError:any)=>{
+    
+  try{
+      if(userId){
+              const res = await axios({
+                  method:'POST',
+                  url:`${process.env.SMNK_URL}api/rating/sw/${userId}`
+              })
+              const data = await res.data
+              setRating(data)
+        }else{
+          console.log('Invalid request')
+        }
+          
+      
+}catch(err:any){
+  console.log(err)
+  setError(err)
+}
 }
 
 // export const unreadMessagesCount = async (receiverId:string)=>{

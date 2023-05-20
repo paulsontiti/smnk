@@ -26,7 +26,6 @@ function RecommendedJobsLink() {
                         data:{userId:user._id}
                     })
                     const data = await res.data
-                //console.log(data)
                     setIsOnAJob(data)
               }else{
                 console.log('Invalid request')

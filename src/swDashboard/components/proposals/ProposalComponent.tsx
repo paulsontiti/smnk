@@ -17,34 +17,34 @@ function ProposalComponent() {
     
     if(error)return <p>Error occurred</p>
     if(!data) return <p>loading......</p>
-    
+    if(Array.isArray(data) && data.length === 0) 
+    return <Typography sx={{margin:'1rem 1rem'}} variant='body2'>No proposals</Typography>
   return (
     <>
-        <h3>All Proposals</h3>
-        {Array.isArray(data) && data.map((d)=>(
-           <>
+        {Array.isArray(data) && data.map((job)=>(
+            <>
+            <Typography variant='body2'>All Proposals</Typography>
                 {
-                    d.job &&  <Card>
-                    <h4>{`Proposal ID: ${d.pro._id}`}</h4>
+                    job &&  <Card>
+                        
                     <CardContent>
-                        <pre>{JSON.stringify(d.job,null,4)}</pre>
                         <h5>Job Details</h5>
                         <Box sx={{display:'flex', alignItems:'center',justifyContent:'space-between'}}>
                         <h5>Title:</h5>
-                        <h6>{d.job.title}</h6>
+                        <h6>{job.details.title}</h6>
                         </Box>
                     </CardContent>
                     <CardContent>
                         <h5>Proposal:</h5>
-                        <p>{d.pro.content}</p>
+                        <p>{job.proposal.content}</p>
                         
                     </CardContent>
-                    <CardActions>
+                    {/* <CardActions>
                        {d.pro.accepted ? <h4 style={{color:'green'}}>Proposal Accepted</h4>  : 
                        <Button variant='contained' onClick={()=>{
                             router.push(`/dashboard/job/proposal/${d.pro._id}`)
                        }}> Edit Proposal</Button>}
-                    </CardActions>
+                    </CardActions> */}
                 </Card>
                 }
            </>

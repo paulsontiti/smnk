@@ -13,7 +13,7 @@ const platinium={
   ]
 }
 
-export const Platinium = ({packageName}:{packageName:string}) => {
+export const Platinium = () => {
   return (
     <Card>
     <h4>{platinium.name}</h4>
@@ -34,7 +34,7 @@ export const Platinium = ({packageName}:{packageName:string}) => {
     </CardContent>
     <CardActions>
    
-     <Upgrade visibility='Platinium' packageName={packageName}/>
+     <Upgrade visibility='Platinium'/>
     </CardActions>
   </Card>
   )

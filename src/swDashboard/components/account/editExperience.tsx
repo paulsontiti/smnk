@@ -3,11 +3,11 @@ import EditExperienceForm from "./editExperienceForm";
 
 
 
-export default function EditExperience({router,expId}:{router:NextRouter,expId:string}){
+export default function EditExperience({router,index}:{router:NextRouter,index:number}){
   
    
     return(
-            <EditExperienceForm router={router} expId={expId}/>
+            <EditExperienceForm router={router} index={index}/>
         
     )
 }

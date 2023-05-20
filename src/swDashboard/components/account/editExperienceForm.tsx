@@ -1,48 +1,33 @@
 
-import { Box, FormGroup, TextField ,Button, Checkbox, FormControlLabel,Typography} from "@mui/material";
-import { Field, Form, Formik ,ErrorMessage} from "formik";
-import {useState,useEffect } from "react";
-import { LGA, State } from "@/lib/types/userInfo";
 import { NextRouter } from "next/router";
 import FormikContainer from "@/components/form/formikContainer";
 import { Experience, expDetailsSchema, expFormControls, experienceSubmitHandler } from "@/lib/experience";
 import { FormParams, createFormObject } from "@/lib/form";
-import axios from "axios";
-import useSWR from 'swr'
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { updateUser } from "@/store/slices/userSlice";
 
-export default function EditExperienceForm({router,expId}:{router:NextRouter,expId:string}){
 
-const [exp,setExp]  = useState<Experience>()
+export default function EditExperienceForm({router,index}:{router:NextRouter,index:number}){
+  const dispatch = useDispatch<AppDispatch>()
 
-useEffect(()=>{
-  (
-    async ()=>{
-      try{
-        const res = await axios({
-                method:'POST',
-                url:`${process.env.SMNK_URL}api/sw-dashboard/experience/edit-experience`,
-                data:{expId}
-            })
-        const data = await res.data
-        setExp(data)
-        
+  const {user:{experience}} = useSelector((state:RootState)=>state.users)
+  
+  //get the experience to edit
+const expObj = experience[index]
 
-      }catch(err:any){
-          console.log(err)
-          return
-      }
-          }
-  )()
-},[expId])
+//copy nto another experience object
+const exp:Experience = {...expObj}
 
-if(exp){
+
 
 //formik submit handler
 const formikSubmitHandler = (values:any,formikHelpers:any)=>{
 
   return new Promise(res=>{
         formikHelpers.validateForm().then(async (data:any)=>{
-            const msg = await experienceSubmitHandler(values,router,'api/sw-dashboard/edit-experience')
+          const msg = await experienceSubmitHandler(values,router,index)
+          dispatch(updateUser())
             res(msg)
         }).catch((err:any)=>{
           console.log('Error from formik ',err)
@@ -60,7 +45,4 @@ const formParams:FormParams ={
   return(
       <FormikContainer formParams={formParams}/>
   )
-}else{
-  return <p>loading .....</p>
-}
 }

@@ -1,12 +1,12 @@
 import Jobs from '@/admin/components/Jobs'
-import Layout from '@/admin/components/adminLayout'
+import AdminLayout from '@/admin/components/adminLayout'
 import React from 'react'
 
 function JobsPage() {
   return (
-    <Layout>
+    <AdminLayout>
         <Jobs/>
-    </Layout>
+    </AdminLayout>
   )
 }
 

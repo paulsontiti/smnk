@@ -1,4 +1,4 @@
-import JobPayment from "@/lib/model/jobPayment"
+import Job from "@/lib/model/job"
 import dbConnect from "@/lib/mongoose"
 
 
@@ -6,20 +6,12 @@ export default async function handler(req:any,res:any){
     //get database connection
     await dbConnect()
 
-    const {paymentId} = req.body
-    if(paymentId){
+    const {jobId} = req.body
+    if(jobId){
         
         try{
-            const payment = await JobPayment.findOneAndUpdate({_id:paymentId},{confirm:true},{new:true})
-           
-            
-                if(payment){
-
-                    res.status(201).json(payment.confirm)
-                }else{
-                    res.status(201).json(false)
-                }
-            
+            const job = await Job.findOneAndUpdate({_id:jobId},{popConfirmed:true},{new:true})
+                res.status(201).json(job.popConfirmed)
         }catch(err){
             console.log(err)
             res.status(400).json({message:"Sorry an error occurred,please try again"})

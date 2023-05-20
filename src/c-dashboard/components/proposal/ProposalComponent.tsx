@@ -33,7 +33,7 @@ function ProposalComponent({id}:{id:string}) {
                             size='small' 
                             variant='contained'
                             onClick={async()=>{
-                                const accepted = await acceptProposal(d._id,d.userId)
+                                const accepted = await acceptProposal(d._id,d.userId,id)
                                 if(accepted){
                                     alert('Proposal accepted')
                                     router.push('/c-dashboard/job')

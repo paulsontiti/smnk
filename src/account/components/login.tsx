@@ -1,7 +1,7 @@
-import { Box, FormGroup, TextField ,Card,CardHeader,CardActions, Button, CardContent, ListItemButton, ListItemText} from "@mui/material";
+
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Field,FastField, Form, Formik ,ErrorMessage} from "formik";
+import LoginIcon from '@mui/icons-material/Login';
 import {object,string} from 'yup'
 import { login } from "@/store/slices/userSlice";
 import { useDispatch ,useSelector} from "react-redux";
@@ -80,7 +80,8 @@ const loginFormControls: FormControls[] = [
 const formParams:FormParams ={
 formObject:createFormObject(formikSubmitHandler,loginSchema,initialValues,loginFormControls),
 buttonLabel:'Login',
-headerTitle:'Login To Your SMNK Account'
+headerTitle:'Login To Your SMNK Account',
+endIcon:<LoginIcon/>
 }
 
 return(

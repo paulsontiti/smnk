@@ -6,30 +6,30 @@ import { RootState } from '@/store';
 import axios from 'axios';
 import useSWR from 'swr'
 import { getUserServices } from '@/lib/utils/user';
+import { useRouter } from 'next/router';
 
 
 export default function ServiceLink(){
    
-        
+        const router = useRouter()
     const {user} = useSelector((state:RootState)=>state.users)
-    const {data,error} = useSWR('getServ',getUserServices(user._id))
 
-    if(error) return <p>Error occurred</p>
-    if(data && data.length < 1) return(
-        <ListItemButton sx={{ ml: 8 }}>
-            <Link href={'/sw-dashboard/service/add-service'}>
-                <ListItemText  primary={'Add Service'} />
-            </Link>
-        </ListItemButton>
+    
+    if(user.services.length < 1) return(
+       
+        <ListItemButton  sx={{ ml: 8 }}  onClick={()=>{
+            router.push('/sw-dashboard/service/add-service')
+          }}>
+    <ListItemText primary={'Add Service'} />      
+    </ListItemButton>
     )
     
         return(
-            <ListItemButton sx={{ ml: 8 }}>
-                
-              <Link href={'/sw-dashboard/service'}>
-                      
-                      <ListItemText  primary={'Services'} />
-                  </Link>
-              </ListItemButton> 
+            <ListItemButton  sx={{ ml: 8 }}  onClick={()=>{
+                router.push('/sw-dashboard/service')
+              }}>
+        <ListItemText primary={'Service'} />      
+        </ListItemButton>
+         
         )
 }

@@ -20,7 +20,6 @@ export default function ChangePassword(){
   const router = useRouter()
   const {user} = useSelector((state:RootState)=>state.users)
 
-
 //sign up submit handler
 const submitHandler = async (values:{email:string,password:string,phone:string})=>{
 
@@ -35,7 +34,7 @@ const submitHandler = async (values:{email:string,password:string,phone:string})
       
       if(data.successful){
         alert(data.message)
-                
+                const user = data.user
         if(user){
 
           switch(true){

@@ -1,4 +1,4 @@
-import {Box, Card, CardContent, Button,CardActions} from '@mui/material'
+import {Box, Card, CardContent, Button,CardActions,Typography} from '@mui/material'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { getCompanyProfile } from '@/lib/utils/user'
@@ -13,8 +13,9 @@ export default function CompanyProfile(){
     const {_id} = useSelector((state:RootState)=>state.users.user)
     const {data,error} =useSWR('getProfile',getCompanyProfile(_id))
     
-    if(error) return <p>Error occurred</p>
-    if(!data) return <p>loading.....</p>
+    if(error) return <Typography sx={{margin:'1rem 1rem'}}>An Error occured while fetching your profile</Typography>
+    if(data === null) return <Typography sx={{margin:'1rem 1rem'}}>No Profile</Typography>
+    if(!data) return <Typography variant='caption' sx={{margin:'1rem 1rem'}}>loading.....</Typography>
     
     return(
             <Card>

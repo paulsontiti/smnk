@@ -1,6 +1,5 @@
-import BankDetail from "@/lib/model/bankDetails"
-import Job from "@/lib/model/job"
-import Proposal from "@/lib/model/proposal"
+
+import User from "@/lib/model/userModel"
 import dbConnect from "@/lib/mongoose"
 
 
@@ -12,9 +11,9 @@ export default async function handler(req:any,res:any){
     if(userId){
         try{
            
-            const bankDetails = await BankDetail.findOne({userId})
+            const user = await User.findById(userId,{bankDetails:1})
             //console.log(bankDetails)
-            res.status(201).json(bankDetails)
+            res.status(201).json(user.bankDetails)
         }catch(err){
             console.log(err)
             res.status(400).json({message:"Sorry an error occurred,please try again"})

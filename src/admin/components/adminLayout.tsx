@@ -1,5 +1,5 @@
 import {Box,Grid} from '@mui/material'
-import DP from '../../swDashboard/components/account/dp'
+import DP from '../../components/dashboard/dp'
 import { useSelector} from 'react-redux'
 import { RootState} from '@/store'
 import MenuDrawer from '../../swDashboard/components/account/menuDrawer'

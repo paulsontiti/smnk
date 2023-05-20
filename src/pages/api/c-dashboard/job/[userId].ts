@@ -1,4 +1,4 @@
-import Service from '@/lib/model/service'
+
 import dbConnect from '../../../../lib/mongoose'
 import Job from '@/lib/model/job'
 

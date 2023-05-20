@@ -1,4 +1,4 @@
-
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import {Button} from '@mui/material'
 import {useRouter } from 'next/router'
 
@@ -13,6 +13,7 @@ export default function SignUpButton(){
                 variant='contained'
                 size='small'
                 fullWidth
+                endIcon = {<AccountBoxIcon/>}
         >Sign Up</Button>
     )
 }

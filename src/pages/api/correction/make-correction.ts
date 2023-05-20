@@ -1,17 +1,26 @@
 
-import JobCorrection from "@/lib/model/jobCorrection"
+import Job from "@/lib/model/job"
 import dbConnect from "@/lib/mongoose"
 
 
 export default async function handler(req:any,res:any){
     await dbConnect()
 
-        const {correction,jobId,senderId,subject} = req.body
+        const {correction,jobId,reportId,subject} = req.body
         
-        if(correction && jobId && senderId && subject){
+        if(correction && jobId && subject){
             try{
-                  const msg = await JobCorrection.create(req.body)
-                  if(msg){
+                  const job = await Job.findById(jobId)
+                  let indexOfReportToUpdate = 0
+                  const reportToUpdate = job.reports.find((r:any,index:number)=>{
+                    indexOfReportToUpdate = index
+                    return r._id.toString() === reportId
+                  })
+                 
+                  reportToUpdate.correction = {correction,subject,date:new Date(),read:false}
+                  job.reports[indexOfReportToUpdate] = reportToUpdate
+                  const newJob = await job.save()
+                  if(newJob){
                     res.status(201).json({message:"Your Correction was successfully sent",successful:true})
                   }else{
                     res.status(201).json({message:"Sorry an error occurred,please try again",successful:false})

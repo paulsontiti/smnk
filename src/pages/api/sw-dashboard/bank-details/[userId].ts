@@ -1,6 +1,5 @@
-import Service from '@/lib/model/service'
 import dbConnect from '../../../../lib/mongoose'
-import BankDetail from '@/lib/model/bankDetails'
+import User from '@/lib/model/userModel'
 
 export default async function handler(req:any,res:any){
     await dbConnect()
@@ -9,7 +8,7 @@ export default async function handler(req:any,res:any){
         
         if(userId){
                 try{
-                    const bd = await BankDetail.findOne({userId:userId})
+                    const bd = await User.findOne({_id:userId},{bankDetails:1,_id:0})
                     
                     res.status(201).json(bd)
                 }catch(err:any){

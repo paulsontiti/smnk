@@ -1,5 +1,5 @@
+import ClientJobDetailsAccordion from '@/components/accordion/ClientJobDetailsAccordion'
 import Layout from '@/components/dashboard/layout'
-import JobDetailsComponent from '@/components/job/JobDetails'
 import { Job } from '@/lib/types/job'
 import { RootState } from '@/store'
 import axios from 'axios'
@@ -43,8 +43,8 @@ const {_id} = useSelector((state:RootState)=>state.users.user)
   return (
     <Layout>
         {
-            Array.isArray(completedJobs) && completedJobs.map((job)=>(
-                <JobDetailsComponent job={job} key={job._id}/>
+            Array.isArray(completedJobs) && completedJobs.map((job,i)=>(
+                <ClientJobDetailsAccordion key={i} job={job}/>
             ))
         }
     </Layout>

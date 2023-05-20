@@ -6,17 +6,26 @@ import Link from 'next/link'
 import { getUserInfo } from '@/lib/utils/user'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
   
 
 export default function IndividualPersonalInfo(){
 
     const router = useRouter()
+    const [data,setData] = useState<any>()
 
     const {_id} = useSelector((state:RootState)=>state.users.user)
-    const {data,error} = useSWR('getUser',getUserInfo(_id))
 
-    if(error) return <p>Error occurred</p>
+useEffect(()=>{
+    (
+        async()=>{
+            const res = await getUserInfo(_id)
+            setData(res.data)
+        }
+    )()
+})
+ 
     if(!data) return <p>No Personal Info</p>
     return(
         <Box >

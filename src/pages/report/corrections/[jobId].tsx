@@ -10,10 +10,13 @@ function CorrectionsPage() {
     const {user} = useSelector((state:RootState)=>state.users)
 
     const router = useRouter()
+
+    //id contains jobId and reportId
     const id = router.query.jobId as string
+    const ids = id && id.split('-')
   return (
     <Layout>
-        <CorrectionForm jobId={id} senderId={user._id} url={RedirectUser(user)}/>
+        <CorrectionForm jobId={ids && ids[0]} reportId={ids && ids[1]} url={RedirectUser(user)}/>
     </Layout>
     
   )

@@ -1,5 +1,4 @@
-import Job from "@/lib/model/job"
-import Proposal from "@/lib/model/proposal"
+import User from "@/lib/model/userModel"
 import dbConnect from "@/lib/mongoose"
 
 
@@ -11,21 +10,8 @@ export default async function handler(req:any,res:any){
     if(userId){
 
         try{
-            const proposals = await Proposal.find()
-            let isOnAJob = false
-            
-            for(const pro of proposals){
-                if(pro.userId.toString() === userId){
-                    if(pro.accepted){
-                        const job = await Job.findOne({_id:pro.jobId})
-                        if(job && !job.approved){
-                            isOnAJob = true
-                        }
-                    }
-                }
-            }
-            
-            res.status(201).json(isOnAJob)
+            const user = await User.findOne({_id:userId},{onAJob:true})
+            res.status(201).json(user.onAJob)
             
         }catch(err){
             console.log(err)

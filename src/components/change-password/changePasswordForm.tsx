@@ -28,7 +28,7 @@ const submitHandler = async (values:{oldPassword:string,password:string,userId:s
     const res = await axios({
           method:'POST',
           url:`${process.env.SMNK_URL}api/sw-dashboard/change-password`,
-          data:values
+          data:{user,values}
       })
     const data = await res.data
       alert(data.message)

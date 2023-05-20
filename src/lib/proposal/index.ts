@@ -75,14 +75,14 @@ export const getProposalsByUserId = (id:string)=>{
     return res
   }
   
-  export const acceptProposal = async(propId:string,swId:string)=>{
+  export const acceptProposal = async(propId:string,swId:string,jobId:string)=>{
     
           try{
                 if(propId){
                         const res = await axios({
                             method:'POST',
                             url:`${process.env.SMNK_URL}api/users/proposal/jobs/accept`,
-                            data:{propId,swId}
+                            data:{propId,swId,jobId}
                         })
                         const data = await res.data
                         

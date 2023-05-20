@@ -17,7 +17,7 @@ useEffect(()=>{
     return(
 
         <Layout>
-            <EditService id={id}/>
+            <EditService index={Number(id)}/>
         </Layout>
     )
 }

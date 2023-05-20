@@ -1,5 +1,5 @@
 import Job from "@/lib/model/job"
-import Proposal from "@/lib/model/proposal"
+import User from "@/lib/model/userModel"
 import dbConnect from "@/lib/mongoose"
 
 
@@ -7,13 +7,29 @@ export default async function handler(req:any,res:any){
     //get database connection
     await dbConnect()
 
-    const {propId,swId} = req.body
-    
+    const {propId,swId,jobId} = req.body
     if(propId && swId){
 
         try{
-            const pro = await Proposal.findOneAndUpdate({_id:propId},{accepted:true},{new:true})
-            const job = await Job.findOneAndUpdate({_id:pro.jobId},{proposalAccepted:true,swId},{new:true})
+            //get the job to update proposal
+            const job = await Job.findOne({_id:jobId})
+            //find the proposal to accept
+            const pro = job.proposals.find((value:any,index:number)=>{
+                return value._id.toString() === propId
+            })
+            //get the proposal index
+            const index = job.proposals.indexOf((p:any)=> p._id === propId)
+            //update the proposal
+            pro.accepted = true
+            //update the skilled worker for the job
+            job.swId = swId
+            //get skilled worker and update isOnAJob
+            await User.findOneAndUpdate({_id:swId},{onAJob:true})
+            //update the job that the proposal has been accepted
+            job.proposalAccepted = true
+            //update the job proposals
+            job.proposals[index] = pro
+            await job.save()
                  res.status(201).json(pro.accepted && job.proposalAccepted && job.swId.toString() === swId)
         }catch(err){
             console.log(err)

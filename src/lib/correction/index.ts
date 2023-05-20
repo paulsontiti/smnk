@@ -4,7 +4,7 @@ export type Correction={
   _id?:string,
   subject:string,
   correction:string,
-  senderId:string,
+  reportId:string,
   jobId:string,
   seen:boolean,
   read:boolean
@@ -13,7 +13,7 @@ export type Correction={
   export const correctionSubmitHandler = async (values:Correction,router:any,url:string)=>{
     
     try{
-        if(values.senderId && values.jobId){
+        if(values.reportId && values.jobId){
                 const res = await axios({
                     method:'POST',
                     url:`${process.env.SMNK_URL}api/correction/make-correction`,

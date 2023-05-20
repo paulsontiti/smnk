@@ -2,8 +2,8 @@ import {Box, Typography} from '@mui/material'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import useSWR from 'swr'
-import { Job, getJobsByClientId } from '@/lib/types/job'
-import JobDetailsComponent from '@/components/job/JobDetails'
+import {getJobsByClientId } from '@/lib/types/job'
+import JobDetailsAccordion from '@/components/accordion/ClientJobDetailsAccordion'
 
 
 export default function ClientJobsComponent(){
@@ -24,9 +24,10 @@ export default function ClientJobsComponent(){
 
     return(
          <Box>        
-            {data.map((job:Job,i:number)=>{
+            <Typography sx={{margin:'1rem 1rem',fontWeight:'bold'}}>All Jobs</Typography>
+            {data.map((job:any)=>{
                     return(
-                        <JobDetailsComponent key={job._id} job={job}/>
+                        <JobDetailsAccordion key={job._id} job={job}/>
                     )
                    })
             }

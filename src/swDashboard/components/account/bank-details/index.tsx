@@ -9,17 +9,12 @@ export default function BankDetails(){
     
 const router = useRouter()
       
-    const {_id} = useSelector((state:RootState)=>state.users.user)
-
-    const {data,error} = useSWR('getBankDetails', getUserBankDetails(_id))
-
-    if(error) {console.log(error); return <h6>Error occurred</h6>}
-    if(!data) return <h6>loading......</h6>
-
+    const {user:{bankDetails}} = useSelector((state:RootState)=>state.users)
+    if(!bankDetails) return <Typography>No Bank Details. Please add your bank details</Typography>
 
     return(
         <>
-            <h4>Bank Details</h4>
+            <Typography sx={{margin:'2rem 1rem', fontWeight:'bold'}}>Bank Details</Typography>
             <Card>
            
                         <CardContent>
@@ -29,7 +24,7 @@ const router = useRouter()
                                 </Grid>
                                 <Grid item xs={12}>
                                     
-                                    <Typography>{data.accountName}</Typography>
+                                    <Typography>{bankDetails.accountName}</Typography>
                                 </Grid>
                             </Grid>
                             <Grid container  marginBottom={2}>
@@ -38,7 +33,7 @@ const router = useRouter()
                                 </Grid>
                                 <Grid item xs={12}>
                                     
-                                    <Typography>{data.accountNumber}</Typography>
+                                    <Typography>{bankDetails.accountNumber}</Typography>
                                 </Grid>
                             </Grid>
                    
@@ -47,14 +42,14 @@ const router = useRouter()
                                     <Typography  sx={{marginRight:'1rem',fontWeight:'bold'}}>Bank Name:  </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                <Typography>{data.bankName}</Typography>
+                                <Typography>{bankDetails.bankName}</Typography>
                                    
                                 </Grid>
                             </Grid>
                         </CardContent>
                         <CardActions>
                             <Button size='small' variant='contained' fullWidth onClick={()=>{
-                                router.push(`/sw-dashboard/bank-details/${_id}`)
+                                router.push(`/sw-dashboard/bank-details/edit-bank-details`)
                             }}>Edit Bank Details</Button>
                            
                         </CardActions>            

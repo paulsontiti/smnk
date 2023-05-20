@@ -3,31 +3,30 @@ import { RootState } from "@/store"
 import { useSelector } from "react-redux"
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Link from "next/link";
-import useSWR from 'swr'
-import { getUserExp } from "@/lib/utils/user";
+import { useRouter } from "next/router";
 
 export default function ExpLink(){
     
     const {user} = useSelector((state:RootState)=>state.users)
-    const {data,error} = useSWR('getExp',getUserExp(user._id))
+
+
+    const router = useRouter()
     
-if(error) return <p>Error occurred</p>
-if(data && data.length < 1) return(
-    <ListItemButton sx={{ ml: 8 }}>
-        <Link href={'/sw-dashboard/experience/add-experience'}>
-            <ListItemText  primary={'Add Experience'} />
-        </Link>
-    </ListItemButton>
+    
+if(user.experience.length < 1) return(
+   
+     <ListItemButton  sx={{ ml: 8 }}  onClick={()=>{
+        router.push('/sw-dashboard/experience/add-experience')
+      }}>
+<ListItemText primary={'Add Experience'} />      
+</ListItemButton>
 )
 
     return(
-        <ListItemButton sx={{ ml: 8 }}>
-            
-          <Link href={'/sw-dashboard/experience'}>
-                  
-                  <ListItemText  primary={'Experience'} />
-              </Link>
-          </ListItemButton> 
+        <ListItemButton  sx={{ ml: 8 }}  onClick={()=>{
+            router.push('/sw-dashboard/experience')
+          }}>
+    <ListItemText primary={'Experience'} />      
+    </ListItemButton>
     )
 }

@@ -5,10 +5,10 @@ export default async function handler(req:any,res:any){
     await dbConnect()
 
       const {id} = req.body
-        //console.log(id)
-        if(id){
-                try{
-                    const job = await Job.findOne({_id:id})
+      if(id){
+          try{
+              const job = await Job.findOne({_id:id})
+              
                     if(job){
                         res.status(201).json(job)
                     }else{

@@ -1,19 +1,17 @@
 
-import React,{useEffect,useState} from 'react'
+import React from 'react'
 import {CardActions } from '@mui/material'
-import { useRouter } from 'next/router'
 import { Job } from '@/lib/types/job'
-import SWJobActionsButton from './SWJobActionsButton'
-import { JobStatus} from './AdminJobStatus'
+import SWJobDetailsActions from '../bottomNavigation/SWJobDetailsActions'
 
 
-function ApplyForJobButton({job,jobStatus}:{job:Job,jobStatus:JobStatus}) {
+function ApplyForJobButton({job}:{job:Job}) {
     
 
 
   return (
     <CardActions>
-        <SWJobActionsButton jobStatus={jobStatus} jobId={job._id}/>        
+        <SWJobDetailsActions jobId={job._id}/>        
     </CardActions>
   )
 }

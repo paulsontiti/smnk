@@ -1,25 +1,38 @@
+import React from "react";
+import { ErrorMessage, Field } from "formik";
+import { Box, Checkbox, FormControlLabel } from "@mui/material";
 
-import React from 'react'
-import {ErrorMessage, Field} from "formik";
-import {Box,Checkbox} from "@mui/material";
-
-
-function CheckBoxControl({name,label,...rest}:any) {
+export type CheckboxOption={
+  label:string, value:string
+}
+function CheckBoxControl({
+  name,
+  options,
+  checked,
+  ...rest
+}: {
+  name: string;
+  options: CheckboxOption[];
+  checked:boolean
+}) {
   return (
-    <Box  marginBottom={2}>
-        <Field id={name} name={name}  as={Checkbox}/>
-        <label htmlFor={name}>{label}</label>
-
-        {/* <FormGroup>
-            <FormControlLabel
-            control={
-                <Checkbox checked={agree} onChange={(e:any)=>{setAgree(e.target.checked)}} name={name} />
-            }
-            label={label}
-            />
-        </FormGroup> */}
+    <Box marginBottom={2}>
+      {Array.isArray(options) &&
+        options.map((option, i) => (
+          <Field
+            key={i}
+            name={name}
+            as={FormControlLabel}
+            value={option.value}
+            control={<Checkbox 
+            defaultChecked ={checked}
+            />}
+            label={option.label}
+            {...rest}
+          />
+        ))}
     </Box>
-  )
+  );
 }
 
-export default CheckBoxControl
+export default CheckBoxControl;

@@ -3,13 +3,14 @@ import JobForm from './jobForm'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { Job, createJobSubmitHandler } from '@/lib/types/job'
+import { JobDetails } from '@/lib/job'
 
 function CreateJob() {
 
     const {_id} = useSelector((state:RootState)=>state.users.user)
 
 
-    const initialValues :Job={
+    const initialValues :JobDetails={
         title:'',
         type:'',
         category:'',
@@ -18,16 +19,14 @@ function CreateJob() {
         address:'',
         description:'',
         budget:0,
-        startDate: null,
-        endDate: null,
+        startDate: new Date(),
+        endDate: new Date(),
         agreeToTerms:false,
         userId:_id,
-        _id:'',
-        label:''
           
         }
   return (
-    <JobForm initialValues={initialValues} _id={_id} buttonLabel='Create Job'
+    <JobForm initialValues={initialValues} _id={_id} jobId=''
      submitHandler={createJobSubmitHandler}/>
   )
 }

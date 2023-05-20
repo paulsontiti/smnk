@@ -1,4 +1,3 @@
-import { CardContent } from '@mui/material'
 import React,{useState,useEffect} from 'react'
 import { Bronze } from '../../../swDashboard/components/visibility/bronze'
 import { Gold } from '@/swDashboard/components/visibility/gold'
@@ -10,36 +9,35 @@ import { RootState } from '@/store'
 
 export default function VisibilityPage() {
 
-  const {_id} = useSelector((state:RootState)=>state.users.user)
-  const [packageName,setPackageName] = useState('')
+  const {user:{subscription}} = useSelector((state:RootState)=>state.users)
 
-  useEffect(()=>{
-    (
-      async ()=>{
-          try{
-            const res = await axios({
-                  method:'POST',
-                  url:`${process.env.SMNK_URL}api/sw-dashboard/visibility/${_id}`
-              })
-            const data = await res.data
-            if(data.confirm){
-              setPackageName(data.packageName)
-            }
+  // useEffect(()=>{
+  //   (
+  //     async ()=>{
+  //         try{
+  //           const res = await axios({
+  //                 method:'POST',
+  //                 url:`${process.env.SMNK_URL}api/sw-dashboard/visibility/${_id}`
+  //             })
+  //           const data = await res.data
+  //           if(data.confirm){
+  //             setPackageName(data.packageName)
+  //           }
             
-        }catch(err:any){
-          console.log(err)
-          return err
-        }
+  //       }catch(err:any){
+  //         console.log(err)
+  //         return err
+  //       }
      
-      }
-    )()
-  },[_id])
+  //     }
+  //   )()
+  // },[_id])
   return (
     <Layout>
         <h4>Upgrade Your Package</h4>
-            <Platinium packageName={packageName}/>
-            <Gold packageName={packageName}/>
-            <Bronze packageName={packageName}/>
+            <Platinium/>
+            <Gold/>
+            <Bronze/>
     </Layout>
     
   )

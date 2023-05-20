@@ -9,6 +9,9 @@ import FileControl from './FileControl'
 import RatingControl from './RatingControl'
 import UploadFile from './UploadFile'
 import AutoCompleteComponent from './AutoComplete'
+import SwitchComponent from './Switch'
+import NumberComponent from './NumberComponent'
+import FreeSoloAutocomplete from './FreeSolo'
 
 function FormControl({control,...rest}:any) {
     switch(control){
@@ -28,10 +31,16 @@ function FormControl({control,...rest}:any) {
             return <FileControl {...rest}/>
         case 'rating':
                 return <RatingControl {...rest}/>  
-        case 'file':
+        case 'upload':
             return <UploadFile {...rest}/>
         case 'auto':
                 return <AutoCompleteComponent {...rest}/>
+        case 'switch':
+            return <SwitchComponent {...rest}/>
+        case 'number':
+            return <NumberComponent {...rest}/>
+            case 'freesolo':
+                return <FreeSoloAutocomplete {...rest}/>
         default:
             return null
     }

@@ -1,6 +1,5 @@
 import Layout from '@/components/dashboard/layout'
 import ReportComponent from '@/components/report/ReportComponent'
-import { Report } from '@/lib/report'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -9,7 +8,7 @@ function JobReportsPage() {
 
     const router = useRouter()
     const id = router.query.jobId as string
-    const [reports,setReports] = useState<Report[]>()
+    const [reports,setReports] = useState<any[]>()
     const [error,setError] = useState()
     
     useEffect(()=>{

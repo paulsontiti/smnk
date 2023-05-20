@@ -2,20 +2,21 @@
 import { Box, FormGroup, TextField ,Button, Checkbox, FormControlLabel,Typography} from "@mui/material";
 import { Field, Form, Formik ,ErrorMessage} from "formik";
 
-import { RootState} from '@/store';
-import { useSelector } from 'react-redux';
+import { AppDispatch, RootState} from '@/store';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useRouter } from "next/router";
 import { BankDetails,bankDetailsFormControls, bankDetailsSchema, bankDetailsSubmitHandler } from "@/lib/types/bank-details";
 import { FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
+import { updateUser } from "@/store/slices/userSlice";
 
 
 
 export default function AddBankDetailsForm(){
 
   const router = useRouter()
-  
+  const dispatch = useDispatch<AppDispatch>()
 
   const {_id} = useSelector((state:RootState)=>state.users.user)
       
@@ -33,7 +34,8 @@ export default function AddBankDetailsForm(){
       if(values.userId){
         return new Promise(res=>{
               formikHelpers.validateForm().then(async (data:any)=>{
-                  const msg = await bankDetailsSubmitHandler(values,router,'api/sw-dashboard/bank-details/add-bank-details')
+                const msg = await bankDetailsSubmitHandler(values,router)
+                dispatch(updateUser())
                   res(msg)
               }).catch((err:any)=>{
                 console.log('Error from formik ',err)

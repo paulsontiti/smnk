@@ -1,5 +1,5 @@
+import User from '@/lib/model/userModel'
 import dbConnect from '../../../../lib/mongoose'
-import Experience from '@/lib/model/experience'
 
 export default async function handler(req:any,res:any){
     await dbConnect()
@@ -8,8 +8,8 @@ export default async function handler(req:any,res:any){
         if(userIdForExp){
                 try{
                     
-                    const exp = await Experience.find({userId:userIdForExp})
-                    res.status(201).json(exp)
+                    const user = await User.findOne({_id:userIdForExp},{experience:1,_id:0})
+                    res.status(201).json(user.experience)
                 }catch(err:any){
                     res.status(400).json(err)
                 }

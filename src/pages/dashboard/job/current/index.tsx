@@ -2,6 +2,7 @@ import Layout from '@/components/dashboard/layout'
 import JobDetailsComponent from '@/components/job/JobDetails'
 import { Job } from '@/lib/types/job'
 import { RootState } from '@/store'
+import { Typography } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect,useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -32,7 +33,7 @@ function CurrentJobPage() {
     },[_id])
     if(!job) return (
     <Layout>
-      <p>No current Job</p>
+      <Typography variant='body2' sx={{margin:'1rem 1rem'}}>No current Job</Typography>
     </Layout>
     )
    

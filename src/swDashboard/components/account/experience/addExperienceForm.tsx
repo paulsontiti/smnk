@@ -1,20 +1,22 @@
 
-import { RootState} from '@/store';
-import { useSelector} from 'react-redux';
+import { AppDispatch, RootState} from '@/store';
+import { useDispatch, useSelector} from 'react-redux';
 
 import { NextRouter } from "next/router";
 import { Experience, expDetailsSchema, expFormControls, experienceSubmitHandler } from "@/lib/experience";
 import { FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
+import { updateUser } from '@/store/slices/userSlice';
 
 
 export default function AddExperienceForm({router}:{router:NextRouter}){
-  const {_id} = useSelector((state:RootState)=>state.users.user)
+
+  const dispatch = useDispatch<AppDispatch>()
       
   const initialValues :Experience={
       title:'',company:'',
       state:'',lga:'',address:'',
-      description:'',startDate:null,userId:_id,onRole:false
+      description:'',startDate:new Date(),onRole:false
     }
   
   //formik submit handler
@@ -22,7 +24,9 @@ export default function AddExperienceForm({router}:{router:NextRouter}){
   
     return new Promise(res=>{
           formikHelpers.validateForm().then(async (data:any)=>{
-              const msg = await experienceSubmitHandler(values,router,'api/sw-dashboard/experience/add-experience')
+            const msg = await experienceSubmitHandler(values,router)
+            //update user details in local storage
+            dispatch(updateUser())
               res(msg)
           }).catch((err:any)=>{
             console.log('Error from formik ',err)

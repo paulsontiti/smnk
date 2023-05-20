@@ -85,6 +85,10 @@ const userSlice = createSlice({
         logout:(state)=>{   
             state.user = {} as User
             localStorage.removeItem('user')
+        },
+        updateUser:(state)=>{
+          state.user = userJSON()
+          //console.log(state.user)
         }
     },
     extraReducers:(builder)=>{
@@ -134,6 +138,6 @@ const userSlice = createSlice({
     }
 })
 
-export const {logout} = userSlice.actions
+export const {logout,updateUser} = userSlice.actions
 
 export default userSlice.reducer

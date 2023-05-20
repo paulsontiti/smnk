@@ -1,34 +1,19 @@
 import {Box,Grid} from '@mui/material'
-import Logout from './logout'
-import DP from '../../swDashboard/components/account/dp'
-import { useSelector} from 'react-redux'
-import { RootState} from '@/store'
-import MenuDrawer from '../../swDashboard/components/account/menuDrawer'
-import DashboardBreadcrumb from '../../swDashboard/components/breadcrumbs/dashboard'
-import CDashboardMenu from '@/c-dashboard/components/account/cDashboardMenu'
-import SWDashboardMenu from '../../swDashboard/components/account/swDashboardMenu'
-import DashboardHeader from './DashboardHeader'
+import DP from './dp'
+import DashBoardAppBar from '../appBar/DashBoardAppBar'
+import DashboardBreadcrumb from '@/swDashboard/components/breadcrumbs/dashboard'
 
 
 export default function Layout(props:{children:any}){
-    const {user} = useSelector((state:RootState)=>state.users)
    
 
     //console.log(info)
     return(
         <>
-             <Box sx={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                <MenuDrawer>
-                    <>
-                        <DashboardHeader/>
-                       {user && user.type === 'client' ? <CDashboardMenu/>: <SWDashboardMenu/>}
-                    </>
-                </MenuDrawer>
-                <DashboardBreadcrumb/>
-             </Box>
+             <DashBoardAppBar/>
             <Grid container >
                
-                <Grid item xs={12} sx={{marginTop:'1rem'}}>
+                <Grid item xs={12}>
                     <Grid container>
                         <Grid item xs={12}>
                                
@@ -40,6 +25,7 @@ export default function Layout(props:{children:any}){
                         </Grid>
                         <Grid item  xs={12}>
                             <Box>
+                                <DashboardBreadcrumb/>
                             <DP/>
                             {props.children}
                             </Box>

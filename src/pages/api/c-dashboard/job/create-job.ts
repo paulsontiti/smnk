@@ -6,7 +6,9 @@ import { JobDetails} from '@/lib/job'
 const createJob = async(job:JobDetails,res:any)=>{
     if(job){
        try{
-           const NewJob = await Job.create(job)
+           const newJob = await Job.create(job)
+           newJob.jobDetails = job
+           newJob.save()
            res.status(201).json({isJobAdded:true,
                    message:"Your Job was successfully created"})
        
@@ -23,31 +25,21 @@ const createJob = async(job:JobDetails,res:any)=>{
 export default async function handler(req:any,res:any){
     
     await dbConnect()
-        const {title,type,category,userId,
-                startDate,endDate,state,lga,
-                address,description,budget,agreeToTerms} = req.body
-        //console.log(req.body)
+        const {jobDetails} = req.body
+        const {type,state,lga,
+            address} = jobDetails
+            
         if(type === 'physical'){
             if(state && lga && address){
-                const job:JobDetails = {
-                    title,type,category,
-                    userId,startDate,endDate,
-                    description,budget,agreeToTerms,
-                    state,lga,address
-                }
-                createJob(job,res)
+                
+                createJob(jobDetails,res)
             }else{
                 res.status(400).json({isJobAdded:false,
                     message:"Incomplete details for creating a job,Please provide State,LGA and Adress"})
             }
         }else{
-            const job:JobDetails = {
-                title,
-                type,
-                category,
-                userId,startDate,endDate,description,budget,agreeToTerms
-            }
-            createJob(job,res)
+           
+            createJob(jobDetails,res)
         }
        
        

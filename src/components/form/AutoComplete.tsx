@@ -1,183 +1,82 @@
+import * as React from "react";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import { ErrorMessage, Field,useFormikContext } from "formik";
+import { Box } from "@mui/material";
 
-
-
-// function AutoComplete({name,label,options,...rest}:
-//                             {name:string,
-//                             label:string,
-//                             options:any[],
-//                             }) {
-//   return (
-//     <Box marginBottom={2}  marginTop={2}>
-//     <FormGroup>
-//       <label>{label}</label>
-//         <Field key={name} name={name} as='select'  {...rest} style={{height:'50px'}}>
-//         <option value=''>Select .......</option>
-//             {
-//                Array.isArray(options) && options.map((opt)=>(
-//                     <option key={opt.name} value={opt.name}>{opt.name}</option>
-//                 ))
-//             }
-//         </Field>
-//         <ErrorMessage name={name}/>
-//     </FormGroup>
-//     </Box>
-//   )
-// }
-
-// export default AutoComplete
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import { Field } from 'formik';
-
-type Option={
-    label:string | undefined
+type Option = {
+  label: string;
+};
+type FieldProps = {
+  name: string;
+  required: boolean;
+  values: any;
+  touched:any
+  label: string;
+  helperText: string;
+  fieldToCheckAgainst: string;
+  valueOfFieldToCheckAgainst: string;
+  options: Option[];
 }
-export default function AutoCompleteComponent({name,label,options,...rest}:
-                                {name:string,
-                                label:string,
-                                options:Option[],
-                                }) {
-const [value, setValue] = React.useState<Option | null>(null);
-  return (
-    <Field as={Autocomplete}  disablePortal
-    id={name} 
-    options={options}
-    value={value}
-        onChange={(event: any, newValue: Option | null) => {
-          setValue(newValue);
-        }}
-    sx={{ width: 300 }} name={name}{...rest}
-    renderInput={(params:any) => <TextField  {...params} label={label}  />}>
+export const disabled = (values:any,valueOfFieldToCheckAgainst:string,fieldToCheckAgainst:string)=>{
+  if(fieldToCheckAgainst){
+    return values[fieldToCheckAgainst] === valueOfFieldToCheckAgainst
+  }
+  return false
+}
+export default function AutoCompleteComponent( {
+  name,required,values,touched,label,helperText,fieldToCheckAgainst,options,valueOfFieldToCheckAgainst
+}:FieldProps) {
 
-    </Field>
+  const {
+    setFieldValue,
+  } = useFormikContext();
+  
+  const handleChange = (newValue: string, form: any) => {
+    form.touched[name] = true
+    form.values[name] = newValue;
+    form.resetForm(form);
+  };
+  
+  React.useEffect(() => {
+    
+    if (fieldToCheckAgainst && touched[fieldToCheckAgainst]) {
+      setFieldValue(name,'',true)
+    }
+  }, [fieldToCheckAgainst,touched,name,setFieldValue]);
+
+  return (
+    <Box>
+      <Field name={name}>
+        {(props: any) => {
+          const { form } = props;
+          return (
+            <Autocomplete
+              sx={{ marginBottom: "1rem" }}
+              disableClearable
+              disabled={disabled(values,valueOfFieldToCheckAgainst,fieldToCheckAgainst)}
+              options={options.map((option) => option.label ?? option)}
+              value={form.values[name]}
+              onChange={(event: any, newValue: string) => {
+                handleChange(newValue, form);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label={label}
+                  required={required}
+                  helperText={helperText}
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
+          );
+        }}
+      </Field>
+      <ErrorMessage name={name} />
+    </Box>
   );
 }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-export const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'The Godfather: Part II', year: 1974 },
-  { label: 'The Dark Knight', year: 2008 },
-  { label: '12 Angry Men', year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: 'Pulp Fiction', year: 1994 },
-  {
-    label: 'The Lord of the Rings: The Return of the King',
-    year: 2003,
-  },
-  { label: 'The Good, the Bad and the Ugly', year: 1966 },
-  { label: 'Fight Club', year: 1999 },
-  {
-    label: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001,
-  },
-  {
-    label: 'Star Wars: Episode V - The Empire Strikes Back',
-    year: 1980,
-  },
-  { label: 'Forrest Gump', year: 1994 },
-  { label: 'Inception', year: 2010 },
-  {
-    label: 'The Lord of the Rings: The Two Towers',
-    year: 2002,
-  },
-  { label: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { label: 'Goodfellas', year: 1990 },
-  { label: 'The Matrix', year: 1999 },
-  { label: 'Seven Samurai', year: 1954 },
-  {
-    label: 'Star Wars: Episode IV - A New Hope',
-    year: 1977,
-  },
-  { label: 'City of God', year: 2002 },
-  { label: 'Se7en', year: 1995 },
-  { label: 'The Silence of the Lambs', year: 1991 },
-  { label: "It's a Wonderful Life", year: 1946 },
-  { label: 'Life Is Beautiful', year: 1997 },
-  { label: 'The Usual Suspects', year: 1995 },
-  { label: 'Léon: The Professional', year: 1994 },
-  { label: 'Spirited Away', year: 2001 },
-  { label: 'Saving Private Ryan', year: 1998 },
-  { label: 'Once Upon a Time in the West', year: 1968 },
-  { label: 'American History X', year: 1998 },
-  { label: 'Interstellar', year: 2014 },
-  { label: 'Casablanca', year: 1942 },
-  { label: 'City Lights', year: 1931 },
-  { label: 'Psycho', year: 1960 },
-  { label: 'The Green Mile', year: 1999 },
-  { label: 'The Intouchables', year: 2011 },
-  { label: 'Modern Times', year: 1936 },
-  { label: 'Raiders of the Lost Ark', year: 1981 },
-  { label: 'Rear Window', year: 1954 },
-  { label: 'The Pianist', year: 2002 },
-  { label: 'The Departed', year: 2006 },
-  { label: 'Terminator 2: Judgment Day', year: 1991 },
-  { label: 'Back to the Future', year: 1985 },
-  { label: 'Whiplash', year: 2014 },
-  { label: 'Gladiator', year: 2000 },
-  { label: 'Memento', year: 2000 },
-  { label: 'The Prestige', year: 2006 },
-  { label: 'The Lion King', year: 1994 },
-  { label: 'Apocalypse Now', year: 1979 },
-  { label: 'Alien', year: 1979 },
-  { label: 'Sunset Boulevard', year: 1950 },
-  {
-    label: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb',
-    year: 1964,
-  },
-  { label: 'The Great Dictator', year: 1940 },
-  { label: 'Cinema Paradiso', year: 1988 },
-  { label: 'The Lives of Others', year: 2006 },
-  { label: 'Grave of the Fireflies', year: 1988 },
-  { label: 'Paths of Glory', year: 1957 },
-  { label: 'Django Unchained', year: 2012 },
-  { label: 'The Shining', year: 1980 },
-  { label: 'WALL·E', year: 2008 },
-  { label: 'American Beauty', year: 1999 },
-  { label: 'The Dark Knight Rises', year: 2012 },
-  { label: 'Princess Mononoke', year: 1997 },
-  { label: 'Aliens', year: 1986 },
-  { label: 'Oldboy', year: 2003 },
-  { label: 'Once Upon a Time in America', year: 1984 },
-  { label: 'Witness for the Prosecution', year: 1957 },
-  { label: 'Das Boot', year: 1981 },
-  { label: 'Citizen Kane', year: 1941 },
-  { label: 'North by Northwest', year: 1959 },
-  { label: 'Vertigo', year: 1958 },
-  {
-    label: 'Star Wars: Episode VI - Return of the Jedi',
-    year: 1983,
-  },
-  { label: 'Reservoir Dogs', year: 1992 },
-  { label: 'Braveheart', year: 1995 },
-  { label: 'M', year: 1931 },
-  { label: 'Requiem for a Dream', year: 2000 },
-  { label: 'Amélie', year: 2001 },
-  { label: 'A Clockwork Orange', year: 1971 },
-  { label: 'Like Stars on Earth', year: 2007 },
-  { label: 'Taxi Driver', year: 1976 },
-  { label: 'Lawrence of Arabia', year: 1962 },
-  { label: 'Double Indemnity', year: 1944 },
-  {
-    label: 'Eternal Sunshine of the Spotless Mind',
-    year: 2004,
-  },
-  { label: 'Amadeus', year: 1984 },
-  { label: 'To Kill a Mockingbird', year: 1962 },
-  { label: 'Toy Story 3', year: 2010 },
-  { label: 'Logan', year: 2017 },
-  { label: 'Full Metal Jacket', year: 1987 },
-  { label: 'Dangal', year: 2016 },
-  { label: 'The Sting', year: 1973 },
-  { label: '2001: A Space Odyssey', year: 1968 },
-  { label: "Singin' in the Rain", year: 1952 },
-  { label: 'Toy Story', year: 1995 },
-  { label: 'Bicycle Thieves', year: 1948 },
-  { label: 'The Kid', year: 1921 },
-  { label: 'Inglourious Basterds', year: 2009 },
-  { label: 'Snatch', year: 2000 },
-  { label: '3 Idiots', year: 2009 },
-  { label: 'Monty Python and the Holy Grail', year: 1975 },
-];

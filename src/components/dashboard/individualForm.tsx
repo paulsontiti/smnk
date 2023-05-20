@@ -1,6 +1,4 @@
 
-import { Box, FormGroup, TextField ,Button} from "@mui/material";
-import { Field, Form, Formik ,ErrorMessage} from "formik";
 import {object,string} from 'yup'
 import { RootState } from '@/store';
 import { useSelector} from 'react-redux';
@@ -24,7 +22,7 @@ const individualInfoSchema = object({
     address: string().required('Street Address is required'),
     state: string().required('State is required'),
     lga: string().required('L.G.A is required'),
-    description: string().min(200,'Description should be at least 200 characters').required('Description is required'),
+    description: string().required('Description is required'),
   })
 
 
@@ -91,8 +89,8 @@ const infoFormObject:FormControlObject ={
     {name:'firstName',label:'First Name', control:'input'},
     {name:'lastName',label:'Last Name', control:'input'},
     {name:'userName',label:'User Name', control:'input'},
-    {name:'state',label:'State', control:'select',options:states},
-    {name:'lga',label:'LGA', control:'select',options:states,fieldToCheckAgainst:'state'},
+    {name:'state',label:'State', control:'auto',options:states},
+    {name:'lga',label:'LGA', control:'auto',options:states,fieldToCheckAgainst:'state'},
     {name:'address',label:'Address', control:'input'},
     {name:'description',label:'Description', control:'textarea'},
   ]

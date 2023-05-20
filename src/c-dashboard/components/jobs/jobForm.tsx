@@ -1,35 +1,42 @@
-
+import {FormikHelpers} from 'formik'
 import { useRouter } from "next/router";
-import { Job, createJobSubmitHandler, jobSchema } from "@/lib/types/job";
+import {jobSchema } from "@/lib/types/job";
 import FormikContainer from "@/components/form/formikContainer";
-import { FormControlObject, FormControls, FormParams, createFormObject, states } from '@/lib/form';
+import {FormControls, FormParams, createFormObject, states } from '@/lib/form';
+import { JobDetails } from "@/lib/job";
 
 
 
+const jobCategory = ['Software','Web Development']
 
-export default function JobForm({initialValues,_id,buttonLabel,submitHandler}:
-                                {initialValues:Job,_id:string,buttonLabel:string,
-                                  submitHandler:(_id:string,values:any,router:any)=>void}){
+export default function JobForm({initialValues,_id,submitHandler,jobId}:
+                                {initialValues:JobDetails,_id:string,jobId:string
+                                  submitHandler:(userId:string,values:any,router:any,jobId:string)=>void}){
 
   const router = useRouter()
   
     const typeOptions = [
-      {key:'Physical',value:'physical'},
-      {key:'Online',value:'online'},
+      {label:'Physical',value:'physical'},
+      {label:'Online',value:'online'},
     ]
    
+const validateDate = (startDate:Date,endDate:Date)=>{
+  return endDate > startDate
+}
+
+
   //formik submit handler
-  const formikSubmitHandler = (values:any,formikHelpers:any)=>{
+  const formikSubmitHandler = (values:JobDetails,{validateForm}:FormikHelpers<JobDetails>)=>{
    
         return new Promise(res=>{
-          if(values.startDate < values.endDate){
-              formikHelpers.validateForm().then(async (data:any)=>{
-                   submitHandler(_id,values,router)
-                  res(data)
-              }).catch((err:any)=>{
-                console.log('Error from formik ',err)
-                res(err)
-              })    
+          if(validateDate(values.startDate,values.endDate)){
+                validateForm().then((data:any)=>{
+                  submitHandler(_id,values,router,jobId)
+                 res(data)
+             }).catch((err:any)=>{
+               console.log('Error from formik ',err)
+               res(err)
+             })
             }else{
               alert('Your End date should be greater than your Start Date')
               res('')
@@ -40,17 +47,23 @@ export default function JobForm({initialValues,_id,buttonLabel,submitHandler}:
   }
 
   const jobFormControls:FormControls[] =[
-        {name:'title',label:'Title',control:'input'},
+        {name:'title',label:'Title',control:'input',required:true,helperText:'Title of your job'},
         {name:'type',label:'Type Of Job',control:'radio',options:typeOptions},
-        {name:'category',label:'Category',control:'input'},
-        {name:'description',label:'Description',control:'textarea'},
-        {name:'budget',label:'Budget',control:'input',type:'number'},
-        {name:'state',label:'State',control:'select',options:states, fieldToCheckAgainst:'type'},
-        {name:'lga',label:'L.G.A',control:'select',options:states,fieldToCheckAgainst:'state'},
-        {name:'address',label:'Address',control:'input',fieldToCheckAgainst:'type'},
+        {name:'category',label:'Category',control:'freesolo',options:jobCategory,
+          required:true,helperText:'Category of your job'
+        },
+        {name:'description',label:'Description',control:'textarea',required:true,helperText:'Describe of your job'},
+        {name:'budget',label:'Budget',control:'number',
+          required:true,helperText:'How much are you willing to pay for the job'},
+        {name:'state',label:'State',control:'auto',options:states, 
+          fieldToCheckAgainst:'type',helperText:'Which State will the job be done',valueOfFieldToCheckAgainst:'online'},
+        {name:'lga',label:'L.G.A',control:'auto',options:states,
+          fieldToCheckAgainst:'state',helperText:'Which L.G.A is the location',valueOfFieldToCheckAgainst:''},
+        {name:'address',label:'Address',control:'input',fieldToCheckAgainst:'type',valueOfFieldToCheckAgainst:'online',
+        helperText:'What address will the job take place?'},
         {name:'startDate',label:'Start Date',control:'date'},
         {name:'endDate',label:'End Date',control:'date'},
-        {name:'agreeToTerms',label:'agree to terms & conditions',control:'checkbox'},
+        {name:'agreeToTerms',label:'I agree to terms & conditions',control:'switch'},
     ]
   
     const formParams:FormParams ={

@@ -28,7 +28,7 @@ function ComplaintForm({jobId,senderId,url}:{jobId:string,senderId:string,url:st
 
 }
 
-const initialValues:Complaint = {complaint:'',subject:'',senderId,jobId,read:false,seen:false}
+const initialValues:Complaint = {complaint:'',subject:'',jobId,read:false,seen:false}
 const validationSchema = object({
     complaint:string().required('Correction is required'),
   subject:string().required('Subject is required'),
@@ -41,7 +41,7 @@ const validationSchema = object({
 
         const formParams:FormParams ={
           formObject : createFormObject(formikSubmitHandler,validationSchema,initialValues,complaintFormControls),
-          buttonLabel:'Submit Complaint',
+          buttonLabel:'Submit',
           headerTitle: `What's wrong`
         }
         

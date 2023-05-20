@@ -1,5 +1,6 @@
 import axios from "axios"
 import { boolean, date, number, object, string } from "yup"
+import { JobDetails } from "../job"
 
 export type Job ={
     title:string,
@@ -15,7 +16,7 @@ export type Job ={
     agreeToTerms:boolean,
     userId:string,
     _id:string,
-    label:string
+    pop?:string
 }
 
 export const getDate = (date:Date | null)=> {
@@ -26,6 +27,7 @@ export const jobSchema = object({
     title: string().required('Title is required'),
     description: string().required('Job Description is required'),
     type: string().required('Type of Job is required'),
+    category: string().required('Job Category is required'),
     state: string().when('type',{is:'physical',then:string().required('State is required')}),
     lga: string().when('type',{is:'physical',then:string().required('LGA is required')}),
     address: string().when('type',{is:'physical',then:string().required('Address is required')}),
@@ -35,13 +37,13 @@ export const jobSchema = object({
     agreeToTerms: boolean().isTrue("Please agree to Terms & Conditions").required('Agreeing to Terms and Conditions is required'),
 })
 
-export const createJobSubmitHandler = async (_id:string,values:Job,router:any)=>{
+export const createJobSubmitHandler = async (userId:string,jobDetails:Job,router:any)=>{
   //return console.log(values)
-    if(_id){
+    if(userId){
         const res = await axios({
             method:'POST',
             url:`${process.env.SMNK_URL}api/c-dashboard/job/create-job`,
-            data:values
+            data:{jobDetails}
         })
         const data = await res.data
         
@@ -58,13 +60,13 @@ export const createJobSubmitHandler = async (_id:string,values:Job,router:any)=>
       } 
 }
 
-export const editJobSubmitHandler = async (_id:string,values:Job,router:any)=>{
+export const editJobSubmitHandler = async (userId:string,jobDetails:JobDetails,router:any,jobId:string)=>{
   //return console.log(values)
-    if(_id){
+    if(userId){
         const res = await axios({
             method:'POST',
             url:`${process.env.SMNK_URL}api/c-dashboard/job/edit-job`,
-            data:values
+            data:{jobDetails,jobId}
         })
         const data = await res.data
         

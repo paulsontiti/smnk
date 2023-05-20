@@ -1,31 +1,24 @@
-
-import { Box, FormGroup, TextField ,Button} from "@mui/material";
-import { Field, Form, Formik ,ErrorMessage} from "formik";
-
-import { RootState} from '@/store';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
 import { useRouter } from "next/router";
 import { Service,serviceDetailsSchema, serviceFormControls, serviceSubmitHandler } from "@/lib/types/service";
 import { FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
+import { updateUser } from "@/store/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
 
 
 
 export default function AddServiceForm(){
 
-  const router = useRouter()
-  
+  const dispatch = useDispatch<AppDispatch>()
 
-  const {_id} = useSelector((state:RootState)=>state.users.user)
+  const router = useRouter()
       
   const initialValues :Service={
       title:'',
       skills:[],
       description:'',
-      category:'',
-      userId:_id,
-      
+      category:''      
     }
 
 
@@ -33,10 +26,11 @@ export default function AddServiceForm(){
   //formik submit handler
   const formikSubmitHandler = (values:any,formikHelpers:any)=>{
   
-    if(values.userId){
+    if(values){
       return new Promise(res=>{
             formikHelpers.validateForm().then(async (data:any)=>{
-                const msg = await serviceSubmitHandler(values,router,'api/sw-dashboard/service/add-service')
+                const msg = await serviceSubmitHandler(values,router)
+                dispatch(updateUser())
                 res(msg)
             }).catch((err:any)=>{
               console.log('Error from formik ',err)
