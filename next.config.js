@@ -9,6 +9,10 @@ const nextConfig = {
     //https://smnk.vercel.app/',
     //''http://localhost:3000/',
     CUSTOMER_SERVICE_ID:'64329babe1abc00d02de123e'
+  },modularizeImports:{
+    '@mui/icons-material':{
+      transform:'@mui/icons-material/{{member}}'
+    }
   }
 }
 
