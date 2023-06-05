@@ -70,7 +70,8 @@ export default function SearchDrawer() {
   }, [searchOption]);
   
   let options:SearchOption[] = []
-   if(searchOptions.length > 0){
+  console.log(searchOption,searchOptions)
+   if(searchOptions && searchOptions.length > 0){
     options = searchOptions.map((option) => {
     const firstLetter = option[0].toUpperCase();
     return {
