@@ -72,7 +72,9 @@ if(!data  || data.length < 1) return <p></p>
         minWidth={'100%'}
         maxHeight={250}
         onClick={() => {
-          ad.landingPage && router.push(`${ad.landingPage}`);
+          if(ad.landingPage){
+            window.location.href = ad.landingPage
+          }
         }}
       >
         <Typography variant="body2">
