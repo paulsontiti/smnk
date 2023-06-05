@@ -17,7 +17,7 @@ const router = useRouter()
         <Typography>No Ads Available.
             </Typography>
         <AddFloatingActionButtons handleClick={()=>{
-            router.push('a-dashboard/ads/create')
+            router.push('/a-dashboard/ads/create')
         }}/>
         </Box>
 
