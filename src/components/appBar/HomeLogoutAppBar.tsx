@@ -10,6 +10,8 @@ import AccountActions from '../home/navbar/actions';
 import NavbarDrawer from '../home/navbar/navBarDrawer';
 import SearchDrawer from '../drawer/SearchDrawer';
 import Logout from '../dashboard/logout';
+import LogoutSwitch from '../switch/LogoutSwitch';
+import DPAvatar from '../avatar/DPAvatar';
 
 export default function HomeLogoutAppBar() {
     const {user} = useSelector((state:RootState)=>state.users)
@@ -34,7 +36,9 @@ export default function HomeLogoutAppBar() {
 
 
       <>
-     
+     {
+      user._id && <LogoutSwitch/>
+     }
       <AppBar position="static">
         <Toolbar>
      
@@ -43,7 +47,9 @@ export default function HomeLogoutAppBar() {
             SMNK
           </Typography>
           <SearchDrawer/>
-         <AccountActions/>
+        {
+          user._id ? <DPAvatar dp={user.dpFileName}/> :  <AccountActions/>
+        }
         </Toolbar>
       </AppBar>
       </>

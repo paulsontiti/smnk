@@ -6,8 +6,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import LoginButton from './loginButton'
 import SignUpButton from './signUpButton'
 import { useRouter } from 'next/router'
-import Logout from '@/components/dashboard/logout';
-import { logout } from '@/store/slices/userSlice';
 
 
 
@@ -23,7 +21,7 @@ const router = useRouter()
 
     return(
         <Box >
-            {user && user._id ? <Logout/> :
+            {!user._id &&
                                 <Box sx={{display:'flex',alignItems:'center',
                                             justifyContent:'center'
                                         }}>
