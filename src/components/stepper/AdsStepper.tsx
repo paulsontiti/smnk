@@ -73,7 +73,7 @@ if(!data  || data.length < 1) return <p></p>
         maxHeight={250}
         onClick={() => {
           if(ad.landingPage){
-            window.location.href = ad.landingPage
+            window.location.replace(ad.landingPage)
           }
         }}
       >
