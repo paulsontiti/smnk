@@ -29,19 +29,13 @@ import DeleteFloatingActionButtons from "../fab/Delete";
 import CancelFloatingActionButtons from "../fab/Cancel";
 export type SearchOption = { firstLetter: string; option: string };
 
-const searchOptionsList = async (searchOption: string) => {
-  switch (searchOption) {
-    case "Services": {
-      const data = await fetchTalents();
-      return data;
-    }
-    case "Jobs": {
-      const data = await fetchJobs();
-      return data;
-    }
-    default: {
-    }
-  }
+const searchOptionsList = async () => {
+
+      const talents = await fetchTalents();
+    
+      const jobs = await fetchJobs();
+      return [talents,jobs]
+  
 };
 
 const GroupHeader = styled("div")(({ theme }) => ({
@@ -69,9 +63,9 @@ export default function SearchDrawer() {
 
   React.useEffect(() => {
     (async () => {
-      const data = await searchOptionsList(searchOption);
+      const data = await searchOptionsList();
 
-      setSearchoptions(createSetFromArray(data));
+      setSearchoptions(createSetFromArray(data.flat()));
     })();
   }, [searchOption]);
 
@@ -146,7 +140,7 @@ export default function SearchDrawer() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="By categories"
+                label="Search for jobs and services"
                 InputProps={{
                   ...params.InputProps,
                   type: "search",
@@ -171,7 +165,7 @@ export default function SearchDrawer() {
               </li>
             )}
           />
-          <Button
+          {/* <Button
             size="small"
             endIcon={<ExpandMoreIcon />}
             aria-label="account of current user"
@@ -187,7 +181,7 @@ export default function SearchDrawer() {
             }}
           >
             {searchOption}
-          </Button>
+          </Button> */}
           <Box>
             <Menu
               id="menu-appbar"
