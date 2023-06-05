@@ -4,7 +4,7 @@ import { getAllAds } from '@/lib/admin'
 import AdsDetailsTable from './AdsDetailsTable'
 import AddFloatingActionButtons from '@/components/fab/Add'
 import { useRouter } from 'next/router'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 
 export default function Ads(){
@@ -13,8 +13,9 @@ const router = useRouter()
 
     if(error) return <p>An Error occurred</p>
     if(!data) return <p>loading.....</p>
-    if(data.length < 1) return <Box>
-        No Ads Available.
+    if(data.length < 1) return <Box m={'1rem'}>
+        <Typography>No Ads Available.
+            </Typography>
         <AddFloatingActionButtons handleClick={()=>{
             router.push('a-dashboard/ads/create')
         }}/>
