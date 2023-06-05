@@ -1,10 +1,8 @@
-import {Box, Card, CardContent, CardHeader,CardActions, Grid} from '@mui/material'
+import {Box, Card, CardContent,CardActions, Grid, Divider} from '@mui/material'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
-import {Typography,Button} from '@mui/material'
-import Link from 'next/link'
-import { getUserInfo } from '@/lib/utils/user'
-import useSWR from 'swr'
+import {Button} from '@mui/material'
+import {getUserProfile } from '@/lib/utils/user'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -20,7 +18,7 @@ export default function IndividualPersonalInfo(){
 useEffect(()=>{
     (
         async()=>{
-            const res = await getUserInfo(_id)
+            const res = await getUserProfile(_id)
             setData(res.data)
         }
     )()
@@ -36,40 +34,56 @@ useEffect(()=>{
                             <Grid container spacing={1} >
                                 <Grid item xs={6}>
                                     <span>First Name:  </span>
+                                    <Divider/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <span>{data.firstName}</span>
+                                    <Divider/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <span>Last Name:  </span>
+                                    <Divider/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <span>{data.lastName}</span>
+                                    <Divider/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <span>UserName:  </span>
+                                    <Divider/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <span>{data.userName}</span>
+                                    <Divider/>
                                 </Grid>
+                                <Divider/>
                                 <Grid item xs={6}>
                                     <span>State:  </span>
+                                    <Divider/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <span>{data.state}</span>
+                                    <Divider/>
                                 </Grid>
+                                <Divider/>
                             <Grid item xs={6}>
                                     <span>L.G.A:  </span>
+                                    <Divider/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <span>{data.lga}</span>
+                                    <Divider/>
                                 </Grid>
+                                <Divider/>
                                 <Grid item xs={6}>
                                     <span>Address:  </span>
+                                    <Divider/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <span>{data.address}</span>
+                                    <Divider/>
                                 </Grid>
+                                <Divider/>
                                 <Grid item xs={6}>
                                     <span>Description:  </span>
                                 </Grid>

@@ -1,9 +1,9 @@
-import React from "react";
-import { Field, ErrorMessage } from "formik";
+import { Field } from "formik";
 import {
   Box,
   FormControl,
 } from "@mui/material";
+import CustomErrorMessage from "./CustomErrorMessage";
 
 export type RadioOption = {
   label: string;
@@ -12,17 +12,16 @@ export type RadioOption = {
 function RadioControl({
   name,
   label,
-  checked,
-  options,
+  checkedValue,
+  options,values,
   ...rest
 }: {
   name: string;
   label: string;
-  checked: boolean;
-  options: RadioOption[];
+  checkedValue: string;
+  options: RadioOption[];values:any
 }) {
   //const [fieldValue,setFieldValue] = useState(options[0].key)
-
   return (
     <Box marginBottom={2}>
       <FormControl>
@@ -31,13 +30,13 @@ function RadioControl({
         {Array.isArray(options) &&
           options.map((option, i) => (
             <label key={i}>
-              <Field type="radio" name={name} value={option.value} />
+              <Field type="radio" name={name} value={option.value}   checked={option.value === values[name] }/>
               {option.label}
             </label>
            
           ))}
       </FormControl>
-      <ErrorMessage name={name} />
+      <CustomErrorMessage name={name}/>
      
     </Box>
   );

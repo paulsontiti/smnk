@@ -2,6 +2,8 @@ import nextConnect from 'next-connect'
 import { NextApiRequest, NextApiResponse } from "next";
 import multer from 'multer'
 import path from 'path';
+import { GridFsStorage } from 'multer-gridfs-storage';
+import crypto from 'crypto'
 
 
   
@@ -15,16 +17,25 @@ export const multerHandler = nextConnect({
   },
   })
   
-export const multerUpload= (storageUrl:string)=>{
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(process.cwd(),'public/tmp/',storageUrl))
-      },
-      filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, uniqueSuffix + path.extname(file.originalname))
-      }
-    })
+export const multerUpload= ()=>{
+  const storage = new GridFsStorage({
+    url:process.env.MONGODB_URI as string,
+    file:(req,file)=>{
+      return new Promise((resolve,reject)=>{
+        crypto.randomBytes(16,(err,buf)=>{
+          if(err){
+            return reject(err)
+          }
+          const filename = buf.toString('hex') + path.extname(file.originalname)
+          const fileinfo = {
+            filename:filename,
+            bucketName:'dps'
+          }
+          resolve(fileinfo)
+        })
+      })
+    }
+  })
     
-    return  multer({ storage: storage })
+    return  multer({ storage})
   }

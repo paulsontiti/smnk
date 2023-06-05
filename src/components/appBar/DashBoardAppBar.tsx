@@ -11,13 +11,14 @@ import { RootState } from "@/store";
 import Logout from "../dashboard/logout";
 import Notification from "../dashboard/Notification";
 import MessageBox from "../message/MessageBox";
+import ChatNotification from "../chat/ChatNotification";
 
 export default function DashBoardAppBar() {
   //retrive user from redux state
   const { user } = useSelector((state: RootState) => state.users);
   return (
-    <Box sx={{ flexGrow: 1,marginBottom:'1rem' }}>
-      <AppBar position="static" sx={{backgroundColor:'white'}}>
+    <Box sx={{ flexGrow: 1,marginBottom:'1rem',minWidth:'100%', maxWidth:'100%' }}>
+      <AppBar position="static">
         <Toolbar sx={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
           <MenuDrawer>
             <>
@@ -29,7 +30,7 @@ export default function DashBoardAppBar() {
               )}
             </>
           </MenuDrawer>
-          <MessageBox/>
+          <ChatNotification/>
             <Notification/>
           <Logout />
         </Toolbar>

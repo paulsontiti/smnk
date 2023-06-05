@@ -61,10 +61,10 @@ export default function ADashboardMenu() {
       <ListItemButton
         sx={{ ml: 1 }}
         onClick={() => {
-          router.push(`/a-dashboard/ads/create`);
+          router.push(`/a-dashboard/ads`);
         }}
       >
-        <ListItemText primary="Place Ad" />
+        <ListItemText primary="Ads" />
       </ListItemButton>
     </List>
   );

@@ -36,6 +36,6 @@ import {object,string} from 'yup'
     address: string().required('Street Address is required'),
     state: string().required('State is required'),
     lga: string().required('L.G.A is required'),
-    description: string().min(200,'Description should be at least 200 characters').required('Description is required'),
+    description: string().max(200,'Description should not be more than 200 characters').required('Description is required'),
   })
  

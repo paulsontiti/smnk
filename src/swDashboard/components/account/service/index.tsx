@@ -19,7 +19,6 @@ export default function Service() {
   const {
     user: { services },
   } = useSelector((state: RootState) => state.users);
-
   if (services && services.length < 1)
     return (
       <Typography sx={{ margin: "1rem 1rem" }} variant="caption" component="p">
@@ -41,7 +40,7 @@ export default function Service() {
             services={services}
           />
         ))}
-      {services.length < 2 && (
+      {services && services.length < 2 && (
         <AddFloatingActionButtons  handleClick={()=>{
           router.push(`/sw-dashboard/service/add-service`)
         }}/>

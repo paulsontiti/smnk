@@ -1,6 +1,7 @@
 import React from "react";
-import { Field, ErrorMessage } from "formik";
+import { Field } from "formik";
 import { TextField, Box, FormGroup } from "@mui/material";
+import CustomErrorMessage from "./CustomErrorMessage";
 
 function Textarea({ name, label, required, helperText, ...rest }: any) {
   return (
@@ -19,7 +20,7 @@ function Textarea({ name, label, required, helperText, ...rest }: any) {
           label={label}
           {...rest}
         />
-        <ErrorMessage name={name} />
+        <CustomErrorMessage name={name}/>
       </FormGroup>
     </Box>
   );

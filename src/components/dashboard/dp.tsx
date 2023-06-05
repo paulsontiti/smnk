@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import ProfilePic from "../form/ProfilePic";
 import UserRating from "./UserRating";
 import { getUserProfile } from "@/lib/utils/user";
 import { useEffect, useState } from "react";
+import ProfilePic from "../avatar/ProfilePic";
 
 export default function DP() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -35,7 +35,7 @@ export default function DP() {
         padding: ".5rem 1rem",
       }}
     >
-      <ProfilePic />
+      <ProfilePic pic={user && user.dpFileName} />
       <br />
 
       {user && user.type !== "admin" && (

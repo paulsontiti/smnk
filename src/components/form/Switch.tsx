@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {FormControlLabel,Switch,Box} from '@mui/material';
-import { Field,ErrorMessage} from "formik";
+import { Field} from "formik";
+import CustomErrorMessage from './CustomErrorMessage';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -17,7 +18,7 @@ export default function SwitchComponent({values,name,checked,label,...rest}:any)
             />
         </Box> 
 
-        <ErrorMessage name={name}/>
+        <CustomErrorMessage name={name}/>
     </>
   );
 }

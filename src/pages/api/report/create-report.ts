@@ -2,7 +2,9 @@ import {NextApiResponse } from "next";
   import {multerHandler, multerUpload } from '@/lib/multer';
 import dbConnect from "@/lib/mongoose";
 import Job from "@/lib/model/job";
-
+import methodOverride from 'method-override'
+import mongoose from "mongoose";
+import Grid from 'gridfs-stream'
 
 export const config = {
   api:{
@@ -16,6 +18,17 @@ const reportUpload = async (req:any, res:NextApiResponse)=>{
   
   await dbConnect()
   try{
+      //connect to database and get database and connection objects
+  const dbAndConnection = await dbConnect()
+  //init gfs
+  let gfs
+  
+  //create collection for profile pics uploads
+  dbAndConnection?.connection.once('open',()=>{
+    //init stream
+    gfs = Grid(dbAndConnection.db,mongoose.mongo)
+    gfs.collection('dps')
+  })
     const {report,subject,jobId} = req.body
         
     if(report && jobId  && subject){
@@ -50,7 +63,7 @@ const reportUpload = async (req:any, res:NextApiResponse)=>{
 }
 
 
-multerHandler.use(multerUpload('uploads/reports').single('reportFile'))
-  .post(reportUpload)
+multerHandler.use(methodOverride('_method')).use(multerUpload().single('reportFile'))
+.post(reportUpload)
   
   export default multerHandler

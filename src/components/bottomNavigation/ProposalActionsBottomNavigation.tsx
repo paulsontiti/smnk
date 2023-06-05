@@ -8,9 +8,9 @@ import RejectFloatingActionButtons from "../fab/Reject";
 
 
 export default function ProposalActionsBottomNavigation({
-  handleChatClick,handleApproveClick,handleRejectClick
+  receiverId,handleApproveClick,handleRejectClick
 }: {
-    handleChatClick: () => void;
+  receiverId: string;
     handleApproveClick: () => void;
     handleRejectClick: () => void;
 }) {
@@ -29,7 +29,7 @@ export default function ProposalActionsBottomNavigation({
         <BottomNavigationAction
           label="Chat"
           icon={
-            <ChatFloatingActionButtons handleClick={handleChatClick} />
+            <ChatFloatingActionButtons receiverId={receiverId}/>
           }
         />
         <BottomNavigationAction

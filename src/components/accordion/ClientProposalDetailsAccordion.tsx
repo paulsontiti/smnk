@@ -9,7 +9,7 @@ import { User } from "@/lib/types/userInfo";
 import DPAvatar from "../avatar/DPAvatar";
 import UserRating from "../dashboard/UserRating";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { acceptProposal } from "@/lib/proposal";
+import { acceptProposal, rejectProposal } from "@/lib/proposal";
 import { useRouter } from "next/router";
 import { downloadReport } from "./ClientReportDetails";
 import DownloadFileBottomNavigation from "../bottomNavigation/DownloadFileBottomNavigation";
@@ -18,15 +18,16 @@ import GenericDialog from "../dialog/GenericDialog";
 import SWFullDetailsAccordion from "../dialog/contents/SWFullDetailsAccordion";
 
 export default function ClientProposalDetailsAccordion({
-  proposal,jobId
+  proposal,
+  jobId,
 }: {
-  proposal: any,jobId:string
+  proposal: any;
+  jobId: string;
 }) {
-
-  const router = useRouter()
+  const router = useRouter();
   const [sw, setSw] = useState<User>({} as User);
 
-  const swDetailsRef = useRef()
+  const swDetailsRef = useRef();
 
   useEffect(() => {
     (async () => {
@@ -54,50 +55,83 @@ export default function ClientProposalDetailsAccordion({
         >
           <DPAvatar dp={sw.dpFileName} />
           <UserRating rating={sw.rating} />
-          <IconButton onClick={() => {
-             const refState = swDetailsRef.current as any;
-             refState.showDialog();
-          }} color="primary">
+          <IconButton
+            onClick={() => {
+              const refState = swDetailsRef.current as any;
+              refState.showDialog();
+            }}
+            color="primary"
+          >
             <MoreVertIcon />
           </IconButton>
-          <GenericDialog ref={swDetailsRef} content={<SWFullDetailsAccordion userId={proposal.userId}/>} title="Skilled Worker Details"/>
+          <GenericDialog
+            ref={swDetailsRef}
+            content={<SWFullDetailsAccordion userId={proposal.userId} />}
+            title="Skilled Worker Details"
+          />
         </Box>
       </AccordionSummary>
       <AccordionDetails>
         <Box>{proposal.content}</Box>
         {proposal.file.name && (
-          <>
-                <Typography sx={{ fontWeight: "bold", margin: "1rem 0",width:'100%' }}>
-                  Attached file:
-                </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",marginBottom:'2rem',width:'100%'
-              }}
+          <Box display={"flex"}
+          alignItems={"center"}
+          justifyContent={"flex-start"}
+          mb={5}>
+            <Typography
+           
+              sx={{ fontWeight: "bold"}}
             >
-                <Box sx={{ marginBottom: "1rem" ,width:'100%'}}>
-              <Typography >
-                {proposal.file.name}
-              </Typography></Box>
-              <DownloadFileBottomNavigation handleDownloadClick={() =>
-                  downloadReport(`/uploads/proposals/${proposal.file.name}`)
-                }/>
-            </Box>
-          </>
+              Attached file:
+            </Typography>
+            <DownloadFileBottomNavigation
+              handleDownloadClick={() =>
+                downloadReport(`/uploads/proposals/${proposal.file.name}`)
+              }
+            />
+
+          
+          </Box>
         )}
         <CardActions>
-          <ProposalActionsBottomNavigation handleApproveClick={async()=>{
-            const res = confirm("Are you sure you want to accept this proposal?")
-                                if(res){
-                                  const accepted = await acceptProposal(proposal._id,proposal.userId,jobId)
-                                if(accepted){
-                                    alert('Proposal accepted')
-                                    router.push('/c-dashboard/job')
-                                }
-                                }
-                            }} handleChatClick={()=>{}} handleRejectClick={()=>{}}/>
+          <ProposalActionsBottomNavigation
+            handleApproveClick={async () => {
+              const res = confirm(
+                "Are you sure you want to accept this proposal?"
+              );
+              if (res) {
+                const {message,accepted} = await acceptProposal(
+                  proposal._id,
+                  proposal.userId,
+                  jobId
+                );
+                if (accepted) {
+                  alert(message);
+                  router.push("/c-dashboard/job");
+                }else{
+                  alert(message)
+                }
+              }
+            }}
+            receiverId={proposal.userId}
+            handleRejectClick={async() => {
+              const res = confirm(
+                "Are you sure you want to reject this proposal?"
+              );
+              if (res) {
+                const {rejected,message} = await rejectProposal(
+                  proposal._id,
+                  jobId
+                );
+                if (rejected) {
+                  alert(message);
+                  router.push("/c-dashboard/job");
+                }else{
+                  alert(message)
+                }
+              }
+            }}
+          />
         </CardActions>
       </AccordionDetails>
     </Accordion>

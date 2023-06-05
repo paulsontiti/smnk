@@ -70,6 +70,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
                     const deleted = await deleteJob(jobId);
                     if (deleted) {
                       alert("Job Deleted");
+                      router.push('/c-dashboard/job')
                     } else {
                       alert("An Error occured, please try again");
                     }

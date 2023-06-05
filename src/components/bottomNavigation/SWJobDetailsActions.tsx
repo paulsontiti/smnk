@@ -115,10 +115,8 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
         <BottomNavigationAction
         label="Message Admin"
         icon={
-          <ChatFloatingActionButtons
-            handleClick={() => {
-                router.push(`/report/${jobId}`);
-              }}
+          <ChatFloatingActionButtons receiverId={process.env.CUSTOMER_SERVICE_ID as string}
+           
           />
         }
       />

@@ -1,6 +1,10 @@
+import Footer from "@/components/footer/Footer";
+import MsgForClientORTalent from "@/components/home/MsgForClientORTalent";
 import Layout from "@/components/layout";
+import AdsStepper from "@/components/stepper/AdsStepper";
+import TestimonialStepper from "@/components/stepper/TestimonialStepper";
+import AboutSMNKTab from "@/components/tabs/AboutSMNKTab";
 import Head from "next/head";
-
 
 
 export default function Home() {
@@ -13,8 +17,12 @@ export default function Home() {
 
       </Head>
      <main>
-        <h1>Home</h1>
-       
+        <AdsStepper/>
+       <AboutSMNKTab/>
+      <MsgForClientORTalent src="/assets/talent-search.jpg" msg="Happy Talent Searching"/>
+      <MsgForClientORTalent src="/assets/job-search.jpg" msg="Happy Job Searching"/>
+       <TestimonialStepper/>
+       <Footer/>
      </main>
     </Layout>
   )

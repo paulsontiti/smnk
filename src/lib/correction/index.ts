@@ -22,7 +22,7 @@ export type Correction={
                 const data = await res.data
                 alert(data.message)
                 if(data.successful){
-                    router.push(url)
+                    router.push('/c-dashboard/job')
                 }
           }else{
             console.log('Invalid request')

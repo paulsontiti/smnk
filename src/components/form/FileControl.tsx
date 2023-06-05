@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Field,ErrorMessage} from "formik";
-import {TextField,Box,FormGroup,FormLabel, IconButton} from "@mui/material";
+import React, { useState } from 'react'
+import { Field} from "formik";
+import {Box,FormGroup,FormLabel, IconButton} from "@mui/material";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import CustomErrorMessage from './CustomErrorMessage';
 
 function FileControl({name,label,...rest}:any) {
 
@@ -21,9 +22,11 @@ function FileControl({name,label,...rest}:any) {
         const {form} = props
         return(
           <FormGroup>
-          <IconButton color="primary" aria-label="upload picture" component="label">
+          <IconButton color="primary" aria-label="upload picture" component="label" sx={{
+            display:'flex',alignItems:'center',justifyContent:'flex-start',flexDirection:'column'
+          }}>
           {
-            file ? <FormLabel>{file.name}</FormLabel>: <FormLabel>{label}</FormLabel>
+            file ? <FormLabel sx={{display:'flex',justifyContent:'flex-start'}}>{file.name}</FormLabel>: <FormLabel>{label}</FormLabel>
           }
           <AttachFileIcon/>
           <input
@@ -32,7 +35,7 @@ function FileControl({name,label,...rest}:any) {
             type="file"
           />
           </IconButton>
-          <ErrorMessage name={name}/>
+          <CustomErrorMessage name={name}/>
       </FormGroup>
         )
       }

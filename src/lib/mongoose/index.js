@@ -10,7 +10,7 @@ export default async function dbConnect(){
     const db = await connect(process.env.MONGODB_URI)
     conn.isConnected = db.connections[0].readyState
 
-    return db
+    return {db,connection}
 }
 
 connection.on("connected",()=>{

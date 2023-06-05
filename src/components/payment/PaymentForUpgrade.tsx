@@ -19,9 +19,10 @@ export default function PaymentForUpgrade({packageName}:{packageName:string}){
     return(
         <>
             <RadioButtonGroup radios={['Bank Transfer','Stripe','Paypal']} setTypeValue={(val)=>{setValue(val)}}/>
-           {method === 'Bank Transfer' ? <TransferForUpgradePaymentForm packageName={packageName}/> : 
-                (method === 'Paypal' ? <PayPal/> : <Stripe/>)
-           }
+            <TransferForUpgradePaymentForm packageName={packageName}/> 
+           {/* {method === 'Bank Transfer' ? 
+                //(method === 'Paypal' ? <PayPal/> : <Stripe/>)
+           } */}
         </>
     )
 }

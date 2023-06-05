@@ -37,7 +37,6 @@ function RecommendedJobs() {
         profile and services
       </Typography>
     );
-
   return (
     <Box>
       <Typography

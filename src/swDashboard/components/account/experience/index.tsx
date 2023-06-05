@@ -1,12 +1,16 @@
-import {Box, Card, CardContent, CardHeader,CardActions} from '@mui/material'
+import {Box, Card, CardContent, CardHeader,CardActions, Grid, Typography} from '@mui/material'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import Link from 'next/link'
+import EditFloatingActionButtons from '@/components/fab/Edit'
+import { useRouter } from 'next/router'
+import AddFloatingActionButtons from '@/components/fab/Add'
+import moment from 'moment'
 
 export default function ExperienceComponent(){
 
     const {user} = useSelector((state:RootState)=>state.users)
-    
+    const router = useRouter()
     return(
         <Box >
             {user && user.experience && user.experience.map((exp,i)=>{
@@ -14,58 +18,64 @@ export default function ExperienceComponent(){
                         <>
                         <Card key={i} sx={{marginTop:'1rem'}}>
                             <CardContent>
-                                <Box>
-                                    <h5>Role Title</h5>
-                                    <p>{exp.title}</p>
-                                </Box>
-                                <Box>
-                                    <h5>Company/Employer</h5>
-                                    <p>{exp.company}</p>
-                                </Box>
-                                <Box>
-                                    <h5>State</h5>
-                                    <p>{exp.state}</p>
-                                </Box>
-                                <Box>
-                                    <h5>LGA</h5>
-                                    <p>{exp.lga}</p>
-                                </Box>
-                                <Box>
-                                    <h5>Company Address</h5>
-                                    <p>{exp.address}</p>
-                                </Box>
-                                <Box>
-                                    <h5>Start Date</h5>
-                                    <p>{exp.startDate.toString().slice(0,10)}</p>
-                                </Box>
-                            
-                                {!exp.onRole ? <>
-                                                    <Box>
-                                                        <h5>End State</h5>
-                                                        <p>{exp.endDate?.toString().slice(0,10)}</p>
-                                                    </Box>
+                                <Grid container rowSpacing={1}>
+                                    <Grid item xs={6}>
+                                    <Typography>Role Title</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography variant='caption'>{exp.title}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography>Employer</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography variant='caption'>{exp.company}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography>State</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography variant='caption'>{exp.state}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography>LGA</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography variant='caption'>{exp.lga}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography>Address</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography variant='caption'>{exp.address}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography>Start Date</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography variant='caption'>{moment(exp.startDate).format('DD/MM/YY')}</Typography>
+                                    </Grid>
+                                    {!exp.onRole ? <>
+                                        <Grid item xs={6}>
+                                    <Typography>End Date</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography variant='caption'>{moment(exp.endDate).format('DD/MM/YY')}</Typography>
+                                    </Grid>
                                                 </> 
-                                            : <h5 style={{color:'green'}}>Currently on this role</h5>}
+                                            : <Typography color={'green'}>Currently on this role</Typography>}
+                                </Grid>
+                             
+                        
                             </CardContent>
                             <CardActions>
-                            <Link href={`/sw-dashboard/experience/${user.experience.findIndex(e=>e.startDate === exp.startDate )}`} style={{
-                                                textDecoration:'none',
-                                                display:'block',
-                                                padding:'0.5rem 1rem',
-                                                backgroundColor:'green',
-                                                color:'white',
-                                                borderRadius:'20px',
-                                                margin:'.3rem .5rem'
-                                            }}>Edit Experience</Link>
-                             <Link href='/sw-dashboard/experience/add-experience' style={{
-                                                textDecoration:'none',
-                                                display:'block',
-                                                padding:'0.5rem 1rem',
-                                                backgroundColor:'navy',
-                                                color:'white',
-                                                borderRadius:'20px',
-                                                margin:'.3rem .5rem'
-                                            }}>Add New Experience</Link>
+                                <EditFloatingActionButtons handleClick={()=>{
+                                    router.push( `/sw-dashboard/experience/${user.experience.findIndex(e=>e.startDate === exp.startDate )}`)
+                                }}/>
+                          <AddFloatingActionButtons handleClick={()=>{
+                            router.push('/sw-dashboard/experience/add-experience')
+                          }}/>
+                             
                             </CardActions>
                         </Card>
                     </> 

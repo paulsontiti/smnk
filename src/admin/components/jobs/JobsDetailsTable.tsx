@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from "react";
 import { DataGrid, GridRowId } from "@mui/x-data-grid";
-import { Avatar, IconButton } from "@mui/material";
+import { Avatar, IconButton,Skeleton } from "@mui/material";
 import moment from "moment";
 import JobsDetailsTableAction from "./JobsDetailsTableAction";
 import ImageDialog from "@/components/dialog/ImageDialog";
@@ -30,25 +30,11 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
           <>
           <IconButton
           onClick={async()=>{
-            
-              try {
-                const res = await axios({
-                  method: "POST",
-                  url: `${process.env.SMNK_URL}/api/multer/pop/${param.row._id}`,
-                });
-                const data = await res.data;
-                //call image dialog ref to update image dialog
-                const refState = imageDialogRef.current as any
-                //check if pop is available
-                if(data){
-                  refState.updateSrc(`/uploads/images/pop/${data}`)
-                  refState.showDialog() 
-                }
-                
-              } catch (err: any) {
-                console.log(err);
-                return false;
-              }
+             //call image dialog ref to update image dialog
+             const refState = imageDialogRef.current as any
+            refState.updateSrc(`/api/multer/pop/${param.row.pop}`)
+            refState.showDialog() 
+             
          }}
             sx={{
               display: "flex",
@@ -56,7 +42,9 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
               justifyContent: "center",
             }}
           >
-            <Avatar src={`/uploads/images/pop/${param.row.pop}`} />
+            {
+              param.row.pop ? <Avatar src={`/api/multer/pop/${param.row.pop}`} /> : <Skeleton variant="circular" width={50} height={50}/>
+            }
           </IconButton>
             <ImageDialog  action={()=>{
               return action(param.row._id)}}

@@ -21,12 +21,12 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
   };
 
   //check if subscription has expired
-  const subExp =(param:any)=>{
-    if(param.row.subscription.expiringDate){
-      return new Date(param.row.subscription.expiringDate) > new Date()
+  const subExp = (param: any) => {
+    if (param.row.subscription.expiringDate) {
+      return new Date(param.row.subscription.expiringDate) > new Date();
     }
-    return true
-    }
+    return true;
+  };
 
   const columns = useMemo(
     () => [
@@ -35,12 +35,12 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
         field: "dpFileName",
         headerName: "Photo",
         renderCell: (param: any) => (
-          <Avatar src={`/uploads/images/dp/${param.row.dpFileName}`} />
+          <Avatar src={`/api/multer/profile-pic/${param.row.dpFileName}`} />
         ),
         sortable: false,
         width: 50,
       },
-      { field: "email", headerName: "Email", width: 300, },
+      { field: "email", headerName: "Email", width: 300 },
       { field: "phone", headerName: "Phone" },
       {
         field: "typeClass",
@@ -63,7 +63,7 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
         headerName: "Sub. Type",
         renderCell: (param: any) => param.row.subscription.type,
       },
-     
+
       {
         field: "subscription.popConfirmed",
         headerName: "Sub. Status",
@@ -75,50 +75,40 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
               {param.row.subscription.pop === undefined ? (
                 <ClearIcon />
               ) : (
-               <>
-                {
-                  subExp(param) ?
-                  <>
-                  <IconButton
-                    onClick={async () => {
-                      try {
-                        const res = await axios({
-                          method: "POST",
-                          url: `${process.env.SMNK_URL}/api/multer/sub/${param.row._id}`,
-                        });
-                        const data = await res.data;
-                        //call image dialog ref to update image dialog
-                        const refState = imageDialogRef.current as any;
-                        //check if pop is available
-                        if (data) {
-                          refState.updateSrc(`/uploads/images/sub/${data}`);
+                <>
+                  {subExp(param) ? (
+                    <>
+                      <IconButton
+                        onClick={async () => {
+                          //call image dialog ref to update image dialog
+                          const refState = imageDialogRef.current as any;
+
+                          refState.updateSrc(
+                            `/api/multer/sub/${param.row.subscription.pop}`
+                          );
                           refState.showDialog();
-                        }
-                      } catch (err: any) {
-                        console.log(err);
-                        return false;
-                      }
-                    }}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Avatar
-                      src={`/uploads/images/sub/${param.row.subscription.pop}`}
-                    />
-                  </IconButton>
-                  <ImageDialog
-                    action={() => {
-                      return action(param.row._id);
-                    }}
-                    ref={imageDialogRef}
-                  />
+                        }}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Avatar
+                          src={`/api/multer/sub/${param.row.subscription.pop}`}
+                        />
+                      </IconButton>
+                      <ImageDialog
+                        action={() => {
+                          return action(param.row._id);
+                        }}
+                        ref={imageDialogRef}
+                      />
+                    </>
+                  ) : (
+                    <ClearIcon />
+                  )}
                 </>
-                  : <ClearIcon/>
-                }
-               </>
               )}
             </>
           ),
@@ -127,13 +117,17 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
         field: "subscription.subscribedDate",
         headerName: "Sub. Date",
         renderCell: (param: any) =>
-        param.row.subscription.subscribedDate ? moment(param.row.subscription.subscribedDate).format("YYYY/MM/DD") : ''
+          param.row.subscription.subscribedDate
+            ? moment(param.row.subscription.subscribedDate).format("YYYY/MM/DD")
+            : "",
       },
       {
         field: "subscription.expiringDate",
         headerName: "Sub. Exp. Date",
         renderCell: (param: any) =>
-        param.row.subscription.expiringDate ? moment(param.row.subscription.expiringDate).format("YYYY/MM/DD") : ''
+          param.row.subscription.expiringDate
+            ? moment(param.row.subscription.expiringDate).format("YYYY/MM/DD")
+            : "",
       },
       {
         field: "actions",

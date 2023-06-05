@@ -2,7 +2,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { getUserInfo } from '@/lib/utils/user';
+import { getUserProfile } from '@/lib/utils/user';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 export default function UserInfoLink(){
     const router = useRouter()
    
-    const {user} = useSelector((state:RootState)=>state.users)
+    const {_id} = useSelector((state:RootState)=>state.users.user)
     const [data,setData] = useState<any>()
    
       
@@ -18,12 +18,11 @@ export default function UserInfoLink(){
     useEffect(()=>{
       (
         async()=>{
-          const res = await getUserInfo(user._id)
+          const res = await getUserProfile(_id)
           setData(res.data)
         }
       )()
-    },[user._id])
-
+    },[_id])
 if(!data) return(
     <ListItemButton sx={{ ml: 8 }} onClick={()=>{
         router.push('/dashboard/individual/add-personal-info') 

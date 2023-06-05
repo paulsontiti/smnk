@@ -11,31 +11,7 @@ function ReportPage() {
 const router = useRouter()
   const jobId = router.query.jobId as string
   const {user} = useSelector((state:RootState)=>state.users)
-
-  // const [job,setJob] = useState<Job>()
-  // const [error,setError] = useState()
-    
-  //   useEffect(()=>{
-  //       (
-  //           async()=>{
-  //               try{
-  //                   const res = await axios({
-  //                         method:'POST',
-  //                         url:`${process.env.SMNK_URL}api/job/current-job/${user._id}`
-  //                     })
-  //                   const data = await res.data
-  //                  setJob(data)
-                    
-  //               }catch(err:any){
-  //                 console.log(err)
-  //                 setError(err)
-  //               }
-  //           }
-  //       )()
-  //   },[user._id])
-
-  //   if(error) return <Layout><p>Error occurred</p></Layout>
-  //   if(!job) return <Layout><p>loading....</p></Layout>
+  
   return (
     <Layout>
         <JobReportForm jobId={jobId} url={RedirectUser(user)}/>

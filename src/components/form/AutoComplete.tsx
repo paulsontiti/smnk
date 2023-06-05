@@ -1,8 +1,9 @@
 import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { ErrorMessage, Field,useFormikContext } from "formik";
+import { Field,useFormikContext } from "formik";
 import { Box } from "@mui/material";
+import CustomErrorMessage from "./CustomErrorMessage";
 
 type Option = {
   label: string;
@@ -39,17 +40,16 @@ export default function AutoCompleteComponent( {
   };
   
   React.useEffect(() => {
-    
-    if (fieldToCheckAgainst && touched[fieldToCheckAgainst]) {
+    if (fieldToCheckAgainst && touched[fieldToCheckAgainst] && values[fieldToCheckAgainst] === '') {
       setFieldValue(name,'',true)
     }
-  }, [fieldToCheckAgainst,touched,name,setFieldValue]);
+  }, [fieldToCheckAgainst,touched,name,setFieldValue,values]);
 
   return (
     <Box>
       <Field name={name}>
         {(props: any) => {
-          const { form } = props;
+          const { form} = props;
           return (
             <Autocomplete
               sx={{ marginBottom: "1rem" }}
@@ -66,6 +66,7 @@ export default function AutoCompleteComponent( {
                   label={label}
                   required={required}
                   helperText={helperText}
+                 
                   InputProps={{
                     ...params.InputProps,
                     type: "search",
@@ -76,7 +77,7 @@ export default function AutoCompleteComponent( {
           );
         }}
       </Field>
-      <ErrorMessage name={name} />
+     <CustomErrorMessage name={name}/>
     </Box>
   );
 }

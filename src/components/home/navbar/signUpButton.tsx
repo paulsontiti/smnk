@@ -2,18 +2,17 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import {Button} from '@mui/material'
 import {useRouter } from 'next/router'
 
-export default function SignUpButton(){
+export default function SignUpButton({matches}:{matches:boolean}){
     const router = useRouter()
 
     return(
         <Button onClick={()=>{
                             router.push('/account/signup') 
                         }} 
-                sx={{textTransform:'capitalize',margin:'1rem .5rem'}}
+                sx={{textTransform:'capitalize',margin:'1rem 0'}}
                 variant='contained'
                 size='small'
-                fullWidth
-                endIcon = {<AccountBoxIcon/>}
+                endIcon = {!matches && <AccountBoxIcon/>}
         >Sign Up</Button>
     )
 }

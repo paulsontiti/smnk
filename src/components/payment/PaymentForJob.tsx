@@ -13,10 +13,11 @@ export default function PaymentForJob({jobId}:{jobId:string}){
 
     return(
         <Box sx={{margin:'1rem'}}>
-            <RadioButtonGroup radios={['Bank Transfer','Stripe','Paypal']} setTypeValue={(val)=>{setValue(val)}}/>
-           {method === 'Bank Transfer' ? <TransferForJobPaymentForm jobId={jobId}/> : 
+            <TransferForJobPaymentForm jobId={jobId}/>
+            {/* <RadioButtonGroup radios={['Bank Transfer','Stripe','Paypal']} setTypeValue={(val)=>{setValue(val)}}/>
+           {method === 'Bank Transfer' ?  : 
                 (method === 'Paypal' ? <PayPal/> : <Stripe/>)
-           }
+           } */}
         </Box>
     )
 }

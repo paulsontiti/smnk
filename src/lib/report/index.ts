@@ -7,7 +7,7 @@ export type ReportDetails={
   jobId:string
   reportFile:any
 }
-  //payment submit handler
+  //report submit handler
   export const reportSubmitHandler = async (values:any,router:any,url:string)=>{
     
     try{
@@ -19,7 +19,7 @@ export type ReportDetails={
                 const data = await res.data
                 alert(data.message)
                 if(data.successful){
-                    router.push(url)
+                    router.push('/dashboard/job/current')
                 }
   }catch(err:any){
     console.log(err)

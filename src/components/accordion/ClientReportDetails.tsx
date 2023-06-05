@@ -120,7 +120,7 @@ export default function ClientReportDetailsAccordion({
                 {report.file.name}
               </Typography>
               <DownloadFileBottomNavigation handleDownloadClick={() =>
-                  downloadReport(`/uploads/reports/${report.file.name}`)}/>
+                  downloadReport(`/api/multer/reports/${report.file.name}`)}/>
               
             </Box>
           </>

@@ -1,0 +1,35 @@
+import User from "@/lib/model/userModel";
+import dbConnect from "@/lib/mongoose";
+
+export default async function handler(req: any, res: any) {
+  //get database connection
+  await dbConnect();
+  const {
+    body: { service },
+  } = req;
+
+  try {
+    const users = await User.find(
+      {
+        $or:[{'services.title':service},{'services.category':service}]
+      },
+      {
+        typeClass: true,
+        rating: true,
+        comments: true,
+        onAJob: true,
+        experience: true,
+        services: true,
+        dpFileName: true,
+        subscription: true,
+      }
+    );
+    
+    res.status(201).json(users);
+  } catch (err) {
+    console.log(err);
+    res
+      .status(400)
+      .json({ message: "Sorry an error occurred,please try again" });
+  }
+}

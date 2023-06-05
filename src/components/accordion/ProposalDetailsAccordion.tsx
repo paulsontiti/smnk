@@ -8,8 +8,10 @@ import {Badge, Box, CardActions} from '@mui/material';
 import VerifiedIcon from "@mui/icons-material/Verified";
 import PendingIcon from "@mui/icons-material/Pending";
 import GppBadIcon from '@mui/icons-material/GppBad';
+import EditDeleteBottomNavigation from '../bottomNavigation/EditDeleteBottomNavigation';
+import ApplyBottomNavigation from '../bottomNavigation/ApplyBottomNavigation';
 
-export default function ProposalDetailsAccordion({proposal}:{proposal:any}) {
+export default function ProposalDetailsAccordion({proposal,jobId}:{proposal:any,jobId:string}) {
 
 if(!proposal) return <p></p>
 
@@ -24,7 +26,7 @@ if(!proposal) return <p></p>
         >
        <Badge
                 badgeContent={
-                  proposal && proposal.accepted ? <VerifiedIcon color="success"/> : (proposal && proposal.rejected ? <GppBadIcon  color="success"/> : <PendingIcon color="error" />)
+                  proposal && proposal.accepted ? <VerifiedIcon color="success"/> : (proposal && proposal.rejected ? <GppBadIcon  color="error"/> : <PendingIcon color="error" />)
                 }
               >
                 <Typography variant="caption" >
@@ -39,7 +41,9 @@ if(!proposal) return <p></p>
             </Box>
        
         <CardActions>
-      
+     {
+      proposal && !proposal.rejected && !proposal.accepted ?  <EditDeleteBottomNavigation/> : <ApplyBottomNavigation jobId={jobId}/>
+     }
         </CardActions>
         </AccordionDetails>
       </Accordion>

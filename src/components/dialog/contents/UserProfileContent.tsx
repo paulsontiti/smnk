@@ -1,6 +1,4 @@
-import ClientDetailsTable from "@/components/tables/ClientDetailsTable";
-import SwCompanyProfileDetailsTable from "@/components/tables/SwCompanyProfileDetailsTable";
-import SwIndividualProfileDetailsTable from "@/components/tables/SwIndividualProfileDetailsTable";
+
 import {getUserProfile } from "@/lib/utils/user";
 import React, { useEffect, useState } from "react";
 import UserIndividualProfileDetails from "./UserIndividualProfileDetails";

@@ -1,43 +1,36 @@
 
-import { NextApiResponse} from "next";
-import path from 'path';
-import fs from 'fs'
-import Job from '@/lib/model/job';
+import { NextApiResponse } from "next";
 import { multerHandler, multerUpload } from '@/lib/multer';
 import dbConnect from '@/lib/mongoose';
-
+import methodOverride from 'method-override'
+import mongoose from "mongoose";
+import Grid from 'gridfs-stream'
+import Job from "@/lib/model/job";
 
 export const config = {
-    api:{
-        bodyParser:false
-    }
+  api:{
+      bodyParser:false
+  }
 }
 
 
 
-multerHandler.use(multerUpload('uploads/images/pop').single('pop'))
+ multerHandler.use(methodOverride('_method')).use(multerUpload().single('pop'))
   .post(async (req:any, res:NextApiResponse)=>{
-    await dbConnect()
-    try{
-        const job = await Job.findOneAndUpdate({_id:req.body.jobId},{pop:req.file.filename})
-
-        //get user dp file path
-        const popPath = path.join(process.cwd(),'public',`uploads/images/dp/${job.pop}`)
-     
-        //check if the file exists
-        if(fs.existsSync(popPath)){
-         try {
-           fs.unlinkSync(popPath);
-         } catch (error) {
-           console.log(error);
-         }
-        }
-        
-        res.status(201).json({message:'proof of payment recieved with thanks',successful:true})
-    }catch(err){
-        res.status(400).json({message:'An Error occured please try again',successful:false})
-    }
-   
+    //connect to database and get database and connection objects
+    const dbAndConnection = await dbConnect()
+    //init gfs
+    let gfs
+    
+    //create collection for profile pics uploads
+    dbAndConnection?.connection.once('open',()=>{
+      //init stream
+      gfs = Grid(dbAndConnection.db,mongoose.mongo)
+      gfs.collection('dps')
+    })
+  
+ const job = await Job.findOneAndUpdate({_id:req.body.jobId},{pop:req.file.filename})
+ res.status(201).json({message:'proof of payment recieved with thanks',successful:true})
   })
   
   export default multerHandler

@@ -1,8 +1,6 @@
 
-import {Typography} from '@mui/material'
 import useSWR from 'swr'
 import {getAllJobs } from '@/lib/types/job'
-import JobComponent from './JobComponent'
 import JobsDetailsTable from './jobs/JobsDetailsTable'
 
 export default function Jobs(){

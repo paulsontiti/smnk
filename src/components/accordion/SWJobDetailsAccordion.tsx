@@ -126,7 +126,7 @@ export default function SWJobDetailsAccordion({job}:{job:any}) {
             </Typography>
           </Grid>
         </Grid>
-        <ProposalDetailsAccordion proposal={job.proposal}/>
+        <ProposalDetailsAccordion proposal={job.proposal} jobId={job._id}/>
         <CardActions>
         <ApplyForJobButton job={job} />
       

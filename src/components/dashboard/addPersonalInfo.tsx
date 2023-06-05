@@ -14,7 +14,7 @@ import IndividualForm from '@/components/dashboard/individualForm';
     return(
         <Layout>
          
-<Card sx={{marginTop:'2rem'}}>
+<Card>
       <CardHeader title='Add Personal Info'/>
       <CardContent>
            <IndividualForm router={router}/> 

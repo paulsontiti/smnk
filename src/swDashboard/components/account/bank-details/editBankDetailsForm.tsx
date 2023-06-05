@@ -10,7 +10,9 @@ import { updateUser } from '@/store/slices/userSlice';
 
 
 
-export default function EditBankDetailsForm({initialValues}:{initialValues:any}){
+export default function EditBankDetailsForm(){
+  const {bankDetails} = useSelector((state:RootState)=>state.users.user)
+
 const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
 
@@ -34,7 +36,7 @@ const dispatch = useDispatch<AppDispatch>()
       }
   
     }
-  
+  const initialValues = bankDetails && bankDetails
   
     const formParams:FormParams ={
       formObject : createFormObject(formikSubmitHandler,bankDetailsSchema,initialValues,bankDetailsFormControls),

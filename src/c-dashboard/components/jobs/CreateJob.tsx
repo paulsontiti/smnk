@@ -12,7 +12,7 @@ function CreateJob() {
 
     const initialValues :JobDetails={
         title:'',
-        type:'',
+        type:'physical',
         category:'',
         state:'',
         lga:'',

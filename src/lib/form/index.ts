@@ -1093,6 +1093,7 @@ export type FormControls = {
   handleChange?: any;
   initiaValues?: any;
   checked?: boolean;
+  checkedValue?:string
 };
 export type FormControlObject = {
   initialValues: any;
@@ -1121,6 +1122,7 @@ export type FormParams = {
   headerTitle: string;
   startIcon?: any;
   endIcon?: any;
+  router?:any
 };
 export const createFormObject = (
   submitHandler: any,

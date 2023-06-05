@@ -16,8 +16,10 @@ const gold = {
 export const Gold = () => {
   return (
     <Card>
-      <CardHeader title={gold.name}/>
       <CardContent>
+       <Typography sx={{fontSize:'1.5rem',fontWeight:'bold',mb:'1rem'}}>
+      {gold.name}
+        </Typography> 
        <Box>
           <Typography sx={{fontWeight:'bold'}}>{`NGN ${gold.price}/month`}</Typography>
        </Box>

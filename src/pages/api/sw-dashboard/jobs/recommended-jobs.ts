@@ -42,7 +42,8 @@ const recommendedJobs = async (info: any, user: any) => {
 
   const newJobs = jobs.flat().map((job) => {
     const pro = job.proposals.filter(
-      (p: any) => p.userId.toString() !== user._id
+      (p: any) => 
+        p.userId.toString() === user._id.toString()
     );
     const newJob = { _id: job._id, details: job.jobDetails, proposal: pro[0] };
     return newJob;

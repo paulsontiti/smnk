@@ -5,8 +5,8 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 
 function Notification() {
   return (
-      <IconButton>
-    <Badge color="primary" variant="dot">
+      <IconButton sx={{color:'white'}}>
+    <Badge color="error" variant="dot">
       {true ? (
           <NotificationsActiveIcon />
           ) : (

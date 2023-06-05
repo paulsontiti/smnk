@@ -1,9 +1,9 @@
-import ChatFloatingActionButtons from '@/components/fab/Chat'
+import AdminChatFloatingButton from '@/components/fab/AdminChatFloatingButton';
 import { BottomNavigation } from '@mui/material';
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import React, { useState } from 'react'
 
-function AdminChatAction() {
+function AdminChatAction({receiverId}:{receiverId:string}) {
     const [value,setValue] = useState()
   return (
     <BottomNavigation
@@ -14,10 +14,8 @@ function AdminChatAction() {
     }}
   >
     <BottomNavigationAction
-            label="Chat Client"
-            icon={<ChatFloatingActionButtons handleClick={async () => {
-               
-              }} />}
+            label="Start A Chat"
+            icon={<AdminChatFloatingButton receiverId={receiverId}/>}
           />
           </BottomNavigation>
   )

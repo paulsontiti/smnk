@@ -4,12 +4,15 @@ import { RootState } from '@/store'
 import useSWR from 'swr'
 import {getJobsByClientId } from '@/lib/types/job'
 import JobDetailsAccordion from '@/components/accordion/ClientJobDetailsAccordion'
+import AddFloatingActionButtons from '@/components/fab/Add'
+import { useRouter } from 'next/router'
 
 
 export default function ClientJobsComponent(){
 
     const {_id} = useSelector((state:RootState)=>state.users.user)
     const {data,error} = useSWR('getjobs',getJobsByClientId(_id))
+    const router = useRouter()
 
     const getDate = (date:Date | null)=> {
       return date && date.toString().slice(0,10)
@@ -31,7 +34,9 @@ export default function ClientJobsComponent(){
                     )
                    })
             }
-            
+            <AddFloatingActionButtons handleClick={()=>{
+                router.push('/c-dashboard/job/create-job')
+            }}/>
         </Box>
         
     )

@@ -146,19 +146,19 @@ function JobsDetailsTableAction({ params, rowId, setRowId }: any) {
       <GenericDialog
         title={params.row.jobDetails.title}
         content={<JobComplaintsContent jobId={params.row._id} />}
-        actions={<AdminChatAction />}
+        actions={<AdminChatAction receiverId={params.row.userId}/>}
         ref={jobComplaintRef}
       />
       <GenericDialog
         title="Client Details"
         content={<UserDetailsContent userId={params.row.userId} />}
-        actions={<AdminChatAction />}
+        actions={<AdminChatAction  receiverId={params.row.userId}/>}
         ref={clientDetaisRef}
       />
       <GenericDialog
         title="SW Details"
         content={<UserDetailsContent userId={params.row.swId} />}
-        actions={<AdminChatAction />}
+        actions={<AdminChatAction  receiverId={params.row.swId}/>}
         ref={swDetaisRef}
       />
     </Box>

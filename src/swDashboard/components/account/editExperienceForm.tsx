@@ -20,12 +20,22 @@ const expObj = experience[index]
 const exp:Experience = {...expObj}
 
 
-
 //formik submit handler
 const formikSubmitHandler = (values:any,formikHelpers:any)=>{
 
   return new Promise(res=>{
+    
         formikHelpers.validateForm().then(async (data:any)=>{
+          if(!values.onRole && new Date(values.endDate) > new Date()){
+            alert('End Date can not be after today')
+            res('')
+            return
+          }
+          if(new Date(values.startDate)> new Date()){
+            alert('Start Date can not be after today')
+            res('')
+            return
+          }
           const msg = await experienceSubmitHandler(values,router,index)
           dispatch(updateUser())
             res(msg)

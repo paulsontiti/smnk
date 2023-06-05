@@ -5,7 +5,7 @@ export default function NavSearchBox(){
 
     return(
         <>
-            <IconButton>
+            <IconButton sx={{color:'white'}}>
                 <SearchIcon/>
             </IconButton>
         </>

@@ -1,6 +1,7 @@
 import React from "react";
 import { ErrorMessage, Field } from "formik";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
+import CustomErrorMessage from "./CustomErrorMessage";
 
 export type CheckboxOption={
   label:string, value:string
@@ -31,6 +32,7 @@ function CheckBoxControl({
             {...rest}
           />
         ))}
+         <CustomErrorMessage name={name}/>
     </Box>
   );
 }

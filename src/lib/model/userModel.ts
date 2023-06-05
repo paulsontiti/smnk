@@ -68,7 +68,7 @@ const userSchema = new Schema({
         }
     ],
     subscription:{
-        type:{type:String,default:'free'},
+        type:{type:String,default:'Free'},
         subscribedDate:{type:Date},
         expiringDate:{type:Date},
         pop:{type:String},

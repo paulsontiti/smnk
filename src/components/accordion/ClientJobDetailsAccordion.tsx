@@ -174,7 +174,7 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
           </Grid>
           <Grid item xs={12}>
             {!job.proposalAccepted && job.proposals.length > 0 && (
-              <ProposalsAccordion proposals={job.proposals} jobId={job._id} />
+              <ProposalsAccordion proposals={job.proposals.filter((pro:any)=>pro.rejected === false)} jobId={job._id} />
             )}
             {!job.approved && job.reports.length > 0 && (
               <ClientReportsAccordion

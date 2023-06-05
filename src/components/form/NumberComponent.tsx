@@ -1,6 +1,7 @@
 import React from 'react'
-import { Field,ErrorMessage} from "formik";
+import { Field} from "formik";
 import {TextField,Box,FormGroup} from "@mui/material";
+import CustomErrorMessage from './CustomErrorMessage';
 
 
 function NumberComponent({name,label,required,helperText,...rest}:any) {
@@ -13,7 +14,7 @@ function NumberComponent({name,label,required,helperText,...rest}:any) {
                 size='small'margin='dense' required={required}
                 helperText={helperText} InputLabelProps={{ shrink: true }} 
                 label={label} {...rest}/>
-        <ErrorMessage name={name}/>
+       <CustomErrorMessage name={name}/>
     </FormGroup>
     </Box>
   )

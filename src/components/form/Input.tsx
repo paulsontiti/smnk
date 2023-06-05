@@ -1,8 +1,9 @@
 import React,{useState} from 'react'
-import { Field,ErrorMessage} from "formik";
+import { Field} from "formik";
 import {TextField,Box,FormGroup,InputAdornment,IconButton} from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CustomErrorMessage from './CustomErrorMessage';
 
 
 
@@ -43,7 +44,7 @@ function Input({name,label,type,required,helperText,autoComplete,values,fieldToC
                 }}
                 
         />
-        <ErrorMessage name={name}/>
+        <CustomErrorMessage name={name}/>
     </FormGroup>
     </Box>
   )

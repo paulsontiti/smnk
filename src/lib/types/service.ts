@@ -61,13 +61,6 @@ export const serviceDetailsSchema = object({
     .max(200, "Service Description should not be more than 200 characters")
     .required("Service Description is required"),
   category: string().required("Category is required"),
-  skills: array().min(1, "At Least One Skill is required"),
+  skills: array().min(1, "").required("At Least One Skill is required"),
 });
 
-export const serviceFormControls: FormControls[] = [
-  { name: "title", label: "Service Title", control: "input" },
-  { name: "skills[0]", label: "Skill One", control: "input" },
-  { name: "skills[1]", label: "Skill Two", control: "input" },
-  { name: "category", label: "Category", control: "input" },
-  { name: "description", label: "Service Description", control: "textarea" },
-];

@@ -12,7 +12,7 @@ export default function DownloadFileBottomNavigation({
   const [value, setValue] = React.useState(0);
 
   return (
-    <Box sx={{ width: 500 }}>
+    <Box>
       <BottomNavigation
         showLabels
         value={value}

@@ -2,8 +2,9 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { ErrorMessage, Field } from 'formik';
+import {Field } from 'formik';
 import { Box } from '@mui/material';
+import CustomErrorMessage from './CustomErrorMessage';
 
 type Option={
     label:string
@@ -26,7 +27,7 @@ const handleChange = (e:any,form:any)=>{
 }
 
 
-
+if(!options) return <p></p>
   return (
     <Box>
       <Field name={name}>
@@ -39,7 +40,7 @@ const handleChange = (e:any,form:any)=>{
             freeSolo
             id={name}
             disableClearable
-            options={options.map((option) => option.label ?? option)}
+            options={ options.map((option) => option.label ?? option)}
             value={value}
             
             renderInput={(params) => (
@@ -63,7 +64,7 @@ const handleChange = (e:any,form:any)=>{
         }
       }
     </Field>
-    <ErrorMessage name={name}/>
+    <CustomErrorMessage name={name}/>
     </Box>
   );
 }

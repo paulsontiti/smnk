@@ -1,11 +1,11 @@
-import multer from 'multer'
-import nextConnect from 'next-connect'
-import { NextApiRequest, NextApiResponse } from "next";
-import path from 'path';
-import User from '@/lib/model/userModel';
-import fs from 'fs'
+
+import { NextApiResponse } from "next";
 import { multerHandler, multerUpload } from '@/lib/multer';
 import dbConnect from '@/lib/mongoose';
+import methodOverride from 'method-override'
+import mongoose from "mongoose";
+import Grid from 'gridfs-stream'
+import User from "@/lib/model/userModel";
 
 export const config = {
   api:{
@@ -15,23 +15,21 @@ export const config = {
 
 
 
- multerHandler.use(multerUpload('uploads/images/dp').single('profilePic'))
+ multerHandler.use(methodOverride('_method')).use(multerUpload().single('profilePic'))
   .post(async (req:any, res:NextApiResponse)=>{
-    await dbConnect()
-   const user = await User.findOneAndUpdate({_id:req.body.userId},{dpFileName:req.file.filename})
-
-   //get user dp file path
-   const dpPath = path.join(process.cwd(),'public',`uploads/images/dp/${user.dpFileName}`)
-
-   //check if the file exists
-   if(fs.existsSync(dpPath)){
-    try {
-      fs.unlinkSync(dpPath);
-    } catch (error) {
-      console.log(error);
-    }
-   }
-   
+    //connect to database and get database and connection objects
+    const dbAndConnection = await dbConnect()
+    //init gfs
+    let gfs
+    
+    //create collection for profile pics uploads
+    dbAndConnection?.connection.once('open',()=>{
+      //init stream
+      gfs = Grid(dbAndConnection.db,mongoose.mongo)
+      gfs.collection('dps')
+    })
+ 
+   await User.findByIdAndUpdate(req.body.userId,{dpFileName:req.file.filename})
    res.status(201).json(req.file.filename)
   })
   

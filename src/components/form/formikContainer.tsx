@@ -1,5 +1,5 @@
 import React from "react";
-import { Backdrop, Box, Button, CircularProgress } from "@mui/material";
+import { Backdrop, Box, Button, CircularProgress, Paper, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import FormControl from "./formControl";
 import { FormParams, getOptions } from "@/lib/form";
@@ -7,14 +7,14 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 function FormikContainer({ formParams }: { formParams: FormParams }) {
   return (
-    <Box sx={{ margin: "3rem 1rem" }}>
-      <h4>{formParams.headerTitle}</h4>
+    <Box sx={{p:'3rem 1rem',minWidth:'100%', maxWidth:'100%'}}>
+      <Typography>{formParams.headerTitle}</Typography>
       <Formik
         validationSchema={formParams.formObject.validationSchema}
         initialValues={formParams.formObject.initialValues}
         onSubmit={formParams.formObject.onSubmit} enableReinitialize
       >
-        {({ values,touched, isSubmitting, isValid, isValidating }) => (
+        {({ values,touched, isSubmitting, isValid, isValidating,errors }) => (
           <Form>
             {formParams.formObject.formControls.map((field, i) => (
               <FormControl
@@ -24,6 +24,7 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
                 label={field.label}
                 type={field.type}
                 checked={field.checked}
+                checkedValue={field.checkedValue}
                 fieldToCheckAgainst={field.fieldToCheckAgainst}
                 values={values}
                 touched={touched}
@@ -39,11 +40,16 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
                 )}
               />
             ))}
+            {/* {
+              Object.values(errors).map((value,i)=>(
+                <Typography color={'red'} key={i}>{value as string}</Typography>
+              ))
+            } */}
            <Box sx={{display:'flex',alignItems:'center',justifyContent:'space-around',width:'100%'}}>
            <Button
               type="submit"
               variant="contained"
-              disabled={!isValid || isValidating || isSubmitting}
+              disabled={ isValidating || isSubmitting}
               endIcon={formParams.endIcon}
               startIcon={formParams.startIcon}
               size="small"
@@ -64,8 +70,8 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
             >
               <CircularProgress color="inherit" />
             </Backdrop>
-            {/* <pre>{JSON.stringify(isSubmitting,null,4)}</pre>
-              <pre>{JSON.stringify(isValidating,null,4)}</pre> */}
+            {/* <pre>{JSON.stringify(values,null,4)}</pre> */}
+              {/* <pre>{JSON.stringify(isSubmitting,null,4)}</pre> */}
           </Form>
         )}
       </Formik>

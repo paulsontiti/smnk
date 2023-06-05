@@ -1,4 +1,6 @@
-
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/store'
 import { logout } from '@/store/slices/userSlice'
@@ -20,10 +22,33 @@ export default function Logout(){
 
     return(           
            
-        <Button  size='small' onClick={logoutHandler}
-            sx={{textTransform:'capitalize'}}
-            endIcon={<LogoutIcon/>}
-            variant='contained'
-        >Logout</Button>
+        <>
+        <Button   sx={{textTransform:'capitalize'}}
+                variant='contained'
+                size='small'
+                endIcon={<LogoutIcon/>}
+                 onClick={()=>{
+                if((confirm('Are you sure you want to log out?'))){
+                    dispatch(logout())
+                    router.push('/')
+                }
+            }}>Logout</Button>
+                  {/* {
+    <FormGroup sx={{ml:0}}>
+    <FormControlLabel
+      control={
+        <Switch
+          checked
+          onChange={logoutHandler}
+          aria-label="login switch"
+          color='primary'
+          
+        />
+      }
+      label='Logout'
+    />
+  </FormGroup>
+} */}
+        </>
     )
 }

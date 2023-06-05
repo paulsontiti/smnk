@@ -16,8 +16,10 @@ const bronze = {
 export const Bronze = () => {
   return (
     <Card>
-      <CardHeader title={bronze.name}/>
       <CardContent>
+      <Typography sx={{fontSize:'1.5rem',fontWeight:'bold',mb:'1rem'}}>
+      {bronze.name}
+        </Typography> 
        <Box>
           <Typography sx={{fontWeight:'bold'}}>{`NGN ${bronze.price}/month`}</Typography>
        </Box>
