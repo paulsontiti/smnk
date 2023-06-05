@@ -69,17 +69,13 @@ export default function SearchDrawer() {
     })();
   }, [searchOption]);
   
-  let options:SearchOption[] = []
-  console.log(searchOption,searchOptions)
-   if(searchOptions && searchOptions.length > 0){
-    options = searchOptions.map((option) => {
-    const firstLetter = option[0].toUpperCase();
+  const options:SearchOption[] = searchOptions.map((option) => {
+    const firstLetter = option && option[0].toUpperCase();
     return {
       firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
       option,
     };
   });
-}
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
