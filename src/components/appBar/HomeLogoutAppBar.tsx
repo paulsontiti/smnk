@@ -39,18 +39,18 @@ export default function HomeLogoutAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Grid container>
-            <Grid item xs={3}>
+            <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'center'}>
               <NavbarDrawer />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'center'}>
               <Typography variant="h6" component="div">
                 SMNK
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'center'}>
               <SearchDrawer />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'center'}>
               {user._id ? (
                 <DPAvatar dp={user.dpFileName} />
               ) : (
