@@ -34,7 +34,7 @@ function AdsStepper() {
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };
-
+if(!data) return <p></p>
   return (
     <Box sx={{ maxWidth: "100%", flexGrow: 1 }} position={'relative'}>
       <Paper
