@@ -48,7 +48,7 @@ export default function HomeLogoutAppBar() {
                 SMNK
               </Typography>
             </Grid>
-            <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'flex-end'}>
+            <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'flex-end'} ml={3}>
               <SearchDrawer />
             </Grid>
             <Grid item xs={4} display={'flex'} alignItems={'center'} justifyContent={'center'}>
