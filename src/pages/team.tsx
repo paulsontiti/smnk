@@ -113,7 +113,7 @@ const PRO = () => {
         Alidu, Ojonugbede Samuel read Theatre and Film Studies at the University
         of Nigeria, Nsukka and Kogi State University-Anyigba respectively.{" "}
         <p>
-          He is the company's Director of Advertorials and Publicity(D.A.P).
+         {` He is the company's Director of Advertorials and Publicity(D.A.P).`}
         </p>{" "}
         He specializes as an Applied Theatre Developer and Strategic
         Communications Expert dealing with human content development and a
@@ -144,11 +144,11 @@ const HR = () => {
 
       <Box mt={1}>
         <Typography fontWeight={"bold"}>Bio:</Typography>
-        Uzonna J. Ibekwe (Ph.D) is the company's Director of Management and
+       {` Uzonna J. Ibekwe (Ph.D) is the company's Director of Management and
         Human Resource(D.M.H.R). He read Human Resource Management, Logistics &
         Supply Chain Management from the University of Abuja and University of
         Nigeria, Nsukka where he developed a special bias Human Resource
-        Management and Development.
+        Management and Development.`}
         <Typography fontWeight={"bold"} m={1}>
           Philosophy about Life:
         </Typography>
