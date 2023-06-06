@@ -23,7 +23,6 @@ import { styled } from "@mui/system";
 import { User } from "@/lib/types/userInfo";
 import SWDetailsAccordion from "../accordion/SWDetailsAccordion";
 import SearchedJobDetailsAccordion from "../accordion/SearchedJobDetailsAccordion";
-import DeleteFloatingActionButtons from "../fab/Delete";
 import CancelFloatingActionButtons from "../fab/Cancel";
 export type SearchOption = { firstLetter: string; option: string };
 

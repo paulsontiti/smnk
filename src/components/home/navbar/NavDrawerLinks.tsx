@@ -8,7 +8,6 @@ import Divider from "@mui/material/Divider";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
 import WorkIcon from "@mui/icons-material/Work";
-import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import FeedIcon from "@mui/icons-material/Feed";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
@@ -21,7 +20,7 @@ import { useRouter } from "next/router";
 
 export default function NavDrawerLinks() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [openAboutSMNK, setOpenAboutSMNK] = React.useState(true);
+  const [openAboutSMNK, setOpenAboutSMNK] = React.useState(false);
 
   const router = useRouter()
 
@@ -123,7 +122,10 @@ export default function NavDrawerLinks() {
       <List component="nav" aria-label="secondary mailbox folder">
         <ListItemButton
           selected={selectedIndex === 5}
-          onClick={(event) => handleListItemClick(event, 5)}
+          onClick={(event) => {
+            handleListItemClick(event, 5)
+            router.push('/services')
+          }}
         >
           <ListItemIcon>
             <MiscellaneousServicesIcon />
@@ -132,22 +134,17 @@ export default function NavDrawerLinks() {
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 6}
-          onClick={(event) => handleListItemClick(event, 6)}
+          onClick={(event) => {
+            handleListItemClick(event, 6)
+            router.push('/jobs')
+          }}
         >
           <ListItemIcon>
             <WorkIcon />
           </ListItemIcon>
           <ListItemText primary="Jobs" />
         </ListItemButton>
-        <ListItemButton
-          selected={selectedIndex === 7}
-          onClick={(event) => handleListItemClick(event, 7)}
-        >
-          <ListItemIcon>
-            <PersonSearchIcon />
-          </ListItemIcon>
-          <ListItemText primary="Talents" />
-        </ListItemButton>
+      
         <ListItemButton
           selected={selectedIndex === 8}
           onClick={(event) => handleListItemClick(event, 8)}
@@ -159,7 +156,10 @@ export default function NavDrawerLinks() {
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 9}
-          onClick={(event) => handleListItemClick(event, 9)}
+          onClick={(event) => {
+            handleListItemClick(event, 9)
+            router.push('/t&c')
+          }}
         >
           <ListItemIcon>
             <GavelIcon />
