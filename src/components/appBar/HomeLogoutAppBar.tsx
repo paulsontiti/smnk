@@ -1,6 +1,6 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,29 +9,30 @@ import { logout } from "@/store/slices/userSlice";
 import AccountActions from "../home/navbar/actions";
 import NavbarDrawer from "../home/navbar/navBarDrawer";
 import SearchDrawer from "../drawer/SearchDrawer";
-import Logout from "../dashboard/logout";
 import LogoutSwitch from "../switch/LogoutSwitch";
 import DPAvatar from "../avatar/DPAvatar";
 import { Grid } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default function HomeLogoutAppBar() {
   const { user } = useSelector((state: RootState) => state.users);
-  const dispatch = useDispatch<AppDispatch>();
-  const [auth, setAuth] = React.useState(user ? true : false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const router = useRouter()
+  //const dispatch = useDispatch<AppDispatch>();
+  // const [auth, setAuth] = React.useState(user ? true : false);
+  // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAuth(event.target.checked);
-    dispatch(logout());
-  };
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setAuth(event.target.checked);
+  //   dispatch(logout());
+  // };
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   return (
     <>
@@ -52,7 +53,15 @@ export default function HomeLogoutAppBar() {
             </Grid>
             <Grid item xs={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>
               {user._id ? (
-                <DPAvatar dp={user.dpFileName} />
+               <IconButton onClick={()=>{
+                if(user.type === 'skilled worker'){
+                  router.push('/sw-dashboard')
+                }else{
+                  router.push('/c-dashboard')
+                }
+               }}>
+                 <DPAvatar dp={user.dpFileName} />
+               </IconButton>
               ) : (
                 <AccountActions />
               )}
