@@ -1,5 +1,5 @@
 import HomeLogoutAppBar from "./appBar/HomeLogoutAppBar";
-import Navbar from "./home/navbar/navbar";
+import Footer from "./footer/Footer";
 
 
 export default function Layout(props:{children:any}){
@@ -8,6 +8,7 @@ export default function Layout(props:{children:any}){
         <>
 <HomeLogoutAppBar/>
             {props.children}
+            <Footer/>
         </>
     )
 }

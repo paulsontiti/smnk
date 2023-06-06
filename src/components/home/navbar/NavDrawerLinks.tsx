@@ -17,10 +17,13 @@ import InfoIcon from "@mui/icons-material/Info";
 import GavelIcon from "@mui/icons-material/Gavel";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import { useRouter } from "next/router";
 
 export default function NavDrawerLinks() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [openAboutSMNK, setOpenAboutSMNK] = React.useState(true);
+
+  const router = useRouter()
 
   //handle aboutsmnk opening
 
@@ -55,7 +58,10 @@ export default function NavDrawerLinks() {
           >
             <ListItemButton
               selected={selectedIndex === 1}
-              onClick={(event) => handleListItemClick(event, 1)}
+              onClick={(event) => {
+                handleListItemClick(event, 1)
+                router.push('/about-us')
+              }}
             >
               <ListItemIcon>
                 <InfoIcon />
@@ -64,7 +70,10 @@ export default function NavDrawerLinks() {
             </ListItemButton>
             <ListItemButton
               selected={selectedIndex === 2}
-              onClick={(event) => handleListItemClick(event, 2)}
+              onClick={(event) => {
+                handleListItemClick(event, 2)
+                router.push('/vision')
+              }}
             >
               <ListItemIcon>
                 <RemoveRedEyeIcon />
@@ -73,7 +82,10 @@ export default function NavDrawerLinks() {
             </ListItemButton>
             <ListItemButton
               selected={selectedIndex === 3}
-              onClick={(event) => handleListItemClick(event, 3)}
+              onClick={(event) => {
+                handleListItemClick(event, 3)
+                router.push('/mission')
+              }}
             >
               <ListItemIcon>
                 <ConfirmationNumberIcon />
@@ -81,8 +93,23 @@ export default function NavDrawerLinks() {
               <ListItemText primary="Mission" />
             </ListItemButton>
             <ListItemButton
+              selected={selectedIndex === 3}
+              onClick={(event) => {
+                handleListItemClick(event, 3)
+                router.push('/purpose')
+              }}
+            >
+              <ListItemIcon>
+                <ConfirmationNumberIcon />
+              </ListItemIcon>
+              <ListItemText primary="Purpose" />
+            </ListItemButton>
+            <ListItemButton
               selected={selectedIndex === 4}
-              onClick={(event) => handleListItemClick(event, 4)}
+              onClick={(event) => {
+                handleListItemClick(event, 4)
+                router.push('/team')
+              }}
             >
                   <ListItemIcon>
                 <Diversity3Icon />

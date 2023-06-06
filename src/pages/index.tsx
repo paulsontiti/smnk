@@ -22,7 +22,6 @@ export default function Home() {
       <MsgForClientORTalent src="/assets/talent-search.jpg" msg="Happy Talent Searching"/>
       <MsgForClientORTalent src="/assets/job-search.jpg" msg="Happy Job Searching"/>
        <TestimonialStepper/>
-       <Footer/>
      </main>
     </Layout>
   )
