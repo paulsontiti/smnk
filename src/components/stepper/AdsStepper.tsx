@@ -65,7 +65,7 @@ if(!data  || data.length < 1) return <p></p>
  <Box
         position={"absolute"}
         top={0}
-        sx={{ opacity: "0.1",overflow:'hidden'}}
+        sx={{ opacity: "0.5",overflow:'hidden'}}
         bgcolor={"black"} color={'white'} fontWeight={'bold'}
         p='.1rem 1rem'
         height={250}
