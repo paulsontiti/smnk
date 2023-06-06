@@ -36,7 +36,7 @@ function AdsStepper() {
   };
 if(!data  || data.length < 1) return <p></p>
   return (
-    <Box sx={{ maxWidth: "100%", flexGrow: 1 }} position={'relative'}>
+    <Box sx={{ maxWidth: "100%", flexGrow: 1 }} position={'relative'} m={'1rem'}>
       <Paper
         square
         elevation={0}
@@ -65,8 +65,8 @@ if(!data  || data.length < 1) return <p></p>
  <Box
         position={"absolute"}
         top={0}
-        sx={{ opacity: "0.3",overflow:'hidden'}}
-        bgcolor={"black"} color={'white'}
+        sx={{ opacity: "0.1",overflow:'hidden'}}
+        bgcolor={"black"} color={'white'} fontWeight={'bold'}
         p='.1rem 1rem'
         height={250}
         minWidth={'100%'}
