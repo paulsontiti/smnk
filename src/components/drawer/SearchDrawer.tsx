@@ -3,18 +3,23 @@ import {
   IconButton,
   Drawer,
   Box,
-  Button,
   Menu,
   MenuItem,
   TextField,
   Autocomplete,
-  Container,Typography
+  Container,
+  Typography,
 } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { createSetFromArray, fetchJobs, fetchSearchJobs, fetchTalents, fetchUsers } from "@/lib/search";
-import { styled,} from "@mui/system";
+import {
+  createSetFromArray,
+  fetchJobs,
+  fetchSearchJobs,
+  fetchTalents,
+  fetchUsers,
+} from "@/lib/search";
+import { styled } from "@mui/system";
 import { User } from "@/lib/types/userInfo";
 import SWDetailsAccordion from "../accordion/SWDetailsAccordion";
 import SearchedJobDetailsAccordion from "../accordion/SearchedJobDetailsAccordion";
@@ -57,25 +62,27 @@ export default function SearchDrawer() {
   const [searchOption, setSearchoption] = React.useState("Services");
   const [searchOptions, setSearchoptions] = React.useState<string[]>([]);
   const [value, setValue] = React.useState<SearchOption | null>(null);
-  const [users,setUsers] = React.useState<User[]>([])
-  const [jobs,setJobs] = React.useState<any[]>([])
+  const [users, setUsers] = React.useState<User[]>([]);
+  const [jobs, setJobs] = React.useState<any[]>([]);
 
   React.useEffect(() => {
     (async () => {
       const data = await searchOptionsList(searchOption);
-     
+
       setSearchoptions(createSetFromArray(data));
-      
     })();
   }, [searchOption]);
-  
-  const options:SearchOption[] = searchOptions.map((option) => {
+
+  let options: SearchOption[] = []
+  if(searchOptions){
+   options = searchOptions.map((option) => {
     const firstLetter = option[0].toUpperCase();
     return {
       firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
       option,
     };
   });
+}
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -85,12 +92,14 @@ export default function SearchDrawer() {
     setAnchorEl(null);
   };
   return (
-    <Box ml={'1rem'}>
+    <Box ml={"1rem"}>
       <IconButton
         onClick={
+          //() => {
           handleMenu
-         
+          //setOpenDrawer(!openDrawer);
         }
+        //}
         size="large"
         edge="start"
         color="inherit"
@@ -99,13 +108,46 @@ export default function SearchDrawer() {
       >
         <SearchIcon />
       </IconButton>
+      <Box>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem
+            onClick={() => {
+              handleClose("Services");
+              setOpenDrawer(true);
+            }}
+          >
+            Search For Services
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose("Jobs");
+              setOpenDrawer(true);
+            }}
+          >
+            Search For Jobs
+          </MenuItem>
+        </Menu>
+      </Box>
       <Drawer
         anchor="top"
         open={openDrawer}
         onClose={() => {
           setOpenDrawer(false);
         }}
-      
       >
         <Box
           sx={{
@@ -119,25 +161,31 @@ export default function SearchDrawer() {
           <Autocomplete
             id="grouped-demo"
             value={value}
-            onChange={async(event: any, newValue: SearchOption | null) => {
+            onChange={async (event: any, newValue: SearchOption | null) => {
               setValue(newValue);
-              if(searchOption === 'Services'){
-                setOpenServicesDrawer(true)
-                const searchValue = newValue?.option as string
-                const users = await fetchUsers(searchValue)
-                setUsers(users)
-               }else{
-                setOpenJobDrawer(true)
-                const searchValue = newValue?.option as string
-                const jobs = await fetchSearchJobs(searchValue)
-                setJobs(jobs)
-               }
+              if (searchOption === "Services") {
+                const searchValue = newValue?.option as string;
+                if (searchValue) {
+                  setOpenServicesDrawer(true);
+
+                  const users = await fetchUsers(searchValue);
+                  setUsers(users);
+                }
+              } else {
+                const searchValue = newValue?.option as string;
+                if (searchValue) {
+                  setOpenJobDrawer(true);
+
+                  const jobs = await fetchSearchJobs(searchValue);
+                  setJobs(jobs);
+                }
+              }
             }}
             options={options.sort(
               (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
             )}
-            groupBy={(option:any) => option.firstLetter}
-            getOptionLabel={(option:any) => option.option}
+            groupBy={(option: any) => option.firstLetter}
+            getOptionLabel={(option: any) => option.option}
             sx={{ minWidth: "100%" }}
             renderInput={(params) => (
               <TextField
@@ -151,27 +199,7 @@ export default function SearchDrawer() {
                     backgroundColor: "whitesmoke",
                     height: 50,
                   },
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Button
-                        size="small"
-                        endIcon={<ExpandMoreIcon />}
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleMenu}
-                        sx={{
-                          textTransform: "capitalize",
-                          borderRadius: 20,
-                          border: "1px solid green",
-                          heigth: 50,
-                          width: "100%",
-                        }}
-                      >
-                        {searchOption}
-                      </Button>
-                    </InputAdornment>
-                  ),
+
                   endAdornment: (
                     <InputAdornment position="end">
                       <SearchIcon />
@@ -187,34 +215,6 @@ export default function SearchDrawer() {
               </li>
             )}
           />
-          <Box>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={() => {
-                 setOpenDrawer(true);
-                 handleClose("Services")}
-              }>
-                Services
-              </MenuItem>
-              <MenuItem onClick={() => {
-                 setOpenDrawer(true);
-                 handleClose("Jobs")}
-              }>Jobs</MenuItem>
-            </Menu>
-          </Box>
         </Box>
       </Drawer>
       <Drawer
@@ -223,45 +223,91 @@ export default function SearchDrawer() {
         onClose={() => {
           setOpenJobDrawer(false);
         }}
-        
       >
-                <Container sx={{p:'.5rem',mt:'2rem'}}>
-          <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-          <Typography>All Jobs in <i>{value?.option}</i> Category</Typography>
-          <CancelFloatingActionButtons handleClick={()=>{
-             setOpenJobDrawer(false);
-          }}/>
-          </Box>
-          {
-            jobs.map((job,i)=>(
-             <SearchedJobDetailsAccordion job={job} key={i}/>
-            ))
-          }
+        <Container sx={{ p: ".5rem", mt: "2rem" }}>
+          {jobs && jobs.length > 0 ? (
+            <>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Typography>
+                  All Jobs in <i>{value?.option}</i> Category
+                </Typography>
+                <CancelFloatingActionButtons
+                  handleClick={() => {
+                    setOpenJobDrawer(false);
+                  }}
+                />
+              </Box>
+              {jobs.map((job, i) => (
+                <SearchedJobDetailsAccordion job={job} key={i} />
+              ))}
+            </>
+          ) : (
+            <Typography>
+              No Jobs in <i>{value?.option} category</i>
+            </Typography>
+          )}
         </Container>
       </Drawer>
-        <Drawer
+      <Drawer
         anchor="right"
         open={openServicesDrawer}
         onClose={() => {
           setOpenServicesDrawer(false);
         }}
-        
       >
-        <Container sx={{p:'.5rem',mt:'2rem'}}>
-        <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-        <Typography>All Talents That Provide <i>{value?.option}</i> Services</Typography>
-          <CancelFloatingActionButtons handleClick={()=>{
-             setOpenServicesDrawer(false);
-          }}/>
-          </Box>
-         
-          {
-            users.map((user,i)=>(
-              <SWDetailsAccordion sw={user} key={i}/>
-            ))
-          }
+         <Container sx={{ p: ".5rem", mt: "2rem" }}>
+          {users && users.length > 0 ? (
+            <>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Typography>
+                  All Services in <i>{value?.option}</i> Category
+                </Typography>
+                <CancelFloatingActionButtons
+                  handleClick={() => {
+                    setOpenServicesDrawer(false);
+                  }}
+                />
+              </Box>
+              {users.map((user, i) => (
+                <SWDetailsAccordion sw={user} key={i} />
+              ))}
+            </>
+          ) : (
+            <Typography>
+              No Services in <i>{value?.option} category</i>
+            </Typography>
+          )}
         </Container>
       </Drawer>
     </Box>
   );
 }
+// startAdornment: (
+//   <InputAdornment position="start">
+//     <Button
+//       size="small"
+//       endIcon={<ExpandMoreIcon />}
+//       aria-label="account of current user"
+//       aria-controls="menu-appbar"
+//       aria-haspopup="true"
+//       onClick={handleMenu}
+//       sx={{
+//         textTransform: "capitalize",
+//         borderRadius: 20,
+//         border: "1px solid green",
+//         heigth: 50,
+//         width: "100%",
+//       }}
+//     >
+//       {searchOption}
+//     </Button>
+//   </InputAdornment>
+// ),

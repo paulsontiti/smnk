@@ -58,10 +58,13 @@ export const fetchSearchJobs = async (searchParam:string) => {
 };
 
 export const createSetFromArray = (data:any[]):string[]=>{
-  const setOptions = new Set(data.flat())
+  if(data){
+    const setOptions = new Set(data.flat())
   const options:any[] = []
   setOptions.forEach((val)=>{
    options.push(val)
   })
   return options
+  }
+  return data
 }
