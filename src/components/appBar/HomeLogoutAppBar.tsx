@@ -39,7 +39,7 @@ export default function HomeLogoutAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Grid container>
-            <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+            <Grid item xs={2} display={'flex'} alignItems={'center'} justifyContent={'center'}>
               <NavbarDrawer />
             </Grid>
             <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'center'}>
@@ -47,10 +47,10 @@ export default function HomeLogoutAppBar() {
                 SMNK
               </Typography>
             </Grid>
-            <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+            <Grid item xs={2} display={'flex'} alignItems={'center'} justifyContent={'center'}>
               <SearchDrawer />
             </Grid>
-            <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+            <Grid item xs={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>
               {user._id ? (
                 <DPAvatar dp={user.dpFileName} />
               ) : (
