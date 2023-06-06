@@ -76,11 +76,14 @@ export default function SearchDrawer() {
   let options: SearchOption[] = []
   if(searchOptions){
    options = searchOptions.map((option) => {
-    const firstLetter = option[0].toUpperCase();
+    if(option){
+      const firstLetter = option[0].toUpperCase();
     return {
       firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
       option,
     };
+  }
+  return {firstLetter:'',option:''}
   });
 }
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
