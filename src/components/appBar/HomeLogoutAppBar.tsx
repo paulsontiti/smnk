@@ -48,10 +48,10 @@ export default function HomeLogoutAppBar() {
                 SMNK
               </Typography>
             </Grid>
-            <Grid item xs={2} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+            <Grid item xs={3} display={'flex'} alignItems={'center'} justifyContent={'flex-end'}>
               <SearchDrawer />
             </Grid>
-            <Grid item xs={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+            <Grid item xs={4} display={'flex'} alignItems={'center'} justifyContent={'center'}>
               {user._id ? (
                <IconButton onClick={()=>{
                 if(user.type === 'skilled worker'){
