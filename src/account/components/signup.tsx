@@ -4,7 +4,7 @@ import { object, ref, string } from "yup";
 import { signUpDetails } from "@/lib/types/signUp";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
-import { signUp } from "@/store/slices/userSlice";
+import { signUp, updateState } from "@/store/slices/userSlice";
 import { useEffect, useRef, useState } from "react";
 import FormikContainer from "@/components/form/formikContainer";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
@@ -37,11 +37,13 @@ export default function SignUp() {
         setColor("success");
         const refState = snackBarRef.current as any;
         refState.handleClick();
+        dispatch(updateState())
       }else{
         setMsg(response);
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
+        dispatch(updateState())
       }
     }
     if (user) {

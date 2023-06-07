@@ -5,10 +5,10 @@ import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { useEffect, useRef, useState } from "react";
-import {AlertColor} from '@mui/material'
+import { AlertColor } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
-import { changePasswordWithPhone } from "@/store/slices/userSlice";
+import { changePasswordWithPhone, updateState } from "@/store/slices/userSlice";
 
 const initialValues = {
   email: "",
@@ -21,24 +21,28 @@ export default function ChangePassword() {
   const router = useRouter();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-  const { user,response,successful} = useSelector((state: RootState) => state.users);
-const dispatch = useDispatch<AppDispatch>()
+  const { user, response, successful } = useSelector(
+    (state: RootState) => state.users
+  );
+  const dispatch = useDispatch<AppDispatch>();
 
   //declare refs
   const snackBarRef = useRef();
 
   useEffect(() => {
-    if(response){
-      if(successful){
+    if (response) {
+      if (successful) {
         setMsg(response);
         setColor("success");
         const refState = snackBarRef.current as any;
         refState.handleClick();
-      }else{
+        dispatch(updateState());
+      } else {
         setMsg(response);
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
+        dispatch(updateState());
       }
     }
     if (user) {
@@ -54,16 +58,15 @@ const dispatch = useDispatch<AppDispatch>()
           break;
       }
     }
-  }, [user, router,successful,response]);
+  }, [user, router, successful, response]);
 
-  
   //sign up submit handler
   const submitHandler = async (values: {
     email: string;
     password: string;
     phone: string;
   }) => {
-    dispatch(changePasswordWithPhone(values))
+    dispatch(changePasswordWithPhone(values));
   };
 
   //formik submit handler
@@ -80,7 +83,7 @@ const dispatch = useDispatch<AppDispatch>()
           setColor("error");
           const refState = snackBarRef.current as any;
           refState.handleClick();
-          res(err)
+          res(err);
         });
     });
   };
@@ -117,8 +120,10 @@ const dispatch = useDispatch<AppDispatch>()
     headerTitle: "Change Your Password",
   };
 
-  return  <>
-  <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-  <FormikContainer formParams={formParams} />;
-</>
+  return (
+    <>
+      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+      <FormikContainer formParams={formParams} />;
+    </>
+  );
 }

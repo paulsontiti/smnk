@@ -96,6 +96,10 @@ const userSlice = createSlice({
     updateUser: (state) => {
       state.user = userJSON();
     },
+    updateState: (state) => {
+      state.successful = false
+      state.response  = ''
+    },
   },
   extraReducers: (builder) => {
     // builder.addCase(fetchUser.fulfilled, (state, action) => {
@@ -154,6 +158,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout, updateUser } = userSlice.actions;
+export const { logout, updateUser,updateState } = userSlice.actions;
 
 export default userSlice.reducer;

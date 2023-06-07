@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import LoginIcon from "@mui/icons-material/Login";
 import { object, string } from "yup";
-import { login } from "@/store/slices/userSlice";
+import { login, updateState } from "@/store/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { useEffect, useRef, useState } from "react";
@@ -43,12 +43,12 @@ export default function Login() {
         setMsg(response);
         setColor("success");
         const refState = snackBarRef.current as any;
-        refState.handleClick();
+        refState.handleClick();  dispatch(updateState())
       }else{
         setMsg(response);
         setColor("error");
         const refState = snackBarRef.current as any;
-        refState.handleClick();
+        refState.handleClick();  dispatch(updateState())
       }
     }
     if (user) {
