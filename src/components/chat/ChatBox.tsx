@@ -24,6 +24,7 @@ const ChatBox = ({isAdmin}:{isAdmin:boolean}) => {
         const data = res.data;
         setChats(data);
       } catch (err) {
+        console.log(err)
        setError(err)
       }
     })();
