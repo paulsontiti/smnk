@@ -5,10 +5,15 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import ReceiverChatAccordion from "../accordion/ReceiverChatAccordion";
+import ErrorAlert from "../alerts/Error";
+import LoadingAlert from "../alerts/Loading";
+import InfoAlert from "../alerts/Info";
 
 const ChatBox = ({isAdmin}:{isAdmin:boolean}) => {
   const { _id } = useSelector((state: RootState) => state.users.user);
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState<any[] | null>(null);
+  const [error, setError] = useState<any | null>(null);
+
   useEffect(() => {
     (async () => {
       try {
@@ -19,13 +24,22 @@ const ChatBox = ({isAdmin}:{isAdmin:boolean}) => {
         const data = res.data;
         setChats(data);
       } catch (err) {
-        console.log(err);
+       setError(err)
       }
     })();
   }, [_id]);
+
+  if(error) return <ErrorAlert message="An Error occurred while loading your chats"/>
+  if(!chats) return <LoadingAlert/>
+  if(chats && chats.length < 1)  return(
+    <>
+    <Typography variant="h6">Chat Room</Typography>
+    <InfoAlert message="No Chats"/>
+    </>
+  )
   return (
     <Container sx={{ mt: "1rem" }}>
-      <Typography variant="h6">Chats</Typography>
+      <Typography variant="h6">Chat Room</Typography>
 
       {chats &&
         chats.filter((chat)=> chat).map((chat: any, i) =>
