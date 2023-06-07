@@ -18,8 +18,8 @@ export const unSeenChats = async (receiverId: string) => {
 };
 
 export const seeAllChats = async (receiverId: string) => {
+  if (receiverId) {
   try {
-    if (receiverId) {
       const res = await axios({
         method: "POST",
         url: `${process.env.SMNK_URL}api/chat/see-chats`,
@@ -27,11 +27,10 @@ export const seeAllChats = async (receiverId: string) => {
       });
       const data = await res.data;
       return data;
-    } else {
-      console.log("Invalid request");
-    }
+  
   } catch (err: any) {
     console.log(err);
     return err;
   }
+}
 };
