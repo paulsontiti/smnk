@@ -22,8 +22,7 @@ export const signUp = createAsyncThunk(
       const data = await res.data;
       return data
     } catch (err: any) {
-      console.log(err);
-      return {successful:false,response:err.response.data.message,user:{} as User}
+      return {successful:false,message:err.response.data.message,user:{} as User}
     }
   }
 );
@@ -102,7 +101,6 @@ const userSlice = createSlice({
 
     builder.addCase(signUp.fulfilled, (state, action) => {
       state.loading = false;
-
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       state.successful = action.payload.successful
       state.user = action.payload.user;

@@ -31,6 +31,7 @@ export default function SignUp() {
     const snackBarRef = useRef();
 
   useEffect(() => {
+    console.log(successful,response)
     if(response){
       if(successful){
         setMsg(response);
