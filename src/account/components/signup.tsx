@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import FormikContainer from "@/components/form/formikContainer";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import { AlertColor } from "@mui/material";
+import SnackbarComponent from "@/components/snackbar/SnackBar";
 
 const initialValues: signUpDetails = {
   email: "",
@@ -130,5 +131,10 @@ export default function SignUp() {
     endIcon: <AccountBoxIcon />,
   };
 
-  return <FormikContainer formParams={formParams} />;
+  return (
+    <>
+    <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+      <FormikContainer formParams={formParams} />
+    </>
+  );
 }
