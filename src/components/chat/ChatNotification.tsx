@@ -19,10 +19,10 @@ function ChatNotification() {
   
   useEffect(() => {
     
-      setInterval(async()=>{
+      (async()=>{
         const data = await unSeenChats(_id);
         setCount(data);
-      },100)
+      })()
       
   }, [_id]);
 
