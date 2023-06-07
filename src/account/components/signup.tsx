@@ -5,9 +5,10 @@ import { signUpDetails } from "@/lib/types/signUp";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { signUp } from "@/store/slices/userSlice";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import FormikContainer from "@/components/form/formikContainer";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
+import { AlertColor } from "@mui/material";
 
 const initialValues: signUpDetails = {
   email: "",
@@ -20,11 +21,28 @@ const initialValues: signUpDetails = {
 
 export default function SignUp() {
   const router = useRouter();
-  const { user } = useSelector((state: RootState) => state.users);
-
+  const { user,response,successful} = useSelector((state: RootState) => state.users);
+  const [msg, setMsg] = useState("");
+  const [color, setColor] = useState<AlertColor>("error");
   const dispatch = useDispatch<AppDispatch>();
 
+    //declare refs
+    const snackBarRef = useRef();
+
   useEffect(() => {
+    if(response){
+      if(successful){
+        setMsg(response);
+        setColor("success");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+      }else{
+        setMsg(response);
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+      }
+    }
     if (user) {
       switch (true) {
         case user.type === "skilled worker":
