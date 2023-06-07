@@ -103,7 +103,7 @@ const userSlice = createSlice({
     builder.addCase(signUp.fulfilled, (state, action) => {
       state.loading = false;
 
-      localStorage.setItem("user", JSON.stringify(action.payload));
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
       state.successful = action.payload.successful
       state.user = action.payload.user;
       state.response = action.payload.message;
