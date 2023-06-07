@@ -32,7 +32,7 @@ export default async function handler(req: any, res: any) {
           .status(400)
           .json({
             successful: false,
-            message: "No user exist with your old password",
+            message: "No user exist with your old password"
           });
       }
     } catch (err: any) {

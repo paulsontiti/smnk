@@ -4,8 +4,11 @@ import { object, ref, string } from "yup";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {AlertColor} from '@mui/material'
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { changePasswordWithPhone } from "@/store/slices/userSlice";
 
 const initialValues = {
   email: "",
@@ -18,54 +21,49 @@ export default function ChangePassword() {
   const router = useRouter();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
+  const { user,response,successful} = useSelector((state: RootState) => state.users);
+const dispatch = useDispatch<AppDispatch>()
 
   //declare refs
   const snackBarRef = useRef();
+
+  useEffect(() => {
+    if(response){
+      if(successful){
+        setMsg(response);
+        setColor("success");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+      }else{
+        setMsg(response);
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+      }
+    }
+    if (user) {
+      switch (true) {
+        case user.type === "skilled worker":
+          router.push("/sw-dashboard");
+          break;
+        case user.type === "client":
+          router.push("/c-dashboard");
+          break;
+        case user.type === "admin":
+          router.push("/a-dashboard");
+          break;
+      }
+    }
+  }, [user, router,successful,response]);
+
+  
   //sign up submit handler
   const submitHandler = async (values: {
     email: string;
     password: string;
     phone: string;
   }) => {
-    try {
-      const res = await axios({
-        method: "POST",
-        url: `${process.env.SMNK_URL}api/users/change-password`,
-        data: values,
-      });
-      const data = await res.data;
-
-      if (data.successful) {
-        setMsg(data.message);
-        setColor("success");
-        const refState = snackBarRef.current as any;
-        refState.handleClick();
-        const user = data.user;
-        if (user) {
-          switch (true) {
-            case user.type === "skilled worker":
-              router.push("/sw-dashboard");
-              break;
-            case user.type === "client":
-              router.push("/c-dashboard");
-              break;
-            case user.type === "admin":
-              router.push("/a-dashboard");
-              break;
-          }
-        }
-      } else {
-        setMsg(data.message);
-        setColor("error");
-        const refState = snackBarRef.current as any;
-        refState.handleClick();
-      }
-    } catch (err: any) {
-      setMsg("An Error occorred,please try again or contact admin");
-      setColor("error");
-      const refState = snackBarRef.current as any;
-      refState.handleClick();
-    }
+    dispatch(changePasswordWithPhone(values))
   };
 
   //formik submit handler

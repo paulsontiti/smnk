@@ -38,7 +38,7 @@ export const login = createAsyncThunk("users/login", async (values: any) => {
     return data
   } catch (err: any) {
     console.log(err)
-    return {successful:false,response:err.response.data.message,user:{} as User}
+    return {successful:false,message:err.response.data.message,user:{} as User}
   }
 });
 
@@ -54,11 +54,28 @@ export const changePassword = createAsyncThunk(
       const data = await res.data;
 return data
     } catch (err: any) {
-      console.log(err);
-      return {successful:false,response:err.response.data.message,user:{} as User}
+      return {successful:false,message:err.response.data.message,user:{} as User}
     }
   }
 );
+
+export const changePasswordWithPhone = createAsyncThunk(
+  "users/changePasswordWithPhone",
+  async (values: any) => {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `${process.env.SMNK_URL}api/users/change-password`,
+        data: values,
+      });
+      const data = await res.data;
+return data
+    } catch (err: any) {
+      return {successful:false,message:err.response.data.message,user:{} as User}
+    }
+  }
+);
+
 
 const initialState = {
   user: userJSON() ? userJSON() : ({} as User),
@@ -121,6 +138,17 @@ const userSlice = createSlice({
       state.user = action.payload.user;
     });
     builder.addCase(changePassword.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(changePasswordWithPhone.fulfilled, (state, action) => {
+      state.loading = false;
+      localStorage.removeItem("user");
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      state.response = action.payload.message;
+      state.successful = action.payload.successful
+      state.user = action.payload.user;
+    });
+    builder.addCase(changePasswordWithPhone.pending, (state) => {
       state.loading = true;
     });
   },
