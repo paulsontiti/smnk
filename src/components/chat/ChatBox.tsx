@@ -32,10 +32,10 @@ const ChatBox = ({isAdmin}:{isAdmin:boolean}) => {
   if(error) return <ErrorAlert message="An Error occurred while loading your chats"/>
   if(!chats) return <LoadingAlert/>
   if(chats && chats.length < 1)  return(
-    <>
+    <Container>
     <Typography variant="h6">Chat Room</Typography>
     <InfoAlert message="No Chats"/>
-    </>
+    </Container>
   )
   return (
     <Container sx={{ mt: "1rem" }}>
