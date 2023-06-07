@@ -56,7 +56,7 @@ export default function SignUp() {
           break;
       }
     }
-  }, [user, router]);
+  }, [user, router,successful,response]);
 
   //sign up submit handler
   const submitHandler = async (values: signUpDetails) => {
