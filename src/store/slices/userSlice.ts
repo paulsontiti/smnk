@@ -72,6 +72,8 @@ const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = {} as User;
+      state.response = ''
+      state.successful = false
       localStorage.removeItem("user");
     },
     updateUser: (state) => {
