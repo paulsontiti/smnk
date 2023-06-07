@@ -23,7 +23,7 @@ export const signUp = createAsyncThunk(
       return data
     } catch (err: any) {
       console.log(err);
-      return {successful:false,response:err.response.data.message}
+      return {successful:false,response:err.response.data.message,user:{} as User}
     }
   }
 );
@@ -39,7 +39,7 @@ export const login = createAsyncThunk("users/login", async (values: any) => {
     return data
   } catch (err: any) {
     console.log(err)
-    return {successful:false,response:err.response.data.message}
+    return {successful:false,response:err.response.data.message,user:{} as User}
   }
 });
 
@@ -56,7 +56,7 @@ export const changePassword = createAsyncThunk(
 return data
     } catch (err: any) {
       console.log(err);
-      return {successful:false,response:err.response.data.message}
+      return {successful:false,response:err.response.data.message,user:{} as User}
     }
   }
 );
