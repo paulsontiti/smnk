@@ -16,7 +16,6 @@ import { useRouter } from "next/router";
 
 export default function HomeLogoutAppBar() {
   const { user } = useSelector((state: RootState) => state.users);
-  console.log(user)
   const router = useRouter()
   //const dispatch = useDispatch<AppDispatch>();
   // const [auth, setAuth] = React.useState(user ? true : false);
