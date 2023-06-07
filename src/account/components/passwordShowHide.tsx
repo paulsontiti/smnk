@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./PasswordShowHide.css";
 
-const PasswordShowHide = ({ field, form }:any) => {
+const PasswordShowHide = ({ field, form }: any) => {
   const [showHidePassword, changeShowHidePassword] = useState(false);
   const hasError = form.touched[field.name] && form.errors[field.name];
 

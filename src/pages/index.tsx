@@ -1,4 +1,4 @@
-import Footer from "@/components/footer/Footer";
+
 import MsgForClientORTalent from "@/components/home/MsgForClientORTalent";
 import Layout from "@/components/layout";
 import AdsStepper from "@/components/stepper/AdsStepper";

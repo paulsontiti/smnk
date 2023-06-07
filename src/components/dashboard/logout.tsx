@@ -13,13 +13,7 @@ export default function Logout(){
 
     const router = useRouter()
 
-    const logoutHandler =()=>{
-        if((confirm('Are you sure you want to log out?'))){
-            dispatch(logout())
-            router.push('/')
-        }
-    }
-
+  
     return(           
            
         <>
@@ -33,22 +27,7 @@ export default function Logout(){
                     router.push('/')
                 }
             }}>Logout</Button>
-                  {/* {
-    <FormGroup sx={{ml:0}}>
-    <FormControlLabel
-      control={
-        <Switch
-          checked
-          onChange={logoutHandler}
-          aria-label="login switch"
-          color='primary'
-          
-        />
-      }
-      label='Logout'
-    />
-  </FormGroup>
-} */}
+   
         </>
     )
 }

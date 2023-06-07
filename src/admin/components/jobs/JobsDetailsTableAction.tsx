@@ -21,9 +21,7 @@ import AdminChatAction from "@/components/dialog/actions/AdminChatAction";
 import UserDetailsContent from "@/components/dialog/contents/UserDetailsContent";
 import JobDetailsContent from "@/components/dialog/contents/JobDetailsContent";
 
-export interface State extends SnackbarOrigin {
-  open: boolean;
-}
+
 
 function JobsDetailsTableAction({ params, rowId, setRowId }: any) {
   //declare component's state

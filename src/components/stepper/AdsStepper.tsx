@@ -12,6 +12,7 @@ import { autoPlay } from "react-swipeable-views-utils";
 import useSWR from "swr";
 import { getAllAds } from "@/lib/admin";
 import { useRouter } from "next/router";
+import AdvertCard from "../card/AdsCard";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -20,7 +21,7 @@ function AdsStepper() {
   const router = useRouter();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
-  
+
   const maxSteps = data && data.length;
 
   const handleNext = () => {
@@ -34,9 +35,13 @@ function AdsStepper() {
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };
-if(!data  || data.length < 1) return <p></p>
+  if (!data || data.length < 1) return <p></p>;
   return (
-    <Box sx={{ maxWidth: "100%", flexGrow: 1 }} position={'relative'} m={'1rem'}>
+    <Box
+      sx={{ maxWidth: "100%", flexGrow: 1 }}
+      position={"relative"}
+      m={"1rem"}
+    >
       <Paper
         square
         elevation={0}
@@ -62,43 +67,18 @@ if(!data  || data.length < 1) return <p></p>
         {data &&
           data.map((ad: any, index: number) => (
             <div key={ad.title}>
- <Box
-        position={"absolute"}
-        top={0}
-        sx={{ opacity: "0.5",overflow:'hidden'}}
-        bgcolor={"black"} color={'white'} fontWeight={'bold'}
-        p='.1rem 1rem'
-        height={250}
-        minWidth={'100%'}
-        maxHeight={250}
-        onClick={() => {
-          if(ad.landingPage){
-            window.location.href = ad.landingPage
-          }
-        }}
-      >
-        <Typography variant="body2">
-          {data && data[activeStep].description}
-        </Typography>
-      </Box>
               {Math.abs(activeStep - index) <= 2 ? (
-                <Box
-                  component="img"
-                  sx={{
-                    height: 250,
-                    display: "block",
-                    maxWidth: 400,
-                    overflow: "hidden",
-                    width: "100%",
-                  }}
+                <AdvertCard
+                  title={ad.title}
+                  message={ad.description}
                   src={`/api/multer/ads/${ad.imgName}`}
-                  alt={ad.title}
-                  />
-                  ) : null}
+                  landingPage={ad.landingPage}
+                />
+              ) : null}
             </div>
           ))}
       </AutoPlaySwipeableViews>
-     
+
       <MobileStepper
         steps={maxSteps}
         position="static"

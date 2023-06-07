@@ -2,30 +2,32 @@
 import useSWR from 'swr'
 import { getAllAds } from '@/lib/admin'
 import AdsDetailsTable from './AdsDetailsTable'
-import AddFloatingActionButtons from '@/components/fab/Add'
 import { useRouter } from 'next/router'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
+import ErrorAlert from '@/components/alerts/Error'
+import LoadingAlert from '@/components/alerts/Loading'
+import InfoAlert from '@/components/alerts/Info'
+import AddBottomNavigation from '@/components/bottomNavigation/AddBottomNavigation'
 
 
 export default function Ads(){
 const router = useRouter()
     const {data,error} = useSWR('getAds',getAllAds())
 
-    if(error) return <p>An Error occurred</p>
-    if(!data) return <p>loading.....</p>
+    if(error) return <ErrorAlert message='An error occurred,please try again or contact admin'/>
+    if(!data) return <LoadingAlert/>
     if(data.length < 1) return <Box m={'1rem'}>
-        <Typography>No Ads Available.
-            </Typography>
-        <AddFloatingActionButtons handleClick={()=>{
+        <InfoAlert message='No Ads Available.Please create one'/>
+        <AddBottomNavigation label='Create Ad' handleClick={()=>{
             router.push('/a-dashboard/ads/create')
         }}/>
         </Box>
 
     return(
        <>
-       <AddFloatingActionButtons handleClick={()=>{
-        router.push('/a-dashboard/ads/create')
-       }}/>
+      <AddBottomNavigation label='Create Ad' handleClick={()=>{
+            router.push('/a-dashboard/ads/create')
+        }}/>
       <AdsDetailsTable ads={data}/>
        </>
         

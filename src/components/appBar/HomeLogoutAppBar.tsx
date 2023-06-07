@@ -36,7 +36,7 @@ export default function HomeLogoutAppBar() {
 
   return (
     <>
-      {user._id && <LogoutSwitch />}
+      {user && user._id && <LogoutSwitch />}
       <AppBar position="static">
         <Toolbar>
           <Grid container>
@@ -52,7 +52,7 @@ export default function HomeLogoutAppBar() {
               <SearchDrawer />
             </Grid>
             <Grid item xs={4} display={'flex'} alignItems={'center'} justifyContent={'center'}>
-              {user._id ? (
+              {user && user._id ? (
                <IconButton onClick={()=>{
                 if(user.type === 'skilled worker'){
                   router.push('/sw-dashboard')

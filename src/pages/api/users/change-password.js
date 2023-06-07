@@ -1,6 +1,6 @@
 import dbConnect from "../../../lib/mongoose";
 import User from "../../../lib/model/userModel";
-import {hashPassword} from '../sw-dashboard/change-password'
+import { hashPassword } from "../sw-dashboard/change-password";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -15,30 +15,35 @@ export default async function handler(req, res) {
           const user = await User.findByIdAndUpdate(existingUserWithEmail._id, {
             password: hashedPassword,
           });
-          res
-            .status(201)
-            .json({
-              successful: true,
-              message: "Your Password was successfully changed",
-              user,
-            });
+          res.status(201).json({
+            successful: true,
+            message: "Your Password was successfully changed",
+            user,
+          });
         } else {
-          res
-            .status(400)
-            .json({
-              successful: false,
-              message: "Phone Number does not exist",
-            });
+          res.status(400).json({
+            successful: false,
+            message: "Phone Number does not exist",
+            user: {},
+          });
         }
       } else {
         res
           .status(400)
-          .json({ successful: false, message: "Email does not exist" });
+          .json({
+            successful: false,
+            message: "Email does not exist",
+            user: {},
+          });
       }
     } catch (err) {
-      res.status(400).json({ successful: false, message: err.message });
+      res
+        .status(400)
+        .json({ successful: false, message: err.message, user: {} });
     }
   } else {
-    res.status(400).json({ successful: false, message: "Invalid details" });
+    res
+      .status(400)
+      .json({ successful: false, message: "Invalid details", user: {} });
   }
 }

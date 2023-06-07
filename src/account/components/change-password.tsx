@@ -1,103 +1,126 @@
-
 import { useRouter } from "next/router";
-import axios from "axios"
-import {object,ref,string} from 'yup'
+import axios from "axios";
+import { object, ref, string } from "yup";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import SnackbarComponent from "@/components/snackbar/SnackBar";
+import { useRef, useState } from "react";
+import {AlertColor} from '@mui/material'
 
+const initialValues = {
+  email: "",
+  phone: "",
+  password: "",
+  confirmPassword: "",
+};
 
-const initialValues={
-  email:'',
-  phone:'',
-  password:'',
-  confirmPassword:''
-}
+export default function ChangePassword() {
+  const router = useRouter();
+  const [msg, setMsg] = useState("");
+  const [color, setColor] = useState<AlertColor>("error");
 
+  //declare refs
+  const snackBarRef = useRef();
+  //sign up submit handler
+  const submitHandler = async (values: {
+    email: string;
+    password: string;
+    phone: string;
+  }) => {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `${process.env.SMNK_URL}api/users/change-password`,
+        data: values,
+      });
+      const data = await res.data;
 
-export default function ChangePassword(){
-  const router = useRouter()
-  const {user} = useSelector((state:RootState)=>state.users)
-
-//sign up submit handler
-const submitHandler = async (values:{email:string,password:string,phone:string})=>{
-
-  
-      try{
-        const res = await axios({
-          method:'POST',
-          url:`${process.env.SMNK_URL}api/users/change-password`,
-          data:values
-      })
-      const data = await res.data
-      
-      if(data.successful){
-        alert(data.message)
-                const user = data.user
-        if(user){
-
-          switch(true){
-            case user.type === 'skilled worker':
-              router.push('/sw-dashboard')
-              break
-            case user.type === 'client':
-              router.push('/c-dashboard')
-              break
-            case user.type === 'admin':
-              router.push('/a-dashboard')
-              break
-            
+      if (data.successful) {
+        setMsg(data.message);
+        setColor("success");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+        const user = data.user;
+        if (user) {
+          switch (true) {
+            case user.type === "skilled worker":
+              router.push("/sw-dashboard");
+              break;
+            case user.type === "client":
+              router.push("/c-dashboard");
+              break;
+            case user.type === "admin":
+              router.push("/a-dashboard");
+              break;
           }
-        } 
-        
-      }else{
-        alert(data.message)
+        }
+      } else {
+        setMsg(data.message);
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
       }
-      
-      }catch(err:any){
-        alert(err.response.data.message)
-      }
-}
+    } catch (err: any) {
+      setMsg("An Error occorred,please try again or contact admin");
+      setColor("error");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
+    }
+  };
 
-//formik submit handler
-const formikSubmitHandler = (values:any,formikHelpers:any)=>{
-
-    return new Promise(res=>{
-          formikHelpers.validateForm().then(async (data:any)=>{
-            const msg = await submitHandler(values)
-            res(msg)
-          
-          }).catch((err:any)=>{
-            console.log(err)
-          })              
-    })
-
-  }
+  //formik submit handler
+  const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    return new Promise((res) => {
+      formikHelpers
+        .validateForm()
+        .then(async (data: any) => {
+          const msg = await submitHandler(values);
+          res(msg);
+        })
+        .catch((err: any) => {
+          setMsg("An error occurred while filling the form. Try again");
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
+          res(err)
+        });
+    });
+  };
 
   const changePasswordSchema = object({
-                              email: string().email('invalid email').required('Email is required'),
-                              phone: string().required('Phone is required'),
-                              password: string().required('New Password is required'),
-                              confirmPassword: string().oneOf([ref('password'),''],'Passwords must match').required('Confirm Password is required'),
-                            })
+    email: string().email("invalid email").required("Email is required"),
+    phone: string().required("Phone is required"),
+    password: string().required("New Password is required"),
+    confirmPassword: string()
+      .oneOf([ref("password"), ""], "Passwords must match")
+      .required("Confirm Password is required"),
+  });
 
-const forgotPasswordFormControls: FormControls[] = [
-{name:'email',label:'Email',control:'input',type:'email'},
-{name:'phone',label:'Phone Number',control:'input',type:'phone'},
-{name:'password',label:'Password',control:'input',type:'password'},
-{name:'confirmPassword',label:'Confirm Password',control:'input',type:'password'}
-]
+  const forgotPasswordFormControls: FormControls[] = [
+    { name: "email", label: "Email", control: "input", type: "email" },
+    { name: "phone", label: "Phone Number", control: "input", type: "phone" },
+    { name: "password", label: "Password", control: "input", type: "password" },
+    {
+      name: "confirmPassword",
+      label: "Confirm Password",
+      control: "input",
+      type: "password",
+    },
+  ];
 
+  const formParams: FormParams = {
+    formObject: createFormObject(
+      formikSubmitHandler,
+      changePasswordSchema,
+      initialValues,
+      forgotPasswordFormControls
+    ),
+    buttonLabel: "Change Password",
+    headerTitle: "Change Your Password",
+  };
 
-const formParams:FormParams ={
-formObject:createFormObject(formikSubmitHandler,changePasswordSchema,initialValues,forgotPasswordFormControls),
-buttonLabel:'Change Password',
-headerTitle:'Change Your Password'
+  return  <>
+  <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+  <FormikContainer formParams={formParams} />;
+</>
 }
-
-return(
-
-<FormikContainer formParams={formParams}/>
-)
- }

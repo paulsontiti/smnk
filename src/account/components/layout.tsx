@@ -1,25 +1,28 @@
-import Image from 'next/image'
-import styles from '../../styles/account/layout.module.css'
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import Image from "next/image";
+import styles from "../../styles/account/layout.module.css";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
+export default function AccountLayout(props: { children: any }) {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("sm"));
 
-export default function AccountLayout(props:{children:any}){
+  return (
+    <div id="container" className={styles.container}>
+      <div className={styles.wrapper}>
+        {!matches && (
+          <div>
+            <Image
+              src="/assets/ad2.png"
+              alt="layout image"
+              width={400}
+              height={600}
+            />
+          </div>
+        )}
 
-    const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down('sm'));
-
-    return (
-        <div id="container" className={styles.container}>
-           <div className={styles.wrapper}>
-               {!matches &&  <div>
-                    <Image src="/assets/ad2.png" alt='layout image' width={400} height={600}/>
-                </div>}
-                        
-                <div>
-                    {props.children}
-                </div>
-           </div>
-        </div>  
-    )
+        <div>{props.children}</div>
+      </div>
+    </div>
+  );
 }
