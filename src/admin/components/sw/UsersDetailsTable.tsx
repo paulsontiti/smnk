@@ -3,7 +3,6 @@ import { DataGrid, GridRowId } from "@mui/x-data-grid";
 import { Avatar, IconButton } from "@mui/material";
 import moment from "moment";
 import UserDetailsTableActions from "./UserDetailsTableActions";
-import axios from "axios";
 import ImageDialog from "@/components/dialog/ImageDialog";
 import { confirmUpgradePayment } from "@/lib/payment";
 import DoneIcon from "@mui/icons-material/Done";
@@ -98,7 +97,7 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
                           src={`/api/multer/sub/${param.row.subscription.pop}`}
                         />
                       </IconButton>
-                      <ImageDialog
+                      <ImageDialog receiverId={param.row._id}
                         action={() => {
                           return action(param.row._id);
                         }}
