@@ -8,7 +8,7 @@ const nextConfig = {
     SMNK_URL: 'https://www.smnklimited.com/',
     //https://www.smnklimited.com/',
     //''http://localhost:3000/',
-    CUSTOMER_SERVICE_ID:'646a737bf8e64fc9493c8056'
+    CUSTOMER_SERVICE_ID:'64346efc8fba2315bdc38c18'
   },modularizeImports:{
     '@mui/icons-material':{
       transform:'@mui/icons-material/{{member}}'

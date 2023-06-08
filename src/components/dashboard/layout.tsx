@@ -23,15 +23,15 @@ export default function Layout(props:{children:any}){
                             {props.children}
                             </Box>
                         </Grid>
-                        <Grid item xs={12}>
+                        {/* <Grid item xs={12}>
                           
                                <AdsStepper/>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                        
                 </Grid>
             </Grid>
-            <Footer/>
+            {/* <Footer/> */}
         </>
        
        

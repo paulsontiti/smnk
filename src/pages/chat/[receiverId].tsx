@@ -13,8 +13,6 @@ function SingleChatPlatform() {
   const receiverId = router.query.receiverId as string
   const {_id} = useSelector((state:RootState)=>state.users.user)
   const [chats,setChats] = useState([])
-
-  console.log(_id,receiverId)
     //fetch chats
     useEffect(() => {
         (async () => {

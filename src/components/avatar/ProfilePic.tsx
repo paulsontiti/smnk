@@ -28,7 +28,7 @@ export default function ProfilePic() {
   dpFileName ?             <Avatar
   alt=""
   src={`/api/multer/profile-pic/${dpFileName}`}
-  sx={{ width: 80, height: 80 }}
+  sx={{ width: 80, height: 80,mr:5 }}
 /> :
 <Skeleton variant="circular" width={80} height={80} />
 
