@@ -22,7 +22,7 @@ export default function LogoutSwitch(){
            
       
                   
-    <FormGroup sx={{ml:0}}>
+    <FormGroup sx={{ml:0,mb:1}}>
     <FormControlLabel
       control={
         <Switch

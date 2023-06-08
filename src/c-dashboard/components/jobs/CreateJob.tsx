@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { Job, createJobSubmitHandler } from '@/lib/types/job'
 import { JobDetails } from '@/lib/job'
+import ErrorAlert from '@/components/alerts/Error'
 
 function CreateJob() {
 
@@ -25,6 +26,7 @@ function CreateJob() {
         userId:_id,
           
         }
+        if(!_id) return <ErrorAlert message='You are not logged in or have an account. Please login in or create an account'/>
   return (
     <JobForm initialValues={initialValues} _id={_id} jobId=''
      submitHandler={createJobSubmitHandler}/>

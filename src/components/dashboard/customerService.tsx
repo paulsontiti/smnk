@@ -24,11 +24,9 @@ export const CustomerService = ({customerHandleClick,openCustomer}:
          <ListItemButton  sx={{ ml: 4 }} onClick={()=> router.push('/message/admin-contact')}>
          <ListItemText primary="Admin's Contacts" />      
          </ListItemButton>
-         <ListItemButton  sx={{ ml: 4 }} onClick={()=> router.push('/message/customer-service')}>
-              <ListItemText primary="Send Message" />      
-         </ListItemButton>
-         <ListItemButton sx={{ ml: 4 }}>
-         <ListItemText primary="Live Chat" />      
+       
+         <ListItemButton sx={{ ml: 4 }} onClick={()=> router.push(`/chat/${process.env.CUSTOMER_SERVICE_ID}`)}>
+         <ListItemText primary="Chat" />      
          </ListItemButton>
    
        </List>

@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
-import { AlertColor } from "@mui/material";
+import { AlertColor,Container } from "@mui/material";
 
 
 const initialValues = {
@@ -103,10 +103,10 @@ export default function Login() {
   };
 
   return (
-    <>
+    <Container>
     <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <FormikContainer formParams={formParams} />
       <Link href="/account/forgotpassword">forgot password?</Link>
-    </>
+    </Container>
   );
 }

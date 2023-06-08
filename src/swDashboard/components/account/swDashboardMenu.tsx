@@ -15,9 +15,13 @@ import ServiceLink from "./service/serviceLink";
 import BankDetailsLink from "./bank-details/bankDetailsLink";
 import { useRouter } from "next/router";
 import RecommendedJobsLink from "@/components/dashboard/RecommendedJobsLink";
-import { ListItemDecorator } from "@mui/joy";
-import Chip from "@mui/joy/Chip";
 import VisibilityLink from "../visibility/VisibilityLink";
+import ThemeContainer from "@/components/theme/ThemeContainer";
+import { ListItemIcon } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonIcon from '@mui/icons-material/Person';
+import SettingsIcon from '@mui/icons-material/Settings';
+import GavelIcon from '@mui/icons-material/Gavel';
 
 export default function SWDashboardMenu() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -45,19 +49,23 @@ export default function SWDashboardMenu() {
   };
 
   return (
-    <List
+   <ThemeContainer>
+     <List
       sx={{ width: "100%", maxWidth: 360, pl: 0, overflowY: "auto" }}
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      <ListItemButton sx={{ ml: 1 }} onClick={accountHandleClick}>
+      <ListItemButton sx={{ ml: 0 }} onClick={accountHandleClick}>
+            <ListItemIcon><AccountCircleIcon sx={{color:"yellow"}}/></ListItemIcon>
         <ListItemText primary="Account" />
         {openAccount ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={openAccount} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton onClick={profileHandleClick} sx={{ ml: 4 }}>
-            <ListItemText primary="Profile" />
+          <ListItemIcon><PersonIcon sx={{color:"yellow"}}/></ListItemIcon>
+          
+            <ListItemText sx={{fontSize:'2px'}} primary="Profile" />
             {openProfile ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={openProfile} timeout="auto" unmountOnExit>
@@ -78,15 +86,15 @@ export default function SWDashboardMenu() {
             onClick={() => {
               router.push("/dashboard/change-password");
             }}
-          >
+          > <ListItemIcon><SettingsIcon sx={{color:"yellow"}}/></ListItemIcon>
             <ListItemText primary="Change Password" />
           </ListItemButton>
           <ListItemButton
             sx={{ ml: 4 }}
             onClick={() => {
-              router.push("/dashboard/terms-and-condition");
+              router.push("/t&c");
             }}
-          >
+          > <ListItemIcon><GavelIcon sx={{color:"yellow"}}/></ListItemIcon>
             <ListItemText primary="Terms & Conditions" />
           </ListItemButton>
         </List>
@@ -122,5 +130,6 @@ export default function SWDashboardMenu() {
         customerHandleClick={customerHandleClick}
       />
     </List>
+    </ThemeContainer>
   );
 }

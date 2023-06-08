@@ -34,6 +34,7 @@ if(!data) return(
         <ListItemButton sx={{ ml: 8 }} onClick={()=>{
             router.push(`/dashboard/individual`)
         }}>
+          
             <ListItemText  primary={`Personal Info`} />
         </ListItemButton>
     )

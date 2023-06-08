@@ -1,12 +1,11 @@
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Link from "next/link";
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import axios from 'axios';
-import useSWR from 'swr'
-import { getUserServices } from '@/lib/utils/user';
 import { useRouter } from 'next/router';
+import BusinessIcon from '@mui/icons-material/Business';
+import { ListItemIcon } from '@mui/material';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 
 export default function ServiceLink(){
@@ -19,8 +18,8 @@ export default function ServiceLink(){
        
         <ListItemButton  sx={{ ml: 8 }}  onClick={()=>{
             router.push('/sw-dashboard/service/add-service')
-          }}>
-    <ListItemText primary={'Add Service'} />      
+          }}>   <ListItemIcon><AddBusinessIcon sx={{color:"yellow"}}/></ListItemIcon>
+    <ListItemText primary={'Add Services'} />      
     </ListItemButton>
     )
     
@@ -28,7 +27,8 @@ export default function ServiceLink(){
             <ListItemButton  sx={{ ml: 8 }}  onClick={()=>{
                 router.push('/sw-dashboard/service')
               }}>
-        <ListItemText primary={'Service'} />      
+                    <ListItemIcon><BusinessIcon sx={{color:"yellow"}}/></ListItemIcon>
+        <ListItemText primary={'Services'} />      
         </ListItemButton>
          
         )

@@ -17,8 +17,8 @@ export default function Logout(){
     return(           
            
         <>
-        <Button   sx={{textTransform:'capitalize'}}
-                variant='contained'
+        <Button   sx={{textTransform:'capitalize',color:'white'}}
+                variant='outlined'
                 size='small'
                 endIcon={<LogoutIcon/>}
                  onClick={()=>{

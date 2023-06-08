@@ -32,10 +32,9 @@ export default function DP() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: ".5rem 1rem",
       }}
     >
-      <ProfilePic pic={user && user.dpFileName} />
+      <ProfilePic/>
       <br />
 
       {user && user.type !== "admin" && (

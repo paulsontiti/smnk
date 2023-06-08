@@ -38,9 +38,7 @@ function AdsStepper() {
   if (!data || data.length < 1) return <p></p>;
   return (
     <Box
-      sx={{ maxWidth: "100%", flexGrow: 1 }}
-      position={"relative"}
-      m={"1rem"}
+     
     >
       <Paper
         square
@@ -53,9 +51,7 @@ function AdsStepper() {
           bgcolor: "background.default",
         }}
       >
-        <Typography fontWeight={"bold"} textTransform={"capitalize"}>
-          {data && data[activeStep].title}
-        </Typography>
+     
       </Paper>
       <AutoPlaySwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -73,6 +69,7 @@ function AdsStepper() {
                   message={ad.description}
                   src={`/api/multer/ads/${ad.imgName}`}
                   landingPage={ad.landingPage}
+                  actionText="Learn More"
                 />
               ) : null}
             </div>

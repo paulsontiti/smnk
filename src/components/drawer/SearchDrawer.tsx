@@ -9,6 +9,7 @@ import {
   Autocomplete,
   Container,
   Typography,
+  Button,
 } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
@@ -53,7 +54,7 @@ const GroupItems = styled("ul")({
   padding: 0,
 });
 
-export default function SearchDrawer() {
+export default function SearchDrawer({footer}:{footer:boolean}) {
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const [openJobDrawer, setOpenJobDrawer] = React.useState(false);
   const [openServicesDrawer, setOpenServicesDrawer] = React.useState(false);
@@ -95,21 +96,23 @@ export default function SearchDrawer() {
   };
   return (
     <Box ml={"1rem"}>
-      <IconButton
-        onClick={
-          //() => {
+      {footer ? <><Button variant="outlined" startIcon={<SearchIcon />} sx={{textTransform:'lowercase',color:'yellow'}}  onClick={
           handleMenu
-          //setOpenDrawer(!openDrawer);
+        }>
+  Search
+</Button></> : <IconButton
+        onClick={
+          handleMenu
         }
-        //}
+        
         size="large"
         edge="start"
         color="inherit"
         aria-label="menu"
-        sx={{ mr: 2 }}
+        sx={{ mr: 2,color:'yellow' }}
       >
         <SearchIcon />
-      </IconButton>
+      </IconButton>}
       <Box>
         <Menu
           id="menu-appbar"

@@ -10,6 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import { LoadingButton } from "@mui/lab";
 import SnackbarComponent from "../snackbar/SnackBar";
+import AdminChatAction from "./actions/AdminChatAction";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -50,7 +51,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-const ImageDialog = React.forwardRef(({ action }: {action: ()=>Promise<any> }, _ref) => {
+const ImageDialog = React.forwardRef(({ action,receiverId}: {receiverId:string,action: ()=>Promise<any> }, _ref) => {
   //declare component's state
   const [open, setOpen] = useState(false);
   const [imgSrc, setImgSrc] = useState("");
@@ -120,13 +121,7 @@ const snackbarRef = useRef()
         >
           Confirm
         </LoadingButton>
-        <Button
-          size="small"
-          variant="outlined"
-          sx={{ textTransform: "capitalize" }}
-        >
-          Message Client
-        </Button>
+       <AdminChatAction receiverId=""/>
       </DialogActions>
     </BootstrapDialog>
     </>

@@ -16,6 +16,9 @@ import DownloadFileBottomNavigation from "../bottomNavigation/DownloadFileBottom
 import ProposalActionsBottomNavigation from "../bottomNavigation/ProposalActionsBottomNavigation";
 import GenericDialog from "../dialog/GenericDialog";
 import SWFullDetailsAccordion from "../dialog/contents/SWFullDetailsAccordion";
+import SnackbarComponent from "@/components/snackbar/SnackBar";
+import { AlertColor } from "@mui/material";
+
 
 export default function ClientProposalDetailsAccordion({
   proposal,
@@ -26,7 +29,10 @@ export default function ClientProposalDetailsAccordion({
 }) {
   const router = useRouter();
   const [sw, setSw] = useState<User>({} as User);
-
+  const [msg, setMsg] = useState("");
+  const [color, setColor] = useState<AlertColor>("error");
+   //declare refs
+   const snackBarRef = useRef();
   const swDetailsRef = useRef();
 
   useEffect(() => {
@@ -36,7 +42,7 @@ export default function ClientProposalDetailsAccordion({
     })();
   }, [proposal.userId]);
 
-  if (!proposal) return <p></p>;
+  if (!proposal) return <p></p>
 
   return (
     <Accordion>
@@ -72,6 +78,7 @@ export default function ClientProposalDetailsAccordion({
         </Box>
       </AccordionSummary>
       <AccordionDetails>
+      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
         <Box>{proposal.content}</Box>
         {proposal.file.name && (
           <Box display={"flex"}
@@ -86,7 +93,7 @@ export default function ClientProposalDetailsAccordion({
             </Typography>
             <DownloadFileBottomNavigation
               handleDownloadClick={() =>
-                downloadReport(`/uploads/proposals/${proposal.file.name}`)
+                downloadReport(`/api/multer/proposal/${proposal.file.name}`)
               }
             />
 
@@ -106,10 +113,16 @@ export default function ClientProposalDetailsAccordion({
                   jobId
                 );
                 if (accepted) {
-                  alert(message);
+                  setMsg(message);
+                  setColor("success");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
                   router.push("/c-dashboard/job");
                 }else{
-                  alert(message)
+                  setMsg(message);
+                  setColor("error");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
                 }
               }
             }}
@@ -124,10 +137,16 @@ export default function ClientProposalDetailsAccordion({
                   jobId
                 );
                 if (rejected) {
-                  alert(message);
+                  setMsg(message);
+                  setColor("success");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
                   router.push("/c-dashboard/job");
                 }else{
-                  alert(message)
+                  setMsg(message);
+                  setColor("error");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
                 }
               }
             }}

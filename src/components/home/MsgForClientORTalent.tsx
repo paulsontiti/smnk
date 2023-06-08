@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 
-function MsgForClientORTalent({src,msg}:{src:string,msg:string}) {
+function MsgForClientORTalent({src,msg,title}:{src:string,title:string,msg:string}) {
   return (
     <Box position={"relative"}>
     <Box
@@ -32,6 +32,9 @@ function MsgForClientORTalent({src,msg}:{src:string,msg:string}) {
 
     >
       <Typography variant="body2" fontWeight={'bold'}>
+        {title}
+      </Typography>
+      <Typography variant="caption">
         {msg}
       </Typography>
     </Box>

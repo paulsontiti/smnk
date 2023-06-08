@@ -2,14 +2,17 @@
 import useSWR from 'swr'
 import {getAllJobs } from '@/lib/types/job'
 import JobsDetailsTable from './jobs/JobsDetailsTable'
+import ErrorAlert from '@/components/alerts/Error'
+import InfoAlert from '@/components/alerts/Info'
+import LoadingAlert from '@/components/alerts/Loading'
 
 export default function Jobs(){
 
     const {data,error} = useSWR('getjobs',getAllJobs())
 
-    if(error) return <p>An Error occurred</p>
-    if(!data) return <p>loading.....</p>
-    if(data.length < 1) return <p>No Jobs Available.</p>
+    if(error) return <ErrorAlert message='An Error occurred fetching data. Please ensure you are connected to the internet and try again or refresh te page'/>
+    if(!data) return <LoadingAlert/>
+    if(data.length < 1) return <InfoAlert message='No Jobs available'/>
 
     return(
        <>

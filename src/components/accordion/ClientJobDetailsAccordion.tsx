@@ -23,6 +23,8 @@ import MoneyIcon from "@mui/icons-material/Money";
 import ClientJobDetailsAction from "../bottomNavigation/ClientJobDetailsAction";
 import DoneIcon from "@mui/icons-material/Done";
 import NotStartedIcon from "@mui/icons-material/NotStarted";
+import ErrorAlert from "../alerts/Error";
+import LoadingAlert from "../alerts/Loading";
 
 export default function ClientJobDetailsAccordion({ job }: { job: any }) {
   const { user } = useSelector((state: RootState) => state.users);
@@ -46,8 +48,8 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
     getJobStatus(job._id, setJobStatus, setError, user._id);
   }, [job._id, user._id]);
 
-  if (error) return <p>Error occurred</p>;
-  if (!jobStatus) return <p>loading............</p>;
+  if (error) return <ErrorAlert/>
+  if (!jobStatus) return <LoadingAlert/>
 
   return (
     <Accordion>

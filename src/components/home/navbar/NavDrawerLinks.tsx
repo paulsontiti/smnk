@@ -6,7 +6,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
-import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
+import BusinessIcon from '@mui/icons-material/Business';
 import WorkIcon from "@mui/icons-material/Work";
 import FeedIcon from "@mui/icons-material/Feed";
 import Collapse from "@mui/material/Collapse";
@@ -34,8 +34,8 @@ export default function NavDrawerLinks() {
   };
   
   return (
-      <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      <List component="nav" aria-label="main mailbox folders">
+      <Box sx={{ width: "100%", maxWidth: 360}}>
+      <List component="nav" aria-label="main mailbox folders" >
         <ListItemButton
           selected={selectedIndex === 0}
           onClick={(event) => {
@@ -44,7 +44,7 @@ export default function NavDrawerLinks() {
           }}
         >
           <ListItemIcon>
-            <InfoIcon />
+            <InfoIcon sx={{color:'yellow'}}/>
           </ListItemIcon>
           <ListItemText primary="About SMNK" sx={{ mr: "2rem" }} />
           {openAboutSMNK ? <ExpandLess /> : <ExpandMore />}
@@ -63,7 +63,7 @@ export default function NavDrawerLinks() {
               }}
             >
               <ListItemIcon>
-                <InfoIcon />
+                <FeedIcon   sx={{color:'yellow'}}/>
               </ListItemIcon>
               <ListItemText primary="About Us" />
             </ListItemButton>
@@ -75,7 +75,7 @@ export default function NavDrawerLinks() {
               }}
             >
               <ListItemIcon>
-                <RemoveRedEyeIcon />
+                <RemoveRedEyeIcon  sx={{color:'yellow'}}/>
               </ListItemIcon>
               <ListItemText primary="Vision" />
             </ListItemButton>
@@ -87,7 +87,7 @@ export default function NavDrawerLinks() {
               }}
             >
               <ListItemIcon>
-                <ConfirmationNumberIcon />
+                <ConfirmationNumberIcon   sx={{color:'yellow'}}/>
               </ListItemIcon>
               <ListItemText primary="Mission" />
             </ListItemButton>
@@ -99,7 +99,7 @@ export default function NavDrawerLinks() {
               }}
             >
               <ListItemIcon>
-                <ConfirmationNumberIcon />
+                <ConfirmationNumberIcon   sx={{color:'yellow'}}/>
               </ListItemIcon>
               <ListItemText primary="Purpose" />
             </ListItemButton>
@@ -111,7 +111,7 @@ export default function NavDrawerLinks() {
               }}
             >
                   <ListItemIcon>
-                <Diversity3Icon />
+                <Diversity3Icon   sx={{color:'yellow'}}/>
               </ListItemIcon>
               <ListItemText primary="Our Team" />
             </ListItemButton>
@@ -128,7 +128,7 @@ export default function NavDrawerLinks() {
           }}
         >
           <ListItemIcon>
-            <MiscellaneousServicesIcon />
+            <BusinessIcon   sx={{color:'yellow'}}/>
           </ListItemIcon>
           <ListItemText primary="Services" />
         </ListItemButton>
@@ -140,12 +140,12 @@ export default function NavDrawerLinks() {
           }}
         >
           <ListItemIcon>
-            <WorkIcon />
+            <WorkIcon   sx={{color:'yellow'}}/>
           </ListItemIcon>
           <ListItemText primary="Jobs" />
         </ListItemButton>
       
-        <ListItemButton
+        {/* <ListItemButton
           selected={selectedIndex === 8}
           onClick={(event) => handleListItemClick(event, 8)}
         >
@@ -153,7 +153,7 @@ export default function NavDrawerLinks() {
             <FeedIcon />
           </ListItemIcon>
           <ListItemText primary="Blog" />
-        </ListItemButton>
+        </ListItemButton> */}
         <ListItemButton
           selected={selectedIndex === 9}
           onClick={(event) => {
@@ -162,7 +162,7 @@ export default function NavDrawerLinks() {
           }}
         >
           <ListItemIcon>
-            <GavelIcon />
+            <GavelIcon  sx={{color:'yellow'}}/>
           </ListItemIcon>
           <ListItemText primary="Terms & Conditions" />
         </ListItemButton>

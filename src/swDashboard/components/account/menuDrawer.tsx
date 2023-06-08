@@ -3,14 +3,13 @@ import {IconButton,Drawer} from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
 
-export default function MenuDrawer({children}:{children:JSX.Element}) {
+export default function MenuDrawer({children,color}:{children:JSX.Element,color:string}) {
   const [openDrawer, setOpenDrawer] = React.useState(false)
-
  
   return (
     <div>
      
-            <IconButton onClick={()=>{setOpenDrawer(!openDrawer)}}>
+            <IconButton onClick={()=>{setOpenDrawer(!openDrawer)}} sx={{color:{color}}}>
                 <MenuIcon/>
             </IconButton>
           <Drawer

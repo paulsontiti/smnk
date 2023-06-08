@@ -4,8 +4,10 @@ import { jobSchema } from "@/lib/types/job";
 import FormikContainer from "@/components/form/formikContainer";
 import { FormControls, FormParams, createFormObject, states } from "@/lib/form";
 import { JobDetails } from "@/lib/job";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createSetFromArray, fetchTalents } from "@/lib/search";
+import SnackbarComponent from "@/components/snackbar/SnackBar";
+import { AlertColor } from "@mui/material";
 
 export const validateDate = (startDate: Date, endDate: Date) => {
   return endDate > startDate && new Date(startDate) > new Date() && new Date(endDate) > new Date() ;
@@ -28,6 +30,11 @@ export default function JobForm({
 }) {
   const [jobCategoryOptions, setJobCategoryOption] = useState<string[]>();
   const router = useRouter();
+  const [msg, setMsg] = useState("");
+  const [color, setColor] = useState<AlertColor>("error");
+
+  //declare refs
+  const snackBarRef = useRef();
 
   useEffect(() => {
     (async () => {
@@ -55,11 +62,17 @@ export default function JobForm({
             res(data);
           })
           .catch((err: any) => {
-            console.log("Error from formik ", err);
+            setMsg('An error occurred while filling the form');
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
             res(err);
           });
       } else {
-        alert("Your End date should be greater than your Start Date and Both dates should be after yesterday");
+        setMsg("Your End date should be greater than your Start Date and Both dates should be after yesterday");
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
         res("");
       }
     });
@@ -149,5 +162,10 @@ export default function JobForm({
     headerTitle: "Provide Your Job Details",
   };
 
-  return <FormikContainer formParams={formParams} />;
+  return (
+    <>
+    <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+      <FormikContainer formParams={formParams} />
+    </>
+  );
 }

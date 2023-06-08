@@ -56,7 +56,9 @@ const router = useRouter()
       }}>
         <ListItemText  primary='Change Password' />
       </ListItemButton>
-      <ListItemButton  sx={{ ml: 4 }}>
+      <ListItemButton  sx={{ ml: 4 }} onClick={()=>{
+        router.push('/t&c')
+      }}>
         
         <ListItemText primary="Terms & Conditions" />
       </ListItemButton>

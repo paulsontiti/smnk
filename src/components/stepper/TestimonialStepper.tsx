@@ -41,7 +41,7 @@ import TestimonialDetails from '../testimonials/TestimonialDetails';
   };
 if(!data) return <p></p>
   return (
-    <Box sx={{ maxWidth: "100%", flexGrow: 1, }}>
+    <Box sx={{ maxWidth: "100%", flexGrow: 1,mt:2 }}>
       <Paper
         square
         elevation={0}

@@ -1,37 +1,31 @@
 import * as React from "react";
 import { ColorPaletteProp } from "@mui/joy/styles";
-import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
-import Button from "@mui/joy/Button";
 import IconButton from "@mui/joy/IconButton";
 import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
-import Chip from "@mui/joy/Chip";
 import Divider from "@mui/joy/Divider";
-import Input from "@mui/joy/Input";
 import List from "@mui/joy/List";
 import ListSubheader from "@mui/joy/ListSubheader";
 import ListItem from "@mui/joy/ListItem";
-import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import ListItemButton from "@mui/joy/ListItemButton";
 import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
-import SendIcon from "@mui/icons-material/Send";
 import Image from "next/image";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import SubscribeToNewsLetter from "./SubscribeToNewsLetter";
-import Logout from "../dashboard/logout";
-import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import LogoutSwitch from "../switch/LogoutSwitch";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import SearchDrawer from "../drawer/SearchDrawer";
 
 export default function Footer() {
   const [color, setColor] = React.useState<ColorPaletteProp>("primary");
   const {_id} = useSelector((state:RootState)=>state.users.user)
+  const router = useRouter()
   return (
     <Sheet
       variant="solid"
@@ -56,27 +50,36 @@ export default function Footer() {
           width={50}
           height={50}
           style={{ borderRadius: "50%",marginRight:'.5rem' }}
+          onClick={()=>{
+            router.push('/')
+          }}
         />
 
         <Divider orientation="vertical" sx={{bgcolor:'white'}} />
-        <IconButton variant="plain">
+        <IconButton variant="plain" sx={{color:'yellow'}} onClick={()=>{
+          window.location.href = 'https://www.facebook.com/smnkLTD'
+        }}>
           <FacebookRoundedIcon />
         </IconButton>
-        <IconButton variant="plain">
+        <IconButton variant="plain"  sx={{color:'yellow'}} onClick={()=>{
+          window.location.href = 'https://twitter.com/SMNKservicehub?t=15Dcj5Anh9NyTQnAw8f6fA&s=08'
+        }}>
           <TwitterIcon />
         </IconButton>
-        <IconButton variant="plain">
+        <IconButton variant="plain"  sx={{color:'yellow'}} onClick={()=>{
+          window.location.href = 'https://www.instagram.com/smnkservicehub/'
+        }}>
           <InstagramIcon />
         </IconButton>
-        <IconButton variant="plain">
+        {/* <IconButton variant="plain">
           <WhatsAppIcon />
-        </IconButton>
-        <IconButton variant="plain">
+        </IconButton> */}
+        <IconButton variant="plain" sx={{color:'yellow'}}  onClick={()=>{
+          window.location.href = 'https://www.linkedin.com/company/smnk-limited-nigeria/'
+        }}>
           <LinkedInIcon />
         </IconButton>
       </Box>
-      <Divider sx={{ my: 2 }} />
-    <SubscribeToNewsLetter/>
       <Divider sx={{ my: 2 }} />
       <Box
         sx={{
@@ -97,17 +100,23 @@ export default function Footer() {
             gap: 1,
           }}
         >
-          <AspectRatio
+          {/* <AspectRatio
             ratio="21/9"
             minHeight={80}
             sx={{ flexBasis: { xs: 200, md: "initial" } }}
           >
-          
-          </AspectRatio>
+          Hello
+          </AspectRatio> */}
           <CardContent>
-            <Typography level="body2">Intro to the MUI ecosystem</Typography>
+            <Typography level="body2">Contact Details:</Typography>
             <Typography level="body3" sx={{ mb: 0.5 }}>
-              MUI blog
+            Office address: No 2 Lucky Nwagwu street, Lugbe, Abuja
+            </Typography>
+            <Typography level="body3" sx={{ mb: 0.5 }}>
+            Email: info@smnklimited.com
+            </Typography>
+            <Typography level="body3" sx={{ mb: 0.5 }}>
+            Phone: 09048164462
             </Typography>
           </CardContent>
         </Card>
@@ -118,80 +127,29 @@ export default function Footer() {
           sx={{ flexGrow: 0, "--ListItem-radius": "8px" }}
         >
           <ListItem nested sx={{ width: { xs: "50%", md: 140 } }}>
-            <ListSubheader>Quick Links</ListSubheader>
+            <ListSubheader sx={{color:'yellow'}} >Quick Links</ListSubheader>
             <List>
               <ListItem>
-                <ListItemButton>About SMNK</ListItemButton>
+                <ListItemButton onClick={()=>{
+                  router.push('/about-us')
+                }}>About SMNK</ListItemButton>
               </ListItem>
               <ListItem>
-                <ListItemButton>Services</ListItemButton>
+                <ListItemButton onClick={()=>{
+                  router.push('/services')
+                }}>Services</ListItemButton>
               </ListItem>
-              <ListItem>
+              {/* <ListItem>
                 <ListItemButton>Blog</ListItemButton>
-              </ListItem>
+              </ListItem> */}
               <ListItem>
-                <ListItemButton>Contact us</ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>Jobs</ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>Talents</ListItemButton>
+                <ListItemButton  onClick={()=>{
+                  router.push('/jobs')
+                }}>Jobs</ListItemButton>
               </ListItem>
             </List>
           </ListItem>
-          <ListItem nested sx={{ width: { xs: "50%", md: 180 } }}>
-            <ListSubheader>SMNK Products</ListSubheader>
-            <List sx={{ "--ListItemDecorator-size": "32px" }}>
-              <ListItem>
-                <ListItemButton>
-                  <ListItemDecorator>
-                  
-                  </ListItemDecorator>
-                  MUI Core
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>
-                  <ListItemDecorator>
-                    
-                  </ListItemDecorator>
-                  MUI X
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>
-                  <ListItemDecorator>
-                  
-                  </ListItemDecorator>
-                  MUI Toolpad
-                  <Chip
-                    variant="soft"
-                    size="sm"
-                    sx={{ minHeight: 20, fontSize: "xs2", ml: "auto" }}
-                  >
-                    BETA
-                  </Chip>
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>
-                  <ListItemDecorator>
-                
-                  </ListItemDecorator>
-                  Design kits
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>
-                  <ListItemDecorator>
-                  
-                  </ListItemDecorator>
-                  Templates
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </ListItem>
+        <SearchDrawer footer={true}/>
         </List>
       </Box>
       <Divider sx={{ my: 2 }} />
@@ -202,7 +160,7 @@ export default function Footer() {
             <Typography textColor="text.tertiary"> developed by</Typography>
           }
         >
-          Black Magic Technology
+          Black Wizards Technology
         </Typography>
         <Typography
           level="body2"

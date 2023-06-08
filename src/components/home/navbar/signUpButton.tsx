@@ -9,8 +9,8 @@ export default function SignUpButton({matches}:{matches:boolean}){
         <Button onClick={()=>{
                             router.push('/account/signup') 
                         }} 
-                sx={{textTransform:'capitalize',margin:'1rem 0'}}
-                variant='contained'
+                sx={{textTransform:'capitalize',margin:'1rem 0',color:'white'}}
+                variant='outlined'
                 size='small'
                 endIcon = {!matches && <AccountBoxIcon/>}
         >Sign Up</Button>

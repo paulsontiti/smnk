@@ -1,10 +1,11 @@
 import { RootState } from "@/store";
 import { Chip } from "@mui/joy";
-import { ListItemButton } from "@mui/material";
+import { Box, ListItemButton, ListItemIcon } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 function VisibilityLink() {
   const router = useRouter();
@@ -29,7 +30,7 @@ function VisibilityLink() {
         onClick={() => {
           router.push("/sw-dashboard/visibility");
         }}
-      >
+      > <ListItemIcon><VisibilityIcon sx={{color:"yellow"}}/></ListItemIcon>
         Boost Visibility
         <Chip
         color="success"
@@ -40,7 +41,7 @@ function VisibilityLink() {
             fontSize: "xs2",
             position: "absolute",
             top: -8,
-            ml: 10,
+            ml: 14,
           }}
         >
           Recommended
@@ -48,9 +49,11 @@ function VisibilityLink() {
       </ListItemButton>
     );
   return (
+ 
+   
     <ListItemButton sx={{ ml: 4 }}  onClick={() => {
         router.push("/sw-dashboard/visibility");
-      }}>
+      }}><ListItemIcon><VisibilityIcon sx={{color:"yellow"}}/></ListItemIcon>
       Visibility
       <Chip
         variant="soft"
@@ -60,7 +63,7 @@ function VisibilityLink() {
           fontSize: "xs2",
           position: "absolute",
           top: 0,
-          ml: 7,
+          ml: 13,
         }}
       >
         {subType}

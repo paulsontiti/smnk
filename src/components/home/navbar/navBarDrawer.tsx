@@ -15,9 +15,8 @@ export default function NavbarDrawer() {
         }}
         size="large"
         edge="start"
-        color="inherit"
         aria-label="menu"
-        sx={{ mr: 2 }}
+        sx={{ mr: 2,color:'yellow'}}
       >
         <MenuIcon />
       </IconButton>

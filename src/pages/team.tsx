@@ -38,7 +38,7 @@ function TeamPage() {
   );
 }
 
-const CEO = () => {
+export const CEO = () => {
   return (
     <Box mt={2}>
       <Badge color="secondary" badgeContent={"C.E.O"}>

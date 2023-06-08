@@ -7,14 +7,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import ProfilePicUploader from "./ProfilePicUploader";
 
-export default function ProfilePic({pic}:{pic:string}) {
+export default function ProfilePic() {
   const { dpFileName } = useSelector((state: RootState) => state.users.user);
 
 
   
  
   return (
-        <Stack direction="row" spacing={2} sx={{margin:'2rem'}}>
+        <Stack direction="row">
           <Badge
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -28,9 +28,9 @@ export default function ProfilePic({pic}:{pic:string}) {
   dpFileName ?             <Avatar
   alt=""
   src={`/api/multer/profile-pic/${dpFileName}`}
-  sx={{ width: 50, height: 50 }}
+  sx={{ width: 80, height: 80 }}
 /> :
-<Skeleton variant="circular" width={50} height={50} />
+<Skeleton variant="circular" width={80} height={80} />
 
 }
           </Badge>

@@ -90,7 +90,7 @@ const infoFormObject:FormControlObject ={
     {name:'lastName',label:'Last Name', control:'input'},
     {name:'userName',label:'User Name', control:'input'},
     {name:'state',label:'State', control:'auto',options:states},
-    {name:'lga',label:'LGA', control:'auto',options:states,fieldToCheckAgainst:'state'},
+    {name:'lga',label:'LGA', control:'auto',options:states,fieldToCheckAgainst:'state',valueOfFieldToCheckAgainst:''},
     {name:'address',label:'Address', control:'input'},
     {name:'description',label:'Description', control:'textarea'},
   ]

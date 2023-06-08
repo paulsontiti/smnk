@@ -7,7 +7,7 @@ export default function LoginButton(){
 
     return(
 
-        <Button sx={{textTransform:'capitalize',margin:'1rem .5rem'}}
+        <Button sx={{textTransform:'capitalize',margin:'1rem .5rem', color:'white'}}
                 variant="outlined"
                 size="small"
                 endIcon={<LoginIcon/>}

@@ -4,7 +4,6 @@ import { Avatar, IconButton,Skeleton } from "@mui/material";
 import moment from "moment";
 import JobsDetailsTableAction from "./JobsDetailsTableAction";
 import ImageDialog from "@/components/dialog/ImageDialog";
-import axios from "axios";
 import { confirmPayment } from "@/lib/payment";
 import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -46,7 +45,7 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
               param.row.pop ? <Avatar src={`/api/multer/pop/${param.row.pop}`} /> : <Skeleton variant="circular" width={50} height={50}/>
             }
           </IconButton>
-            <ImageDialog  action={()=>{
+            <ImageDialog receiverId={param.row.userId}  action={()=>{
               return action(param.row._id)}}
               ref={imageDialogRef} 
             />
