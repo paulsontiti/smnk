@@ -15,6 +15,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import InfoIcon from "@mui/icons-material/Info";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import HomeIcon from '@mui/icons-material/Home';
 
 import { useRouter } from "next/router";
 import { Typography } from "@mui/material";
@@ -37,6 +38,10 @@ export default function NavDrawerLinks() {
   return (
       <Box sx={{ width: "100%", maxWidth: 360}}>
       <List component="nav" aria-label="main mailbox folders" >
+      <ListItemButton sx={{ ml: 0 }} onClick={()=>{router.push('/')}}>
+        <ListItemIcon><HomeIcon sx={{color:"white"}}/></ListItemIcon>
+          <ListItemText primary={<Typography variant="body1">Home</Typography>} />
+        </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 0}
           onClick={(event) => {

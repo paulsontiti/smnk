@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Backdrop,
-  Container,
   Button,
   CircularProgress,
   Typography,Box
@@ -13,8 +12,8 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 function FormikContainer({ formParams }: { formParams: FormParams }) {
   return (
-    <Container
-     sx={{p:{sm:'5rem',md:'5rem 15rem',lg:'5rem 25rem',xl:'5rem 25rem'}}}
+    <Box
+     sx={{p:{xs:'3rem 1rem',sm:'5rem',md:'5rem 15rem',lg:'5rem 25rem',xl:'5rem 25rem'}}}
      
     >
       <Typography>{formParams.headerTitle}</Typography>
@@ -88,7 +87,7 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
           </Form>
         )}
       </Formik>
-    </Container>
+    </Box>
   );
 }
 
