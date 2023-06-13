@@ -107,7 +107,7 @@ export default function JobForm({
       label: "Description",
       control: "textarea",
       required: true,
-      helperText: "Describe of your job",
+      helperText: "Describe what you want to be done for you",
     },
     {
       name: "budget",

@@ -1,32 +1,36 @@
-import { createSetFromArray, fetchJobs } from '@/lib/search'
-import React, { useEffect, useState } from 'react'
-import { Container, Typography } from '@mui/material'
-import JobsByCategory from './JobsByCategory'
+import { createSetFromArray, fetchJobs } from "@/lib/search";
+import React, { useEffect, useState } from "react";
+import { Container, Typography } from "@mui/material";
+import JobsByCategory from "./JobsByCategory";
+import LoadingAlert from "../alerts/Loading";
+import InfoAlert from "../alerts/Info";
 
 function AllJobs() {
+  const [categories, setCategories] = useState<string[] | null>(null);
 
-    const [categories,setCategories] = useState<string[] | null>(null)
-
-    useEffect(()=>{
-        (
-            async()=>{
-                const data = await fetchJobs()
-                setCategories(createSetFromArray(data.flat().sort()))
-            }
-        )()
-    },[])
-    if(!categories)return <p>loading....</p>
-  if(categories.length < 1) return <p>No Jobs</p>
+  useEffect(() => {
+    (async () => {
+      const data = await fetchJobs();
+      setCategories(createSetFromArray(data.flat().sort()));
+    })();
+  }, []);
+  if (!categories) return <LoadingAlert />;
+  if (categories.length === 0) return <InfoAlert message="No Jobs Available" />;
   return (
-   <Container>
-    <Typography fontWeight={'bold'} textTransform={'capitalize'} mt={5} mb={5}>All Jobs By Categories</Typography>
-    {
-        categories.map((category,i)=>(
-          <JobsByCategory category={category} key={i}/>
-        ))
-    }
-   </Container>
-  )
+    <Container>
+      <Typography
+        fontWeight={"bold"}
+        textTransform={"capitalize"}
+        mt={5}
+        mb={5}
+      >
+        All Jobs By Categories
+      </Typography>
+      {categories.map((category, i) => (
+        <JobsByCategory category={category} key={i} />
+      ))}
+    </Container>
+  );
 }
 
-export default AllJobs
+export default AllJobs;

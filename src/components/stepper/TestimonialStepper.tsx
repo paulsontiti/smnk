@@ -40,6 +40,7 @@ import TestimonialDetails from '../testimonials/TestimonialDetails';
     setActiveStep(step);
   };
 if(!data) return <p></p>
+if(data && data.length < 1) return <p></p>
   return (
     <Box sx={{ maxWidth: "100%", flexGrow: 1,mt:2 }}>
       <Paper

@@ -5,6 +5,8 @@ import React from "react";
 import useSWR from "swr";
 import { Backdrop, CircularProgress,Alert,AlertTitle } from "@mui/material";
 import UsersDetailsTable from "@/admin/components/sw/UsersDetailsTable";
+import ErrorAlert from "@/components/alerts/Error";
+import InfoAlert from "@/components/alerts/Info";
 
 function SW() {
   const { data, error } = useSWR("getSW", getAllSkilledWorkers());
@@ -12,10 +14,7 @@ function SW() {
   if (error)
     return (
       <AdminLayout>
-        <Alert severity="error">
-          <AlertTitle>Server Error</AlertTitle>
-          An Error occurred fetching data from the server — <strong>Please try again or refresh the page</strong>
-        </Alert>
+       <ErrorAlert/>
       </AdminLayout>
     );
   if (!data)
@@ -33,7 +32,7 @@ function SW() {
   if (Array.isArray(data) && data.length < 1)
     return (
       <AdminLayout>
-        <p>No Skilled Workers Available.</p>
+      <InfoAlert message="No Skilled Worker available"/>
       </AdminLayout>
     );
   //console.log(data)

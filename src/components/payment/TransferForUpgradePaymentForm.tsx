@@ -1,6 +1,6 @@
 
-import React, { useState } from "react";
-import {IconButton,Typography } from "@mui/material";
+import React, { useRef, useState } from "react";
+import {IconButton,Typography,AlertColor} from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import UploadIcon from "@mui/icons-material/Upload";
 import axios from "axios";
@@ -9,13 +9,19 @@ import Image from 'next/image'
 import {useRouter} from 'next/router'
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import SnackbarComponent from "../snackbar/SnackBar";
+import { LoadingButton } from "@mui/lab";
 
 
 
 function TransferForUpgradePaymentForm({packageName}:{packageName:string}) {
-
+  const [uploading, setUploading] = useState(false);
   const {_id} = useSelector((state:RootState)=>state.users.user)
+  const [msg, setMsg] = useState("");
+  const [color, setColor] = useState<AlertColor>("error");
 
+  //declare refs
+  const snackBarRef = useRef();
   const router = useRouter()
 
   const [file, setFile] = useState<any>();
@@ -33,6 +39,7 @@ function TransferForUpgradePaymentForm({packageName}:{packageName:string}) {
   };
 
   const submitHandler = async (e:any) => {
+    setUploading(true)
     e.preventDefault()
     try {
       if (file) {
@@ -47,16 +54,29 @@ function TransferForUpgradePaymentForm({packageName}:{packageName:string}) {
           data: formData,
         });
         const data = await res.data;
-        alert(data.message)
         if(data.successful){
-          router.push('/c-dashboard')
+          setMsg(data.message);
+          setColor("success");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
+          router.push('/sw-dashboard')
+        }else{
+          setMsg(data.message);
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
         }
-        // setDp(data);
-        // setFile('')
       } else {
-        console.log("Invalid request");
+        setMsg('Invalid request,select proof of payment');
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
       }
     } catch (err: any) {
+      setMsg('An error occurred ,please try again');
+      setColor("error");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
       console.log(err);
       return false;
     }
@@ -65,6 +85,7 @@ function TransferForUpgradePaymentForm({packageName}:{packageName:string}) {
 
   return (
     <>
+     <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <SMNKBankDetails/>
       <form
         onSubmit={submitHandler}
@@ -76,7 +97,11 @@ function TransferForUpgradePaymentForm({packageName}:{packageName:string}) {
           file  && (
             <>
               <Image src={displayFile} alt="image to upload" width={100} height={100}/>
-              <UploadIcon />
+              <LoadingButton
+                loading={uploading}
+                loadingPosition="start"
+                startIcon={<UploadIcon sx={{ color: `${color}.900` }} />}
+              ></LoadingButton>
             </>
           )}
         </IconButton>

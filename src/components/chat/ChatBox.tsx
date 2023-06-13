@@ -9,7 +9,7 @@ import ErrorAlert from "../alerts/Error";
 import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
 
-const ChatBox = ({isAdmin}:{isAdmin:boolean}) => {
+const ChatBox = () => {
   const { _id } = useSelector((state: RootState) => state.users.user);
   const [chats, setChats] = useState<any[] | null>(null);
   const [error, setError] = useState<any | null>(null);
@@ -50,9 +50,9 @@ const ChatBox = ({isAdmin}:{isAdmin:boolean}) => {
 
           chat && chat.senderId ? (
             //this user is the sender for chats while the chat.sender is the receiver
-            <ReceiverChatAccordion receiverId={chat && chat.senderId} key={i} isAdmin={isAdmin} />
+            <ReceiverChatAccordion receiverId={chat && chat.senderId} key={i}/>
           ) : (
-            <ReceiverChatAccordion receiverId={chat && chat.receiverId} key={i}  isAdmin={isAdmin}/>
+            <ReceiverChatAccordion receiverId={chat && chat.receiverId} key={i}/>
           )
         )}
     </Container>

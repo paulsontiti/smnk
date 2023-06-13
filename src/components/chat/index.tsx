@@ -235,7 +235,7 @@ export const ChatGround = ({
 }) => {
   return (
     <Paper sx={{ mt: "1rem" }}>
-      <ChatHeader receiverId={receiverId} isChatRoom={false} isAdmin={isAdmin}/>
+      <ChatHeader receiverId={receiverId} isChatRoom={false}/>
       <Box
         sx={{ backgroundColor: "whitesmoke" }}
         pt={3}

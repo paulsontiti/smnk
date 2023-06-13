@@ -60,7 +60,7 @@ export default function ClientProposalDetailsAccordion({
           }}
         >
           <DPAvatar dp={sw.dpFileName} />
-          <UserRating rating={sw.rating} />
+          <UserRating rating={sw.rating} level={sw.level} type={sw.type}/>
           <IconButton
             onClick={() => {
               const refState = swDetailsRef.current as any;

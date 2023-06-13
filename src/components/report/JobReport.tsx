@@ -1,14 +1,51 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import FormikContainer from '../form/formikContainer'
 import {FormControls, FormParams, createFormObject } from '@/lib/form'
 import { object, string } from 'yup'
 import {useRouter} from 'next/router'
-import { ReportDetails, reportSubmitHandler } from '@/lib/report'
-
+import { ReportDetails} from '@/lib/report'
+import axios from 'axios'
+import SnackbarComponent from '../snackbar/SnackBar'
+import {AlertColor} from '@mui/material'
 
 function JobReportForm({jobId,url}:{jobId:string,url:string}) {
     
     const router = useRouter()
+    const [msg, setMsg] = useState("");
+    const [color, setColor] = useState<AlertColor>("error");
+  
+    //declare refs
+    const snackBarRef = useRef();
+      //report submit handler
+const reportSubmitHandler = async (values:any,router:any,url:string)=>{
+    
+    try{
+                const res = await axios({
+                    method:'POST',
+                    url:`${process.env.SMNK_URL}api/report/create-report`,
+                    data:values
+                })
+                const data = await res.data
+                if(data.successful){
+                  setMsg(data.message);
+                  setColor("success");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
+                    router.push('/dashboard/job/current')
+                }else{
+                  setMsg(data.message);
+                  setColor("error");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
+                }
+  }catch(err:any){
+    setMsg(err.message);
+                  setColor("error");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
+    return err
+  }
+}
      //formik submit handler
   const formikSubmitHandler = (values:any,formikHelpers:any)=>{
     const formData = new FormData()
@@ -25,6 +62,10 @@ function JobReportForm({jobId,url}:{jobId:string,url:string}) {
                reportSubmitHandler(formData,router,url)
               res(data)
           }).catch((err:any)=>{
+            setMsg(err.message);
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
             console.log('Error from formik ',err)
             res(err)
           })    
@@ -51,10 +92,12 @@ const validationSchema = object({
           buttonLabel:'Send',
           headerTitle: `What's Your Report`
         }
-        
-  return (
-    <FormikContainer formParams={formParams} />
-  )
+        return (
+          <>
+            <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+            <FormikContainer formParams={formParams} />
+          </>
+        );
 }
 
 export default JobReportForm

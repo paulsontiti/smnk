@@ -1,9 +1,12 @@
 import AdminCompliantsAccordion from "@/components/accordion/AdminCompliantsAccordion";
+import ErrorAlert from "@/components/alerts/Error";
+import InfoAlert from "@/components/alerts/Info";
+import LoadingAlert from "@/components/alerts/Loading";
 import { getAllComplaints } from "@/lib/complaint";
 import React, { useEffect, useState } from "react";
 
 function JobComplaintsContent({ jobId }: { jobId: string }) {
-  const [complaints, setComplaints] = useState<any[]>([]);
+  const [complaints, setComplaints] = useState<any[] | null>(null);
   const [error, setError] = useState();
 
   useEffect(() => {
@@ -14,14 +17,14 @@ function JobComplaintsContent({ jobId }: { jobId: string }) {
     })();
   }, [jobId]);
 
-  if (error) return <p>Error occurred while fetching job status</p>;
-  if (!complaints) return <p>loading....</p>;
+  if (error) return <ErrorAlert/>
+  if (!complaints) return <LoadingAlert/>
 
   return (
     <>
       {complaints.length > 0 ? (
         <AdminCompliantsAccordion complaints={complaints} />
-      ):<p>No Complaints</p>}
+      ):<InfoAlert message="No Complaints"/>}
     </>
   );
 }

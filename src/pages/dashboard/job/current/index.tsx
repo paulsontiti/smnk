@@ -1,3 +1,5 @@
+import ErrorAlert from '@/components/alerts/Error'
+import InfoAlert from '@/components/alerts/Info'
 import Layout from '@/components/dashboard/layout'
 import JobDetailsComponent from '@/components/job/JobDetails'
 import { Job } from '@/lib/types/job'
@@ -12,7 +14,7 @@ function CurrentJobPage() {
     const {_id} = useSelector((state:RootState)=>state.users.user)
 
     const [job,setJob] = useState<Job>()
-    
+    const [error,setError] = useState<Job>()
     useEffect(()=>{
         (
             async()=>{
@@ -26,14 +28,16 @@ function CurrentJobPage() {
                     
                 }catch(err:any){
                   console.log(err)
+                  setError(err)
                   return err
                 }
             }
         )()
     },[_id])
+    if(error) return <ErrorAlert/>
     if(!job) return (
     <Layout>
-      <Typography variant='body2' sx={{margin:'1rem 1rem'}}>No current Job</Typography>
+   <InfoAlert message='No Current Job'/>
     </Layout>
     )
    

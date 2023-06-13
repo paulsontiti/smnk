@@ -5,7 +5,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { useRouter } from "next/router";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import AddHomeWorkIcon from "@mui/icons-material/AddHomeWork";
-import { ListItemIcon } from "@mui/material";
+import { ListItemIcon, Typography } from "@mui/material";
 
 export default function ExpLink() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -15,30 +15,30 @@ export default function ExpLink() {
   if (user.experience.length < 1)
     return (
       <ListItemButton
-        sx={{ ml: 8 }}
+        sx={{ ml: 2 }}
         onClick={() => {
           router.push("/sw-dashboard/experience/add-experience");
         }}
       >
         {" "}
         <ListItemIcon>
-          <AddHomeWorkIcon sx={{ color: "yellow" }} />
+          <AddHomeWorkIcon sx={{ color: "white" }} />
         </ListItemIcon>
-        <ListItemText primary={"Add Experience"} />
+        <ListItemText primary={<Typography variant="caption">Add Experience</Typography>} />
       </ListItemButton>
     );
 
   return (
     <ListItemButton
-      sx={{ ml: 8 }}
+      sx={{ ml: 2 }}
       onClick={() => {
         router.push("/sw-dashboard/experience");
       }}
     >
       <ListItemIcon>
-        <WorkHistoryIcon sx={{ color: "yellow" }} />
+        <WorkHistoryIcon sx={{ color: "white" }} />
       </ListItemIcon>
-      <ListItemText primary={"Experience"} />
+      <ListItemText primary={<Typography variant="caption">Experience</Typography>} />
     </ListItemButton>
   );
 }

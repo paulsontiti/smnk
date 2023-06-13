@@ -5,16 +5,13 @@ import Fab from '@mui/material/Fab';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 
-export default function BackToChatRoomFloatingActionButtons({isAdmin}:{isAdmin:boolean}) {
+export default function BackToChatRoomFloatingActionButtons() {
     
     const router = useRouter()
   return (
       <IconButton onClick={()=>{
-       if(isAdmin){
-        router.push('/a-dashboard/chat')
-       }else{
+      
         router.push('/chat')
-       }
 
       }}>
         <Fab color="primary" aria-label="add" size='small'>

@@ -5,6 +5,7 @@ import UserRating from "./UserRating";
 import { getUserProfile } from "@/lib/utils/user";
 import { useEffect, useState } from "react";
 import ProfilePic from "../avatar/ProfilePic";
+import { Chip } from "@mui/joy";
 
 export default function DP() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -31,7 +32,7 @@ export default function DP() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center",bgcolor:'#D6E7FF',color:'black',width:250
       }}
     >
       <ProfilePic/>
@@ -41,21 +42,30 @@ export default function DP() {
         <>
           
             {name && (
-              <Box>
-                <Typography variant="caption">Welcome </Typography>
+              <Box position={'relative'}>
+              
                 <Typography sx={{ fontWeight: "bold" }} variant="caption">
                   {name}
                 </Typography>
+                <Chip
+        color="success"
+          variant="soft"
+          size="sm"
+          sx={{
+            minHeight: 20,
+            fontSize: "xs2",
+            position:'absolute',
+            right:-30,
+            top:-12
+          }}
+        >
+          {user.type}/{user.typeClass}
+        </Chip>
               </Box>
             )}
-            <Box>
-              <Typography sx={{ fontWeight: "bold" }} variant="caption">
-                SMNK_ID:{" "}
-              </Typography>
-              <Typography variant="caption">{user._id}</Typography>
-            </Box>
+           
             
-          <UserRating rating={user.rating}/>
+          <UserRating rating={user.rating} level={user.level} type={user.type}/>
         </>
       )}
     </Box>

@@ -41,6 +41,8 @@ type:string,
 typeClass:string,
 onAJob:boolean,
 rating:number,
+verified:boolean,
+level:'Beginner' | 'Intermediate' | 'Pro',
 comments:[
     {
         comment:string,

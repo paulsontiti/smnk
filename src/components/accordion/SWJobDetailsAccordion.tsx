@@ -18,6 +18,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import { JobStatus, getJobStatus } from '../job/AdminJobStatus';
 import ApplyForJobButton from '../job/ApplyForJobButton';
 import ProposalDetailsAccordion from './ProposalDetailsAccordion';
+import ErrorAlert from '../alerts/Error';
+import LoadingAlert from '../alerts/Loading';
 
 export default function SWJobDetailsAccordion({job}:{job:any}) {
   const { user } = useSelector((state: RootState) => state.users);
@@ -43,8 +45,8 @@ export default function SWJobDetailsAccordion({job}:{job:any}) {
     getJobStatus(job._id, setJobStatus, setError, user._id);
   }, [job._id, user._id]);
 
-  if (error) return <p>Error occurred</p>;
-  if (!jobStatus) return <p>loading............</p>;
+  if (error) return <ErrorAlert/>
+  if (!jobStatus) return <LoadingAlert/>
 
   return (
     
@@ -99,7 +101,7 @@ export default function SWJobDetailsAccordion({job}:{job:any}) {
           <Grid item xs={12}>
             <Box sx={{ marginBottom: "1rem" }}>
               <DescriptionIcon />
-              <Typography sx={{textOverflow:'ellipsis'}} variant="caption" component='div'>{job.details.description}</Typography>
+              <Box>{job.details.description}</Box>
             </Box>
             <Divider />
           </Grid>

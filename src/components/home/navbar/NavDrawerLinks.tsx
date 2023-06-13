@@ -13,14 +13,15 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import InfoIcon from "@mui/icons-material/Info";
-import GavelIcon from "@mui/icons-material/Gavel";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+
 import { useRouter } from "next/router";
+import { Typography } from "@mui/material";
 
 export default function NavDrawerLinks() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [openAboutSMNK, setOpenAboutSMNK] = React.useState(false);
+  const [openAboutSMNK, setOpenAboutSMNK] = React.useState(true);
 
   const router = useRouter()
 
@@ -44,9 +45,9 @@ export default function NavDrawerLinks() {
           }}
         >
           <ListItemIcon>
-            <InfoIcon sx={{color:'yellow'}}/>
+            <InfoIcon sx={{color:'white'}}/>
           </ListItemIcon>
-          <ListItemText primary="About SMNK" sx={{ mr: "2rem" }} />
+          <ListItemText primary={<Typography variant="body2">About SMNK</Typography>} />
           {openAboutSMNK ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={openAboutSMNK} timeout="auto" unmountOnExit>
@@ -63,9 +64,9 @@ export default function NavDrawerLinks() {
               }}
             >
               <ListItemIcon>
-                <FeedIcon   sx={{color:'yellow'}}/>
+                <FeedIcon   sx={{color:'white'}}/>
               </ListItemIcon>
-              <ListItemText primary="About Us" />
+              <ListItemText primary={<Typography variant="caption">About Us</Typography>} />
             </ListItemButton>
             <ListItemButton
               selected={selectedIndex === 2}
@@ -75,9 +76,9 @@ export default function NavDrawerLinks() {
               }}
             >
               <ListItemIcon>
-                <RemoveRedEyeIcon  sx={{color:'yellow'}}/>
+                <RemoveRedEyeIcon  sx={{color:'white'}}/>
               </ListItemIcon>
-              <ListItemText primary="Vision" />
+              <ListItemText primary={<Typography variant="caption">Vision</Typography>} />
             </ListItemButton>
             <ListItemButton
               selected={selectedIndex === 3}
@@ -87,9 +88,9 @@ export default function NavDrawerLinks() {
               }}
             >
               <ListItemIcon>
-                <ConfirmationNumberIcon   sx={{color:'yellow'}}/>
+                <ConfirmationNumberIcon   sx={{color:'white'}}/>
               </ListItemIcon>
-              <ListItemText primary="Mission" />
+              <ListItemText primary={<Typography variant="caption">Mission</Typography>} />
             </ListItemButton>
             <ListItemButton
               selected={selectedIndex === 3}
@@ -99,9 +100,9 @@ export default function NavDrawerLinks() {
               }}
             >
               <ListItemIcon>
-                <ConfirmationNumberIcon   sx={{color:'yellow'}}/>
+                <ConfirmationNumberIcon   sx={{color:'white'}}/>
               </ListItemIcon>
-              <ListItemText primary="Purpose" />
+              <ListItemText primary={<Typography variant="caption">Purpose</Typography>} />
             </ListItemButton>
             <ListItemButton
               selected={selectedIndex === 4}
@@ -111,9 +112,9 @@ export default function NavDrawerLinks() {
               }}
             >
                   <ListItemIcon>
-                <Diversity3Icon   sx={{color:'yellow'}}/>
+                <Diversity3Icon   sx={{color:'white'}}/>
               </ListItemIcon>
-              <ListItemText primary="Our Team" />
+              <ListItemText primary={<Typography variant="caption">Our Team</Typography>} />
             </ListItemButton>
           </List>
         </Collapse>
@@ -128,9 +129,9 @@ export default function NavDrawerLinks() {
           }}
         >
           <ListItemIcon>
-            <BusinessIcon   sx={{color:'yellow'}}/>
+            <BusinessIcon   sx={{color:'white'}}/>
           </ListItemIcon>
-          <ListItemText primary="Services" />
+          <ListItemText primary={<Typography variant="body2">Services</Typography>} />
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 6}
@@ -140,9 +141,9 @@ export default function NavDrawerLinks() {
           }}
         >
           <ListItemIcon>
-            <WorkIcon   sx={{color:'yellow'}}/>
+            <WorkIcon   sx={{color:'white'}}/>
           </ListItemIcon>
-          <ListItemText primary="Jobs" />
+          <ListItemText primary={<Typography variant="body2">Jobs</Typography>} />
         </ListItemButton>
       
         {/* <ListItemButton
@@ -154,18 +155,8 @@ export default function NavDrawerLinks() {
           </ListItemIcon>
           <ListItemText primary="Blog" />
         </ListItemButton> */}
-        <ListItemButton
-          selected={selectedIndex === 9}
-          onClick={(event) => {
-            handleListItemClick(event, 9)
-            router.push('/t&c')
-          }}
-        >
-          <ListItemIcon>
-            <GavelIcon  sx={{color:'yellow'}}/>
-          </ListItemIcon>
-          <ListItemText primary="Terms & Conditions" />
-        </ListItemButton>
+       
+        
       </List>
     </Box>
   );

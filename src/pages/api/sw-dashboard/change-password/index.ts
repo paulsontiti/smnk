@@ -9,30 +9,30 @@ export const hashPassword = async (password: string) => {
 };
 export default async function handler(req: any, res: any) {
   await dbConnect();
-  const { values:{oldPassword, password}, user } = req.body;
+  const { oldPassword, password, userId } = req.body;
 
-  if (oldPassword && password && user) {
+  if (oldPassword && password && userId) {
     try {
       //console.log(_id)
-      const newUser = await User.findOne({ _id: user._id });
+      const user = await User.findOne({ _id: userId });
 
-      if (bcrypt.compareSync(oldPassword, newUser.password)) {
+      if (bcrypt.compareSync(oldPassword, user.password)) {
         const hashedPassword = await hashPassword(password);
-        await User.findByIdAndUpdate(user._id, { password: hashedPassword });
+        const newUser = await User.findByIdAndUpdate(userId, { password: hashedPassword },{new:true});
 
         res
           .status(201)
           .json({
             successful: true,
             message: "Your Password was successfully changed",
-            user,
+            user:newUser,
           });
       } else {
         res
           .status(400)
           .json({
             successful: false,
-            message: "No user exist with your old password"
+            message: "No user exist with your old password",user
           });
       }
     } catch (err: any) {

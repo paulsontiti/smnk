@@ -1,44 +1,46 @@
-import { Grid,Typography,Box } from "@mui/material";
+import { Grid, Typography, Box } from "@mui/material";
 
+function UserCompanyProfileDetails({ profile }: { profile: any }) {
+  if (!profile) return <p></p>;
 
-function UserCompanyProfileDetails({ profile }: { profile:any }) {
-
-  if (!profile) return <p>loading....</p>;
-
-  return <>
-    <Grid container>
+  return (
+    <>
+      <Grid container>
         <Grid item xs={12}>
-            <Typography sx={{fontWeight:'bold'}}>Company Name:</Typography>
+          <Typography sx={{ fontWeight: "bold" }}>Company Name:</Typography>
         </Grid>
         <Grid item xs={12}>
-            <Typography>{profile.name}</Typography>
+          <Typography>{profile.name}</Typography>
         </Grid>
         <Grid item xs={12}>
-            <Typography sx={{fontWeight:'bold'}}>State Of Residence:</Typography>
+          <Typography sx={{ fontWeight: "bold" }}>
+            State Of Residence:
+          </Typography>
         </Grid>
         <Grid item xs={12}>
-            <Typography>{profile.state}</Typography>
+          <Typography>{profile.state}</Typography>
         </Grid>
         <Grid item xs={12}>
-            <Typography sx={{fontWeight:'bold'}}>LGA Of Residence:</Typography>
+          <Typography sx={{ fontWeight: "bold" }}>LGA Of Residence:</Typography>
         </Grid>
         <Grid item xs={12}>
-            <Typography>{profile.lga}</Typography>
+          <Typography>{profile.lga}</Typography>
         </Grid>
         <Grid item xs={12}>
-            <Typography sx={{fontWeight:'bold'}}>Office Address:</Typography>
+          <Typography sx={{ fontWeight: "bold" }}>Office Address:</Typography>
         </Grid>
         <Grid item xs={12}>
-            <Typography>{profile.officeAddress}</Typography>
+          <Typography>{profile.officeAddress}</Typography>
         </Grid>
         <Grid item xs={12}>
-            <Typography sx={{fontWeight:'bold'}}>Bio:</Typography>
+          <Typography sx={{ fontWeight: "bold" }}>Bio:</Typography>
         </Grid>
         <Grid item xs={12}>
-            <Box>{profile.description}</Box>
+          <Box>{profile.description}</Box>
         </Grid>
-    </Grid>
-  </>
+      </Grid>
+    </>
+  );
 }
 
 export default UserCompanyProfileDetails;

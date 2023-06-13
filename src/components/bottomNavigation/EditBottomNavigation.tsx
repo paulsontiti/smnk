@@ -2,13 +2,13 @@ import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { useState } from "react";
-import AddFloatingActionButtons from "../fab/Add";
+import EditFloatingActionButtons from "../fab/Edit";
 
-export default function AddBottomNavigation({ label,handleClick }: { label: string,handleClick:()=>void }) {
+export default function EditBottomNavigation({ label,handleClick }: { label: string,handleClick:()=>void }) {
   const [value, setValue] = useState(0);
  
   return (
-    <Box sx={{ width: "100%" }} mt={3}>
+    <Box  mt={1}>
       <BottomNavigation
         showLabels
         value={value}
@@ -20,7 +20,7 @@ export default function AddBottomNavigation({ label,handleClick }: { label: stri
             <BottomNavigationAction
             label={label}
             icon={
-              <AddFloatingActionButtons
+              <EditFloatingActionButtons
                 handleClick={handleClick}
               />
             }

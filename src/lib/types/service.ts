@@ -1,7 +1,9 @@
 import axios from "axios";
 import { array, object, string } from "yup";
 import { NextRouter } from "next/dist/client/router";
-import { FormControls } from "../form";
+import { Dispatch, MutableRefObject, SetStateAction} from "react";
+import { AlertColor } from "@mui/material";
+
 
 export type Service = {
   _id?: string;
@@ -11,10 +13,17 @@ export type Service = {
   category: string;
 };
 
+export interface SnackBarParams{
+  setMsg:Dispatch<SetStateAction<string>>,
+  setColor:Dispatch<SetStateAction<AlertColor>>,
+  snackBarRef:MutableRefObject<undefined>
+}
+
 export const serviceSubmitHandler = async (
   values: Service,
   router: NextRouter,
-  index?: number
+  snackbarParams:SnackBarParams,
+  index?: number,
 ) => {
   //get user from local storage
   let user = JSON.parse(
@@ -28,7 +37,10 @@ export const serviceSubmitHandler = async (
     if (user.services.length < 2) {
       user.services.push(values);
     } else {
-      alert("You cannot add more than two services");
+     snackbarParams.setMsg("You cannot add more than two services");
+     snackbarParams.setColor("error");
+      const refState = snackbarParams.snackBarRef.current as any;
+      refState.handleClick();
       return;
     }
   }
@@ -45,13 +57,26 @@ export const serviceSubmitHandler = async (
     });
     const data = await res.data;
 
-    alert(data.message);
     if (data.successful) {
+      snackbarParams.setMsg(data.message);
+     snackbarParams.setColor("success");
+      const refState = snackbarParams.snackBarRef.current as any;
+      refState.handleClick()
+     setTimeout(()=>{
       router.push("/sw-dashboard/service");
+     },2000)
+    }else{
+      snackbarParams.setMsg(data.message);
+      snackbarParams.setColor("error");
+       const refState = snackbarParams.snackBarRef.current as any;
+       refState.handleClick()
     }
   } catch (err: any) {
     console.log(err);
-    alert(err.response.data.message);
+    snackbarParams.setMsg(err.response.data.message);
+    snackbarParams.setColor("error");
+     const refState = snackbarParams.snackBarRef.current as any;
+     refState.handleClick()
   }
 };
 
@@ -61,6 +86,7 @@ export const serviceDetailsSchema = object({
     .max(200, "Service Description should not be more than 200 characters")
     .required("Service Description is required"),
   category: string().required("Category is required"),
-  skills: array().min(1, "").required("At Least One Skill is required"),
 });
+
+
 

@@ -43,18 +43,19 @@ export const fetchUsers = async (service:string) => {
   }
 };
 export const fetchSearchJobs = async (searchParam:string) => {
+  let data,error
   try {
     const res = await axios({
       method: "POST",
       url: `${process.env.SMNK_URL}api/job/search`,
       data:{searchParam}
     });
-    const data = await res.data;
-    return data;
+    data = await res.data;
   } catch (err: any) {
     console.log(err);
-    return err;
+    error = err
   }
+  return {data,error}
 };
 
 export const createSetFromArray = (data:any[]):string[]=>{

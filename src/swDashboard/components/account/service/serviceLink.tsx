@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { useRouter } from 'next/router';
 import BusinessIcon from '@mui/icons-material/Business';
-import { ListItemIcon } from '@mui/material';
+import { ListItemIcon, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 
@@ -16,19 +16,19 @@ export default function ServiceLink(){
     
     if(user.services.length < 1) return(
        
-        <ListItemButton  sx={{ ml: 8 }}  onClick={()=>{
+        <ListItemButton  sx={{ ml: 2 }}  onClick={()=>{
             router.push('/sw-dashboard/service/add-service')
-          }}>   <ListItemIcon><AddBusinessIcon sx={{color:"yellow"}}/></ListItemIcon>
-    <ListItemText primary={'Add Services'} />      
+          }}>   <ListItemIcon><AddBusinessIcon sx={{color:"white"}}/></ListItemIcon>
+   <ListItemText primary={<Typography variant="caption">Add Services</Typography>} /> 
     </ListItemButton>
     )
     
         return(
-            <ListItemButton  sx={{ ml: 8 }}  onClick={()=>{
+            <ListItemButton  sx={{ ml: 2 }}  onClick={()=>{
                 router.push('/sw-dashboard/service')
               }}>
-                    <ListItemIcon><BusinessIcon sx={{color:"yellow"}}/></ListItemIcon>
-        <ListItemText primary={'Services'} />      
+                    <ListItemIcon><BusinessIcon sx={{color:"white"}}/></ListItemIcon>
+                    <ListItemText primary={<Typography variant="caption">Services</Typography>} />     
         </ListItemButton>
          
         )

@@ -9,7 +9,7 @@ import CustomErrorMessage from './CustomErrorMessage';
 type Option={
     label:string
 }
-export default function FreeSoloAutocomplete({name,label,values,options,required,helperText,...rest}:
+export default function FreeSoloAutocomplete({name,label,values,required,helperText,options=[],...rest}:
                                 {name:string,required:boolean,
                                 label:string,helperText:string,values:any,
                                 options:Option[]
@@ -27,7 +27,6 @@ const handleChange = (e:any,form:any)=>{
 }
 
 
-if(!options) return <p></p>
   return (
     <Box>
       <Field name={name}>

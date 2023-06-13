@@ -4,8 +4,7 @@ import { CompanyInfo } from '../types/userInfo'
 
 export const companyInfoSchema = object({
     name: string().required('Company Name is required'),
-    email: string().email('Company Email must be a valid email').required('Company Email is required'),
-    phone: string().required('Company Phone Number is required'),
+   
     officeAddress: string().required('Office Address is required'),
     state: string().required('State is required'),
     lga: string().required('L.G.A is required'),

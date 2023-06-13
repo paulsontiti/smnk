@@ -53,7 +53,7 @@ export default function AdvertCard({
         </CardContent>
         <CardActions>
           <Button
-            size="small" sx={{textTransform:'capitalize'}}
+            size="small" sx={{textTransform:'capitalize',color:'#04023B'}}
             onClick={() => {
               window.location.href = landingPage;
             }}

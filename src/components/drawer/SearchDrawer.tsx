@@ -54,7 +54,7 @@ const GroupItems = styled("ul")({
   padding: 0,
 });
 
-export default function SearchDrawer({footer}:{footer:boolean}) {
+export default function SearchDrawer({ footer }: { footer: boolean }) {
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const [openJobDrawer, setOpenJobDrawer] = React.useState(false);
   const [openServicesDrawer, setOpenServicesDrawer] = React.useState(false);
@@ -73,19 +73,19 @@ export default function SearchDrawer({footer}:{footer:boolean}) {
     })();
   }, [searchOption]);
 
-  let options: SearchOption[] = []
-  if(searchOptions){
-   options = searchOptions.map((option) => {
-    if(option){
-      const firstLetter = option[0].toUpperCase();
-    return {
-      firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
-      option,
-    };
+  let options: SearchOption[] = [];
+  if (searchOptions) {
+    options = searchOptions.map((option) => {
+      if (option) {
+        const firstLetter = option[0].toUpperCase();
+        return {
+          firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
+          option,
+        };
+      }
+      return { firstLetter: "", option: "" };
+    });
   }
-  return {firstLetter:'',option:''}
-  });
-}
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -95,24 +95,27 @@ export default function SearchDrawer({footer}:{footer:boolean}) {
     setAnchorEl(null);
   };
   return (
-    <Box ml={"1rem"}>
-      {footer ? <><Button variant="outlined" startIcon={<SearchIcon />} sx={{textTransform:'lowercase',color:'yellow'}}  onClick={
-          handleMenu
-        }>
-  Search
-</Button></> : <IconButton
-        onClick={
-          handleMenu
-        }
+    <Box>
+      {footer ? (
+        <>
+          <Button
+            variant="outlined"
+            startIcon={<SearchIcon />}
+            sx={{ textTransform: "lowercase", color: "white" }}
+            onClick={handleMenu}
+          >
+            Search
+          </Button>
+        </>
+      ) : (
+        <IconButton
+          onClick={handleMenu}
         
-        size="large"
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        sx={{ mr: 2,color:'yellow' }}
-      >
-        <SearchIcon />
-      </IconButton>}
+          sx={{ color: "white" }}
+        >
+          <SearchIcon />
+        </IconButton>
+      )}
       <Box>
         <Menu
           id="menu-appbar"
@@ -181,8 +184,8 @@ export default function SearchDrawer({footer}:{footer:boolean}) {
                 if (searchValue) {
                   setOpenJobDrawer(true);
 
-                  const jobs = await fetchSearchJobs(searchValue);
-                  setJobs(jobs);
+                  const {data} = await fetchSearchJobs(searchValue);
+                  setJobs(data);
                 }
               }
             }}
@@ -264,7 +267,7 @@ export default function SearchDrawer({footer}:{footer:boolean}) {
           setOpenServicesDrawer(false);
         }}
       >
-         <Container sx={{ p: ".5rem", mt: "2rem" }}>
+        <Container sx={{ p: ".5rem", mt: "2rem" }}>
           {users && users.length > 0 ? (
             <>
               <Box

@@ -1,11 +1,11 @@
-import { Box, FormGroup, TextField, Button } from "@mui/material";
-import { Field, Form, Formik, ErrorMessage } from "formik";
+
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Service,
+  SnackBarParams,
   serviceDetailsSchema,
   serviceSubmitHandler,
 } from "@/lib/types/service";
@@ -13,11 +13,18 @@ import FormikContainer from "@/components/form/formikContainer";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import { updateUser } from "@/store/slices/userSlice";
 import { fetchTalents } from "@/lib/search";
+import {AlertColor} from '@mui/material'
+import SnackbarComponent from "@/components/snackbar/SnackBar";
+import ErrorAlert from "@/components/alerts/Error";
 
 export default function EditServiceForm({ index }: { index: number }) {
   const router = useRouter();
+  const [msg, setMsg] = useState("");
+  const [color, setColor] = useState<AlertColor>("error");
   const dispatch = useDispatch<AppDispatch>();
-
+  
+    //declare refs
+    const snackBarRef = useRef();
   const {
     user: { services },
   } = useSelector((state: RootState) => state.users);
@@ -54,11 +61,16 @@ export default function EditServiceForm({ index }: { index: number }) {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
-          const msg = await serviceSubmitHandler(values, router, index);
+          const snackbarParams:SnackBarParams = {setMsg,setColor,snackBarRef}
+          const msg = await serviceSubmitHandler(values, router,snackbarParams,index);
           dispatch(updateUser());
           res(msg);
         })
         .catch((err: any) => {
+          setMsg(err.message);
+          setColor("error");
+           const refState = snackBarRef.current as any;
+           refState.handleClick();
           console.log("Error from formik ", err);
           res(err);
         });
@@ -81,6 +93,11 @@ export default function EditServiceForm({ index }: { index: number }) {
     buttonLabel: "Edit Service",
     headerTitle: "Edit Your Service",
   };
-  if (!services || index === undefined) return <p></p>;
-  return <FormikContainer formParams={formParams} />;
+  if (!services || index === undefined) return <ErrorAlert message="No service selected for editing"/>
+  return (
+    <>
+    <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+      <FormikContainer formParams={formParams} />
+    </>
+  );
 }

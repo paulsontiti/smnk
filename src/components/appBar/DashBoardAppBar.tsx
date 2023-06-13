@@ -9,19 +9,23 @@ import { RootState } from "@/store";
 import ChatNotification from "../chat/ChatNotification";
 import LogoutSwitch from "../switch/LogoutSwitch";
 import ThemeContainer from "../theme/ThemeContainer";
+import { useRouter } from "next/router";
+import Notification from "../dashboard/Notification";
 
 export default function DashBoardAppBar() {
   //retrive user from redux state
   const { user } = useSelector((state: RootState) => state.users);
-
+const router = useRouter()
   return (
-    <ThemeContainer
+    <
     >
+       {user._id &&   <LogoutSwitch/>}
       <Toolbar
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          bgcolor:'#04023B'
         }}
       >
         <Grid container>
@@ -32,7 +36,7 @@ export default function DashBoardAppBar() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <MenuDrawer color="white">
+            <MenuDrawer>
               <>
                 {user && user.type === "client" ? (
                   <CDashboardMenu />
@@ -44,35 +48,37 @@ export default function DashBoardAppBar() {
           </Grid>
           <Grid
             item
-            xs={3}
+            xs={6}
             display={"flex"}
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" color={'white'} component="div" onClick={()=>{
+              router.push('/')
+            }}>
               SMNK
             </Typography>
           </Grid>
           <Grid
             item
-            xs={3}
+            xs={2}
             display={"flex"}
             alignItems={"center"}
-            justifyContent={"flex-end"}
+            justifyContent={"center"}
           >
             <ChatNotification />
           </Grid>
           <Grid
             item
-            xs={4}
+            xs={2}
             display={"flex"}
             alignItems={"center"}
             justifyContent={"center"}
           >
-           <LogoutSwitch/>
+        <Notification/>
           </Grid>
         </Grid>
       </Toolbar>
-    </ThemeContainer>
+    </>
   );
 }

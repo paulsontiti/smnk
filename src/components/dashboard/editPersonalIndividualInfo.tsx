@@ -17,7 +17,7 @@ export default function EditPersonalIndividualInfo(){
                     <CardHeader title='Edit Personal Info'/>
                     <CardContent>
                         
-                        <EditPersonalIndividualInfoForm router={router}/>
+                        <EditPersonalIndividualInfoForm/>
                     </CardContent>
                 </Card>
              </Box>

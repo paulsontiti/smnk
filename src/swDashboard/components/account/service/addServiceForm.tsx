@@ -1,30 +1,33 @@
 import { useRouter } from "next/router";
-import { Service,serviceDetailsSchema,serviceSubmitHandler } from "@/lib/types/service";
+import { Service,SnackBarParams,serviceDetailsSchema,serviceSubmitHandler } from "@/lib/types/service";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
 import { updateUser } from "@/store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
-import { useEffect, useState } from "react";
-import { fetchTalents } from "@/lib/search";
+import {useEffect, useRef, useState } from "react";
+import { createSetFromArray, fetchTalents } from "@/lib/search";
+import SnackbarComponent from "@/components/snackbar/SnackBar";
+import { AlertColor } from "@mui/material";
 
 
 
 export default function AddServiceForm(){
 const [options,setOptions] = useState<any[]>([])
-  const dispatch = useDispatch<AppDispatch>()
+const [msg, setMsg] = useState("");
+const [color, setColor] = useState<AlertColor>("error");
+const dispatch = useDispatch<AppDispatch>();
+
+  //declare refs
+  const snackBarRef = useRef();
+    
 
   const router = useRouter()
   useEffect(()=>{
 (
   async()=>{
     const data = await fetchTalents()
-    const setOption = new Set(data.flat())
-      const options:any[] = []
-      setOption.forEach((val)=>{
-       options.push(val)
-      })
-    setOptions(options)
+    setOptions(createSetFromArray(data.flat()))
   }
 )()
   },[])
@@ -40,20 +43,27 @@ const [options,setOptions] = useState<any[]>([])
   
   //formik submit handler
   const formikSubmitHandler = (values:any,formikHelpers:any)=>{
-  
     if(values){
       return new Promise(res=>{
             formikHelpers.validateForm().then(async (data:any)=>{
-                const msg = await serviceSubmitHandler(values,router)
+              const snackbarParams:SnackBarParams = {setMsg,setColor,snackBarRef}
+                const msg = await serviceSubmitHandler(values,router,snackbarParams)
                 dispatch(updateUser())
                 res(msg)
             }).catch((err:any)=>{
+              setMsg(err.message);
+              setColor("error");
+               const refState = snackBarRef.current as any;
+               refState.handleClick();
               console.log('Error from formik ',err)
               res(err)
             })              
       })
     }else{
-      alert('Invalid request, Please provide UserId')
+      setMsg('Invalid request!!');
+              setColor("error");
+               const refState = snackBarRef.current as any;
+               refState.handleClick();
     }
 
   }
@@ -70,7 +80,10 @@ const [options,setOptions] = useState<any[]>([])
     buttonLabel:'Add Service',
     headerTitle:'Add Your Service'
   }
-    return(
-        <FormikContainer formParams={formParams}/>
-    )
+  return (
+    <>
+    <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+      <FormikContainer formParams={formParams} />
+    </>
+  );
 }

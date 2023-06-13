@@ -1,3 +1,5 @@
+import ErrorAlert from '@/components/alerts/Error'
+import InfoAlert from '@/components/alerts/Info'
 import Layout from '@/components/dashboard/layout'
 import ReportComponent from '@/components/report/ReportComponent'
 import axios from 'axios'
@@ -30,8 +32,8 @@ function JobReportsPage() {
         )()
     },[id])
 
-    if(error) return <Layout><p>Error occurred</p></Layout>
-    if(Array.isArray(reports) && reports.length === 0) return <Layout><p>No Reports Yet</p></Layout>
+    if(error) return <Layout><ErrorAlert/></Layout>
+    if(Array.isArray(reports) && reports.length === 0) return <Layout><InfoAlert message='No Reports Yet'/></Layout>
   return (
     <Layout>
        {

@@ -1,9 +1,10 @@
-import { JobStatus } from "@/components/job/AdminJobStatus";
 import { getJobDetails } from "@/lib/job";
 import React, { useEffect, useState } from "react";
 import { Grid, Typography, Box } from "@mui/material";
 import moment from "moment";
-import Divider from '@mui/material/Divider';
+import Divider from "@mui/material/Divider";
+import ErrorAlert from "@/components/alerts/Error";
+import LoadingAlert from "@/components/alerts/Loading";
 
 function JobDetailsContent({ jobId }: { jobId: string }) {
   const [jobDetails, setJobDetails] = useState<any>();
@@ -12,47 +13,46 @@ function JobDetailsContent({ jobId }: { jobId: string }) {
   useEffect(() => {
     getJobDetails(jobId, setJobDetails, setError);
   }, [jobId]);
-  if (error) return <p>Error occurred while fetching job status</p>;
-  if (!jobDetails) return <p>loading....</p>;
+  if (error) return <ErrorAlert />;
+  if (!jobDetails) return <LoadingAlert />;
 
   return (
     <Grid container>
       <Grid item xs={4}>
         <Typography>State</Typography>
-        <Divider/>
+        <Divider />
       </Grid>
       <Grid item xs={8}>
         <Box>{jobDetails.state}</Box>
-        <Divider/>
+        <Divider />
       </Grid>
       <Grid item xs={4}>
         <Typography>L.G.A</Typography>
-        <Divider/>
+        <Divider />
       </Grid>
       <Grid item xs={8}>
         <Box>{jobDetails.lga}</Box>
-        <Divider/>
+        <Divider />
       </Grid>
-      <Divider/>
+      <Divider />
       <Grid item xs={4}>
         <Typography>Address</Typography>
-        <Divider/>
+        <Divider />
       </Grid>
       <Grid item xs={8}>
         <Box>{jobDetails.address}</Box>
-        <Divider/>
+        <Divider />
       </Grid>
       <Grid item xs={4}>
         <Typography>Description</Typography>
-        <Divider/>
+        <Divider />
       </Grid>
       <Grid item xs={8}>
         <Box>{jobDetails.description}</Box>
-        <Divider/>
+        <Divider />
       </Grid>
       <Grid item xs={4}>
         <Typography>End Date</Typography>
-        
       </Grid>
       <Grid item xs={8}>
         <Box>{moment(jobDetails.endDate).format("DD/MM/YY")}</Box>

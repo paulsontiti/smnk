@@ -4,7 +4,7 @@ import { Grid,Typography } from "@mui/material";
 
 function UserIndividualProfileDetails({ profile }: { profile:any }) {
 
-  if (!profile) return <p>loading....</p>;
+  if (!profile) return <p></p>;
 
   return <>
     <Grid container>

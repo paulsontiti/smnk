@@ -2,7 +2,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box, CardActions, Typography } from "@mui/material";
+import { Box, CardActions, Typography,AlertColor} from "@mui/material";
 import { useRouter } from "next/router";
 import axios from "axios";
 import moment from "moment";
@@ -11,6 +11,8 @@ import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
 import ClientReportAction from "../bottomNavigation/ClientReportAction";
 import DownloadFileBottomNavigation from "../bottomNavigation/DownloadFileBottomNavigation";
 import { readReport } from "@/lib/report";
+import SnackbarComponent from "../snackbar/SnackBar";
+import { useRef, useState } from "react";
 
 //download report handler
 export const downloadReport = (url: string) => {
@@ -35,6 +37,11 @@ export default function ClientReportDetailsAccordion({
   report: any;
   jobId: string;
 }) {
+
+  const [msg, setMsg] = useState("");
+  const [color, setColor] = useState<AlertColor>("error");
+   //declare refs
+   const snackBarRef = useRef();
   //accept report handler
   const approveJob = async (router: any) => {
     if(jobId){
@@ -45,12 +52,24 @@ export default function ClientReportDetailsAccordion({
           data: { jobId },
         });
         const data = await res.data;
-        alert(data.message);
+        
         if (data.successful) {
+          setMsg(data.message);
+          setColor("success");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
           router.push("/c-dashboard");
+        }else{
+          setMsg(data.message);
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
         }
       } catch (err: any) {
-        console.log(err);
+        setMsg('An error occurred. Please try again or contact customer service');
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
         return err;
       }
     }else{
@@ -100,6 +119,7 @@ export default function ClientReportDetailsAccordion({
         </Box>
       </AccordionSummary>
       <AccordionDetails>
+      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
         <Typography sx={{ fontWeight: "bold", margin: "1rem 0" }}>
           Report:
         </Typography>

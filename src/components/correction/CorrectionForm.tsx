@@ -1,13 +1,62 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import FormikContainer from '../form/formikContainer'
 import {FormControls, FormParams, createFormObject } from '@/lib/form'
 import { object, string } from 'yup'
 import {useRouter} from 'next/router'
-import { Correction, correctionSubmitHandler } from '@/lib/correction'
+import { Correction} from '@/lib/correction'
+import axios from 'axios'
+import { AlertColor } from '@mui/material'
+import SnackbarComponent from '../snackbar/SnackBar'
 
 
 function CorrectionForm({jobId,reportId,url}:{jobId:string,reportId:string,url:string}) {
     const router = useRouter()
+    const [msg, setMsg] = useState("");
+    const [color, setColor] = useState<AlertColor>("error");
+  
+    //declare refs
+    const snackBarRef = useRef();
+    //correction submit handler
+const correctionSubmitHandler = async (values:Correction,router:any,url:string)=>{
+    
+    try{
+        if(values.reportId && values.jobId){
+                const res = await axios({
+                    method:'POST',
+                    url:`${process.env.SMNK_URL}api/correction/make-correction`,
+                    data:values
+                })
+                const data = await res.data
+                if(data.successful){
+                  setMsg(data.message);
+                  setColor("success");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
+                    router.push('/c-dashboard/job')
+                }else{
+                  setMsg(data.message);
+                  setColor("error");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
+                }
+          }else{
+            setMsg('Invalid request');
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+          }
+            
+        
+  }catch(err:any){
+    setMsg('An Error occurred');
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+    return err
+  }
+}
+
+
      //formik submit handler
   const formikSubmitHandler = (values:any,formikHelpers:any)=>{
     return new Promise(res=>{
@@ -42,9 +91,12 @@ const validationSchema = object({
           headerTitle: `What's wrong`
         }
         
-  return (
-    <FormikContainer formParams={formParams} />
-  )
+        return (
+          <>
+            <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+            <FormikContainer formParams={formParams} />
+          </>
+        );
 }
 
 export default CorrectionForm

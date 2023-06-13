@@ -20,9 +20,13 @@ export const signUp = createAsyncThunk(
         data: values,
       });
       const data = await res.data;
-      return data
+      return data;
     } catch (err: any) {
-      return {successful:false,message:err.response.data.message,user:{} as User}
+      return {
+        successful: false,
+        message: err.response.data.message,
+        user: {} as User,
+      };
     }
   }
 );
@@ -35,10 +39,14 @@ export const login = createAsyncThunk("users/login", async (values: any) => {
       data: values,
     });
     const data = await res.data;
-    return data
+    return data;
   } catch (err: any) {
-    console.log(err)
-    return {successful:false,message:err.response.data.message,user:{} as User}
+    console.log(err);
+    return {
+      successful: false,
+      message: err.response.data.message,
+      user: {} as User,
+    };
   }
 });
 
@@ -52,9 +60,12 @@ export const changePassword = createAsyncThunk(
         data: values,
       });
       const data = await res.data;
-return data
+      return data;
     } catch (err: any) {
-      return {successful:false,message:err.response.data.message,user:{} as User}
+      return {
+        successful: false,
+        message: err.response.data.message,
+      };
     }
   }
 );
@@ -69,19 +80,22 @@ export const changePasswordWithPhone = createAsyncThunk(
         data: values,
       });
       const data = await res.data;
-return data
+      return data;
     } catch (err: any) {
-      return {successful:false,message:err.response.data.message,user:{} as User}
+      return {
+        successful: false,
+        message: err.response.data.message,
+        user: {} as User,
+      };
     }
   }
 );
-
 
 const initialState = {
   user: userJSON() ? userJSON() : ({} as User),
   loading: false,
   response: "",
-  successful:false
+  successful: false,
 };
 const userSlice = createSlice({
   name: "users",
@@ -89,16 +103,16 @@ const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = {} as User;
-      state.response = ''
-      state.successful = false
+      state.response = "";
+      state.successful = false;
       localStorage.removeItem("user");
     },
     updateUser: (state) => {
       state.user = userJSON();
     },
     updateState: (state) => {
-      state.successful = false
-      state.response  = ''
+      state.successful = false;
+      state.response = "";
     },
   },
   extraReducers: (builder) => {
@@ -116,7 +130,7 @@ const userSlice = createSlice({
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       state.user = action.payload.user;
       state.response = action.payload.message;
-      state.successful = action.payload.successful
+      state.successful = action.payload.successful;
     });
     builder.addCase(login.pending, (state) => {
       state.loading = true;
@@ -125,7 +139,7 @@ const userSlice = createSlice({
     builder.addCase(signUp.fulfilled, (state, action) => {
       state.loading = false;
       localStorage.setItem("user", JSON.stringify(action.payload.user));
-      state.successful = action.payload.successful
+      state.successful = action.payload.successful;
       state.user = action.payload.user;
       state.response = action.payload.message;
     });
@@ -135,11 +149,13 @@ const userSlice = createSlice({
 
     builder.addCase(changePassword.fulfilled, (state, action) => {
       state.loading = false;
+      state.response = action.payload.message;
+      state.successful = action.payload.successful;
+    if(action.payload.user){
       localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify(action.payload.user));
-      state.response = action.payload.message;
-      state.successful = action.payload.successful
       state.user = action.payload.user;
+    }
     });
     builder.addCase(changePassword.pending, (state) => {
       state.loading = true;
@@ -149,7 +165,7 @@ const userSlice = createSlice({
       localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       state.response = action.payload.message;
-      state.successful = action.payload.successful
+      state.successful = action.payload.successful;
       state.user = action.payload.user;
     });
     builder.addCase(changePasswordWithPhone.pending, (state) => {
@@ -158,6 +174,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout, updateUser,updateState } = userSlice.actions;
+export const { logout, updateUser, updateState } = userSlice.actions;
 
 export default userSlice.reducer;

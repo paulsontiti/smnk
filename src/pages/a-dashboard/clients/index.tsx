@@ -4,6 +4,8 @@ import useSWR from "swr";
 import { Backdrop, CircularProgress,Alert,AlertTitle } from "@mui/material";
 import UsersDetailsTable from "@/admin/components/sw/UsersDetailsTable";
 import { getAllClients } from "@/lib/clients";
+import ErrorAlert from "@/components/alerts/Error";
+import InfoAlert from "@/components/alerts/Info";
 
 function SW() {
   const { data, error } = useSWR("getClients", getAllClients());
@@ -11,10 +13,8 @@ function SW() {
   if (error)
     return (
       <AdminLayout>
-        <Alert severity="error">
-          <AlertTitle>Server Error</AlertTitle>
-          An Error occurred fetching data from the server — <strong>Please try again or refresh the page</strong>
-        </Alert>
+        <ErrorAlert/>
+       
       </AdminLayout>
     );
   if (!data)
@@ -32,10 +32,7 @@ function SW() {
   if (Array.isArray(data) && data.length < 1)
     return (
       <AdminLayout>
-        <Alert severity="info">
-          <AlertTitle>Server Error</AlertTitle>
-          An Error occurred fetching data from the server — <strong>Please try again or refresh the page</strong>
-        </Alert>
+       <InfoAlert message="No Clients details available"/>
       </AdminLayout>
     );
   //console.log(data)

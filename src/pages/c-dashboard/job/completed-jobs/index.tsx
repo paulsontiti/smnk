@@ -1,4 +1,7 @@
 import ClientJobDetailsAccordion from '@/components/accordion/ClientJobDetailsAccordion'
+import ErrorAlert from '@/components/alerts/Error'
+import InfoAlert from '@/components/alerts/Info'
+import LoadingAlert from '@/components/alerts/Loading'
 import Layout from '@/components/dashboard/layout'
 import { Job } from '@/lib/types/job'
 import { RootState } from '@/store'
@@ -24,8 +27,6 @@ const {_id} = useSelector((state:RootState)=>state.users.user)
                         const data = await res.data
                     //console.log(data)
                     setCompletedJobs(data)
-                  }else{
-                    console.log('Invalid request')
                   }
                     
                     
@@ -37,9 +38,9 @@ const {_id} = useSelector((state:RootState)=>state.users.user)
         )()
     },[_id])
 
-    if(error) <Layout><p>Error occurred</p></Layout>
-    if(!completedJobs) <Layout><p>loading</p></Layout>
-    if(Array.isArray(completedJobs) && completedJobs.length === 0) <Layout><h4>No Completed Jobs</h4></Layout>
+    if(error) <Layout><ErrorAlert/></Layout>
+    if(!completedJobs) <Layout><LoadingAlert/></Layout>
+    if(Array.isArray(completedJobs) && completedJobs.length === 0) <Layout><InfoAlert message='No Completed Jobs'/></Layout>
   return (
     <Layout>
         {

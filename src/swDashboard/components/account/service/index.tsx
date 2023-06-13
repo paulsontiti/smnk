@@ -1,18 +1,13 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Grid,
+  Container,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import ServiceAccordion from "@/components/accordion/ServiceAccordion";
 import AddFloatingActionButtons from "@/components/fab/Add";
+import InfoAlert from "@/components/alerts/Info";
 
 export default function Service() {
   const router = useRouter();
@@ -21,13 +16,12 @@ export default function Service() {
   } = useSelector((state: RootState) => state.users);
   if (services && services.length < 1)
     return (
-      <Typography sx={{ margin: "1rem 1rem" }} variant="caption" component="p">
-        No Services. Please Add a Service
-      </Typography>
+    
+      <InfoAlert message="  No Services. Please Add a Service"/>
     );
 
   return (
-    <Box>
+    <Container sx={{p:{sm:'2rem 5rem',md:'2rem 10rem', lg:'2rem 15rem',xl:'2rem 20rem'}}}>
       <Typography sx={{ margin: "1rem 1rem", fontWeight: "bold" }}>
         Your Services
       </Typography>
@@ -45,6 +39,6 @@ export default function Service() {
           router.push(`/sw-dashboard/service/add-service`)
         }}/>
       )}
-    </Box>
+    </Container>
   );
 }

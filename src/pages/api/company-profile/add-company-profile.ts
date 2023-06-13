@@ -5,9 +5,9 @@ import CompanyProfile from '@/lib/model/companyInfo'
 export default async function handler(req:any,res:any){
     await dbConnect()
     
-        const {name,email,state,lga,userId,officeAddress,description,phone} = req.body
+        const {name,state,lga,userId,officeAddress,description} = req.body
         
-        if(name && email && state && lga && userId && officeAddress && phone && description){
+        if(name && state && lga && userId && officeAddress && description){
             try{
                  const profile = await CompanyProfile.create(req.body)
                  if(profile){

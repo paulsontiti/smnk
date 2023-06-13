@@ -1,60 +1,56 @@
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import useSWR from 'swr'
-import { Card, CardActions, CardContent, Button, Grid, Typography } from '@mui/material';
+import { Card, CardActions, CardContent, Button, Grid, Typography, Container, CardHeader } from '@mui/material';
 import { getUserBankDetails } from '@/lib/utils/user';
 import {useRouter} from 'next/router'
+import InfoAlert from '@/components/alerts/Info';
 
 export default function BankDetails(){
     
 const router = useRouter()
       
     const {user:{bankDetails}} = useSelector((state:RootState)=>state.users)
-    if(!bankDetails) return <Typography>No Bank Details. Please add your bank details</Typography>
+    if(!bankDetails) return <InfoAlert message='No Bank Details. Please add your bank details'/>
 
     return(
-        <>
-            <Typography sx={{margin:'2rem 1rem', fontWeight:'bold'}}>Bank Details</Typography>
+        <Container sx={{p:{xs:'1rem',sm:'2rem 10rem',md:'2rem 15rem',lg:'2rem 20rem'}}}>
             <Card>
-           
+           <CardHeader title='Bank Details'/>
                         <CardContent>
-                            <Grid container marginBottom={2}>
-                                <Grid item xs={12}>
-                                    <Typography  sx={{marginRight:'1rem',fontWeight:'bold'}}>Account Name:  </Typography>
+                            <Grid container rowSpacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <Typography variant='subtitle2'>Account Name:  </Typography>
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} sm={6}>
                                     
-                                    <Typography>{bankDetails.accountName}</Typography>
+                                    <Typography variant='caption'>{bankDetails.accountName}</Typography>
                                 </Grid>
-                            </Grid>
-                            <Grid container  marginBottom={2}>
-                                <Grid item xs={12}>
-                                    <Typography  sx={{marginRight:'1rem',fontWeight:'bold'}}>Account Number:  </Typography>
+                         
+                                <Grid item xs={12} sm={6}>
+                                    <Typography variant='subtitle2'>Account Number:  </Typography>
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} sm={6}>
                                     
-                                    <Typography>{bankDetails.accountNumber}</Typography>
+                                    <Typography  variant='caption'>{bankDetails.accountNumber}</Typography>
+                           </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <Typography  variant='subtitle2'>Bank Name:  </Typography>
                                 </Grid>
-                            </Grid>
-                   
-                            <Grid container  marginBottom={2}>
-                                <Grid item xs={12}>
-                                    <Typography  sx={{marginRight:'1rem',fontWeight:'bold'}}>Bank Name:  </Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                <Typography>{bankDetails.bankName}</Typography>
+                                <Grid item xs={12} sm={6}>
+                                <Typography  variant='caption'>{bankDetails.bankName}</Typography>
                                    
                                 </Grid>
                             </Grid>
                         </CardContent>
                         <CardActions>
-                            <Button size='small' variant='contained' fullWidth onClick={()=>{
+                            <Button size='small' variant='contained' onClick={()=>{
                                 router.push(`/sw-dashboard/bank-details/edit-bank-details`)
                             }}>Edit Bank Details</Button>
                            
                         </CardActions>            
            </Card>
-        </>
+        </Container>
         
     )
 }

@@ -9,18 +9,6 @@ const companyInfoSchema = new Schema({
         trim:true,
         lowercas:true
     },
-    email:{
-        type:String,
-        required:true,
-        trim:true,
-        lowercase:true
-    },
-    phone:{
-        type:String,
-        required:true,
-        trim:true,
-        lowercase:true
-    },
     state:{type:String,required:true},
     lga:{type:String,required:true},
     officeAddress:{type:String,required:true},

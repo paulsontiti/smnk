@@ -16,7 +16,7 @@ export default function AdminLayout(props: { children: any }) {
           justifyContent: "space-between",
         }}
       >
-        <MenuDrawer color="yellow">
+        <MenuDrawer>
           <>
             <DashboardHeader />
             <ADashboardMenu />

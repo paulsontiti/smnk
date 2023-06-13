@@ -31,8 +31,8 @@ function ProfilePicUploader() {
   };
 
   const submitHandler = async (e: any) => {
-    setUploading(true)
     e.preventDefault();
+    setUploading(true)
     try {
       if (_id && file) {
         const formData = new FormData();
@@ -45,6 +45,8 @@ function ProfilePicUploader() {
           data: formData,
         });
         const data = await res.data;
+        
+        setUploading(false)
         setFile("");
         //get user from local storage
         let user = JSON.parse(
@@ -74,12 +76,11 @@ function ProfilePicUploader() {
               alt="image to upload"
               sx={{ width: 80, height: 80 }}
             />
-        
-              <LoadingButton
+        {uploading ? <LoadingButton
                 loading={uploading}
                 loadingPosition="start"
-                startIcon={<UploadIcon sx={{ color: `${color}.900` }} />}
-              ></LoadingButton>
+              ></LoadingButton> : <UploadIcon sx={{ color: `${color}.900` }} />}
+             
           </>
         )}
       </IconButton>

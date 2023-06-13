@@ -35,7 +35,7 @@ function ChatNotification() {
          router.push('/chat')
         }}
         size="large"
-        edge="start"
+        edge="end"
         aria-label="menu"
         sx={{ mr: 2,color:'white' }}
       >

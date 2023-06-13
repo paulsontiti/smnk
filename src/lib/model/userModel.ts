@@ -34,6 +34,7 @@ const userSchema = new Schema({
     },
     onAJob:{type:Boolean,default:false},
     rating:{type:Number,default:1},
+    level:{type:String,default:'Beginner'},
     comments:[
         {
             comment:{type:String},
@@ -82,7 +83,6 @@ const userSchema = new Schema({
         },
         accountNumber:{
             type:String,
-            unique:true,
             trim:true,
         },
         bankName:{

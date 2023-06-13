@@ -7,25 +7,7 @@ export type ReportDetails={
   jobId:string
   reportFile:any
 }
-  //report submit handler
-  export const reportSubmitHandler = async (values:any,router:any,url:string)=>{
-    
-    try{
-                const res = await axios({
-                    method:'POST',
-                    url:`${process.env.SMNK_URL}api/report/create-report`,
-                    data:values
-                })
-                const data = await res.data
-                alert(data.message)
-                if(data.successful){
-                    router.push('/dashboard/job/current')
-                }
-  }catch(err:any){
-    console.log(err)
-    return err
-  }
-}
+
   //payment submit handler
   export const readReport = async (jobId:string,reportId:string)=>{
     

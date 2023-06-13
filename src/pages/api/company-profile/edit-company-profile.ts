@@ -5,9 +5,9 @@ export default async function handler(req:any,res:any){
 
     await dbConnect()
 
-    const {name,email,state,lga,userId,officeAddress,description} = req.body
+    const {name,state,lga,userId,officeAddress,description} = req.body
         
-    if(name && email && state && lga && userId && officeAddress && description){
+    if(name && state && lga && userId && officeAddress && description){
         try{
                                           
             const deleted = await CompanyProfile.deleteOne({userId:userId})

@@ -8,6 +8,9 @@ import { getCompanyProfile } from '@/lib/utils/user';
 import { ListItemIcon } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { Typography } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+
 
 export default function CompanyProfileLink(){
    
@@ -17,19 +20,19 @@ const router = useRouter()
 
 if(error) return <p>Error occurred</p>
 if(!data) return (
-            <ListItemButton sx={{ ml: 8 }} onClick={()=>{
+            <ListItemButton sx={{ ml: 2 }} onClick={()=>{
                 router.push('/dashboard/company/add-company-profile') 
             }}>
-                 <ListItemIcon><PersonAddIcon sx={{color:"yellow"}}/></ListItemIcon>
-                <ListItemText  primary={ 'Add Profile'} />
+                 <ListItemIcon><InfoIcon sx={{color:"white"}}/></ListItemIcon>
+                 <ListItemText primary={<Typography variant="caption">Add Info</Typography>} />
             </ListItemButton>
     )
     return(
-         <ListItemButton sx={{ ml: 8}} onClick={()=>{
+         <ListItemButton sx={{ ml: 2}} onClick={()=>{
             router.push(`/dashboard/company`)
          }}>
-                <ListItemIcon><PersonIcon sx={{color:"yellow"}}/></ListItemIcon>
-            <ListItemText  primary={`Profile`} />
+                <ListItemIcon><InfoIcon sx={{color:"white"}}/></ListItemIcon>
+                <ListItemText primary={<Typography variant="caption">Info</Typography>} />
         </ListItemButton>
     )
 }

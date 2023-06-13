@@ -6,10 +6,12 @@ import Skeleton from '@mui/material/Skeleton'
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import ProfilePicUploader from "./ProfilePicUploader";
+import { IconButton } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default function ProfilePic() {
   const { dpFileName } = useSelector((state: RootState) => state.users.user);
-
+const router = useRouter()
 
   
  
@@ -25,12 +27,16 @@ export default function ProfilePic() {
             }
           >
 {
-  dpFileName ?             <Avatar
+  dpFileName ? <IconButton onClick={()=>{
+    router.push('/sw-dashboard')
+  }}>
+     <Avatar
   alt=""
   src={`/api/multer/profile-pic/${dpFileName}`}
-  sx={{ width: 80, height: 80,mr:5 }}
-/> :
-<Skeleton variant="circular" width={80} height={80} />
+  sx={{ width: 80, height: 80,mt:2}}
+/>
+  </IconButton> :
+<Skeleton variant="circular" width={80} height={80} sx={{mt:2}}/>
 
 }
           </Badge>

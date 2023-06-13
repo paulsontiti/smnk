@@ -13,7 +13,7 @@ function ComplaintPage() {
     const id = router.query.jobId as string
   return (
     <Layout>
-        <ComplaintForm jobId={id} senderId={user._id} url={RedirectUser(user)}/>
+        <ComplaintForm jobId={id} url={RedirectUser(user)}/>
     </Layout>
     
   )

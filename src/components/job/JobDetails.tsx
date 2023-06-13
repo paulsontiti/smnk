@@ -21,6 +21,8 @@ import DateRangeIcon from "@mui/icons-material/DateRange";
 import HomeIcon from "@mui/icons-material/Home";
 import Image from "next/image";
 import SWReportsAccordion from "../accordion/SWReportsAccordion";
+import ErrorAlert from "../alerts/Error";
+import LoadingAlert from "../alerts/Loading";
 
 function JobDetailsComponent({ job }: { job: any }) {
   const { user } = useSelector((state: RootState) => state.users);
@@ -45,8 +47,8 @@ function JobDetailsComponent({ job }: { job: any }) {
     getJobStatus(job._id, setJobStatus, setError, user._id);
   }, [job._id, user._id]);
 
-  if (error) return <p>Error occurred</p>;
-  if (!jobStatus) return <p>loading............</p>;
+  if (error) return <ErrorAlert />;
+  if (!jobStatus) return <LoadingAlert />;
 
   return (
     <Card sx={{ marginBottom: "1rem" }}>
@@ -79,7 +81,6 @@ function JobDetailsComponent({ job }: { job: any }) {
                   {job.jobDetails.budget}
                 </Typography>
               </Badge>
-              
             </Box>
             <Divider />
           </Grid>
@@ -158,10 +159,12 @@ function JobDetailsComponent({ job }: { job: any }) {
         </>
       ) : (
         <Box>
-          {jobStatus.isJobPaidFor && !jobStatus.isJobApproved && <SWReportsAccordion reports={job.reports} jobId={job._id}/>}
+          {jobStatus.isJobPaidFor && !jobStatus.isJobApproved && (
+            <SWReportsAccordion reports={job.reports} jobId={job._id} />
+          )}
           <ApplyForJobButton job={job} />
         </Box>
-      ) }
+      )}
     </Card>
   );
 }

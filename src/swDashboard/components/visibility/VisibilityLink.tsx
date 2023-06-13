@@ -1,6 +1,6 @@
 import { RootState } from "@/store";
 import { Chip } from "@mui/joy";
-import { Box, ListItemButton, ListItemIcon } from "@mui/material";
+import { ListItemText, ListItemButton, ListItemIcon,Typography } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -23,15 +23,16 @@ function VisibilityLink() {
       setSubType(subType);
     })();
   }, [_id]);
-  if (subType === 'free')
+  if (subType === 'Free')
     return (
       <ListItemButton
-        sx={{ ml: 4 }}
+        sx={{ ml: 1 }}
         onClick={() => {
           router.push("/sw-dashboard/visibility");
         }}
-      > <ListItemIcon><VisibilityIcon sx={{color:"yellow"}}/></ListItemIcon>
-        Boost Visibility
+      > <ListItemIcon><VisibilityIcon sx={{color:"white"}}/></ListItemIcon>
+      
+        <ListItemText primary={<Typography variant="body2">Upgrade Subscription</Typography>} />
         <Chip
         color="success"
           variant="soft"
@@ -51,10 +52,10 @@ function VisibilityLink() {
   return (
  
    
-    <ListItemButton sx={{ ml: 4 }}  onClick={() => {
+    <ListItemButton sx={{ ml: 1}}  onClick={() => {
         router.push("/sw-dashboard/visibility");
-      }}><ListItemIcon><VisibilityIcon sx={{color:"yellow"}}/></ListItemIcon>
-      Visibility
+      }}><ListItemIcon><VisibilityIcon sx={{color:"white"}}/></ListItemIcon>
+    <ListItemText primary={<Typography variant="body2">Subscription</Typography>} />
       <Chip
         variant="soft"
         size="sm"

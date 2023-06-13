@@ -5,7 +5,8 @@ import { RootState } from '@/store';
 import { getUserProfile } from '@/lib/utils/user';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-
+import { ListItemIcon, Typography } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 
 export default function UserInfoLink(){
     const router = useRouter()
@@ -24,18 +25,20 @@ export default function UserInfoLink(){
       )()
     },[_id])
 if(!data) return(
-    <ListItemButton sx={{ ml: 8 }} onClick={()=>{
+    <ListItemButton sx={{ ml: 1 }} onClick={()=>{
         router.push('/dashboard/individual/add-personal-info') 
     }}>       
-        <ListItemText  primary={'Add Personal Info'} />
+         <ListItemIcon><InfoIcon sx={{color:"white"}}/></ListItemIcon>
+                 <ListItemText primary={<Typography variant="caption">Add Info</Typography>} />
   </ListItemButton>
 )
     return(
-        <ListItemButton sx={{ ml: 8 }} onClick={()=>{
+        <ListItemButton sx={{ ml: 1 }} onClick={()=>{
             router.push(`/dashboard/individual`)
         }}>
           
-            <ListItemText  primary={`Personal Info`} />
+          <ListItemIcon><InfoIcon sx={{color:"white"}}/></ListItemIcon>
+                 <ListItemText primary={<Typography variant="caption">Info</Typography>} />
         </ListItemButton>
     )
 }

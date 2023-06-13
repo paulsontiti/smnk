@@ -1,5 +1,5 @@
 import React, { useImperativeHandle, useRef, useState } from "react";
-import {AlertColor,Button} from "@mui/material";
+import { AlertColor, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -51,82 +51,87 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-const ImageDialog = React.forwardRef(({ action,receiverId}: {receiverId:string,action: ()=>Promise<any> }, _ref) => {
-  //declare component's state
-  const [open, setOpen] = useState(false);
-  const [imgSrc, setImgSrc] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [msg,setMsg] = useState('')
-  const [color,setColor] = useState<AlertColor>('error')
+const ImageDialog = React.forwardRef(
+  (
+    { action, receiverId }: { receiverId: string; action: () => Promise<any> },
+    _ref
+  ) => {
+    //declare component's state
+    const [open, setOpen] = useState(false);
+    const [imgSrc, setImgSrc] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [msg, setMsg] = useState("");
+    const [color, setColor] = useState<AlertColor>("error");
 
-  //useimperative
-  useImperativeHandle(_ref, () => ({
-    showDialog: () => {
-      setOpen(true);
-    },
-    updateSrc: (src: string) => {
-      setImgSrc(src);
-    },
-  }));
+    //useimperative
+    useImperativeHandle(_ref, () => ({
+      showDialog: () => {
+        setOpen(true);
+      },
+      updateSrc: (src: string) => {
+        setImgSrc(src);
+      },
+    }));
 
-//ref for snackbar
-const snackbarRef = useRef()
+    //ref for snackbar
+    const snackbarRef = useRef();
 
-  //handle close event
-  const handleClose = () => {
-    setOpen(false);
-  };
+    //handle close event
+    const handleClose = () => {
+      setOpen(false);
+    };
 
-  //handle confirm button click
-  const handleConfirmButtonClick =  async() => {
-    const confirmed =  await action();
-    if (confirmed) {
-      setColor('success')
-      setMsg('Action Successful')
-      const refState = snackbarRef.current as any
-      refState.handleClick() 
-      handleClose();
-    } else {
-      setColor('error')
-      setMsg('Action not Successful')
-      const refState = snackbarRef.current as any
-      refState.handleClick() 
-      handleClose();
-    }
-  };
+    //handle confirm button click
+    const handleConfirmButtonClick = async () => {
+      const confirmed = await action();
+      if (confirmed) {
+        setColor("success");
+        setMsg("Action Successful");
+        const refState = snackbarRef.current as any;
+        refState.handleClick();
+        handleClose();
+      } else {
+        setColor("error");
+        setMsg("Action not Successful");
+        const refState = snackbarRef.current as any;
+        refState.handleClick();
+        handleClose();
+      }
+    };
 
-  return (
-    <>
-    <SnackbarComponent msg={msg} color={color} ref={snackbarRef}/>
-    <BootstrapDialog
-      onClose={handleClose}
-      aria-labelledby="customized-dialog-title"
-      open={open}
-    >
-      <DialogContent dividers>
-        <Image src={imgSrc} alt="" width={400} height={400} />
-      </DialogContent>
-      <DialogActions>
-        <LoadingButton
-          autoFocus
-          onClick={() => {
-            setLoading(true);
-            handleConfirmButtonClick();
-            setLoading(false);
-          }}
-          size="small"
-          loading={loading}
-          variant="contained"
-          sx={{ textTransform: "capitalize" }}
+    return (
+      <>
+        <SnackbarComponent msg={msg} color={color} ref={snackbarRef} />
+        <BootstrapDialog
+          onClose={handleClose}
+          aria-labelledby="customized-dialog-title"
+          open={open}
         >
-          Confirm
-        </LoadingButton>
-       <AdminChatAction receiverId=""/>
-      </DialogActions>
-    </BootstrapDialog>
-    </>
-  );
-});
+          <DialogContent dividers>
+            <Image src={imgSrc} alt="" width={400} height={400} />
+          </DialogContent>
+          <DialogActions>
+            <LoadingButton
+              autoFocus
+              onClick={() => {
+                setLoading(true);
+                handleConfirmButtonClick();
+                setLoading(false);
+              }}
+              size="small"
+              loading={loading}
+              variant="contained"
+              sx={{ textTransform: "capitalize" }}
+            >
+              Confirm
+            </LoadingButton>
+            <AdminChatAction receiverId="" />
+          </DialogActions>
+        </BootstrapDialog>
+      </>
+    );
+  }
+);
 
-ImageDialog.displayName = "ImageDialog"
+ImageDialog.displayName = "ImageDialog";
 export default ImageDialog;

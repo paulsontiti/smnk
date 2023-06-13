@@ -7,7 +7,6 @@ import {
   import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
   import React from "react";
 import { Badge } from "@mui/material";
-import SWExpAccordion from "./SWExpAccordion";
 import SWServiceDetailsAccordion from "./SWServiceDetailsAccordion";
   
   function SWServicesAccordion({

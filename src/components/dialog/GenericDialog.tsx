@@ -1,4 +1,4 @@
-import React, {useImperativeHandle } from "react";
+import React, { useImperativeHandle } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -20,11 +20,11 @@ const GenericDialog = React.forwardRef(
     {
       title,
       content,
-      actions
+      actions,
     }: {
       title: string;
-      content: JSX.Element,
-      actions?: JSX.Element
+      content: JSX.Element;
+      actions?: JSX.Element;
     },
     _ref
   ) => {
@@ -51,16 +51,12 @@ const GenericDialog = React.forwardRef(
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle>{title}</DialogTitle>
-          <DialogContent>
-           {content}
-          </DialogContent>
-          <DialogActions>
-            {actions}
-          </DialogActions>
+          <DialogContent>{content}</DialogContent>
+          <DialogActions>{actions}</DialogActions>
         </Dialog>
       </div>
     );
   }
 );
-GenericDialog.displayName = "GenericDialog"
+GenericDialog.displayName = "GenericDialog";
 export default GenericDialog;

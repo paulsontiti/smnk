@@ -14,20 +14,18 @@ export const CustomerService = ({customerHandleClick,openCustomer}:
                                   const router = useRouter()
   return (
     <>
-         <ListItemButton sx={{ml:1}} onClick={customerHandleClick}>
+         <ListItemButton sx={{ml:0}} onClick={customerHandleClick}>
        
        <ListItemText primary="Customer Service" />
        {openCustomer ? <ExpandLess /> : <ExpandMore />}
      </ListItemButton>
      <Collapse in={openCustomer} timeout="auto" unmountOnExit>
        <List component="div" disablePadding>
-         <ListItemButton  sx={{ ml: 4 }} onClick={()=> router.push('/message/admin-contact')}>
+         {/* <ListItemButton  sx={{ ml: 4 }} onClick={()=> router.push('/message/admin-contact')}>
          <ListItemText primary="Admin's Contacts" />      
-         </ListItemButton>
+         </ListItemButton> */}
        
-         <ListItemButton sx={{ ml: 4 }} onClick={()=> router.push(`/chat/${process.env.CUSTOMER_SERVICE_ID}`)}>
-         <ListItemText primary="Chat" />      
-         </ListItemButton>
+        
    
        </List>
      </Collapse>

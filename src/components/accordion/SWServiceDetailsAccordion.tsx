@@ -3,8 +3,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, CardActions, Grid, Typography } from "@mui/material";
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
+
 
 export default function SWServiceDetailsAccordion({ service }: { service: any }) {
   if (!service) return <p></p>;

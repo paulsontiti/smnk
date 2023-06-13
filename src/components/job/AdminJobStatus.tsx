@@ -32,8 +32,6 @@ export const getJobStatus = async (
       const data = await res.data;
       //console.log(data)
       setStatus(data);
-    } else {
-      console.log("Invalid request");
     }
   } catch (err: any) {
     console.log(err);
@@ -55,39 +53,10 @@ function AdminJobStatus({
 
   return (
     <>
-      {/* {jobStatus.swPaid && (
-         <CardActions>
-         <Button sx={{textTransform:'capitalize'}} size="small"></Button>
-       </CardActions>
-      )}
-      {jobStatus.isJobApproved && !jobStatus.swPaid && (
-        <CardActions>
-          <Button size="small" sx={{textTransform:'capitalize'}}>Job Approved</Button>
-          <Button variant='contained'
-                                            size='small'
-                                            onClick={()=>{
-                                              router.push(`/a-dashboard/pay-sw/${jobStatus.approvedUserId}`)
-                                            }}
-                                    >Pay Worker</Button>
-        </CardActions>
-      )} */}
-      {/* {!jobStatus.isJobApproved &&
-        jobStatus.hasUserApplied &&
-        !jobStatus.isProposalAccepted &&
-        jobStatus.isJobPaidFor && (
-          <CardActions>
-            <Button sx={{textTransform:'capitalize'}} size="small">Applied For</Button>
-          </CardActions>
-        )}
-      {!jobStatus.isJobApproved && jobStatus.isProposalAccepted && (
-        <CardActions>
-          <Button  sx={{textTransform:'capitalize'}} size="small">Proposal Accepted</Button>
-        </CardActions>
-      )} */}
-      
       {!jobStatus.isJobPaidFor && isPop && (
         <CardActions>
-          <LoadingButton sx={{textTransform:'capitalize'}}
+          <LoadingButton
+            sx={{ textTransform: "capitalize" }}
             variant="contained"
             size="small"
             loading={confirmPaymentLoading}
@@ -108,12 +77,11 @@ function AdminJobStatus({
           >
             Confirm Payment
           </LoadingButton>
-          <Button sx={{textTransform:'capitalize'}}
+          <Button
+            sx={{ textTransform: "capitalize" }}
             variant="outlined"
             size="small"
-            onClick={async () => {
-             
-            }}
+            onClick={async () => {}}
           >
             Message Payer
           </Button>

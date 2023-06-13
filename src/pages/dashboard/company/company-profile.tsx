@@ -1,63 +1,74 @@
-import {Box, Card, CardContent, Button,CardActions,Typography} from '@mui/material'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store'
-import { getCompanyProfile } from '@/lib/utils/user'
-import useSWR from 'swr'
-import {useRouter} from 'next/router'
-  
+import {
+  Box,
+  Card,
+  CardContent,
+  Button,
+  CardActions,
+  Typography,
+  CardHeader,
+  Grid,
+} from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { getCompanyProfile } from "@/lib/utils/user";
+import useSWR from "swr";
+import { useRouter } from "next/router";
+import ErrorAlert from "@/components/alerts/Error";
+import LoadingAlert from "@/components/alerts/Loading";
+import EditBottomNavigation from "@/components/bottomNavigation/EditBottomNavigation";
 
-export default function CompanyProfile(){
+export default function CompanyProfile() {
+  const router = useRouter();
+  const { _id } = useSelector((state: RootState) => state.users.user);
+  const { data, error } = useSWR("getProfile", getCompanyProfile(_id));
 
+  if (error) return <ErrorAlert />;
+  if (!data) return <LoadingAlert />;
 
-    const router = useRouter()
-    const {_id} = useSelector((state:RootState)=>state.users.user)
-    const {data,error} =useSWR('getProfile',getCompanyProfile(_id))
+  return (
+    <Box  sx={{maxWidth:'100%',p:{xs:'1rem',sm:'3rem 5rem',md:'3rem 10rem',lg:'3rem 20rem',xl:'3rem 20rem'}}}>
+        <CardHeader title={`Company's Profile`}/>
     
-    if(error) return <Typography sx={{margin:'1rem 1rem'}}>An Error occured while fetching your profile</Typography>
-    if(data === null) return <Typography sx={{margin:'1rem 1rem'}}>No Profile</Typography>
-    if(!data) return <Typography variant='caption' sx={{margin:'1rem 1rem'}}>loading.....</Typography>
-    
-    return(
-            <Card>
-                <CardContent>
-                <h4>{`Company's Profile`}</h4>
-                <Box 
-                >
-                    <h5>Company Name:  </h5>
-                    <p>{data.name}</p>
-                </Box>
-                <Box>
-                    <h5>Company Email:  </h5>
-                    <p>{data.email}</p>
-                </Box>
-                <Box>
-                    <h5>Company Phone Number:  </h5>
-                    <p>{data.phone}</p>
-                </Box>
-                
-                <Box>
-                    <h5>State:  </h5>
-                    <p>{data.state}</p>
-                </Box>
-                <Box>
-                    <h5>L.G.A:  </h5>
-                    <p>{data.lga}</p>
-                </Box>
-                <Box>
-                    <h5>Office Address:  </h5>
-                    <p>{data.officeAddress}</p>
-                </Box>
-                <Box>
-                    <h5>Description:  </h5>
-                    <p>{data.description}</p>
-                </Box>
-                </CardContent>
-                <CardActions>
-                <Button size='small' variant='contained' fullWidth onClick={()=>{
-                    router.push('/dashboard/company/edit-company-profile')
-                }}>Edit Info</Button>
-                </CardActions>
-            </Card>
+        <Grid container spacing={1}>
+        <Grid item xs={6} sm={6}>
+          <Typography variant="subtitle2">{`Company's Name:`} </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+          <Typography variant="body2">{data.name}</Typography>
+          </Grid>
         
-    )
+        
+          <Grid item xs={6} sm={6}>
+          <Typography variant="subtitle2">State:</Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+          <Typography variant="body2">{data.state}</Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+          <Typography variant="subtitle2">LGA:</Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+          <Typography variant="body2">{data.lga}</Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+          <Typography variant="subtitle2">Office Address:</Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+          <Typography variant="body2">{data.officeAddress}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+          <Typography variant="subtitle2">Bio:</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+          <Typography variant="body2">{data.description}</Typography>
+          </Grid>
+        </Grid>
+      
+    
+      <CardActions>
+        <EditBottomNavigation label="Edit Profile" handleClick={()=>{router.push("/dashboard/company/edit-company-profile")}}/>
+   
+      </CardActions>
+    </Box>
+  );
 }

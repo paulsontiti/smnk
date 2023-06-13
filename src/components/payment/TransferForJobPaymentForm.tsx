@@ -1,6 +1,6 @@
 
-import React, { useState } from "react";
-import {IconButton,Typography } from "@mui/material";
+import React, { useRef, useState } from "react";
+import {IconButton,Typography,AlertColor } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import UploadIcon from "@mui/icons-material/Upload";
 import axios from "axios";
@@ -9,13 +9,18 @@ import Image from 'next/image'
 import {useRouter} from 'next/router'
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import SnackbarComponent from "../snackbar/SnackBar";
 
 
 
 function TransferForJobPaymentForm({jobId}:{jobId:string}) {
 const {_id} = useSelector((state:RootState)=>state.users.user)
   const router = useRouter()
+  const [msg, setMsg] = useState("");
+  const [color, setColor] = useState<AlertColor>("error");
 
+  //declare refs
+  const snackBarRef = useRef();
   const [file, setFile] = useState<any>();
   const [displayFile, setDisplayFile] = useState('');
 
@@ -45,16 +50,30 @@ const {_id} = useSelector((state:RootState)=>state.users.user)
           data: formData,
         });
         const data = await res.data;
-        alert(data.message)
+        
         if(data.successful){
+          setMsg(data.message);
+          setColor("success");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
           router.push('/c-dashboard')
+        }else{
+          setMsg(data.message);
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
         }
-        // setDp(data);
-        // setFile('')
       } else {
-        console.log("Invalid request");
+        setMsg('Invalid request,select proof of payment');
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
       }
     } catch (err: any) {
+      setMsg('An error occurred ,please try again');
+      setColor("error");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
       console.log(err);
       return false;
     }
@@ -63,6 +82,7 @@ const {_id} = useSelector((state:RootState)=>state.users.user)
 
   return (
     <>
+      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <SMNKBankDetails/>
       <form
         onSubmit={submitHandler}

@@ -7,7 +7,7 @@ function ChatPlatform() {
   
   return (
    <Layout>
-    <ChatBox isAdmin={true}/>
+    <ChatBox/>
    </Layout>
   )
 }

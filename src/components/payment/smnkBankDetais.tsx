@@ -1,5 +1,5 @@
 
-import {Grid, Typography ,Card,CardContent} from "@mui/material";
+import {Grid, Typography ,Card,CardContent, CardHeader} from "@mui/material";
 
 import { useRouter } from "next/router";
 import {useSelector} from "react-redux";
@@ -16,7 +16,7 @@ export default function SMNKBankDetails(){
         <Card>
             
                 <CardContent>
-                <Typography sx={{fontWeight:'bold',marginBottom:5,marginTop:5}}>SMNK Bank Details</Typography>
+                <CardHeader subheader='SMNK Bank Details'/>
                     <Grid container>
                             <Grid item xs={6}>
                                 <Typography variant="body2">Account Name: </Typography>

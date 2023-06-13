@@ -32,9 +32,7 @@ export default function Footer() {
       color={color}
       invertedColors
       sx={{
-        ...(color !== "warning" && {
-          bgcolor: `${color}.900`,
-        }),
+       bgcolor:'#04023B',
         flexGrow: 1,
         p: 2,
         mx: -3,
@@ -56,17 +54,17 @@ export default function Footer() {
         />
 
         <Divider orientation="vertical" sx={{bgcolor:'white'}} />
-        <IconButton variant="plain" sx={{color:'yellow'}} onClick={()=>{
+        <IconButton variant="plain" sx={{color:'white'}} onClick={()=>{
           window.location.href = 'https://www.facebook.com/smnkLTD'
         }}>
           <FacebookRoundedIcon />
         </IconButton>
-        <IconButton variant="plain"  sx={{color:'yellow'}} onClick={()=>{
+        <IconButton variant="plain"  sx={{color:'white'}} onClick={()=>{
           window.location.href = 'https://twitter.com/SMNKservicehub?t=15Dcj5Anh9NyTQnAw8f6fA&s=08'
         }}>
           <TwitterIcon />
         </IconButton>
-        <IconButton variant="plain"  sx={{color:'yellow'}} onClick={()=>{
+        <IconButton variant="plain"  sx={{color:'white'}} onClick={()=>{
           window.location.href = 'https://www.instagram.com/smnkservicehub/'
         }}>
           <InstagramIcon />
@@ -74,7 +72,7 @@ export default function Footer() {
         {/* <IconButton variant="plain">
           <WhatsAppIcon />
         </IconButton> */}
-        <IconButton variant="plain" sx={{color:'yellow'}}  onClick={()=>{
+        <IconButton variant="plain" sx={{color:'white'}}  onClick={()=>{
           window.location.href = 'https://www.linkedin.com/company/smnk-limited-nigeria/'
         }}>
           <LinkedInIcon />
@@ -127,17 +125,17 @@ export default function Footer() {
           sx={{ flexGrow: 0, "--ListItem-radius": "8px" }}
         >
           <ListItem nested sx={{ width: { xs: "50%", md: 140 } }}>
-            <ListSubheader sx={{color:'yellow'}} >Quick Links</ListSubheader>
+            <ListSubheader sx={{color:'white'}} >Quick Links</ListSubheader>
             <List>
               <ListItem>
                 <ListItemButton onClick={()=>{
                   router.push('/about-us')
-                }}>About SMNK</ListItemButton>
+                }}><Typography level="body4">About SMNK</Typography></ListItemButton>
               </ListItem>
               <ListItem>
                 <ListItemButton onClick={()=>{
                   router.push('/services')
-                }}>Services</ListItemButton>
+                }}><Typography level="body4">Services</Typography></ListItemButton>
               </ListItem>
               {/* <ListItem>
                 <ListItemButton>Blog</ListItemButton>
@@ -145,7 +143,7 @@ export default function Footer() {
               <ListItem>
                 <ListItemButton  onClick={()=>{
                   router.push('/jobs')
-                }}>Jobs</ListItemButton>
+                }}><Typography level="body4">Jobs</Typography></ListItemButton>
               </ListItem>
             </List>
           </ListItem>
@@ -154,16 +152,9 @@ export default function Footer() {
       </Box>
       <Divider sx={{ my: 2 }} />
       <Box>
+       
         <Typography
-          level="body2"
-          startDecorator={
-            <Typography textColor="text.tertiary"> developed by</Typography>
-          }
-        >
-          Black Wizards Technology
-        </Typography>
-        <Typography
-          level="body2"
+          level="body4"
           startDecorator={
             <Typography textColor="text.tertiary">powered & sponsored by</Typography>
           }

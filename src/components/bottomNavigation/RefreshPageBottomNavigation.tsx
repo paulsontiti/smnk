@@ -1,12 +1,14 @@
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import AddFloatingActionButtons from "../fab/Add";
+import RefreshIcon from '@mui/icons-material/Refresh';
 
-export default function AddBottomNavigation({ label,handleClick }: { label: string,handleClick:()=>void }) {
+export default function RefreshPageBottomNavigation({ label }: { label: string }) {
   const [value, setValue] = useState(0);
  
+  const router = useRouter()
   return (
     <Box sx={{ width: "100%" }} mt={3}>
       <BottomNavigation
@@ -19,9 +21,11 @@ export default function AddBottomNavigation({ label,handleClick }: { label: stri
     
             <BottomNavigationAction
             label={label}
+            onClick={()=>{
+                router.reload()
+            }}
             icon={
-              <AddFloatingActionButtons
-                handleClick={handleClick}
+              <RefreshIcon 
               />
             }
           />

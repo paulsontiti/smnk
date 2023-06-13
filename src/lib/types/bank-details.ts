@@ -3,6 +3,7 @@ import { NextRouter } from "next/dist/client/router";
 import axios from "axios";
 import { FormControls } from "../form";
 import { User } from "./userInfo";
+import { SnackBarParams } from "./service";
 
 export type BankDetails = {
   accountName: string;
@@ -14,7 +15,7 @@ export type BankDetails = {
 
 export const bankDetailsSubmitHandler = async (
   values: BankDetails,
-  router: NextRouter
+  router: NextRouter,  snackbarParams:SnackBarParams
 ) => {
     //get user from local storage
     let user:User = JSON.parse(
@@ -34,14 +35,27 @@ export const bankDetailsSubmitHandler = async (
       data: {bankDetails:user.bankDetails,_id:user._id}
     });
     const data = await res.data;
-
-    alert(data.message);
     if (data.successful) {
+      snackbarParams.setMsg(data.message);
+     snackbarParams.setColor("success");
+      const refState = snackbarParams.snackBarRef.current as any;
+      refState.handleClick()
+     setTimeout(()=>{
       router.push("/sw-dashboard/bank-details");
+     },2000)
+     
+    }else{
+      snackbarParams.setMsg(data.message);
+      snackbarParams.setColor("error");
+       const refState = snackbarParams.snackBarRef.current as any;
+       refState.handleClick()
     }
   } catch (err: any) {
     console.log(err);
-    alert(err.response.data.message);
+    snackbarParams.setMsg(err.response.data.message);
+    snackbarParams.setColor("error");
+     const refState = snackbarParams.snackBarRef.current as any;
+     refState.handleClick()
   }
 };
 

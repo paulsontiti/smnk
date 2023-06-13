@@ -46,7 +46,7 @@ export default function SWDetailsAccordion({
           }}
         >
           <DPAvatar dp={sw.dpFileName}/>
-          <UserRating rating={sw.rating} />
+          <UserRating rating={sw.rating} level={sw.level} type={sw.type}/>
           
           <GenericDialog ref={swDetailsRef} content={<SWFullDetailsAccordion userId={sw._id}/>} title="Talent's Details"/>
         </Box>

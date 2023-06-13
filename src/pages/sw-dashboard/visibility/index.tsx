@@ -1,24 +1,31 @@
-
-import { Bronze } from '../../../swDashboard/components/visibility/bronze'
-import { Gold } from '@/swDashboard/components/visibility/gold'
-import { Platinium } from '@/swDashboard/components/visibility/platinium'
-import Layout from '@/components/dashboard/layout'
-import { Card,CardHeader,CardContent } from '@mui/material'
+import { Bronze } from "../../../swDashboard/components/visibility/bronze";
+import { Gold } from "@/swDashboard/components/visibility/gold";
+import { Platinium } from "@/swDashboard/components/visibility/platinium";
+import Layout from "@/components/dashboard/layout";
+import { Card, CardHeader, CardContent, Container, Grid } from "@mui/material";
 
 export default function VisibilityPage() {
-
   return (
     <Layout>
-      <Card>
-        <CardHeader title="Upgrade Your Package"/>
+      <Container>
+        <CardHeader title="Upgrade Your Package" />
         <CardContent>
-
-            <Platinium/>
-            <Gold/>
-            <Bronze/>
+          <Grid container>
+            <Grid item xs={12} sm={4} md={4}>
+              {" "}
+              <Platinium />
+            </Grid>{" "}
+            <Grid item xs={12} sm={4} md={4}>
+              {" "}
+              <Gold />
+            </Grid>{" "}
+            <Grid item xs={12} sm={4} md={4}>
+              {" "}
+              <Bronze />
+            </Grid>
+          </Grid>
         </CardContent>
-      </Card>
+      </Container>
     </Layout>
-    
-  )
+  );
 }

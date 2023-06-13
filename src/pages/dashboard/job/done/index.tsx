@@ -1,3 +1,5 @@
+import ErrorAlert from '@/components/alerts/Error'
+import InfoAlert from '@/components/alerts/Info'
 import Layout from '@/components/dashboard/layout'
 import JobDetailsComponent from '@/components/job/JobDetails'
 import { RootState } from '@/store'
@@ -21,7 +23,6 @@ function DoneJobsPage() {
                         url:`${process.env.SMNK_URL}api/job/done/${_id}`,
                     })
                     const data = await res.data
-                //console.log(data)
                 setJobs(data)
               }else{
                 console.log('Invalid request')
@@ -36,12 +37,8 @@ function DoneJobsPage() {
     })
 
 
-    if(error) return <Layout><Typography sx={{
-      margin:'1rem 1rem' 
-    }}>Error occurred</Typography></Layout>
-    if(Array.isArray(jobs) && jobs.length < 1) return <Layout><Typography sx={{
-      margin:'1rem 1rem' 
-    }}>No Done Jobs</Typography></Layout>
+    if(error) return <Layout><ErrorAlert/></Layout>
+    if(Array.isArray(jobs) && jobs.length < 1) return <Layout><InfoAlert message='No Done Jobs'/></Layout>
 
   return (
     <Layout>

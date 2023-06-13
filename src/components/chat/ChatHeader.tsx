@@ -7,11 +7,9 @@ import BackToChatRoomFloatingActionButtons from "../fab/BackToChatRoomFloatingAc
 function ChatHeader({
   receiverId,
   isChatRoom,
-  isAdmin,
 }: {
   isChatRoom: boolean;
   receiverId: string;
-  isAdmin: boolean;
 }) {
   const [name, setName] = useState("Admin");
   const [senderDp, setSenderDp] = useState("");
@@ -20,15 +18,15 @@ function ChatHeader({
   useEffect(() => {
     (async () => {
       const { data } = await getUserProfile(receiverId);
-     
+
       if (data) {
         if (data.firstName) {
           setName(data.firstName + " " + data.lastName);
         } else {
           setName(data.name);
         }
-      }else{
-        setName('Admin')
+      } else {
+        setName("Admin");
       }
       //get sender dp
       const res = await getUserInfo(receiverId);
@@ -47,11 +45,7 @@ function ChatHeader({
       onClick={() => {
         //clickable only in chatroom
         if (isChatRoom) {
-          if (isAdmin) {
-            router.push(`/a-dashboard/chat/${receiverId}`);
-          } else {
-            router.push(`/chat/${receiverId}`);
-          }
+          router.push(`/chat/${receiverId}`);
         }
       }}
     >
@@ -61,7 +55,7 @@ function ChatHeader({
           {name}
         </Typography>
       </Box>
-      {!isChatRoom && <BackToChatRoomFloatingActionButtons isAdmin={isAdmin} />}
+      {!isChatRoom && <BackToChatRoomFloatingActionButtons/>}
     </Box>
   );
 }
