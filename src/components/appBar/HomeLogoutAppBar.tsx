@@ -7,23 +7,17 @@ import { RootState } from "@/store";
 import AccountActions from "../home/navbar/actions";
 import NavbarDrawer from "../home/navbar/navBarDrawer";
 import SearchDrawer from "../drawer/SearchDrawer";
-import LogoutSwitch from "../switch/LogoutSwitch";
 import DPAvatar from "../avatar/DPAvatar";
 import { Grid } from "@mui/material";
 import { useRouter } from "next/router";
-import { useTheme } from "@mui/material/styles";
-import { ColorPaletteProp, Sheet } from "@mui/joy";
-import { indigo } from '@mui/material/colors';
 import Notification from "../dashboard/Notification";
 
 export default function HomeLogoutAppBar() {
   const { user } = useSelector((state: RootState) => state.users);
   const router = useRouter();
-  const theme = useTheme();
-  const color:ColorPaletteProp = "primary"
   return (
     <>
-      {user && user._id && <LogoutSwitch />}
+    
         <Toolbar sx={{bgcolor:'#04023B'}}
         >
           <Grid container>

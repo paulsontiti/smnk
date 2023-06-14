@@ -8,6 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import LoginButton from "./loginButton";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
+import LogoutSwitch from "@/components/switch/LogoutSwitch";
 
 export default function NavbarDrawer() {
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -37,9 +38,9 @@ export default function NavbarDrawer() {
           padding: ".5rem",
         }}
       >
-          <Box bgcolor='#04023B' color='white' display={'flex'} alignItems={'center'} justifyContent={'flex-start'}>
+          <Box bgcolor='#04023B' color='white' display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
          
-          {!_id && <LoginButton/>}
+          {_id ? <LogoutSwitch/> : <LoginButton/>}
         
         
            <IconButton onClick={()=>{setOpenDrawer(!openDrawer)}} sx={{color:'white'}}>

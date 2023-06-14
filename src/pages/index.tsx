@@ -1,8 +1,7 @@
 import AdvertCard from "@/components/card/AdsCard";
 import Layout from "@/components/layout";
 import AdsStepper from "@/components/stepper/AdsStepper";
-import TestimonialStepper from "@/components/stepper/TestimonialStepper";
-import AboutSMNKTab from "@/components/tabs/AboutSMNKTab";
+import TestimonialStepper from "@/components/stepper/TestimonialStepper"
 import Head from "next/head";
 
 export default function Home() {
