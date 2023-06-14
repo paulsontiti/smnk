@@ -59,7 +59,7 @@ function TransferForUpgradePaymentForm({packageName}:{packageName:string}) {
           setColor("success");
           const refState = snackBarRef.current as any;
           refState.handleClick();
-          router.push('/sw-dashboard')
+         setTimeout(()=>{ router.push('/sw-dashboard')},2000)
         }else{
           setMsg(data.message);
           setColor("error");
