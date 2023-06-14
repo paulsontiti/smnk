@@ -7,10 +7,10 @@ import SWDashboardMenu from "@/swDashboard/components/account/swDashboardMenu";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import ChatNotification from "../chat/ChatNotification";
-import LogoutSwitch from "../switch/LogoutSwitch";
-import ThemeContainer from "../theme/ThemeContainer";
 import { useRouter } from "next/router";
 import Notification from "../dashboard/Notification";
+import LogoutSwitch from "../switch/LogoutSwitch";
+import ThemeContainer from "../theme/ThemeContainer";
 
 export default function DashBoardAppBar() {
   //retrive user from redux state
@@ -19,7 +19,7 @@ const router = useRouter()
   return (
     <
     >
-       {user._id &&   <LogoutSwitch/>}
+      
       <Toolbar
         sx={{
           display: "flex",
@@ -37,13 +37,15 @@ const router = useRouter()
             justifyContent={"center"}
           >
             <MenuDrawer>
-              <>
-                {user && user.type === "client" ? (
+            <ThemeContainer>
+            {user && user.type === "client" ? (
                   <CDashboardMenu />
                 ) : (
                   <SWDashboardMenu />
                 )}
-              </>
+                 {user._id &&   <LogoutSwitch/>}
+            </ThemeContainer>
+             
             </MenuDrawer>
           </Grid>
           <Grid

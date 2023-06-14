@@ -15,7 +15,6 @@ import BankDetailsLink from "./bank-details/bankDetailsLink";
 import { useRouter } from "next/router";
 import RecommendedJobsLink from "@/components/dashboard/RecommendedJobsLink";
 import VisibilityLink from "../visibility/VisibilityLink";
-import ThemeContainer from "@/components/theme/ThemeContainer";
 import { ListItemIcon,Badge } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PersonIcon from '@mui/icons-material/Person';
@@ -28,7 +27,6 @@ import { Typography } from "@mui/material";
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import PendingIcon from '@mui/icons-material/Pending';
-import DP from "@/components/dashboard/dp";
 import HomeIcon from '@mui/icons-material/Home';
 
 
@@ -58,8 +56,6 @@ export default function SWDashboardMenu() {
   };
 
   return (
-   <ThemeContainer>
-    <DP/>
      <List
       sx={{ width: "100%", maxWidth: 360, pl: 0, overflowY: "auto" }}
       component="nav"
@@ -141,7 +137,6 @@ export default function SWDashboardMenu() {
       </Collapse>
    <LiveChat router={router}/>  
     </List>
-    </ThemeContainer>
   );
 }
 export function ChangePassword({router}:any){

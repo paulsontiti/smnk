@@ -7,11 +7,9 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { CustomerService } from "@/components/dashboard/customerService";
 import UserInfoLink from "@/swDashboard/components/individual/info";
 import CompanyProfileLink from "@/swDashboard/components/company/profileLink";
 import { useRouter } from "next/router";
-import ThemeContainer from "@/components/theme/ThemeContainer";
 import {
   ChangePassword,
   LiveChat,
@@ -22,7 +20,6 @@ import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import PendingIcon from "@mui/icons-material/Pending";
 import CreateIcon from "@mui/icons-material/Create";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import DP from "@/components/dashboard/dp";
 import HomeIcon from '@mui/icons-material/Home';
 
 export default function CDashboardMenu() {
@@ -47,8 +44,7 @@ export default function CDashboardMenu() {
 
   return (
     <>
-      <DP />
-      <ThemeContainer>
+     
         <List
           sx={{ width: "100%", maxWidth: 360, pl: 0, overflowY: "auto" }}
           component="nav"
@@ -138,7 +134,6 @@ export default function CDashboardMenu() {
           </Collapse>
           <LiveChat router={router} />
         </List>
-      </ThemeContainer>
     </>
   );
 }
