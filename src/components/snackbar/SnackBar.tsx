@@ -30,7 +30,7 @@ const SnackbarComponent = React.forwardRef(
 
     return (
       <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
+       
         open={open}
         onClose={handleClose}
         autoHideDuration={6000}
