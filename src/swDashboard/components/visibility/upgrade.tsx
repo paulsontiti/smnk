@@ -26,11 +26,12 @@ export const Upgrade = ({ visibility }: { visibility: string }) => {
         (async () => {
           const data = await getUserSub(user._id);
           setSubscribed(data && data.type === visibility && data.popConfirmed);
+          if (data.pop && !data.popConfirmed && data.type === visibility) {
+            setPending(true);
+          }
         })();
       }
-      if (user.subscription.pop && !user.subscription.popConfirmed) {
-        setPending(true);
-      }
+      
     }
   }, [user, visibility]);
   if (pending)
