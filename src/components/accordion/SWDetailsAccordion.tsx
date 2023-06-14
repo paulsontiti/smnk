@@ -28,12 +28,7 @@ export default function SWDetailsAccordion({
   return (
     <Accordion>
       <AccordionSummary
-        expandIcon={<IconButton onClick={() => {
-            const refState = swDetailsRef.current as any;
-            refState.showDialog();
-         }} color="primary">
-           <MoreVertIcon />
-         </IconButton>}
+        expandIcon={<ExpandMoreIcon/>}
         aria-controls="panel2a-content"
         id="panel2a-header"
       >
@@ -48,12 +43,11 @@ export default function SWDetailsAccordion({
           <DPAvatar dp={sw.dpFileName}/>
           <UserRating rating={sw.rating} level={sw.level} type={sw.type}/>
           
-          <GenericDialog ref={swDetailsRef} content={<SWFullDetailsAccordion userId={sw._id}/>} title="Talent's Details"/>
         </Box>
       </AccordionSummary>
       <AccordionDetails>
        
-     
+      <SWFullDetailsAccordion userId={sw._id}/>
       </AccordionDetails>
     </Accordion>
   );
