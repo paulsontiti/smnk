@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import Notification from "../dashboard/Notification";
 import LogoutSwitch from "../switch/LogoutSwitch";
 import ThemeContainer from "../theme/ThemeContainer";
+import DP from "../dashboard/dp";
 
 export default function DashBoardAppBar() {
   //retrive user from redux state
@@ -38,6 +39,8 @@ const router = useRouter()
           >
             <MenuDrawer>
             <ThemeContainer>
+      <DP />
+
             {user && user.type === "client" ? (
                   <CDashboardMenu />
                 ) : (
