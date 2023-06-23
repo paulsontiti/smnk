@@ -12,6 +12,7 @@ import AutoCompleteComponent from './AutoComplete'
 import SwitchComponent from './Switch'
 import NumberComponent from './NumberComponent'
 import FreeSoloAutocomplete from './FreeSolo'
+import VerifyingEmail from './VerifyingEmail'
 
 function FormControl({control,...rest}:any) {
     switch(control){
@@ -41,6 +42,8 @@ function FormControl({control,...rest}:any) {
             return <NumberComponent {...rest}/>
             case 'freesolo':
                 return <FreeSoloAutocomplete {...rest}/>
+                case 'verifyEmail':
+                    return <VerifyingEmail {...rest}/>
         default:
             return null
     }

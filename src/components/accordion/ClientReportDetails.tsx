@@ -2,7 +2,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box, CardActions, Typography,AlertColor} from "@mui/material";
+import { Box, CardActions, Typography, AlertColor } from "@mui/material";
 import { useRouter } from "next/router";
 import axios from "axios";
 import moment from "moment";
@@ -13,6 +13,9 @@ import DownloadFileBottomNavigation from "../bottomNavigation/DownloadFileBottom
 import { readReport } from "@/lib/report";
 import SnackbarComponent from "../snackbar/SnackBar";
 import { useRef, useState } from "react";
+import GenericDialog from "../dialog/GenericDialog";
+import GenericContent from "../dialog/contents/GenericContent";
+import GenericActions from "../dialog/actions/GenericActions";
 
 //download report handler
 export const downloadReport = (url: string) => {
@@ -32,19 +35,20 @@ export const downloadReport = (url: string) => {
 
 export default function ClientReportDetailsAccordion({
   report,
-  jobId
+  jobId,
 }: {
   report: any;
   jobId: string;
 }) {
-
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-   //declare refs
-   const snackBarRef = useRef();
+  //declare refs
+  const snackBarRef = useRef();
+  const dialogRef = useRef();
+
   //accept report handler
-  const approveJob = async (router: any) => {
-    if(jobId){
+  async function approveJob() {
+    if (jobId) {
       try {
         const res = await axios({
           method: "POST",
@@ -52,38 +56,54 @@ export default function ClientReportDetailsAccordion({
           data: { jobId },
         });
         const data = await res.data;
-        
+
         if (data.successful) {
           setMsg(data.message);
           setColor("success");
           const refState = snackBarRef.current as any;
           refState.handleClick();
           router.push("/c-dashboard");
-        }else{
+        } else {
           setMsg(data.message);
           setColor("error");
           const refState = snackBarRef.current as any;
           refState.handleClick();
         }
       } catch (err: any) {
-        setMsg('An error occurred. Please try again or contact customer service');
+        setMsg(
+          "An error occurred. Please try again or contact customer service"
+        );
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
         return err;
       }
-    }else{
-      alert('invalid request')
+    } else {
+      alert("invalid request");
+    }
+  }
+
+  const router = useRouter();
+  const confirmAction = (confirm: boolean) => {
+    if (!confirm) {
+      const refState = dialogRef.current as any;
+      refState.closeDialog();
+    } else {
+      const refState = dialogRef.current as any;
+      refState.closeDialog();
+      approveJob();
     }
   };
-
-  
-  const router = useRouter();
-
+  const dialogHandler = () => {
+    const refState = dialogRef.current as any;
+    refState.showDialog();
+  };
   return (
-    <Accordion onClick={async () => {
-      await readReport(jobId,report._id);
-   }}>
+    <Accordion
+      onClick={async () => {
+        await readReport(jobId, report._id);
+      }}
+    >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel2a-content"
@@ -119,7 +139,14 @@ export default function ClientReportDetailsAccordion({
         </Box>
       </AccordionSummary>
       <AccordionDetails>
-      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+        <GenericDialog
+          content={
+            <GenericContent message="Are you sure you want to approve this job?" />
+          }
+          actions={<GenericActions confirmAction={confirmAction} />}
+          ref={dialogRef}
+        />
+        <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
         <Typography sx={{ fontWeight: "bold", margin: "1rem 0" }}>
           Report:
         </Typography>
@@ -133,15 +160,18 @@ export default function ClientReportDetailsAccordion({
               sx={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",marginBottom:'2rem'
+                justifyContent: "center",
+                marginBottom: "2rem",
               }}
             >
               <Typography sx={{ marginBottom: "1rem" }}>
                 {report.file.name}
               </Typography>
-              <DownloadFileBottomNavigation handleDownloadClick={() =>
-                  downloadReport(`/api/multer/reports/${report.file.name}`)}/>
-              
+              <DownloadFileBottomNavigation
+                handleDownloadClick={() =>
+                  downloadReport(`/api/multer/reports/${report.file.name}`)
+                }
+              />
             </Box>
           </>
         )}
@@ -164,11 +194,7 @@ export default function ClientReportDetailsAccordion({
         {!report.correction.subject && (
           <CardActions>
             <ClientReportAction
-              handleApproveClick={async () => {
-                if(confirm("Are you sure you want to approve this job?")){
-                  approveJob(router);
-                }
-              }}
+              handleApproveClick={dialogHandler}
               handleComplainClick={() => {
                 router.push(`/report/complaint/${jobId}`);
               }}

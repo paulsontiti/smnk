@@ -22,7 +22,7 @@ const GenericDialog = React.forwardRef(
       content,
       actions,
     }: {
-      title: string;
+      title?: string;
       content: JSX.Element;
       actions?: JSX.Element;
     },
@@ -34,6 +34,9 @@ const GenericDialog = React.forwardRef(
     useImperativeHandle(_ref, () => ({
       showDialog: () => {
         setOpen(true);
+      },
+      closeDialog: () => {
+        setOpen(false);
       },
     }));
 

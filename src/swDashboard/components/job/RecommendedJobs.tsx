@@ -1,4 +1,7 @@
 import SWJobDetailsAccordion from "@/components/accordion/SWJobDetailsAccordion";
+import ErrorAlert from "@/components/alerts/Error";
+import InfoAlert from "@/components/alerts/Info";
+import LoadingAlert from "@/components/alerts/Loading";
 import { RootState } from "@/store";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
@@ -8,6 +11,7 @@ import { useSelector } from "react-redux";
 function RecommendedJobs() {
   const { _id } = useSelector((state: RootState) => state.users.user);
   const [jobs, setJobs] = useState<any[]>();
+  const [error, setError] = useState<any>(null);
   useEffect(() => {
     (async () => {
       try {
@@ -20,23 +24,25 @@ function RecommendedJobs() {
           const data = await res.data;
           setJobs(data);
         } else {
-          console.log("Invalid request");
+          setError("invalid request");
         }
       } catch (err: any) {
-        console.log(err);
+        setError(err);
         return err;
       }
     })();
   }, [_id]);
 
-  if (!jobs) return <p>loading......</p>;
+  if (error) return <ErrorAlert />;
+  if (!jobs) return <LoadingAlert />;
   if (jobs && jobs.length === 0)
     return (
-      <Typography sx={{ margin: "1rem 1rem" }} variant="caption" component="p">
-        No Recommended Jobs. Please Upgrade to a higher package or add your
-        profile and services
-      </Typography>
+      <InfoAlert
+        message=" No Recommended Jobs. Please Upgrade to a higher package or add your
+    profile and services"
+      />
     );
+
   return (
     <Box>
       <Typography

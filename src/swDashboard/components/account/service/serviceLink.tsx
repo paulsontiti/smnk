@@ -11,10 +11,8 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 export default function ServiceLink(){
    
         const router = useRouter()
-    const {user} = useSelector((state:RootState)=>state.users)
-
-    
-    if(user.services.length < 1) return(
+    const {swExtra} = useSelector((state:RootState)=>state.swExtra)
+    if( !swExtra.services) return(
        
         <ListItemButton  sx={{ ml: 2 }}  onClick={()=>{
             router.push('/sw-dashboard/service/add-service')

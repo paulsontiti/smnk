@@ -5,7 +5,7 @@ export const profileFormControls: FormControls[] = [
     name: "name",
     label: "Company Name",
     control: "input",
-    helperText: "What is your company's name",
+    helperText: "What is your company's name?",
   }, {
     name: "state",
     label: "State",
@@ -23,5 +23,5 @@ export const profileFormControls: FormControls[] = [
     helperText: "L.G.A of residence",
   },
   { name: "officeAddress", label: "Office Address", control: "input",helperText:`Company's office address` },
-  { name: "description", label: "Company Description", control: "textarea",helperText:'What does your company do' },
+  { name: "description", label: "Company Description", control: "textarea",helperText:'What does your company do?' },
 ];

@@ -32,91 +32,9 @@ const userSchema = new Schema({
         required:true,
         lowercase:true
     },
-    onAJob:{type:Boolean,default:false},
-    rating:{type:Number,default:1},
-    level:{type:String,default:'Beginner'},
-    comments:[
-        {
-            comment:{type:String},
-            clientId:{ 
-                type: Schema.Types.ObjectId,
-                ref: 'User',
-             },
-        }
-    ],
     dpFileName:String,
     active:{type:Boolean,default:true},
-    services:[
-        {
-            title:{
-                type:String,
-                trim:true,
-                lowercase:true
-            },
-            skills:{
-                type:[String]
-            },
-            
-            description:{
-                type:String,
-                trim:true,
-                max:200
-            },
-            category:{
-                type:String,
-                lowercase:true
-            },
-        }
-    ],
-    subscription:{
-        type:{type:String,default:'Free'},
-        subscribedDate:{type:Date},
-        expiringDate:{type:Date},
-        pop:{type:String},
-        popConfirmed:{type:Boolean,default:false}
-    },
-    bankDetails:{
-        accountName:{
-            type:String,
-            trim:true,
-            lowercase:true
-        },
-        accountNumber:{
-            type:String,
-            trim:true,
-        },
-        bankName:{
-            type:String,
-            lowercase:true
-        },
-    },
-    experience:[
-        {
-            title:{
-                type:String,
-                trim:true,
-                lowercase:true
-            },
-            company:{
-                type:String,
-                trim:true,
-                lowercase:true
-            },
-            onRole:{
-                type:Boolean,
-                default:false
-            },
-            state:{type:String},
-            lga:{type:String},
-            address:{type:String},
-            description:{
-                type:String,
-                trim:true
-            },
-            startDate:{type:Date},
-            endDate:Date,
-        }
-    ]
+  
 },
 {
     timestamps:true,

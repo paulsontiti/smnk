@@ -4,48 +4,58 @@ import dbConnect from "../../../../lib/mongoose";
 import IndividualPersonalInfo from "@/lib/model/individualPersonalInfo";
 import User from "@/lib/model/userModel";
 import CompanyProfile from "@/lib/model/companyInfo";
+import SWExtra from "@/lib/model/swExtra";
 
-const recommendedJobs = async (info: any, user: any) => {
-  const serv = user.services;
+const recommendedJobs = async (info: any, userId: string) => {
+  const swExtra = await SWExtra.findOne({userId},{services:true,_id:false})
+  const services = swExtra && swExtra.services
   const jobs: any[] = [];
   let jobDetails = [];
 
   if (info) {
     jobDetails = await Job.find(
       { approved: false, proposalAccepted: false },
-      { jobDetails: 1, proposals: 1 }
+      { jobDetails: true, proposals: true }
     );
 
-    const jobsByLocation = jobDetails.filter(
+
+     const jobsByLocation = jobDetails.filter(
       (d: any) => d.jobDetails.state === info.state
     );
     jobs.push(jobsByLocation);
   }
-  if (serv[0]) {
+ if(services){
+  if (services[0]) {
     const jobsByService1 = jobDetails.filter(
       (d) =>
-        d.jobDetails.category === serv[0].category ||
-        d.jobDetails.category === serv[0].title ||
-        d.jobDetails.title === serv[0].title
+        d.jobDetails.category === services[0].category ||
+        d.jobDetails.category === services[0].title ||
+        d.jobDetails.title === services[0].title
     );
     jobs.push(jobsByService1);
   }
-  if (serv[1]) {
+  if (services[1]) {
     const jobsByService2 = jobDetails.filter(
       (d) =>
-        d.jobDetails.category === serv[1].category ||
-        d.jobDetails.category === serv[1].title ||
-        d.jobDetails.title === serv[1].title
+        d.jobDetails.category === services[1].category ||
+        d.jobDetails.category === services[1].title ||
+        d.jobDetails.title === services[1].title
     );
     jobs.push(jobsByService2);
   }
-
-  const newJobs = jobs.flat().map((job) => {
-    const pro = job.proposals.filter(
-      (p: any) => 
-        p.userId.toString() === user._id.toString()
-    );
-    const newJob = { _id: job._id, details: job.jobDetails, proposal: pro[0] };
+ }
+  //filter out jobs that are the same
+  let filterredJobs:any[] = []
+ jobs.flat().map((job)=>{
+   //check if the job exists in filterredJobs
+   if(!filterredJobs.find((j)=>j._id.toString() === job._id.toString())){
+    filterredJobs.push(job)
+     }
+ })
+ //map the filterredJobs and return a new job object{_id,jobDetails}
+  const newJobs = filterredJobs.map((job) => {
+    
+    const newJob = { _id: job._id, details: job.jobDetails};
     return newJob;
   });
 

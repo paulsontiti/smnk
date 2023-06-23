@@ -2,7 +2,6 @@ import React from 'react'
 import JobForm from './jobForm'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
-import { Job, createJobSubmitHandler } from '@/lib/types/job'
 import { JobDetails } from '@/lib/job'
 import ErrorAlert from '@/components/alerts/Error'
 
@@ -28,8 +27,7 @@ function CreateJob() {
         }
         if(!_id) return <ErrorAlert message='You are not logged in or have an account. Please login in or create an account'/>
   return (
-    <JobForm initialValues={initialValues} _id={_id} jobId=''
-     submitHandler={createJobSubmitHandler}/>
+    <JobForm initialValues={{details:initialValues,jobId:''}}/>
   )
 }
 

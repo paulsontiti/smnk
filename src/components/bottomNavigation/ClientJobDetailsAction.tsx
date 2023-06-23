@@ -13,9 +13,15 @@ import { deleteJob } from "@/lib/job";
 import GenericDialog from "../dialog/GenericDialog";
 import ClientServiceRatingContent from "../dialog/contents/ClientServiceRatingContent";
 import ClientTippingContent from "../dialog/contents/ClientTippingContent";
+import GenericContent from "../dialog/contents/GenericContent";
+import GenericActions from "../dialog/actions/GenericActions";
+import SnackbarComponent from "../snackbar/SnackBar";
+import { AlertColor } from "@mui/material";
 
 export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
   const [value, setValue] = useState(0);
+  const [msg, setMsg] = useState("");
+  const [color, setColor] = useState<AlertColor>("error");
   const router = useRouter();
   const [jobStatus, setJobStatus] = useState<JobStatus>({
     hasUserApplied: false,
@@ -28,8 +34,12 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
 
   //ref for rating dialog
   const ratingRef = useRef();
-    //ref for tipping dialog
-    const tippingRef = useRef();
+  //ref for tipping dialog
+  const tippingRef = useRef();
+  //declare ref for dialog
+  const dialogRef = useRef();
+  //declare ref for snackbar
+  const snackBarRef = useRef();
 
   useEffect(() => {
     getJobStatus(jobId, setJobStatus, setError);
@@ -38,8 +48,41 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
   if (error) return <p></p>;
   if (!jobStatus) return <p></p>;
 
+  const confirmAction = (confirm: boolean) => {
+    if (!confirm) {
+      const refState = dialogRef.current as any;
+      refState.closeDialog();
+    } else {
+      const refState = dialogRef.current as any;
+      refState.closeDialog();
+      (async () => {
+        const deleted = await deleteJob(jobId);
+        if (deleted) {
+          setMsg("Job deleted successfully");
+          setColor("success");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
+          router.reload();
+        } else {
+          setMsg("An error occurred ,please try again");
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
+        }
+      })();
+    }
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
+      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+      <GenericDialog
+        ref={dialogRef}
+        content={
+          <GenericContent message="Are you sure you want to delete this job" />
+        }
+        actions={<GenericActions confirmAction={confirmAction} />}
+      />
       <BottomNavigation
         showLabels
         value={value}
@@ -65,16 +108,9 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
             label="Delete"
             icon={
               <DeleteFloatingActionButtons
-                handleClick={async () => {
-                  if (confirm("Are you sure you want to deete this job")) {
-                    const deleted = await deleteJob(jobId);
-                    if (deleted) {
-                      alert("Job Deleted");
-                      router.push('/c-dashboard/job')
-                    } else {
-                      alert("An Error occured, please try again");
-                    }
-                  }
+                handleClick={() => {
+                  const refState = dialogRef.current as any;
+                  refState.showDialog();
                 }}
               />
             }
@@ -135,7 +171,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
                 }
               />
             }
-            title="Buy Skiilled Worker a cup of coffee"
+            title="Bank Details"
           />
         )}
       </BottomNavigation>

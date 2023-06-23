@@ -32,57 +32,71 @@ export type LGA = {
 userId:string
   }
 
+  export type SWExtra={
+    services:[
+        {
+            title:string,
+            skills:string[],
+            description:string,
+            category:string
+        }
+    ],
+    subscription:{
+        type:string,
+        subscribedDate:Date,
+        expiringDate:Date,
+        pop:string,
+        popConfirmed:boolean,
+        amountPaid:number
+    },
+    bankDetails:{
+        accountName:string,
+        accountNumber:string,
+        bankName:string,
+    },
+    experience:[
+        {
+            title:string,
+            company:string,
+            onRole:boolean,
+            state:string,
+            lga:string,
+            address:string,
+            description:string,
+            startDate:Date,
+            endDate:Date,
+        }
+    ],
+    level:'Beginner' | 'Intermediate' | 'Pro',
+    onAJob:boolean,
+    catalog:[{filename:string,title:string,description:string}],
+    verification:{
+        idCardUrl:string,
+        capturedPhotoUrl:string,
+        kycVerified:boolean
+    },
+  }
 
  export type User ={
   _id:string,
   email:string,
+  password:string,
 phone:string,
 type:string,
 typeClass:string,
-onAJob:boolean,
-rating:number,
-verified:boolean,
-level:'Beginner' | 'Intermediate' | 'Pro',
-comments:[
-    {
-        comment:string,
-        clientId:string,
-    }
-],
 dpFileName:string,
 active:boolean,
-services:[
-    {
-        title:string,
-        skills:string[],
-        description:string,
-        category:string
-    }
-],
-subscription:{
-    type:string,
-    subscribedDate:Date,
-    expiringDate:Date,
-    pop:string,
-    popConfirmed:boolean,
-    amountPaid:number
-},
-bankDetails:{
-    accountName:string,
-    accountNumber:string,
-    bankName:string,
-},
-experience:[
-    {
-        title:string,
-        company:string,
-        onRole:boolean,
-        state:string,
-        lga:string,
-        address:string,
-        description:string,
-        startDate:Date,
-        endDate:Date,
-    }
-]
+
 }
+export type UserExtra ={
+  
+  rating:number,
+  
+  comments:[
+      {
+          comment:string,
+          clientId:string,
+      }
+  ],
+  
+  }

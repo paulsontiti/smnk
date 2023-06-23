@@ -1,4 +1,4 @@
-import User from "@/lib/model/userModel";
+import SWExtra from "@/lib/model/swExtra";
 import dbConnect from "@/lib/mongoose";
 
 export default async function handler(req: any, res: any) {
@@ -9,23 +9,19 @@ export default async function handler(req: any, res: any) {
   } = req;
 
   try {
-    const users = await User.find(
+    const swExtras = await SWExtra.find(
       {
         $or:[{'services.title':service},{'services.category':service}]
       },
       {
-        typeClass: true,
-        rating: true,
-        comments: true,
-        onAJob: true,
+       userId:true,
         experience: true,
         services: true,
-        dpFileName: true,
         subscription: true,
       }
     );
     
-    res.status(201).json(users);
+    res.status(201).json(swExtras);
   } catch (err) {
     console.log(err);
     res

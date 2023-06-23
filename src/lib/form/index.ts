@@ -1,3 +1,5 @@
+import { JsxElement } from "typescript";
+
 export const states = [
   {
     id: 1,
@@ -1080,9 +1082,10 @@ export const statess: opt[] = [
 ];
 
 export type FormControls = {
+  emailVerificationCode?:string,
   type?: string;
   name: string;
-  label: string;
+  label: string | any;
   control: string;
   options?: {}[];
   fieldToCheckAgainst?: string;
@@ -1093,7 +1096,8 @@ export type FormControls = {
   handleChange?: any;
   initiaValues?: any;
   checked?: boolean;
-  checkedValue?:string
+  checkedValue?:string,
+  url?:string
 };
 export type FormControlObject = {
   initialValues: any;

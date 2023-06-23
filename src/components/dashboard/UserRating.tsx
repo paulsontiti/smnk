@@ -1,16 +1,14 @@
 import React from 'react'
 import {Rating,Badge} from '@mui/material'
-import ApprovalIcon from '@mui/icons-material/Approval';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import ChildCareIcon from '@mui/icons-material/ChildCare';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 
-function UserRating({rating,level,type}:{type:string,rating:number,level:'Beginner' | 'Intermediate' | 'Pro'}) {
-  if(!rating) return <p></p>
+function UserRating({type}:{type:string}) {
   return (
   
-    <Badge badgeContent={type === 'skilled worker' && <Level level={level}/>} sx={{mt:2}}>
-   <Rating name="read-only" value={rating} readOnly size='small'/>
+    <Badge badgeContent={type === 'skilled worker' && <Level level={'Beginner'}/>} sx={{m:2}}>
+   <Rating name="read-only" value={1} readOnly size='small'/>
 </Badge>
   )
 }

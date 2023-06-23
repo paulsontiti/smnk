@@ -8,11 +8,10 @@ import AddHomeWorkIcon from "@mui/icons-material/AddHomeWork";
 import { ListItemIcon, Typography } from "@mui/material";
 
 export default function ExpLink() {
-  const { user } = useSelector((state: RootState) => state.users);
-
+  const { swExtra } = useSelector((state: RootState) => state.swExtra);
   const router = useRouter();
 
-  if (user.experience.length < 1)
+  if (!swExtra.experience)
     return (
       <ListItemButton
         sx={{ ml: 2 }}

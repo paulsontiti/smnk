@@ -2,13 +2,13 @@ import { useRouter } from "next/router";
 import { Service,SnackBarParams,serviceDetailsSchema,serviceSubmitHandler } from "@/lib/types/service";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
-import { updateUser } from "@/store/slices/userSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
 import {useEffect, useRef, useState } from "react";
 import { createSetFromArray, fetchTalents } from "@/lib/search";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { AlertColor } from "@mui/material";
+import { updateSWExtra } from "@/store/slices/swExtraSlice";
 
 
 
@@ -17,6 +17,7 @@ const [options,setOptions] = useState<any[]>([])
 const [msg, setMsg] = useState("");
 const [color, setColor] = useState<AlertColor>("error");
 const dispatch = useDispatch<AppDispatch>();
+const {_id} = useSelector((state:RootState)=>state.users.user)
 
   //declare refs
   const snackBarRef = useRef();
@@ -47,8 +48,8 @@ const dispatch = useDispatch<AppDispatch>();
       return new Promise(res=>{
             formikHelpers.validateForm().then(async (data:any)=>{
               const snackbarParams:SnackBarParams = {setMsg,setColor,snackBarRef}
-                const msg = await serviceSubmitHandler(values,router,snackbarParams)
-                dispatch(updateUser())
+                const msg = await serviceSubmitHandler(_id,values,router,snackbarParams)
+        dispatch(updateSWExtra())
                 res(msg)
             }).catch((err:any)=>{
               setMsg(err.message);

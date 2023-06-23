@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import MenuDrawer from "@/swDashboard/components/account/menuDrawer";
 import CDashboardMenu from "@/c-dashboard/components/account/cDashboardMenu";
@@ -9,24 +8,23 @@ import { RootState } from "@/store";
 import ChatNotification from "../chat/ChatNotification";
 import { useRouter } from "next/router";
 import Notification from "../dashboard/Notification";
-import LogoutSwitch from "../switch/LogoutSwitch";
-import ThemeContainer from "../theme/ThemeContainer";
 import DP from "../dashboard/dp";
+import { useTheme } from "@mui/material/styles";
+import Image from "next/image";
 
 export default function DashBoardAppBar() {
   //retrive user from redux state
   const { user } = useSelector((state: RootState) => state.users);
-const router = useRouter()
+  const router = useRouter();
+  const theme = useTheme();
   return (
-    <
-    >
-      
+    <>
       <Toolbar
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          bgcolor:'#04023B'
+          bgcolor: "#04023B",
         }}
       >
         <Grid container>
@@ -38,17 +36,19 @@ const router = useRouter()
             justifyContent={"center"}
           >
             <MenuDrawer>
-            <ThemeContainer>
-      <DP />
+              <Box
+                bgcolor={theme.smnk[1200]}
+                color={theme.smnk[300]}
+                minHeight={"100vh"}
+              >
+                <DP />
 
-            {user && user.type === "client" ? (
+                {user && user.type === "client" ? (
                   <CDashboardMenu />
                 ) : (
                   <SWDashboardMenu />
                 )}
-                 {user._id &&   <LogoutSwitch/>}
-            </ThemeContainer>
-             
+              </Box>
             </MenuDrawer>
           </Grid>
           <Grid
@@ -58,11 +58,16 @@ const router = useRouter()
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Typography variant="h6" color={'white'} component="div" onClick={()=>{
-              router.push('/')
-            }}>
-              SMNK
-            </Typography>
+            <Image
+              alt="SMNK Nig Ltd"
+              src="/assets/smnk.png"
+              width={50}
+              height={50}
+              style={{ borderRadius: "50%", marginRight: ".5rem" }}
+              onClick={() => {
+                router.push("/");
+              }}
+            />
           </Grid>
           <Grid
             item
@@ -80,7 +85,7 @@ const router = useRouter()
             alignItems={"center"}
             justifyContent={"center"}
           >
-        <Notification/>
+            <Notification />
           </Grid>
         </Grid>
       </Toolbar>

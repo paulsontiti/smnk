@@ -18,6 +18,8 @@ import GenericDialog from "../dialog/GenericDialog";
 import SWFullDetailsAccordion from "../dialog/contents/SWFullDetailsAccordion";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { AlertColor } from "@mui/material";
+import GenericActions from "../dialog/actions/GenericActions";
+import GenericContent from "../dialog/contents/GenericContent";
 
 
 export default function ClientProposalDetailsAccordion({
@@ -33,7 +35,74 @@ export default function ClientProposalDetailsAccordion({
   const [color, setColor] = useState<AlertColor>("error");
    //declare refs
    const snackBarRef = useRef();
-  const swDetailsRef = useRef();
+    const acceptDialogRef = useRef();
+    const rejectDialogRef = useRef();
+
+const confirmAcceptAction = async (confirm:boolean)=>{
+ if(!confirm){
+  const refState = acceptDialogRef.current as any;
+    refState.closeDialog();
+ }else{
+  const refState = acceptDialogRef.current as any;
+  refState.closeDialog();
+    const {message,accepted} = await acceptProposal(
+      proposal._id,
+      proposal.userId,
+      jobId
+    );
+    if (accepted) {
+      setMsg(message);
+      setColor("success");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
+      router.push("/c-dashboard/job");
+    }else{
+      setMsg(message);
+      setColor("error");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
+    }
+  
+ }
+}
+  const acceptDialogHandler = () => {
+    const refState = acceptDialogRef.current as any;
+    refState.showDialog();
+ 
+  };
+  
+const confirmRejectAction = async (confirm:boolean)=>{
+  if(!confirm){
+   const refState = rejectDialogRef.current as any;
+     refState.closeDialog();
+  }else{
+    const refState = rejectDialogRef.current as any;
+     refState.closeDialog();
+      const {rejected,message} = await rejectProposal(
+        proposal._id,
+        jobId
+      );
+      if (rejected) {
+        setMsg(message);
+        setColor("success");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+        router.push("/c-dashboard/job");
+      }else{
+        setMsg(message);
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+      }
+    
+   
+  }
+ }
+   const rejectDialogHandler = () => {
+     const refState = rejectDialogRef.current as any;
+     refState.showDialog();
+  
+   };
 
   useEffect(() => {
     (async () => {
@@ -41,7 +110,7 @@ export default function ClientProposalDetailsAccordion({
       setSw(user);
     })();
   }, [proposal.userId]);
-
+  
   if (!proposal) return <p></p>
 
   return (
@@ -60,24 +129,16 @@ export default function ClientProposalDetailsAccordion({
           }}
         >
           <DPAvatar dp={sw.dpFileName} />
-          <UserRating rating={sw.rating} level={sw.level} type={sw.type}/>
-          <IconButton
-            onClick={() => {
-              const refState = swDetailsRef.current as any;
-              refState.showDialog();
-            }}
-            color="primary"
-          >
-            <MoreVertIcon />
-          </IconButton>
-          <GenericDialog
-            ref={swDetailsRef}
-            content={<SWFullDetailsAccordion userId={proposal.userId} />}
-            title="Skilled Worker Details"
-          />
+       <UserRating type={sw.type}/>
+      
         </Box>
       </AccordionSummary>
       <AccordionDetails>
+      {/* <SWFullDetailsAccordion userId={proposal.userId} /> */}
+      <GenericDialog ref={acceptDialogRef} content={<GenericContent message="Are you sure you want to accept this proposal"/>}
+       actions={<GenericActions confirmAction={confirmAcceptAction}/>}/>
+        <GenericDialog ref={rejectDialogRef} content={<GenericContent message="Are you sure you want to reject this proposal"/>}
+       actions={<GenericActions confirmAction={confirmRejectAction}/>}/>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
         <Box>{proposal.content}</Box>
         {proposal.file.name && (
@@ -100,56 +161,12 @@ export default function ClientProposalDetailsAccordion({
           
           </Box>
         )}
+
         <CardActions>
           <ProposalActionsBottomNavigation
-            handleApproveClick={async () => {
-              const res = confirm(
-                "Are you sure you want to accept this proposal?"
-              );
-              if (res) {
-                const {message,accepted} = await acceptProposal(
-                  proposal._id,
-                  proposal.userId,
-                  jobId
-                );
-                if (accepted) {
-                  setMsg(message);
-                  setColor("success");
-                  const refState = snackBarRef.current as any;
-                  refState.handleClick();
-                  router.push("/c-dashboard/job");
-                }else{
-                  setMsg(message);
-                  setColor("error");
-                  const refState = snackBarRef.current as any;
-                  refState.handleClick();
-                }
-              }
-            }}
+            handleApproveClick={acceptDialogHandler}
             receiverId={proposal.userId}
-            handleRejectClick={async() => {
-              const res = confirm(
-                "Are you sure you want to reject this proposal?"
-              );
-              if (res) {
-                const {rejected,message} = await rejectProposal(
-                  proposal._id,
-                  jobId
-                );
-                if (rejected) {
-                  setMsg(message);
-                  setColor("success");
-                  const refState = snackBarRef.current as any;
-                  refState.handleClick();
-                  router.push("/c-dashboard/job");
-                }else{
-                  setMsg(message);
-                  setColor("error");
-                  const refState = snackBarRef.current as any;
-                  refState.handleClick();
-                }
-              }
-            }}
+            handleRejectClick={rejectDialogHandler}
           />
         </CardActions>
       </AccordionDetails>

@@ -6,7 +6,13 @@ import DeleteFloatingActionButtons from "../fab/Delete";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function EditDeleteBottomNavigation() {
+export default function EditDeleteBottomNavigation({
+  editHandleClick,
+  deleteHandleClick,
+}: {
+  editHandleClick: () => void;
+  deleteHandleClick: () => void;
+}) {
   const [value, setValue] = useState(0);
   const router = useRouter();
 
@@ -19,30 +25,19 @@ export default function EditDeleteBottomNavigation() {
           setValue(newValue);
         }}
       >
-      
-          <BottomNavigationAction
-            label="Edit"
-            icon={
-              <EditFloatingActionButtons
-                handleClick={() => {
-                  //router.push(`/c-dashboard/job/edit-job/${jobId}`);
-                }}
-              />
-            }
-          />
+        <BottomNavigationAction
+          label="Edit"
+          icon={
+            <EditFloatingActionButtons
+              handleClick={editHandleClick}
+            />
+          }
+        />
 
-    
-          <BottomNavigationAction
-            label="Delete"
-            icon={
-              <DeleteFloatingActionButtons
-                handleClick={async () => {
-                  
-                }}
-              />
-            }
-          />
-   
+        <BottomNavigationAction
+          label="Delete"
+          icon={<DeleteFloatingActionButtons handleClick={deleteHandleClick} />}
+        />
       </BottomNavigation>
       {/* <pre>{JSON.stringify(jobStatus,null,4)}</pre> */}
     </Box>

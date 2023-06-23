@@ -8,6 +8,7 @@ export default async function handler(req: any, res: any) {
   const {
     query: { receiverId },
   } = req;
+
   if(receiverId){
     try {
       const receivedChats = await Chat.aggregate([
@@ -34,9 +35,11 @@ export default async function handler(req: any, res: any) {
             return receivedChat;
           });
         });
+        const chats = [sentChats, filterredReceivedChats];
+        res.status(201).json(chats.flat());
+      }else{
+        res.status(201).json(receivedChats);
       }
-      const chats = [sentChats, filterredReceivedChats];
-      res.status(201).json(chats.flat());
     } catch (err) {
       console.log(err);
       res

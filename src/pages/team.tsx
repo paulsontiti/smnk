@@ -1,17 +1,15 @@
 import React from "react";
 import {
-  Avatar,
   Badge,
   Box,
   Container,
   Divider,
-  ListItem,
-  ListItemButton,
   Typography,
+  Skeleton,
 } from "@mui/material";
 import Layout from "@/components/layout";
 import Head from "next/head";
-import { ListItemDecorator, Chip } from "@mui/joy";
+import Image from "next/image";
 
 function TeamPage() {
   return (
@@ -30,8 +28,8 @@ function TeamPage() {
           <Admin />
           <Divider />
           <PRO />
-          <Divider/>
-          <HR/>
+          <Divider />
+          <HR />
         </Container>
       </main>
     </Layout>
@@ -42,10 +40,9 @@ export const CEO = () => {
   return (
     <Box mt={2}>
       <Badge color="secondary" badgeContent={"C.E.O"}>
-        <Avatar
+        <DP
           src="/assets/smnk_ceo.jpg"
-          sx={{ width: 100, height: 100 }}
-          alt="ceo"
+          alt=" IGWEONU, KENECHUKWU EMMANUEL - SMNK CEO"
         />
       </Badge>
       <Box mt={1}>
@@ -67,14 +64,17 @@ export const CEO = () => {
     </Box>
   );
 };
+const DP = ({ src, alt }: { src: string; alt: string }) => {
+  if (!src) return <Skeleton width={200} height={200} />;
+  return <Image src={src} alt={alt} width={200} height={200} />;
+};
 const Admin = () => {
   return (
     <Box mt={4}>
       <Badge color="secondary" badgeContent={"A.D/Secretary"}>
-        <Avatar
-          src="/assets/smnk_ceo.jpg"
-          sx={{ width: 100, height: 100 }}
-          alt="ceo"
+        <DP
+          src="/assets/smnk_sec.jpg"
+          alt=" Anumba, Ogochukwu Mildred - SMNK Admin"
         />
       </Badge>
       <Box mt={1}>
@@ -101,11 +101,7 @@ const PRO = () => {
   return (
     <Box mt={4}>
       <Badge color="secondary" badgeContent={"D.A.P"}>
-        <Avatar
-          src="/assets/smnk_ceo.jpg"
-          sx={{ width: 100, height: 100 }}
-          alt="ceo"
-        />
+        <DP src="/assets/smnk_pro.jpg" alt="Alidu, Ojonugbede Samuel - D.A.P" />
       </Badge>
 
       <Box mt={1}>
@@ -113,7 +109,7 @@ const PRO = () => {
         Alidu, Ojonugbede Samuel read Theatre and Film Studies at the University
         of Nigeria, Nsukka and Kogi State University-Anyigba respectively.{" "}
         <p>
-         {` He is the company's Director of Advertorials and Publicity(D.A.P).`}
+          {` He is the company's Director of Advertorials and Publicity(D.A.P).`}
         </p>{" "}
         He specializes as an Applied Theatre Developer and Strategic
         Communications Expert dealing with human content development and a
@@ -135,16 +131,11 @@ const HR = () => {
   return (
     <Box mt={4}>
       <Badge color="secondary" badgeContent={"D.M.H.R"}>
-        <Avatar
-          src="/assets/smnk_ceo.jpg"
-          sx={{ width: 100, height: 100 }}
-          alt="ceo"
-        />
+        <DP src="" alt="Uzonna J. Ibekwe (Ph.D) - SMNK D.M.N.R" />
       </Badge>
-
       <Box mt={1}>
         <Typography fontWeight={"bold"}>Bio:</Typography>
-       {` Uzonna J. Ibekwe (Ph.D) is the company's Director of Management and
+        {` Uzonna J. Ibekwe (Ph.D) is the company's Director of Management and
         Human Resource(D.M.H.R). He read Human Resource Management, Logistics &
         Supply Chain Management from the University of Abuja and University of
         Nigeria, Nsukka where he developed a special bias Human Resource

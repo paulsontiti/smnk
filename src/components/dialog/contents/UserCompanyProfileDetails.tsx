@@ -5,38 +5,38 @@ function UserCompanyProfileDetails({ profile }: { profile: any }) {
 
   return (
     <>
-      <Grid container>
-        <Grid item xs={12}>
-          <Typography sx={{ fontWeight: "bold" }}>Company Name:</Typography>
+      <Grid container rowSpacing={3}>
+        <Grid item xs={6}>
+          <Typography variant="subtitle2">Name:</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography>{profile.name}</Typography>
+        <Grid item xs={6}>
+          <Typography variant="caption">{profile.name}</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography sx={{ fontWeight: "bold" }}>
+        <Grid item xs={6}>
+          <Typography variant="subtitle2">
             State Of Residence:
           </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography>{profile.state}</Typography>
+        <Grid item xs={6}>
+          <Typography  variant="caption">{profile.state}</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography sx={{ fontWeight: "bold" }}>LGA Of Residence:</Typography>
+        <Grid item xs={6}>
+          <Typography  variant="subtitle2">LGA Of Residence:</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography>{profile.lga}</Typography>
+        <Grid item xs={6}>
+          <Typography  variant="caption">{profile.lga}</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography sx={{ fontWeight: "bold" }}>Office Address:</Typography>
+        <Grid item xs={6}>
+          <Typography  variant="subtitle2">Office Address:</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography>{profile.officeAddress}</Typography>
+        <Grid item xs={6}>
+          <Typography  variant="caption">{profile.officeAddress}</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography sx={{ fontWeight: "bold" }}>Bio:</Typography>
+        <Grid item xs={6}>
+          <Typography  variant="subtitle2">Bio:</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Box>{profile.description}</Box>
+        <Grid item xs={6}>
+        <Typography  variant="caption">{profile.description}</Typography>
         </Grid>
       </Grid>
     </>

@@ -10,7 +10,7 @@ export default function BankDetails(){
     
 const router = useRouter()
       
-    const {user:{bankDetails}} = useSelector((state:RootState)=>state.users)
+    const {bankDetails} = useSelector((state:RootState)=>state.swExtra.swExtra)
     if(!bankDetails) return <InfoAlert message='No Bank Details. Please add your bank details'/>
 
     return(

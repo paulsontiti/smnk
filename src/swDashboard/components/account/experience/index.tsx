@@ -2,27 +2,31 @@ import {
   Box,
   Card,
   CardContent,
-  CardHeader,
   CardActions,
   Grid,
   Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import Link from "next/link";
 import EditFloatingActionButtons from "@/components/fab/Edit";
 import { useRouter } from "next/router";
 import AddFloatingActionButtons from "@/components/fab/Add";
 import moment from "moment";
+import InfoAlert from "@/components/alerts/Info";
 
 export default function ExperienceComponent() {
-  const { user } = useSelector((state: RootState) => state.users);
+  const { experience } = useSelector(
+    (state: RootState) => state.swExtra.swExtra
+  );
   const router = useRouter();
+  if (!experience)
+    return (
+      <InfoAlert message="You don't have any experirnce added. Please add one to boost your chances in getting jobs" />
+    );
   return (
     <Box>
-      {user &&
-        user.experience &&
-        user.experience.map((exp, i) => {
+      {Array.isArray(experience) &&
+        experience.map((exp, i) => {
           return (
             <>
               <Card
@@ -99,7 +103,7 @@ export default function ExperienceComponent() {
                   <EditFloatingActionButtons
                     handleClick={() => {
                       router.push(
-                        `/sw-dashboard/experience/${user.experience.findIndex(
+                        `/sw-dashboard/experience/${experience.findIndex(
                           (e) => e.startDate === exp.startDate
                         )}`
                       );

@@ -9,6 +9,7 @@ import { AlertColor } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { changePasswordWithPhone, updateState } from "@/store/slices/userSlice";
+import { getSWExtra } from "@/store/slices/swExtraSlice";
 
 const initialValues = {
   email: "",
@@ -48,6 +49,7 @@ export default function ChangePassword() {
     if (user) {
       switch (true) {
         case user.type === "skilled worker":
+          dispatch(getSWExtra(user._id))
           router.push("/sw-dashboard");
           break;
         case user.type === "client":

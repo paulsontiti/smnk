@@ -1,16 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './slices/userSlice'
-import experienceReducer from './slices/experienceSlice'
-import serviceSlice from './slices/serviceSlice'
-import bankDetailsSlice from './slices/bankDetailsSlice'
-// ...
+import swExtraReducer from './slices/swExtraSlice'
 
 export const store = configureStore({
   reducer: {   
     users: userReducer,
-    experience:experienceReducer,
-    service:serviceSlice,
-    bankDetails:bankDetailsSlice
+    swExtra:swExtraReducer,
   },
 })
 

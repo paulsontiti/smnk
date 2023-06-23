@@ -10,45 +10,71 @@ import FormikContainer from "@/components/form/formikContainer";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import { AlertColor } from "@mui/material";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
+import { getSWExtra } from "@/store/slices/swExtraSlice";
 
-const initialValues: signUpDetails = {
-  email: "",
-  phone: "",
-  password: "",
-  confirmPassword: "",
-  type: "Skilled Worker",
-  typeClass: "Individual",
-};
+// program to generate random strings
 
+// declare all characters
+const characters =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+function generateString(length: number) {
+  let result = "";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+
+  return result;
+}
 export default function SignUp() {
+  const [verificationCode,setverificationCode] = useState('');
+
   const router = useRouter();
-  const { user,response,successful} = useSelector((state: RootState) => state.users);
+  const { user, response, successful } = useSelector(
+    (state: RootState) => state.users
+  );
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
   const dispatch = useDispatch<AppDispatch>();
 
-    //declare refs
-    const snackBarRef = useRef();
+  //declare refs
+  const snackBarRef = useRef();
+
+  const initialValues: signUpDetails = {
+    email: "",
+    emailVerificationCode: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    type: "Skilled Worker",
+    typeClass: "Individual",
+  };
+
+  useEffect(()=>{
+    setverificationCode(generateString(10))
+  },[])
 
   useEffect(() => {
-    if(response){
-      if(successful){
+    if (response) {
+      if (successful) {
         setMsg(response);
         setColor("success");
         const refState = snackBarRef.current as any;
         refState.handleClick();
-        dispatch(updateState())
-      }else{
+        dispatch(updateState());
+      } else {
         setMsg(response);
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
-        dispatch(updateState())
+        dispatch(updateState());
       }
     }
     if (user) {
       switch (true) {
         case user.type === "skilled worker":
+          dispatch(getSWExtra(user._id));
           router.push("/sw-dashboard");
           break;
         case user.type === "client":
@@ -59,7 +85,7 @@ export default function SignUp() {
           break;
       }
     }
-  }, [user, router,successful,response,dispatch]);
+  }, [user, router, successful, response, dispatch]);
 
   //sign up submit handler
   const submitHandler = async (values: signUpDetails) => {
@@ -73,8 +99,17 @@ export default function SignUp() {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
-          const msg = await submitHandler(values);
-          res(msg);
+          if (values.emailVerificationCode === verificationCode) {
+            const msg = await submitHandler(values);
+
+            res(msg);
+          } else {
+            setMsg("Invalid email verification code");
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+            res("");
+          }
         })
         .catch((err: any) => {
           res(err);
@@ -84,6 +119,9 @@ export default function SignUp() {
 
   const signupSchema = object({
     email: string().email("invalid email").required("Email is required"),
+    emailVerificationCode: string().required(
+      "Email verification code is required"
+    ),
     phone: string().required("Phone is required"),
     password: string().required("Password is required"),
     confirmPassword: string()
@@ -92,7 +130,17 @@ export default function SignUp() {
   });
 
   const signUpFormControls: FormControls[] = [
-    { name: "email", label: "Email", control: "input", type: "email" },
+    {
+      name: "email",
+      label: "Email",
+      control: "verifyEmail",
+      emailVerificationCode: verificationCode,
+    },
+    {
+      name: "emailVerificationCode",
+      label: "Email Verification Code",
+      control: "input",
+    },
     { name: "phone", label: "Phone Number", control: "input", type: "phone" },
     { name: "password", label: "Password", control: "input", type: "password" },
     {
@@ -135,8 +183,8 @@ export default function SignUp() {
 
   return (
     <>
-    <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <FormikContainer formParams={formParams} />
+      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
     </>
   );
 }

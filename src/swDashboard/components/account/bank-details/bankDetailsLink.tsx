@@ -9,9 +9,9 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 
 export default function BankDetailsLink(){
            const router = useRouter()
-    const {user} = useSelector((state:RootState)=>state.users)
+    const {swExtra} = useSelector((state:RootState)=>state.swExtra)
     
-    if(!user.bankDetails) return(
+    if(!swExtra.bankDetails) return(
       
         <ListItemButton  sx={{ ml: 2 }}  onClick={()=>{
             router.push('/sw-dashboard/bank-details/add-bank-details')

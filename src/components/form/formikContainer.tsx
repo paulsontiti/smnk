@@ -28,6 +28,7 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
             {formParams.formObject.formControls.map((field, i) => (
               <FormControl
                 key={i}
+                emailVerificationCode={field.emailVerificationCode}
                 control={field.control}
                 name={field.name}
                 label={field.label}
@@ -40,6 +41,7 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
                 required={field.required}
                 helperText={field.helperText}
                 autoComplete={field.autoComplete}
+                url={field.url}
                 valueOfFieldToCheckAgainst={field.valueOfFieldToCheckAgainst}
                 options={getOptions(
                   field.name,
@@ -49,7 +51,7 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
               />
             ))}
           
-            <Box
+            <Box mt={'1rem'}
               sx={{
                 display: "flex",
                 alignItems: "center",

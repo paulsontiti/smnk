@@ -9,11 +9,11 @@ import {
 } from "@/lib/types/bank-details";
 import { FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
-import { updateUser } from "@/store/slices/userSlice";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { useRef, useState } from "react";
 import { AlertColor } from "@mui/material";
 import { SnackBarParams } from "@/lib/types/service";
+import { updateSWExtra } from "@/store/slices/swExtraSlice";
 
 export default function AddBankDetailsForm() {
   const router = useRouter();
@@ -25,34 +25,36 @@ export default function AddBankDetailsForm() {
   const snackBarRef = useRef();
 
   const { _id } = useSelector((state: RootState) => state.users.user);
+  const [initialValues,setInitialValues] = useState<BankDetails>({accountName: "",
+  accountNumber: "",
+  bankName: ""})
 
-  const initialValues: BankDetails = {
-    accountName: "",
-    accountNumber: "",
-    bankName: "",
-    userId: _id,
-  };
+
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
-    if (values.userId) {
-      return new Promise((res) => {
-        formikHelpers
-          .validateForm()
-          .then(async (data: any) => {
+    setInitialValues(values)
+    return new Promise((res) => {
+      if (_id) {
+      formikHelpers
+      .validateForm()
+      .then(async (data: any) => {
+
             const snackbarParams: SnackBarParams = {
               setMsg,
               setColor,
               snackBarRef,
             };
-            const msg = await bankDetailsSubmitHandler(
+            const msg = await bankDetailsSubmitHandler(_id,
               values,
               router,
               snackbarParams
             );
-            dispatch(updateUser());
+            dispatch(updateSWExtra());
             res(msg);
+         
           })
+          
           .catch((err: any) => {
             setMsg(err.message);
             setColor("error");
@@ -61,13 +63,15 @@ export default function AddBankDetailsForm() {
             console.log("Error from formik ", err);
             res(err);
           });
+        } else {
+          setMsg("Invalid request, Please provide UserId");
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
+          res(msg)
+        }
       });
-    } else {
-      setMsg("Invalid request, Please provide UserId");
-      setColor("error");
-      const refState = snackBarRef.current as any;
-      refState.handleClick();
-    }
+   
   };
 
   const formParams: FormParams = {
@@ -77,7 +81,7 @@ export default function AddBankDetailsForm() {
       initialValues,
       bankDetailsFormControls
     ),
-    buttonLabel: "Add Bank Details",
+    buttonLabel: "Save",
     headerTitle: "Add Your Bank Details",
   };
   return (

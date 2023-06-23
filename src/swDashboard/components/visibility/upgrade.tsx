@@ -10,37 +10,34 @@ import { useSelector } from "react-redux";
 
 export const Upgrade = ({ visibility }: { visibility: string }) => {
   const router = useRouter();
-  const { user } = useSelector((state: RootState) => state.users);
+  const {users:{user:{_id}},swExtra:{swExtra:{subscription}} } = useSelector((state: RootState) => state);
   const [subscribed, setSubscribed] = useState(false);
   const [pending, setPending] = useState(false);
-
+  
   useEffect(() => {
-    if (user && user.subscription) {
-      if (user.subscription && user.subscription.expiringDate) {
+    if (subscription) {
+      if (subscription.expiringDate) {
         setSubscribed(
-          new Date(user.subscription.expiringDate) > new Date() &&
-            user.subscription.type === visibility &&
-            user.subscription.popConfirmed
+          new Date(subscription.expiringDate) > new Date() &&
+            subscription.type === visibility &&
+            subscription.popConfirmed
         );
       } else {
-        (async () => {
-          const data = await getUserSub(user._id);
-          setSubscribed(data && data.type === visibility && data.popConfirmed);
-          if (data.pop && !data.popConfirmed && data.type === visibility) {
-            setPending(true);
-          }
-        })();
+        if (subscription.pop && !subscription.popConfirmed && subscription.type === visibility) {
+          setPending(true);
+        }
+
       }
       
     }
-  }, [user, visibility]);
+  }, [_id,subscription, visibility]);
   if (pending)
     return <InfoAlert message="Subscription pending,Admin will soon approve" />;
   if (subscribed)
     return (
       <SuccessAlert
         message={`Subscribed till ${moment(
-          user.subscription.expiringDate
+          subscription.expiringDate
         ).format("DD/MM/YYYY")}`}
       />
     );

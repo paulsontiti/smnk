@@ -1,13 +1,19 @@
 import FormikContainer from '@/components/form/formikContainer'
-import { FormControlObject, FormControls, FormParams, createFormObject } from '@/lib/form'
+import SnackbarComponent from '@/components/snackbar/SnackBar'
+import {  FormControls, FormParams, createFormObject } from '@/lib/form'
+import { AlertColor } from '@mui/material'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { object, string } from 'yup'
 
 function ApplyJobForm({userId,jobId}:{userId:string,jobId:string}) {
     const router = useRouter()
-
+    const [msg, setMsg] = useState("");
+    const [color, setColor] = useState<AlertColor>("error");
+  
+    //declare refs
+    const snackBarRef = useRef();
     const initialValues = {
         content:'',
         userId,
@@ -28,15 +34,30 @@ function ApplyJobForm({userId,jobId}:{userId:string,jobId:string}) {
               data:values
           })
           const data = await res.data
-          
-          alert(data.message)
+      
 
           if(data.successful){
+            setMsg(data.message);
+            setColor("success");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+           setTimeout(()=>{
             router.push('/dashboard/job/recommended-jobs')
+           },6000)
+          
+          }else{
+            setMsg(data.message);
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
           }
           
         }catch(err:any){
           console.log(err)
+          setMsg('An error occurred,please try again');
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
           return err
         }
           
@@ -58,6 +79,10 @@ function ApplyJobForm({userId,jobId}:{userId:string,jobId:string}) {
               res(data)
           }).catch((err:any)=>{
             console.log('Error from formik ',err)
+            setMsg(err.message);
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
             res(err)
           })       
     })
@@ -77,9 +102,12 @@ function ApplyJobForm({userId,jobId}:{userId:string,jobId:string}) {
           headerTitle:`What's your proposal`
           }
 
-  return (
-    <FormikContainer formParams={formParams}/>
-  )
+          return (
+            <>
+            <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+              <FormikContainer formParams={formParams} />
+            </>
+          );
 }
 
 export default ApplyJobForm

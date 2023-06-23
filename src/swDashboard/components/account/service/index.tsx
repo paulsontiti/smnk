@@ -12,9 +12,9 @@ import InfoAlert from "@/components/alerts/Info";
 export default function Service() {
   const router = useRouter();
   const {
-    user: { services },
-  } = useSelector((state: RootState) => state.users);
-  if (services && services.length < 1)
+    services
+  } = useSelector((state: RootState) => state.swExtra.swExtra);
+  if (!services || Array.isArray(services) && services.length < 1)
     return (
     
       <InfoAlert message="  No Services. Please Add a Service"/>

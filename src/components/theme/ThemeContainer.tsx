@@ -1,26 +1,7 @@
-import { ColorPaletteProp, Sheet } from '@mui/joy'
-import React from 'react'
+import Box from "@mui/material/Box";
 
-function ThemeContainer({children}:{children:any}) {
-    const color:ColorPaletteProp = "primary"
-
-  return (
-    <Sheet
-    variant="solid"
-    color={color}
-    invertedColors
-    sx={{
-        bgcolor: `${color}.900`,
-        position: "static",
-    
-      flexGrow: 1,
-      borderRadius: { xs: 0, sm: "xs" },
-      m: "0 0 1rem 0",
-    }}
-  >
-    {children}
-    </Sheet>
-  )
+import { useTheme } from "@mui/material/styles";
+export default function ThemeContainer({ children }: { children: any }) {
+  const theme = useTheme();
+  return <Box bgcolor={theme.smnk[1200]} color={theme.smnk[100]}>{children}</Box>;
 }
-
-export default ThemeContainer

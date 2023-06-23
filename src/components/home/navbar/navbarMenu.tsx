@@ -7,7 +7,7 @@ export default function NavbarMenuItem(){
     return(
     
         <List
-        sx={{ width: '100%', maxWidth: 360,height:'100vh',overflowY:"auto",bgcolor:'#04023B',color:'white'}}
+        sx={{ width: '100%', maxWidth: 360,height:'100vh',overflowY:"auto"}}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={''

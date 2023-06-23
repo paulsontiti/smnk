@@ -1,4 +1,4 @@
-import { Divider } from "@mui/joy";
+import { Divider } from "@mui/material";
 import { Grid,Typography } from "@mui/material";
 
 

@@ -1,5 +1,5 @@
 export type signUpDetails ={
-    email:string
+    email:string,emailVerificationCode:string,
     phone:string
     password:string
     confirmPassword:string

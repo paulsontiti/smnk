@@ -31,6 +31,7 @@ const SnackbarComponent = React.forwardRef(
     return (
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
+        sx={{position:'fixed',top:300}}
         open={open}
         onClose={handleClose}
         autoHideDuration={6000}

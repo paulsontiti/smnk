@@ -37,51 +37,9 @@ export const jobSchema = object({
     agreeToTerms: boolean().isTrue("Please agree to Terms & Conditions").required('Agreeing to Terms and Conditions is required'),
 })
 
-export const createJobSubmitHandler = async (userId:string,jobDetails:Job,router:any)=>{
-  //return console.log(values)
-    if(userId){
-        const res = await axios({
-            method:'POST',
-            url:`${process.env.SMNK_URL}api/c-dashboard/job/create-job`,
-            data:{jobDetails}
-        })
-        const data = await res.data
-        
-        if(data.isJobAdded){
-          alert(data.message)
-          router.push('/c-dashboard/job')
-        }else{
-          alert(data.message)
-          return
-        }
-        
-      }else{
-        alert('Bad request!!!! No user id')
-      } 
-}
 
-export const editJobSubmitHandler = async (userId:string,jobDetails:JobDetails,router:any,jobId:string)=>{
-  //return console.log(values)
-    if(userId){
-        const res = await axios({
-            method:'POST',
-            url:`${process.env.SMNK_URL}api/c-dashboard/job/edit-job`,
-            data:{jobDetails,jobId}
-        })
-        const data = await res.data
-        
-        if(data.isJobEdited){
-          alert(data.message)
-          router.push('/c-dashboard/job')
-        }else{
-          alert(data.message)
-          return
-        }
-        
-      }else{
-        alert('Bad request!!!! No user id')
-      } 
-}
+
+
 export const getJobsByClientId = (userId:string)=>{
   const res = async ()=>{
       try{

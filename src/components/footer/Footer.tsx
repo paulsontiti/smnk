@@ -24,15 +24,15 @@ import SearchDrawer from "../drawer/SearchDrawer";
 
 export default function Footer() {
   const [color, setColor] = React.useState<ColorPaletteProp>("primary");
-  const {_id} = useSelector((state:RootState)=>state.users.user)
-  const router = useRouter()
+  const { _id } = useSelector((state: RootState) => state.users.user);
+  const router = useRouter();
   return (
     <Sheet
       variant="solid"
       color={color}
       invertedColors
       sx={{
-       bgcolor:'#04023B',
+        bgcolor: "#04023B",
         flexGrow: 1,
         p: 2,
         mx: -3,
@@ -44,37 +44,55 @@ export default function Footer() {
       <Box sx={{ display: "flex", alignItems: "center", gap: 0 }}>
         <Image
           alt="SMNK Nig Ltd"
-          src="/assets/smnk.jpg"
+          src="/assets/smnk.png"
           width={50}
           height={50}
-          style={{ borderRadius: "50%",marginRight:'.5rem' }}
-          onClick={()=>{
-            router.push('/')
+          style={{ borderRadius: "50%", marginRight: ".5rem" }}
+          onClick={() => {
+            router.push("/");
           }}
         />
 
-        <Divider orientation="vertical" sx={{bgcolor:'white'}} />
-        <IconButton variant="plain" sx={{color:'white'}} onClick={()=>{
-          window.location.href = 'https://www.facebook.com/smnkLTD'
-        }}>
+        <Divider orientation="vertical" sx={{ bgcolor: "white" }} />
+        <IconButton
+          variant="plain"
+          sx={{ color: "white" }}
+          onClick={() => {
+            window.location.href = "https://www.facebook.com/smnkLTD";
+          }}
+        >
           <FacebookRoundedIcon />
         </IconButton>
-        <IconButton variant="plain"  sx={{color:'white'}} onClick={()=>{
-          window.location.href = 'https://twitter.com/SMNKservicehub?t=15Dcj5Anh9NyTQnAw8f6fA&s=08'
-        }}>
+        <IconButton
+          variant="plain"
+          sx={{ color: "white" }}
+          onClick={() => {
+            window.location.href =
+              "https://twitter.com/SMNKservicehub?t=15Dcj5Anh9NyTQnAw8f6fA&s=08";
+          }}
+        >
           <TwitterIcon />
         </IconButton>
-        <IconButton variant="plain"  sx={{color:'white'}} onClick={()=>{
-          window.location.href = 'https://www.instagram.com/smnkservicehub/'
-        }}>
+        <IconButton
+          variant="plain"
+          sx={{ color: "white" }}
+          onClick={() => {
+            window.location.href = "https://www.instagram.com/smnkservicehub/";
+          }}
+        >
           <InstagramIcon />
         </IconButton>
         {/* <IconButton variant="plain">
           <WhatsAppIcon />
         </IconButton> */}
-        <IconButton variant="plain" sx={{color:'white'}}  onClick={()=>{
-          window.location.href = 'https://www.linkedin.com/company/smnk-limited-nigeria/'
-        }}>
+        <IconButton
+          variant="plain"
+          sx={{ color: "white" }}
+          onClick={() => {
+            window.location.href =
+              "https://www.linkedin.com/company/smnk-limited-nigeria/";
+          }}
+        >
           <LinkedInIcon />
         </IconButton>
       </Box>
@@ -108,13 +126,13 @@ export default function Footer() {
           <CardContent>
             <Typography level="body2">Contact Details:</Typography>
             <Typography level="body3" sx={{ mb: 0.5 }}>
-            Office address: No 2 Lucky Nwagwu street, Lugbe, Abuja
+              Office address: No 2 Lucky Nwagwu street, Lugbe, Abuja
             </Typography>
             <Typography level="body3" sx={{ mb: 0.5 }}>
-            Email: info@smnklimited.com
+              Email: info@smnklimited.com
             </Typography>
             <Typography level="body3" sx={{ mb: 0.5 }}>
-            Phone: 09048164462
+              Phone: 09048164462
             </Typography>
           </CardContent>
         </Card>
@@ -125,49 +143,66 @@ export default function Footer() {
           sx={{ flexGrow: 0, "--ListItem-radius": "8px" }}
         >
           <ListItem nested sx={{ width: { xs: "50%", md: 140 } }}>
-            <ListSubheader sx={{color:'white'}} >Quick Links</ListSubheader>
+            <ListSubheader sx={{ color: "white" }}>Quick Links</ListSubheader>
             <List>
               <ListItem>
-                <ListItemButton onClick={()=>{
-                  router.push('/about-us')
-                }}><Typography level="body4">About SMNK</Typography></ListItemButton>
+                <ListItemButton
+                  onClick={() => {
+                    router.push("/about-us");
+                  }}
+                >
+                  <Typography level="body4">About SMNK</Typography>
+                </ListItemButton>
               </ListItem>
               <ListItem>
-                <ListItemButton onClick={()=>{
-                  router.push('/services')
-                }}><Typography level="body4">Services</Typography></ListItemButton>
+                <ListItemButton
+                  onClick={() => {
+                    router.push("/services");
+                  }}
+                >
+                  <Typography level="body4">Services</Typography>
+                </ListItemButton>
               </ListItem>
               {/* <ListItem>
                 <ListItemButton>Blog</ListItemButton>
               </ListItem> */}
               <ListItem>
-                <ListItemButton  onClick={()=>{
-                  router.push('/jobs')
-                }}><Typography level="body4">Jobs</Typography></ListItemButton>
+                <ListItemButton
+                  onClick={() => {
+                    router.push("/jobs");
+                  }}
+                >
+                  <Typography level="body4">Jobs</Typography>
+                </ListItemButton>
               </ListItem>
             </List>
           </ListItem>
-        <SearchDrawer footer={true}/>
+          <SearchDrawer footer={true} />
         </List>
       </Box>
       <Divider sx={{ my: 2 }} />
       <Box>
-       
         <Typography
           level="body4"
           startDecorator={
-            <Typography textColor="text.tertiary">powered & sponsored by</Typography>
+            <Typography textColor="text.tertiary">
+              powered & sponsored by
+            </Typography>
           }
         >
           SMNK Nig Ltd
         </Typography>
         <Divider sx={{ my: 2 }} />
-      <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-      <Typography level="body3" sx={{ ml: "irem" }}>
-          Copyright {new Date().getFullYear()}
-        </Typography>
-       {_id &&  <LogoutSwitch/>}
-      </Box>
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Typography level="body3" sx={{ ml: "irem" }}>
+            Copyright {new Date().getFullYear()}
+          </Typography>
+          {_id && <LogoutSwitch />}
+        </Box>
       </Box>
     </Sheet>
   );

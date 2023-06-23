@@ -1,32 +1,44 @@
-import Layout from "@/components/dashboard/layout";
-import { BankDetails } from "@/lib/types/bank-details";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Box } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import InfoAlert from "../alerts/Info";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import ErrorAlert from "../alerts/Error";
 
 function UserBankDetails({ userId }: { userId: string }) {
-  const { bankDetails } = useSelector((state: RootState) => state.users.user);
+  const [bankDetails, setBankDetails] = useState<any | null>(null);
+  const [error, setError] = useState<any | null>(null);
 
-  if (!bankDetails.accountName) return <InfoAlert message="No Bank details" />;
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios({
+          method: "GET",
+          url: `${process.env.SMNK_URL}api/users/swExtra/bank-details/${userId}`,
+        });
+        const data = await res.data;
+        setBankDetails(data);
+      } catch (err: any) {
+        setError(err);
+      }
+    })();
+  }, [userId]);
+
+  if (error) return <ErrorAlert />;
+
+  if (!bankDetails) return <InfoAlert message="No Bank details" />;
 
   return (
-    <>
-      <Box>
-        <h4>Bank Name:</h4>
-        <p>{bankDetails.bankName}</p>
-      </Box>
-      <Box>
-        <h4>Bank Account Name:</h4>
-        <p>{bankDetails.accountName}</p>
-      </Box>
-      <Box>
-        <h4>Bank Account Number:</h4>
-        <p>{bankDetails.accountNumber}</p>
-      </Box>
-    </>
+    <Grid container>
+      <Grid item xs={12}>
+        <Typography variant="caption">{bankDetails.bankName}</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="caption">{bankDetails.accountName}</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="caption">{bankDetails.accountNumber}</Typography>
+      </Grid>
+    </Grid>
   );
 }
 

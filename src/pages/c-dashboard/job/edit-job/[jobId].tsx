@@ -8,7 +8,11 @@ function EditJobPage() {
   const router = useRouter()
 
   const id = router.query.jobId as string
-
+useEffect(()=>{
+  if(!id){
+    router.push('/c-dashboard/job')
+  }
+},[id,router])
 
   return (
     <Layout>

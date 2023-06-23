@@ -1,36 +1,23 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
+  Box,
     Typography,
   } from "@mui/material";
-  import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
   import React from "react";
 import UserProfileContent from "../dialog/contents/UserProfileContent";
 
   
   function SWProfileAccordion({
-sw  }: {
-   sw:any
+userId  }: {
+  userId:string
   }) {
 
 
     return (
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-       
-                <Typography variant="caption" sx={{fontWeight:'bold'}} >
-                  Profile
-                </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        <UserProfileContent userId={sw._id}/>
-        </AccordionDetails>
-      </Accordion>
+      <Box>
+        <Typography  variant="subtitle1">Profile:</Typography>
+        <UserProfileContent userId={userId}/>
+      </Box>
+  
     );
   }
   

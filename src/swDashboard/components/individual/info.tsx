@@ -25,7 +25,7 @@ export default function UserInfoLink(){
       )()
     },[_id])
 if(!data) return(
-    <ListItemButton sx={{ ml: 1 }} onClick={()=>{
+    <ListItemButton sx={{ ml: 2 }} onClick={()=>{
         router.push('/dashboard/individual/add-personal-info') 
     }}>       
          <ListItemIcon><InfoIcon sx={{color:"white"}}/></ListItemIcon>
@@ -33,7 +33,7 @@ if(!data) return(
   </ListItemButton>
 )
     return(
-        <ListItemButton sx={{ ml: 1 }} onClick={()=>{
+        <ListItemButton sx={{ ml: 2 }} onClick={()=>{
             router.push(`/dashboard/individual`)
         }}>
           

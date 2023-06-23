@@ -4,8 +4,6 @@ import axios from "axios";
 import SendIcon from "@mui/icons-material/Send";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import { object, string } from "yup";
-import SuccessAlert from "@/components/alerts/Success";
-import ErrorAlert from "@/components/alerts/Error";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { useRef, useState } from "react";
 import { AlertColor } from "@mui/material";
@@ -94,7 +92,9 @@ function AdsForm() {
         'Landing page should look like "https://www.smnklimited.com/"'
       )
       .required("Web Address is required"),
-    description: string().max(200,'Description cannot be more tha 200 characters').required("Description is required"),
+    description: string()
+      .max(200, "Description cannot be more tha 200 characters")
+      .required("Description is required"),
   });
 
   const adFormControls: FormControls[] = [

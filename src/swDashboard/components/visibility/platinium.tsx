@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Typography } from '@mui/material'
 import React from 'react'
 import { Upgrade } from './upgrade'
-import { Chip, ListItemButton } from '@mui/joy'
+import { Chip, ListItemButton } from '@mui/material'
 
 const platinium={
   name:'Platinium',
@@ -21,20 +21,14 @@ export const Platinium = () => {
     <CardContent>
     <ListItemButton sx={{fontSize:'1.5rem',fontWeight:'bold',mb:'1rem'}}>
       {platinium.name}
-      <Chip
-        variant="soft"
-        size="sm"
-        color='success'
-        sx={{
+      <Chip color='primary' sx={{
           minHeight: 20,
           fontSize: "xs2",
           position: "absolute",
           top: -5,
           ml: 13,
-        }}
-      >
-        Recommended
-      </Chip>
+        }} label='Recommended'/>
+     
     </ListItemButton>
      <Box>
         <Typography sx={{fontWeight:'bold'}}>{`NGN ${platinium.price}/month`}</Typography>

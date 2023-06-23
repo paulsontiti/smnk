@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Avatar, IconButton } from "@mui/material";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import {useTheme} from '@mui/material/styles'
 import UploadIcon from "@mui/icons-material/Upload";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import axios from "axios";
 import { updateUser } from "@/store/slices/userSlice";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import { ColorPaletteProp } from "@mui/joy";
 import { LoadingButton } from "@mui/lab";
 
 function ProfilePicUploader() {
   const { _id } = useSelector((state: RootState) => state.users.user);
-  const [color, setColor] = React.useState<ColorPaletteProp>("primary");
+  const theme = useTheme()
   const [file, setFile] = useState<any>();
   const [displayFile, setDisplayFile] = useState();
   const [uploading, setUploading] = useState(false);
@@ -79,7 +78,7 @@ function ProfilePicUploader() {
         {uploading ? <LoadingButton
                 loading={uploading}
                 loadingPosition="start"
-              ></LoadingButton> : <UploadIcon sx={{ color: `${color}.900` }} />}
+              ></LoadingButton> : <UploadIcon sx={{ color: theme.smnk[1200] }} />}
              
           </>
         )}
@@ -92,7 +91,7 @@ function ProfilePicUploader() {
           accept="image"
           type="file"
         />
-        {!file && <AddAPhotoIcon sx={{ color: `${color}.900` }} />}
+        {!file && <AddAPhotoIcon sx={{ color:theme.smnk[1200] }} />}
       </IconButton>
     </form>
   );

@@ -9,8 +9,8 @@ import { useEffect, useRef, useState } from "react";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
-import { AlertColor,Container } from "@mui/material";
-
+import { AlertColor, Container } from "@mui/material";
+import { getSWExtra } from "@/store/slices/swExtraSlice";
 
 const initialValues = {
   email: "",
@@ -21,7 +21,9 @@ export default function Login() {
   const router = useRouter();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-  const { user,successful,response } = useSelector((state: RootState) => state.users);
+  const { user, successful, response } = useSelector(
+    (state: RootState) => state.users
+  );
 
   const dispatch = useDispatch<AppDispatch>();
   //declare refs
@@ -36,24 +38,27 @@ export default function Login() {
     email: string().email("invalid email").required("Email is required"),
     password: string().required("Password is required"),
   });
-  
+
   useEffect(() => {
-    if(response){
-      if(successful){
+    if (response) {
+      if (successful) {
         setMsg(response);
         setColor("success");
         const refState = snackBarRef.current as any;
-        refState.handleClick();  dispatch(updateState())
-      }else{
+        refState.handleClick();
+        dispatch(updateState());
+      } else {
         setMsg(response);
         setColor("error");
         const refState = snackBarRef.current as any;
-        refState.handleClick();  dispatch(updateState())
+        refState.handleClick();
+        dispatch(updateState());
       }
     }
     if (user) {
       switch (true) {
         case user.type === "skilled worker":
+          dispatch(getSWExtra(user._id));
           router.push("/sw-dashboard");
           break;
         case user.type === "client":
@@ -64,7 +69,7 @@ export default function Login() {
           break;
       }
     }
-  }, [user, router,successful,response,dispatch]);
+  }, [user, router, successful, response, dispatch]);
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
@@ -104,7 +109,7 @@ export default function Login() {
 
   return (
     <Container>
-    <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <FormikContainer formParams={formParams} />
       <Link href="/account/forgotpassword">forgot password?</Link>
     </Container>

@@ -1,42 +1,52 @@
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '@/store'
-import { logout } from '@/store/slices/userSlice'
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { logout } from "@/store/slices/userSlice";
 import { useRouter } from "next/router";
-    
-export default function LogoutSwitch(){
-    const dispatch = useDispatch<AppDispatch>()
+import GenericDialog from "../dialog/GenericDialog";
+import LogoutActions from "../dialog/actions/LogoutActions";
+import { useRef } from "react";
+import LogoutContent from "../dialog/contents/LogoutContent";
 
-    const router = useRouter()
+export default function LogoutSwitch() {
+  const dispatch = useDispatch<AppDispatch>();
+    //declare refs
+    const dialogRef = useRef();
+  const router = useRouter();
 
-    const logoutHandler =()=>{
-        if((confirm('Are you sure you want to log out?'))){
-            dispatch(logout())
-            router.push('/')
-        }
-    }
+const confirmLogout = (confirm:boolean)=>{
+ if(!confirm){
+  const refState = dialogRef.current as any;
+    refState.closeDialog();
+ }else{
+  dispatch(logout());
+  router.push("/");
+ }
+}
+  const logoutHandler = () => {
+    const refState = dialogRef.current as any;
+    refState.showDialog();
+ 
+  };
 
-    return(           
-           
-      
-                  
-    <FormGroup sx={{ml:0,mb:1}}>
-    <FormControlLabel
-      control={
-        <Switch
-          checked
-          onChange={logoutHandler}
-          aria-label="login switch"
-          color='primary'
-          
+  return (
+    <>
+      <GenericDialog content={<LogoutContent />} actions={<LogoutActions confirmLogout={confirmLogout}/>} ref={dialogRef} />
+      <FormGroup sx={{ ml: 0, mb: 1 }}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked
+              onChange={logoutHandler}
+              aria-label="login switch"
+              color="primary"
+            />
+          }
+          label="Logout"
         />
-      }
-      label='Logout'
-    />
-  </FormGroup>
-
-    
-    )
+      </FormGroup>
+    </>
+  );
 }

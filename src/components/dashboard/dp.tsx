@@ -5,19 +5,21 @@ import UserRating from "./UserRating";
 import { getUserProfile } from "@/lib/utils/user";
 import { useEffect, useState } from "react";
 import ProfilePic from "../avatar/ProfilePic";
-import { Chip } from "@mui/joy";
+import { Chip } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+
 
 export default function DP() {
-  const { user } = useSelector((state: RootState) => state.users);
-
+  const { users:{user:{_id,type,typeClass}},swExtra:{swExtra:{level}} } = useSelector((state: RootState) => state);
+const theme = useTheme()
   const [name,setName] = useState('')
 
   useEffect(()=>{
     (
       async()=>{
-        const {data} = await getUserProfile(user._id)
+        const {data} = await getUserProfile(_id)
         if(data){
-          if(user.typeClass === 'individual'){
+          if(typeClass === 'individual'){
             setName(data.firstName + ' ' + data.lastName)
           }else{
             setName(data.name)
@@ -25,47 +27,38 @@ export default function DP() {
         }
       }
     )()
-  },[user])
+  },[_id,typeClass])
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",bgcolor:'#D6E7FF',color:'black',width:250
+        justifyContent: "flex-start",bgcolor:theme.smnk[100],color:theme.smnk[1200],width:250
       }}
     >
       <ProfilePic/>
       <br />
 
-      {user && user.type !== "admin" && (
+      {type !== "admin" && (
         <>
           
             {name && (
-              <Box position={'relative'}>
+              <Box display={'flex'} alignItems={'center'} justifyContent={'center'} flexDirection={'column'}>
               
-                <Typography sx={{ fontWeight: "bold" }} variant="caption">
+                <Typography sx={{ textTransform:'capitalize',color:theme.smnk[1200],fontWeight:'bold' }} variant="subtitle1">
                   {name}
                 </Typography>
-                <Chip
-        color="success"
-          variant="soft"
-          size="sm"
-          sx={{
-            minHeight: 20,
-            fontSize: "xs2",
-            position:'absolute',
-            right:-30,
-            top:-12
-          }}
-        >
-          {user.type}/{user.typeClass}
-        </Chip>
+                <Typography variant="caption" component='i' color='primary'>
+                { `(${type}/${typeClass})`}
+                </Typography>
+                
+                
               </Box>
             )}
            
             
-          <UserRating rating={user.rating} level={user.level} type={user.type}/>
+          <UserRating type={type}/>
         </>
       )}
     </Box>

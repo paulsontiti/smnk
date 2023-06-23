@@ -5,7 +5,7 @@ import dbConnect from '@/lib/mongoose';
 import methodOverride from 'method-override'
 import mongoose from "mongoose";
 import Grid from 'gridfs-stream'
-import User from "@/lib/model/userModel";
+import { UpdateSWExtra } from "../../sw-dashboard/bank-details/edit-bank-details";
 
 export const config = {
   api:{
@@ -31,8 +31,7 @@ export const config = {
     const {type,userId} = req.body
     const pop = req.file.filename
  const sub = {type,pop}
-   await User.findByIdAndUpdate(req.body.userId,{subscription:sub})
-   res.status(201).json({message: `${pop} was successfully uploaded`,successful:true})
+await UpdateSWExtra(userId,'subscription',sub,res,'Subcription',pop)
   })
   
   export default multerHandler

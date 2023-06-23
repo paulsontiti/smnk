@@ -1,5 +1,5 @@
 import axios from "axios";
-import { User } from "../types/userInfo";
+import { SWExtra, User } from "../types/userInfo";
 
 export const getUserInfo = async (userId: string) => {
   let data;
@@ -20,14 +20,32 @@ export const getUserInfo = async (userId: string) => {
   }
   return { data, error };
 };
+export const getSWExtraDetails = async (userId: string) => {
+  let data;
+  let error;
+  if (userId) {
+    try {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.SMNK_URL}api/sw/extra/${userId}`,
+      });
+      data = await res.data;
+    } catch (err: any) {
+      console.log(err);
+      error = err;
+    }
+  } else {
+    return { data, error };
+  }
+  return { data, error };
+};
 export const getUserDp =  (userId: string) => {
   const res = async()=>{
     if (userId) {
     try {
       const res = await axios({
-        method: "POST",
-        url: `${process.env.SMNK_URL}api/users/dp`,
-        data: { userId },
+        method: "GET",
+        url: `${process.env.SMNK_URL}api/users/dp/${userId}`,
       });
       const data = await res.data;
       return data;
@@ -137,6 +155,22 @@ export const userJSON = () => {
   }
   return {} as User;
 };
+export const swExtraJSON = () => {
+  if (typeof window !== "undefined") {
+    // Perform localStorage action
+    const swExtraStr = localStorage.getItem("swExtra");
+    //console.log(userStr)
+    if (swExtraStr) {
+      const swExtra = JSON.parse(JSON.stringify(swExtraStr));
+      if (swExtra !== "undefined") {
+        //console.log(user )
+        return JSON.parse(swExtra) as SWExtra;
+      }
+    }
+  }
+  return {} as SWExtra;
+};
+
 
 export const infoJSON = () => {
   if (typeof window !== "undefined") {

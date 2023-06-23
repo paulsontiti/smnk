@@ -1,31 +1,46 @@
+import dbConnect from "../../../../lib/mongoose";
+import SWExtra from "@/lib/model/swExtra";
 
-import User from '@/lib/model/userModel'
-import dbConnect from '../../../../lib/mongoose'
-
-
-
-export default async function handler(req:any,res:any){
-
-    const {bankDetails,_id} = req.body
-
-    if(_id){
-        try{
-            await dbConnect()
-            const user = await User.findByIdAndUpdate(_id,{bankDetails},{new:true})
-            if(user){
-                res.status(201).json({successful:true,
-                    message:"Your Bank Details  was successfully edited"})
-            }else{
-                res.status(400).json({successful:false,message:"Unable to edit your bank details"})
-            }
-        }catch(err){
-            console.log(err)
-            res.status(400).json({successful:false,message:"oopps!! Something went wrong,please try again"})
+export const UpdateSWExtra = async(userId:string,key:string,updateParam:any,res:any,nameOfParam:string,resData?:any)=>{
+    if (userId) {
+        try {
+          let newSWExtra;
+          const swExtra = await SWExtra.findOne({ userId});
+          if (swExtra) {
+            swExtra[key] = updateParam
+           newSWExtra =  await swExtra.save()
+            
+          } else {
+            newSWExtra = await SWExtra.create({ userId, updateParam });
+          }
+    
+          if (newSWExtra) {
+            res
+              .status(201)
+              .json({
+                resData:resData,
+                successful: true,
+                message: `Your ${nameOfParam} Info was successfully added`,
+              });
+          } else {
+            res
+              .status(201)
+              .json({
+                successful: false,
+                message: `${nameOfParam} was not added. An Error occurred,try again`,
+              });
+          }
+        } catch (err: any) {
+          res.status(400).json(err);
         }
-    }else{
-        res.status(400).json({successful:false,message:"Incomplete info"})
-    }
-    
-     
-    
+      } else {
+        res.status(400).json({ message: "Invalid request" });
+      }
+}
+
+export default async function handler(req: any, res: any) {
+  await dbConnect();
+  const { userId, bankDetails } = req.body;
+    await UpdateSWExtra(userId,'bankDetails',bankDetails,res,'Bank Details')
+ 
 }

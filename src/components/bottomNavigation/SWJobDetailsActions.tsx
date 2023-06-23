@@ -1,9 +1,6 @@
-import Box from "@mui/material/Box";
+import { AlertColor, Box } from "@mui/material";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import EditFloatingActionButtons from "../fab/Edit";
-import DeleteFloatingActionButtons from "../fab/Delete";
-import PayFloatingActionButtons from "../fab/Pay";
 import { useRouter } from "next/router";
 import { JobStatus, getJobStatus } from "../job/AdminJobStatus";
 import { useEffect, useRef, useState } from "react";
@@ -17,9 +14,12 @@ import AcceptFloatingActionButtons from "../fab/Accept";
 import { confirmSWPaid } from "@/lib/payment";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import SnackbarComponent from "../snackbar/SnackBar";
+import GenericContent from "../dialog/contents/GenericContent";
+import GenericActions from "../dialog/actions/GenericActions";
 
 export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
-    const {_id} = useSelector((state:RootState)=>state.users.user)
+  const { _id } = useSelector((state: RootState) => state.users.user);
   const [value, setValue] = useState(0);
   const router = useRouter();
   const [jobStatus, setJobStatus] = useState<JobStatus>({
@@ -30,21 +30,76 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
     isJobRated: false,
   });
   const [error, setError] = useState();
+  const [msg, setMsg] = useState("");
+  const [color, setColor] = useState<AlertColor>("error");
 
-  //ref for rating dialog
-  const ratingRef = useRef();
-    //ref for tipping dialog
-    const tippingRef = useRef();
+  //declare refs
+  const snackBarRef = useRef();
+  const dialogRef = useRef();
+  //ref for tipping dialog
+  const tippingRef = useRef();
+
+  const confirmAction = async (confirm: boolean) => {
+    if (!confirm) {
+      const refState = dialogRef.current as any;
+      refState.closeDialog();
+    } else {
+      const refState = dialogRef.current as any;
+      refState.closeDialog();
+      const confirmed = await confirmSWPaid(jobId);
+      if (confirmed) {
+        setMsg("Payment confirmed");
+        setColor("success");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+        setTimeout(() => {
+          router.reload();
+        }, 3000);
+      } else {
+        setMsg("An error occurred,try again");
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+      }
+      // const result = await cancelJob(jobId);
+      // if (result) {
+      //   setMsg("Job cancelled");
+      //   setColor("success");
+      //   const refState = snackBarRef.current as any;
+      //   refState.handleClick();
+      //   setTimeout(() => {
+      //     router.push(`/dashboard/job/recommended-jobs`);
+      //   }, 3000);
+      // } else {
+      //   setMsg("An error occurred,try again");
+      //   setColor("error");
+      //   const refState = snackBarRef.current as any;
+      //   refState.handleClick();
+      // }
+    }
+  };
+  const dialogHandler = () => {
+    const refState = dialogRef.current as any;
+    refState.showDialog();
+  };
 
   useEffect(() => {
-    getJobStatus(jobId, setJobStatus, setError,_id);
-  }, [jobId,_id]);
+    getJobStatus(jobId, setJobStatus, setError, _id);
+  }, [jobId, _id]);
 
   if (error) return <p></p>;
   if (!jobStatus) return <p></p>;
 
   return (
     <Box sx={{ width: "100%" }}>
+      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+      <GenericDialog
+        content={
+          <GenericContent message="Are sure you want to confirm payment" />
+        }
+        actions={<GenericActions confirmAction={confirmAction} />}
+        ref={dialogRef}
+      />
       <BottomNavigation
         showLabels
         value={value}
@@ -52,88 +107,44 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
           setValue(newValue);
         }}
       >
-         {jobStatus.swPaid && (
-            <BottomNavigationAction
-            label="Payment Confirmed. Well Done!!!!"
-          />
-     
-      )}
-      {!jobStatus.isProposalAccepted &&
-        !jobStatus.hasThisUserApplied && (
-            <BottomNavigationAction
+        {jobStatus.swPaid && (
+          <BottomNavigationAction label="Payment Confirmed. Well Done!!!!" />
+        )}
+        {!jobStatus.isProposalAccepted && !jobStatus.hasThisUserApplied && (
+          <BottomNavigationAction
             label="Apply"
             icon={
               <ApplyFloatingActionButtons
                 handleClick={async () => {
-                    router.push(`/sw-dashboard/job/${jobId}`);
+                  router.push(`/sw-dashboard/job/${jobId}`);
                 }}
               />
             }
           />
-         
         )}
 
-{jobStatus.isProposalAccepted && !jobStatus.isJobPaidFor &&
-        jobStatus.hasThisUserApplied && (
+        {/* {jobStatus.isProposalAccepted &&
+          !jobStatus.isJobPaidFor &&
+          jobStatus.hasThisUserApplied && (
             <BottomNavigationAction
-            label="Cancel"
-            icon={
-              <CancelFloatingActionButtons
-                handleClick={async() => {
-                    const result  = await cancelJob(jobId)
-                    if(result){
-                      alert('Job cancelled')
-                      router.push(`/dashboard/job/recommended-jobs`);
-                    }else{
-                      alert('An error occurred,try again')
-                    }
-                  }}
-              />
-            }
+              label="Cancel"
+              icon={<CancelFloatingActionButtons handleClick={dialogHandler} />}
+            />
+          )} */}
+        {jobStatus.isJobApproved && !jobStatus.swPaid && (
+          <BottomNavigationAction
+            label="Confirm Payment"
+            icon={<AcceptFloatingActionButtons handleClick={dialogHandler} />}
           />
         )}
-       {jobStatus.isJobApproved && !jobStatus.swPaid && (
-       <BottomNavigationAction
-            label="Confirm Payment"
-            icon={
-              <AcceptFloatingActionButtons
-                handleClick={async () => {
-                    const confirmed = await confirmSWPaid(jobId);
-                    if (confirmed) {
-                      alert("Payment confirmed");
-                      router.push("/dashboard/job/done");
-                    }
-                  }
-                }
-              />
-            }
-          />
-         
-      )}
         {jobStatus.isJobApproved && !jobStatus.swPaid && (
-        
-        <BottomNavigationAction
-        label="Message Admin"
-        icon={
-          <ChatFloatingActionButtons receiverId={process.env.CUSTOMER_SERVICE_ID as string}
-           
-          />
-        }
-      />
-     
-      )}
-        
-        {jobStatus.isJobRated && (
-          <GenericDialog
-            ref={tippingRef}
-            content={
-              <ClientTippingContent
-                userId={
-                  jobStatus.approvedUserId ? jobStatus.approvedUserId : ""
-                }
+          <BottomNavigationAction
+            label="Chat Admin"
+            icon={
+              <ChatFloatingActionButtons
+                receiverId={process.env.CUSTOMER_SERVICE_ID as string}
               />
             }
-            title="Buy Skiilled Worker a cup of coffee"
           />
         )}
       </BottomNavigation>

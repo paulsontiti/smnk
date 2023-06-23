@@ -12,8 +12,8 @@ import { useSelector } from 'react-redux'
 function CompletedJobsPage() {
 const {_id} = useSelector((state:RootState)=>state.users.user)
 
-    const [completedJobs,setCompletedJobs] = useState<Job[]>()
-    const [error,setError] = useState()
+    const [completedJobs,setCompletedJobs] = useState<Job[] | null>(null)
+    const [error,setError] = useState(null)
 
     useEffect(()=>{
         (
@@ -40,7 +40,7 @@ const {_id} = useSelector((state:RootState)=>state.users.user)
 
     if(error) <Layout><ErrorAlert/></Layout>
     if(!completedJobs) <Layout><LoadingAlert/></Layout>
-    if(Array.isArray(completedJobs) && completedJobs.length === 0) <Layout><InfoAlert message='No Completed Jobs'/></Layout>
+    if(Array.isArray(completedJobs) && completedJobs.length === 0) return <Layout><InfoAlert message='No Completed Jobs'/></Layout>
   return (
     <Layout>
         {

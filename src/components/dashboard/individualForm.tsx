@@ -6,6 +6,7 @@ import axios from "axios";
 import FormikContainer from "../form/formikContainer";
 import {
   FormControlObject,
+  FormControls,
   FormParams,
   createFormObject,
   states,
@@ -18,6 +19,16 @@ export default function IndividualForm({ router }: { router: any }) {
   const { user } = useSelector((state: RootState) => state.users);
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
+  const [initialValues,setInitialvalues] = useState<IndividualPersonalInfo>({
+    firstName: "",
+    lastName: "",
+    userName: "",
+    state: "",
+    lga: "",
+    address: "",
+    description: "",
+    userId: user._id,
+  })
 
   //declare refs
   const snackBarRef = useRef();
@@ -32,16 +43,7 @@ export default function IndividualForm({ router }: { router: any }) {
     description: string().required("Description is required"),
   });
 
-  const individualValues: IndividualPersonalInfo = {
-    firstName: "",
-    lastName: "",
-    userName: "",
-    state: "",
-    lga: "",
-    address: "",
-    description: "",
-    userId: user._id,
-  };
+
 
   //sign up submit handler
   const submitHandler = async (values: IndividualPersonalInfo) => {
@@ -58,7 +60,7 @@ export default function IndividualForm({ router }: { router: any }) {
           setColor("success");
           const refState = snackBarRef.current as any;
           refState.handleClick();
-          router.push("/dashboard/individual");
+          setTimeout(()=>{ router.push('/dashboard/individual')},3000)
         }else{
           setMsg(data.message);
           setColor("error");
@@ -82,6 +84,7 @@ export default function IndividualForm({ router }: { router: any }) {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setInitialvalues(values)
     return new Promise((res) => {
       formikHelpers
         .validateForm()
@@ -99,11 +102,7 @@ export default function IndividualForm({ router }: { router: any }) {
     });
   };
 
-  const infoFormObject: FormControlObject = {
-    initialValues: individualValues,
-    validationSchema: individualInfoSchema,
-    onSubmit: formikSubmitHandler,
-    formControls: [
+  const formControls: FormControls[] =  [
       { name: "firstName", label: "First Name", control: "input" },
       { name: "lastName", label: "Last Name", control: "input" },
       { name: "userName", label: "User Name", control: "input" },
@@ -118,15 +117,15 @@ export default function IndividualForm({ router }: { router: any }) {
       },
       { name: "address", label: "Address", control: "input" },
       { name: "description", label: "Description", control: "textarea" },
-    ],
-  };
+    
+    ]
 
   const formParams: FormParams = {
     formObject: createFormObject(
       formikSubmitHandler,
       individualInfoSchema,
-      individualValues,
-      infoFormObject.formControls
+      initialValues,
+      formControls
     ),
     buttonLabel: "Create Profile",
     headerTitle: "Create Your Profile",

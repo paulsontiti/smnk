@@ -8,30 +8,24 @@ import { useEffect, useRef, useState } from "react";
 import { createSetFromArray, fetchTalents } from "@/lib/search";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { AlertColor } from "@mui/material";
+import Link from "next/link";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export const validateDate = (startDate: Date, endDate: Date) => {
   return endDate > startDate && new Date(startDate) > new Date() && new Date(endDate) > new Date() ;
 };
 export default function JobForm({
   initialValues,
-  _id,
-  submitHandler,
-  jobId,
 }: {
-  initialValues: JobDetails;
-  _id: string;
-  jobId: string;
-  submitHandler: (
-    userId: string,
-    values: any,
-    router: any,
-    jobId: string
-  ) => void;
+  initialValues: {details:JobDetails,jobId:string};
 }) {
   const [jobCategoryOptions, setJobCategoryOption] = useState<string[]>();
   const router = useRouter();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
+  const {_id} = useSelector((state:RootState)=>state.users.user)
 
   //declare refs
   const snackBarRef = useRef();
@@ -42,6 +36,74 @@ export default function JobForm({
       setJobCategoryOption(createSetFromArray(data));
     })();
   }, []);
+
+   const createJobSubmitHandler = async (values:any)=>{
+    //return console.log(values)
+      if(_id){
+          const res = await axios({
+              method:'POST',
+              url:`${process.env.SMNK_URL}api/c-dashboard/job/create-job`,
+              data:{jobDetails:values}
+          })
+          const data = await res.data
+          
+          if(data.isJobAdded){
+            setMsg(data.message);
+            setColor("success");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+           setTimeout(()=>{
+            router.push('/c-dashboard/job')
+           },6000)
+          }else{
+            setMsg(data.message);
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+            return
+          }
+          
+        }else{
+          setMsg('Bad request!!!! No user id');
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
+        } 
+  }
+ const editJobSubmitHandler = async (values:any)=>{
+    //return console.log(values)
+      if(_id){
+          const res = await axios({
+              method:'POST',
+              url:`${process.env.SMNK_URL}api/c-dashboard/job/edit-job`,
+              data:{jobDetails:values,jobId:initialValues.jobId}
+          })
+          const data = await res.data
+          
+          if(data.isJobEdited){
+            setMsg(data.message);
+            setColor("success");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+           setTimeout(()=>{
+            router.push('/c-dashboard/job')
+           },6000)
+          }else{
+            setMsg(data.message);
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+         
+            return
+          }
+          
+        }else{
+          setMsg('Bad request!!!! No user id');
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
+        } 
+  }
 
   const typeOptions = [
     { label: "Physical", value: "physical"},
@@ -58,7 +120,7 @@ export default function JobForm({
       if (validateDate(values.startDate, values.endDate)) {
         validateForm()
           .then((data: any) => {
-            submitHandler(_id, values, router, jobId);
+            initialValues.jobId ? editJobSubmitHandler(values) : createJobSubmitHandler(values);
             res(data);
           })
           .catch((err: any) => {
@@ -146,7 +208,7 @@ export default function JobForm({
     { name: "endDate", label: "End Date", control: "date" },
     {
       name: "agreeToTerms",
-      label: "I agree to terms & conditions",
+      label: <Link href={'/t&c'}>I agree to terms & conditions</Link>,
       control: "switch",
     },
   ];
@@ -155,7 +217,7 @@ export default function JobForm({
     formObject: createFormObject(
       formikSubmitHandler,
       jobSchema,
-      initialValues,
+      initialValues.details,
       jobFormControls
     ),
     buttonLabel: "Submit",
