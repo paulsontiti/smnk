@@ -4,11 +4,13 @@ import MenuDrawer from "../../swDashboard/components/account/menuDrawer";
 import DashboardBreadcrumb from "../../swDashboard/components/breadcrumbs/dashboard";
 import ADashboardMenu from "./ADashboard";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "@/pages/_app";
 
 export default function AdminLayout(props: { children: any }) {
   //console.log(info)
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Box
         sx={{
           display: "flex",
@@ -36,6 +38,6 @@ export default function AdminLayout(props: { children: any }) {
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </ThemeProvider>
   );
 }
