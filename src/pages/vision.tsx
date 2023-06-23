@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Typography } from "@mui/joy";
+import { Container, Typography } from "@mui/material";
 import Layout from "@/components/layout";
 import Head from "next/head";
 
