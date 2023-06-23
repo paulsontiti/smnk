@@ -24,9 +24,7 @@ export default function EditBankDetailsForm() {
       swExtra: { bankDetails },
     },
   } = useSelector((state: RootState) => state);
-  const [initialValues, setInitialValues] = useState<BankDetails | null>(
-    bankDetails ?? null
-  );
+  const [initialValues, setInitialValues] = useState<BankDetails | null>(null);
 
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
