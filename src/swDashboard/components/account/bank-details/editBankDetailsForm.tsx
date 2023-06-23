@@ -20,11 +20,7 @@ export default function EditBankDetailsForm() {
     users: {
       user: { _id },
     },
-    swExtra: {
-      swExtra: { bankDetails },
-    },
   } = useSelector((state: RootState) => state);
-  const [initialValues, setInitialValues] = useState<BankDetails | null>(null);
 
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
@@ -33,10 +29,13 @@ export default function EditBankDetailsForm() {
   //declare refs
   const snackBarRef = useRef();
   const router = useRouter();
-
+  const initialValues: BankDetails = {
+    bankName: "",
+    accountName: "",
+    accountNumber: "",
+  };
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
-    setInitialValues(values);
     return new Promise((res) => {
       if (_id) {
         formikHelpers
