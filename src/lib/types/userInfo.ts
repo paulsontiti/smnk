@@ -70,11 +70,7 @@ userId:string
     level:'Beginner' | 'Intermediate' | 'Pro',
     onAJob:boolean,
     catalog:[{filename:string,title:string,description:string}],
-    verification:{
-        idCardUrl:string,
-        capturedPhotoUrl:string,
-        kycVerified:boolean
-    },
+   
   }
 
  export type User ={
@@ -86,7 +82,11 @@ type:string,
 typeClass:string,
 dpFileName:string,
 active:boolean,
-
+verification:{
+    idCardUrl:string,
+    capturedPhotoUrl:string,
+    kycVerified:boolean
+},
 }
 export type UserExtra ={
   

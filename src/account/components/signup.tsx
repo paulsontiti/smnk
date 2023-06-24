@@ -115,17 +115,17 @@ export default function SignUp() {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
-          if (values.emailVerificationCode === verificationCode) {
-            const msg = await submitHandler(values);
+          //if (values.emailVerificationCode === verificationCode) {
+          const msg = await submitHandler(values);
 
-            res(msg);
-          } else {
-            setMsg("Invalid email verification code");
-            setColor("error");
-            const refState = snackBarRef.current as any;
-            refState.handleClick();
-            res("");
-          }
+          res(msg);
+          // } else {
+          //   setMsg("Invalid email verification code");
+          //   setColor("error");
+          //   const refState = snackBarRef.current as any;
+          //   refState.handleClick();
+          //   res("");
+          //}
         })
         .catch((err: any) => {
           res(err);
@@ -135,10 +135,13 @@ export default function SignUp() {
 
   const signupSchema = object({
     email: string().email("invalid email").required("Email is required"),
-    emailVerificationCode: string().required(
-      "Email verification code is required"
-    ),
-    phone: string().required("Phone is required"),
+    // emailVerificationCode: string().required(
+    //   "Email verification code is required"
+    // ),
+    phone: string()
+      .min(11, "Phone can not be less than 11 digits")
+      .max(11, "Phone can not be more than 11 digits")
+      .required("Phone is required"),
     password: string().required("Password is required"),
     confirmPassword: string()
       .oneOf([ref("password"), ""], "Both Passwords must match")
@@ -152,15 +155,20 @@ export default function SignUp() {
     {
       name: "email",
       label: "Email",
-      control: "verifyEmail",
+      control: "input",
       emailVerificationCode: verificationCode,
     },
+    // {
+    //   name: "emailVerificationCode",
+    //   label: "Email Verification Code",
+    //   control: "input",
+    // },
     {
-      name: "emailVerificationCode",
-      label: "Email Verification Code",
-      control: "input",
+      name: "phone",
+      label: "Phone Number",
+      control: "verifyPhone",
+      type: "phone",
     },
-    { name: "phone", label: "Phone Number", control: "input", type: "phone" },
     { name: "password", label: "Password", control: "input", type: "password" },
     {
       name: "confirmPassword",

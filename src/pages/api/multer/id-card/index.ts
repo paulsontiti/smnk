@@ -5,6 +5,7 @@ import methodOverride from "method-override";
 import mongoose from "mongoose";
 import Grid from "gridfs-stream";
 import SWExtra from "@/lib/model/swExtra";
+import User from "@/lib/model/userModel";
 
 export const config = {
   api: {
@@ -32,30 +33,22 @@ multerHandler
     const { filename } = req.file;
     if (userId) {
       try {
-        const swExtra = await SWExtra.findOne({ userId });
-        if(swExtra){
-          swExtra.verification = {...swExtra.verification,idCardUrl:filename};
-          const newSwExtra = await swExtra.save();
-          if (newSwExtra) {
-            res.status(201).json(filename);
-          } else {
-            res.status(400).json(null);
-          }
-        }else{
-          const swExtra = await SWExtra.create({verification:{idCardUrl:filename}})
-          if (swExtra) {
+        const user = await User.findById(userId);
+        if (user) {
+          user.verification = { ...user.verification, idCardUrl: filename };
+          const newUser = await user.save();
+          if (newUser) {
             res.status(201).json(filename);
           } else {
             res.status(400).json(null);
           }
         }
-        } catch (err) {
-          console.log(err)
-          res.status(400).json(null);
-        }
-       
-    }else{
+      } catch (err) {
+        console.log(err);
         res.status(400).json(null);
+      }
+    } else {
+      res.status(400).json(null);
     }
   });
 

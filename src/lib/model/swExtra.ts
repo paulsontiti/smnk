@@ -46,11 +46,7 @@ const swExtraSchema = new Schema({
         pop:{type:String},
         popConfirmed:{type:Boolean,default:false}
     },
-    verification:{
-        idCardUrl:{type:String},
-        capturedPhotoUrl:{type:String},
-        kycVerified:{type:Boolean,default:false}
-    },
+   
     bankDetails:{
         accountName:{
             type:String,

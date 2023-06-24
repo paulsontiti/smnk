@@ -7,19 +7,19 @@ import { AppDispatch, RootState } from "@/store";
 import axios from "axios";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { LoadingButton } from "@mui/lab";
-import { SWExtra } from "@/lib/types/userInfo";
-import { updateSWExtra } from "@/store/slices/swExtraSlice";
+import { User } from "@/lib/types/userInfo";
 import SnackbarComponent from "../snackbar/SnackBar";
 import { useRouter } from "next/router";
 import { AlertColor } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { updateUser } from "@/store/slices/userSlice";
 
 function IDCardUploader() {
   const { _id } = useSelector((state: RootState) => state.users.user);
   const [file, setFile] = useState<any>();
   const [displayFile, setDisplayFile] = useState("");
   const [uploading, setUploading] = useState(false);
-const theme = useTheme()
+  const theme = useTheme();
   const dispatch = useDispatch<AppDispatch>();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
@@ -58,19 +58,19 @@ const theme = useTheme()
           setColor("success");
           const refState = snackBarRef.current as any;
           refState.handleClick();
-          //get swExtra from local storage
-          let swExtra: SWExtra = JSON.parse(
-            JSON.parse(JSON.stringify(localStorage.getItem("swExtra")))
+          //get user from local storage
+          let user: User = JSON.parse(
+            JSON.parse(JSON.stringify(localStorage.getItem("user")))
           );
 
           //update the verification
-          swExtra.verification = { ...swExtra.verification, idCardUrl: data };
+          user.verification = { ...user.verification, idCardUrl: data };
 
-          //save the new swExtra details in the localstorage
-          localStorage.setItem("swExtra", JSON.stringify(swExtra));
+          //save the new user details in the localstorage
+          localStorage.setItem("user", JSON.stringify(user));
           setUploading(false);
           setFile("");
-          dispatch(updateSWExtra());
+          dispatch(updateUser());
           setTimeout(() => {
             router.push("/sw-dashboard/verification");
           }, 6000);
@@ -125,7 +125,11 @@ const theme = useTheme()
             </Box>
           )}
         </IconButton>
-        <IconButton aria-label="upload picture" component="label" color="primary">
+        <IconButton
+          aria-label="upload picture"
+          component="label"
+          color="primary"
+        >
           <input
             name="idCard"
             onChange={handleChange}

@@ -1,45 +1,49 @@
-import { Schema,model,models } from "mongoose";
-import bcrypt from 'bcrypt'
+import { Schema, model, models } from "mongoose";
+import bcrypt from "bcrypt";
 
-
-
-const userSchema = new Schema({
-    email:{
-        type:String,
-        required:true,
-        unique:true,
-        trim:true,
-        lowercase:true
+const userSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
     },
-    phone:{
-        type:String,
-        required:true,
-        unique:true,
-        trim:true,
-        lowercase:true
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
     },
-    password:{
-        type:String,
-        required:true
+    password: {
+      type: String,
+      required: true,
     },
-    type:{
-        type:String,
-        required:true,
-        lowercase:true
+    type: {
+      type: String,
+      required: true,
+      lowercase: true,
     },
-    typeClass:{
-        type:String,
-        required:true,
-        lowercase:true
+    typeClass: {
+      type: String,
+      required: true,
+      lowercase: true,
     },
-    dpFileName:String,
-    active:{type:Boolean,default:true},
-  
-},
-{
-    timestamps:true,
-    versionKey:false
-})
+    verification: {
+      idCardUrl: { type: String },
+      capturedPhotoUrl: { type: String },
+      kycVerified: { type: Boolean, default: false },
+    },
+    dpFileName: String,
+    active: { type: Boolean, default: true },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
 // userSchema.pre('save',async function(next){
 //     try{
 //         const salt = await bcrypt.genSalt(10)
@@ -50,5 +54,5 @@ const userSchema = new Schema({
 //         next(error)
 //     }
 // })
-const User = models.User || model('User', userSchema)
-export default User
+const User = models.User || model("User", userSchema);
+export default User;

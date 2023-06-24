@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Field } from "formik";
-import { TextField, Box, FormGroup, Typography, Button } from "@mui/material";
+import {
+  TextField,
+  Box,
+  FormGroup,
+  Typography,
+  Button,
+  InputAdornment,
+} from "@mui/material";
+import VerifiedIcon from "@mui/icons-material/Verified";
 import CustomErrorMessage from "./CustomErrorMessage";
 import emailjs from "@emailjs/browser";
 import { LoadingButton } from "@mui/lab";
@@ -14,37 +22,32 @@ function VerifyingEmail({
   helperText,
   autoComplete,
   values,
-  fieldToCheckAgainst,
-  valueOfFieldToCheckAgainst,
   errors,
   ...rest
 }: any) {
   const [emailVerifyingMsg, setEmailVerifyingMsg] = useState("");
   const [emailInUseMsg, setEmailInUseMsg] = useState("");
   const [sendingCode, setSendingCode] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
 
-  function SendEmail(
-    email: string,
-    emailVerificationCode: string,
-    setSendingCode: React.Dispatch<React.SetStateAction<boolean>>,
-    setEmailVerifyingMsg: React.Dispatch<React.SetStateAction<string>>
-  ) {
+  function SendEmail() {
     setSendingCode(true);
     setEmailVerifyingMsg("");
+    setEmailVerified(false);
     emailjs
       .send(
         "service_l0apj59",
         "smnk_verify_email",
         {
-          to_name: email,
+          to_name: values.email,
           message: `Your email verification code is ${emailVerificationCode}`,
           from_name: "SMNK Nig Ltd",
         },
         "X1uWzzlDGGXJyMl09"
       )
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
+          setEmailVerified(true);
           setSendingCode(false);
           setEmailVerifyingMsg(
             "Your email verification code has been sent to your email"
@@ -53,8 +56,9 @@ function VerifyingEmail({
       })
       .catch((err) => {
         console.log(err);
+        setEmailVerified(false);
         setSendingCode(false);
-        setEmailVerifyingMsg(
+        setEmailInUseMsg(
           "An error occurred while sending your verification code,Please ensure you are connected to the internet"
         );
         // SendEmail(
@@ -93,25 +97,31 @@ function VerifyingEmail({
           size="small"
           margin="dense"
           InputLabelProps={{ shrink: true }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                {emailVerified && <VerifiedIcon />}
+              </InputAdornment>
+            ),
+          }}
           onBlur={async (e: any) => {
-            const { data, error } = await CheckIfEmailIsInUse(values.email);
-            if (error) {
-              setEmailInUseMsg(
-                "Error occured while checking if your email is already in use,ensure you are connected or refresh this page"
-              );
-            }
-            if (!data) {
-              setEmailInUseMsg("");
-              SendEmail(
-                values.email,
-                emailVerificationCode,
-                setSendingCode,
-                setEmailVerifyingMsg
-              );
+            if (!errors[name] && values.email) {
+              const { data, error } = await CheckIfEmailIsInUse(values.email);
+              if (error) {
+                setEmailInUseMsg(
+                  "Error occured while checking if your email is already in use,ensure you are connected or refresh this page"
+                );
+              }
+              if (!data) {
+                setEmailInUseMsg("");
+                SendEmail();
+              } else {
+                setEmailInUseMsg(
+                  "This email is already in use,choose another email"
+                );
+              }
             } else {
-              setEmailInUseMsg(
-                "This email is already in use,choose another email"
-              );
+              setEmailInUseMsg("");
             }
           }}
         />
@@ -128,14 +138,14 @@ function VerifyingEmail({
           </LoadingButton>
         )}
         {emailInUseMsg && (
-          <Typography variant="caption" color="error">
+          <Typography variant="caption" color="error" maxWidth={"80%"}>
             {emailInUseMsg}
           </Typography>
         )}
         {emailVerifyingMsg && (
           <>
             {" "}
-            <Typography variant="caption" color="primary">
+            <Typography variant="caption" color="primary" maxWidth={"80%"}>
               {emailVerifyingMsg}
             </Typography>
             <Box
@@ -150,12 +160,7 @@ function VerifyingEmail({
               <Button
                 sx={{ textTransform: "capitalize" }}
                 onClick={() => {
-                  SendEmail(
-                    values,
-                    emailVerificationCode,
-                    setSendingCode,
-                    setEmailVerifyingMsg
-                  );
+                  SendEmail();
                 }}
               >
                 Resend

@@ -28,14 +28,14 @@ import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import PendingIcon from "@mui/icons-material/Pending";
 import HomeIcon from "@mui/icons-material/Home";
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { useTheme } from "@mui/material/styles";
-import CollectionsIcon from '@mui/icons-material/Collections';
+import CollectionsIcon from "@mui/icons-material/Collections";
 
 export default function SWDashboardMenu() {
-  const theme = useTheme()
-  const primary = theme.smnk[300]
+  const theme = useTheme();
+  const primary = theme.smnk[300];
   const {
     users: { user },
     swExtra: { swExtra },
@@ -45,7 +45,6 @@ export default function SWDashboardMenu() {
   const [openAccount, setOpenAccount] = React.useState(true);
   const [openProfile, setOpenProfile] = React.useState(true);
   const [openJob, setOpenJob] = React.useState(true);
-  const [openVerification, setOpenVerification] = React.useState(true);
 
   const accountHandleClick = () => {
     setOpenAccount(!openAccount);
@@ -59,13 +58,15 @@ export default function SWDashboardMenu() {
     setOpenJob(!openJob);
   };
 
-  const openVerificationHandleClick = () => {
-    setOpenVerification(!openVerification);
-  };
-
   return (
     <List
-      sx={{ width: "100%", maxWidth: 360, pl: 0, overflowY: "auto", color:primary }}
+      sx={{
+        width: "100%",
+        maxWidth: 360,
+        pl: 0,
+        overflowY: "auto",
+        color: primary,
+      }}
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
@@ -103,62 +104,10 @@ export default function SWDashboardMenu() {
           </ListItemButton>
           <Collapse in={openProfile} timeout="auto" unmountOnExit>
             <List component="div">
-              <ListItemButton
-                sx={{ ml: 2 }}
-                onClick={openVerificationHandleClick}
-              >
-                {" "}
-                <ListItemIcon>
-                  <WorkspacePremiumIcon sx={{ color: "white" }} />
-                </ListItemIcon> <ListItemText
-                    primary={
-                      <Typography variant="caption">Verification</Typography>
-                    }
-                  />
-                {/* <Badge sx={{mr:'3rem'}}
-                  badgeContent={
-                    swExtra && swExtra?.verified ? (
-                      <VerifiedIcon color="success" />
-                    ) : (
-                      <PendingIcon color="error" />
-                    )
-                  }
-                >
-                 
-                </Badge> */}
-                {openVerification ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openVerification} timeout="auto" unmountOnExit>
-                <List component="div">
-                 
-                  <ListItemButton
-                    sx={{ ml: 3 }}
-                    onClick={() => {
-                      router.push("/sw-dashboard/verification/id-card");
-                    }}
-                  >
-                    <ListItemIcon>
-                      <PermIdentityIcon sx={{ color: "white" }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={<Typography variant="caption">ID Photo</Typography>}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    sx={{ ml: 3 }}
-                    onClick={() => {
-                      router.push("/sw-dashboard/verification/capture");
-                    }}
-                  >
-                    <ListItemIcon>
-                      <AdminPanelSettingsIcon sx={{ color: "white" }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={<Typography variant="caption">Camera Photo</Typography>}
-                    />
-                  </ListItemButton>
-                </List>
-              </Collapse>
+              <Verification
+                idUrl="/sw-dashboard/verification/id-card"
+                captureUrl="/sw-dashboard/verification/capture"
+              />
               {user && user.typeClass === "individual" ? (
                 <UserInfoLink />
               ) : (
@@ -268,5 +217,63 @@ export function Catalog({ router }: any) {
         primary={<Typography variant="caption">Catalog</Typography>}
       />
     </ListItemButton>
+  );
+}
+
+export function Verification({
+  idUrl,
+  captureUrl,
+}: {
+  idUrl: string;
+  captureUrl: string;
+}) {
+  const [openVerification, setOpenVerification] = React.useState(true);
+  const openVerificationHandleClick = () => {
+    setOpenVerification(!openVerification);
+  };
+  const router = useRouter();
+  return (
+    <>
+      <ListItemButton sx={{ ml: 2 }} onClick={openVerificationHandleClick}>
+        {" "}
+        <ListItemIcon>
+          <WorkspacePremiumIcon sx={{ color: "white" }} />
+        </ListItemIcon>{" "}
+        <ListItemText
+          primary={<Typography variant="caption">Verification</Typography>}
+        />
+        {openVerification ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={openVerification} timeout="auto" unmountOnExit>
+        <List component="div">
+          <ListItemButton
+            sx={{ ml: 3 }}
+            onClick={() => {
+              router.push(idUrl);
+            }}
+          >
+            <ListItemIcon>
+              <PermIdentityIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText
+              primary={<Typography variant="caption">ID Photo</Typography>}
+            />
+          </ListItemButton>
+          <ListItemButton
+            sx={{ ml: 3 }}
+            onClick={() => {
+              router.push(captureUrl);
+            }}
+          >
+            <ListItemIcon>
+              <AdminPanelSettingsIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText
+              primary={<Typography variant="caption">Camera Photo</Typography>}
+            />
+          </ListItemButton>
+        </List>
+      </Collapse>
+    </>
   );
 }

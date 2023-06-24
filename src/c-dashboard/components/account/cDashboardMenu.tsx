@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import {
   ChangePassword,
   LiveChat,
+  Verification,
 } from "@/swDashboard/components/account/swDashboardMenu";
 import { ListItemIcon, Typography } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -20,7 +21,7 @@ import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import PendingIcon from "@mui/icons-material/Pending";
 import CreateIcon from "@mui/icons-material/Create";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 
 export default function CDashboardMenu() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -44,96 +45,109 @@ export default function CDashboardMenu() {
 
   return (
     <>
-     
-        <List
-          sx={{ width: "100%", maxWidth: 360, pl: 0, overflowY: "auto" }}
-          component="nav"
-          aria-labelledby="nested-list-subheader"
-        > <ListItemButton sx={{ ml: 0 }} onClick={()=>{router.push('/')}}>
-        <ListItemIcon><HomeIcon sx={{color:"white"}}/></ListItemIcon>
-          <ListItemText primary={<Typography variant="body1">Home</Typography>} />
+      <List
+        sx={{ width: "100%", maxWidth: 360, pl: 0, overflowY: "auto" }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+      >
+        {" "}
+        <ListItemButton
+          sx={{ ml: 0 }}
+          onClick={() => {
+            router.push("/");
+          }}
+        >
+          <ListItemIcon>
+            <HomeIcon sx={{ color: "white" }} />
+          </ListItemIcon>
+          <ListItemText
+            primary={<Typography variant="body1">Home</Typography>}
+          />
         </ListItemButton>
-          <ListItemButton sx={{ ml: 0 }} onClick={accountHandleClick}>
-            <ListItemIcon>
-              <AccountCircleIcon sx={{ color: "white" }} />
-            </ListItemIcon>
-            <ListItemText
-              primary={<Typography variant="body1">Account</Typography>}
+        <ListItemButton sx={{ ml: 0 }} onClick={accountHandleClick}>
+          <ListItemIcon>
+            <AccountCircleIcon sx={{ color: "white" }} />
+          </ListItemIcon>
+          <ListItemText
+            primary={<Typography variant="body1">Account</Typography>}
+          />
+          {openAccount ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openAccount} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {user && user.typeClass === "individual" ? (
+              <UserInfoLink />
+            ) : (
+              <CompanyProfileLink />
+            )}
+            <Verification
+              idUrl="/c-dashboard/verification/id-card"
+              captureUrl="/c-dashboard/verification/capture"
             />
-            {openAccount ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          <Collapse in={openAccount} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {user && user.typeClass === "individual" ? (
-                <UserInfoLink />
-              ) : (
-                <CompanyProfileLink />
-              )}
-             
-              <ChangePassword router={router} />
-            </List>
-          </Collapse>
-          <ListItemButton sx={{ ml: 0 }} onClick={jobHandleClick}>
-            <ListItemIcon>
-              <WorkHistoryIcon sx={{ color: "white" }} />
-            </ListItemIcon>
-            <ListItemText
-              primary={<Typography variant="body1">Job</Typography>}
-            />
-            {openJob ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          <Collapse in={openJob} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton
-                sx={{ ml: 2 }}
-                onClick={() => {
-                  router.push("/c-dashboard/job");
-                }}
-              >
-                <ListItemIcon>
-                  <PendingIcon sx={{ color: "white" }} />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Typography variant="caption">Pending Jobs</Typography>
-                  }
-                />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ ml: 2 }}
-                onClick={() => {
-                  router.push("/c-dashboard/job/create-job");
-                }}
-              >
-                <ListItemIcon>
-                  <CreateIcon sx={{ color: "white" }} />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Typography variant="caption">Create New Job</Typography>
-                  }
-                />
-              </ListItemButton>
+            <ChangePassword router={router} />
+          </List>
+        </Collapse>
+        <ListItemButton sx={{ ml: 0 }} onClick={jobHandleClick}>
+          <ListItemIcon>
+            <WorkHistoryIcon sx={{ color: "white" }} />
+          </ListItemIcon>
+          <ListItemText
+            primary={<Typography variant="body1">Job</Typography>}
+          />
+          {openJob ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openJob} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ ml: 2 }}
+              onClick={() => {
+                router.push("/c-dashboard/job");
+              }}
+            >
+              <ListItemIcon>
+                <PendingIcon sx={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography variant="caption">Pending Jobs</Typography>
+                }
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ ml: 2 }}
+              onClick={() => {
+                router.push("/c-dashboard/job/create-job");
+              }}
+            >
+              <ListItemIcon>
+                <CreateIcon sx={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography variant="caption">Create New Job</Typography>
+                }
+              />
+            </ListItemButton>
 
-              <ListItemButton
-                sx={{ ml: 2 }}
-                onClick={() => {
-                  router.push("/c-dashboard/job/completed-jobs");
-                }}
-              >
-                <ListItemIcon>
-                  <AssignmentTurnedInIcon sx={{ color: "white" }} />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Typography variant="caption">Completed Jobs</Typography>
-                  }
-                />
-              </ListItemButton>
-            </List>
-          </Collapse>
-          <LiveChat router={router} />
-        </List>
+            <ListItemButton
+              sx={{ ml: 2 }}
+              onClick={() => {
+                router.push("/c-dashboard/job/completed-jobs");
+              }}
+            >
+              <ListItemIcon>
+                <AssignmentTurnedInIcon sx={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography variant="caption">Completed Jobs</Typography>
+                }
+              />
+            </ListItemButton>
+          </List>
+        </Collapse>
+        <LiveChat router={router} />
+      </List>
     </>
   );
 }

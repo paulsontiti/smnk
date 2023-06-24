@@ -14,6 +14,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 function FormikContainer({ formParams }: { formParams: FormParams }) {
   return (
     <Box
+      maxWidth={"98%"}
       sx={{
         p: {
           xs: "3rem 1rem",
@@ -94,8 +95,8 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
             >
               <CircularProgress color="inherit" />
             </Backdrop>
-            <pre>{JSON.stringify(values, null, 4)}</pre>
-            <pre>{JSON.stringify(errors, null, 4)}</pre>
+            {/* <pre>{JSON.stringify(values, null, 4)}</pre>
+            <pre>{JSON.stringify(errors, null, 4)}</pre> */}
           </Form>
         )}
       </Formik>
