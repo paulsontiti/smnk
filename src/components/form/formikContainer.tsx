@@ -3,7 +3,8 @@ import {
   Backdrop,
   Button,
   CircularProgress,
-  Typography,Box
+  Typography,
+  Box,
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import FormControl from "./formControl";
@@ -13,8 +14,15 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 function FormikContainer({ formParams }: { formParams: FormParams }) {
   return (
     <Box
-     sx={{p:{xs:'3rem 1rem',sm:'5rem',md:'5rem 15rem',lg:'5rem 25rem',xl:'5rem 25rem'}}}
-     
+      sx={{
+        p: {
+          xs: "3rem 1rem",
+          sm: "5rem",
+          md: "5rem 15rem",
+          lg: "5rem 25rem",
+          xl: "5rem 25rem",
+        },
+      }}
     >
       <Typography>{formParams.headerTitle}</Typography>
       <Formik
@@ -37,6 +45,7 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
                 checkedValue={field.checkedValue}
                 fieldToCheckAgainst={field.fieldToCheckAgainst}
                 values={values}
+                errors={errors}
                 touched={touched}
                 required={field.required}
                 helperText={field.helperText}
@@ -50,8 +59,9 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
                 )}
               />
             ))}
-          
-            <Box mt={'1rem'}
+
+            <Box
+              mt={"1rem"}
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -84,8 +94,8 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
             >
               <CircularProgress color="inherit" />
             </Backdrop>
-            {/* <pre>{JSON.stringify(values,null,4)}</pre>
-            <pre>{JSON.stringify(errors,null,4)}</pre> */}
+            <pre>{JSON.stringify(values, null, 4)}</pre>
+            <pre>{JSON.stringify(errors, null, 4)}</pre>
           </Form>
         )}
       </Formik>

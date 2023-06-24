@@ -16,30 +16,38 @@ function Notification() {
     setAnchorEl(null);
   };
   return (
-   <> <IconButton sx={{ color: "white" }} onClick={()=>{setOpenDrawer(true)}}>
-   <Badge color="error" variant="dot">
-     {true ? <NotificationsActiveIcon /> : <NotificationsIcon />}
-   </Badge>
- </IconButton>
-    <Drawer
-    anchor="top"
-    open={openDrawer}
-    onClose={() => {
-      setOpenDrawer(false);
-    }}
-  >
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        margin: "1rem .0rem",
-        padding: ".5rem",
-      }}
-    >
-      <InfoAlert message="Work in Progress"/> 
-    </Box>
-  </Drawer></>
+    <>
+      {" "}
+      <IconButton
+        sx={{ color: "white" }}
+        onClick={() => {
+          setOpenDrawer(true);
+        }}
+      >
+        <Badge color="error" variant="dot">
+          {true ? <NotificationsActiveIcon /> : <NotificationsIcon />}
+        </Badge>
+      </IconButton>
+      <Drawer
+        anchor="top"
+        open={openDrawer}
+        onClose={() => {
+          setOpenDrawer(false);
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "1rem .0rem",
+            padding: ".5rem",
+          }}
+        >
+          <InfoAlert message="No notifications" />
+        </Box>
+      </Drawer>
+    </>
   );
 }
 

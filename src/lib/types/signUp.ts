@@ -4,7 +4,8 @@ export type signUpDetails ={
     password:string
     confirmPassword:string
     type:'Skilled Worker' | 'Client'
-    typeClass:'Individual' | 'Company'
+    typeClass:'Individual' | 'Company',
+    tc:boolean
   }
  
   

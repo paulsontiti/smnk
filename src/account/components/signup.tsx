@@ -1,6 +1,6 @@
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { useRouter } from "next/router";
-import { object, ref, string } from "yup";
+import { boolean, object, ref, string } from "yup";
 import { signUpDetails } from "@/lib/types/signUp";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
@@ -11,6 +11,7 @@ import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import { AlertColor } from "@mui/material";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { getSWExtra } from "@/store/slices/swExtraSlice";
+import Link from "next/link";
 
 // program to generate random strings
 
@@ -27,10 +28,23 @@ function generateString(length: number) {
 
   return result;
 }
+const getSignUpDetails = () => {
+  if (typeof window !== "undefined") {
+    // Perform localStorage action
+    const valuesStr = localStorage.getItem("values");
+    if (valuesStr) {
+      const values = JSON.parse(JSON.stringify(valuesStr));
+      if (values !== "undefined") {
+        return JSON.parse(values) as signUpDetails;
+      }
+    }
+  }
+};
 export default function SignUp() {
-  const [verificationCode,setverificationCode] = useState('');
+  const [verificationCode, setverificationCode] = useState("");
 
   const router = useRouter();
+
   const { user, response, successful } = useSelector(
     (state: RootState) => state.users
   );
@@ -41,19 +55,22 @@ export default function SignUp() {
   //declare refs
   const snackBarRef = useRef();
 
-  const initialValues: signUpDetails = {
-    email: "",
-    emailVerificationCode: "",
-    phone: "",
-    password: "",
-    confirmPassword: "",
-    type: "Skilled Worker",
-    typeClass: "Individual",
-  };
+  const [initialValues, setInitiaValues] = useState<signUpDetails>(
+    getSignUpDetails() ?? {
+      email: "",
+      emailVerificationCode: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+      type: "Skilled Worker",
+      typeClass: "Individual",
+      tc: false,
+    }
+  );
 
-  useEffect(()=>{
-    setverificationCode(generateString(10))
-  },[])
+  useEffect(() => {
+    setverificationCode(generateString(10));
+  }, []);
 
   useEffect(() => {
     if (response) {
@@ -90,7 +107,6 @@ export default function SignUp() {
   //sign up submit handler
   const submitHandler = async (values: signUpDetails) => {
     await dispatch(signUp(values));
-    //console.log('')
   };
 
   //formik submit handler
@@ -127,6 +143,9 @@ export default function SignUp() {
     confirmPassword: string()
       .oneOf([ref("password"), ""], "Both Passwords must match")
       .required("Confirm Password is required"),
+    tc: boolean()
+      .isTrue("Please agree to Terms & Conditions")
+      .required("Agreeing to terms and conditions is required"),
   });
 
   const signUpFormControls: FormControls[] = [
@@ -166,6 +185,15 @@ export default function SignUp() {
         { label: "Individual", value: "Individual" },
         { label: "Company", value: "Company" },
       ],
+    },
+    {
+      name: "tc",
+      label: (
+        <Link href="/t&c">
+          by signing up, you agree to the terms and conditions
+        </Link>
+      ),
+      control: "switch",
     },
   ];
 

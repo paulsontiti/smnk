@@ -20,6 +20,7 @@ export const signUp = createAsyncThunk(
         data: values,
       });
       const data = await res.data;
+       localStorage.removeItem("values");
       return data;
     } catch (err: any) {
       return {

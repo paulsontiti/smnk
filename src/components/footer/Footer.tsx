@@ -186,7 +186,7 @@ export default function Footer() {
           level="body4"
           startDecorator={
             <Typography textColor="text.tertiary">
-              powered & sponsored by
+              Powered & Sponsored by
             </Typography>
           }
         >
