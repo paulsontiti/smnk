@@ -18,14 +18,14 @@ export default function AdvertCard({
   title,
   message,
   landingPage,
-  src,actionText
+  src,
+  actionText,
 }: {
-  
   title: string;
   message: string;
   src: string;
   landingPage: string;
-  actionText:string
+  actionText: string;
 }) {
   return (
     <Box
@@ -35,8 +35,8 @@ export default function AdvertCard({
       justifyContent={"center"}
       mb={2}
     >
-      <Card sx={{ maxWidth: '100%' }}>
-        <CardMedia sx={{ height: 100 }} image={src} title={title} />
+      <Card sx={{ maxWidth: "100%" }}>
+        <CardMedia sx={{ height: 400 }} image={src} title={title} />
         <CardContent>
           <Typography
             fontWeight={"bold"}
@@ -53,7 +53,8 @@ export default function AdvertCard({
         </CardContent>
         <CardActions>
           <Button
-            size="small" sx={{textTransform:'capitalize',color:'#04023B'}}
+            size="small"
+            sx={{ textTransform: "capitalize", color: "#04023B" }}
             onClick={() => {
               window.location.href = landingPage;
             }}

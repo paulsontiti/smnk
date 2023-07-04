@@ -25,36 +25,35 @@ export default function AddBankDetailsForm() {
   const snackBarRef = useRef();
 
   const { _id } = useSelector((state: RootState) => state.users.user);
-  const [initialValues,setInitialValues] = useState<BankDetails>({accountName: "",
-  accountNumber: "",
-  bankName: ""})
-
-
+  const [initialValues, setInitialValues] = useState<BankDetails>({
+    accountName: "",
+    accountNumber: "",
+    bankName: "",
+  });
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
-    setInitialValues(values)
+    setInitialValues(values);
     return new Promise((res) => {
       if (_id) {
-      formikHelpers
-      .validateForm()
-      .then(async (data: any) => {
-
+        formikHelpers
+          .validateForm()
+          .then(async (data: any) => {
             const snackbarParams: SnackBarParams = {
               setMsg,
               setColor,
               snackBarRef,
             };
-            const msg = await bankDetailsSubmitHandler(_id,
+            const msg = await bankDetailsSubmitHandler(
+              _id,
               values,
               router,
               snackbarParams
             );
             dispatch(updateSWExtra());
             res(msg);
-         
           })
-          
+
           .catch((err: any) => {
             setMsg(err.message);
             setColor("error");
@@ -63,15 +62,14 @@ export default function AddBankDetailsForm() {
             console.log("Error from formik ", err);
             res(err);
           });
-        } else {
-          setMsg("Invalid request, Please provide UserId");
-          setColor("error");
-          const refState = snackBarRef.current as any;
-          refState.handleClick();
-          res(msg)
-        }
-      });
-   
+      } else {
+        setMsg("Invalid request, Please provide UserId");
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+        res(msg);
+      }
+    });
   };
 
   const formParams: FormParams = {

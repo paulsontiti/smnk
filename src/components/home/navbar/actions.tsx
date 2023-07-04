@@ -17,13 +17,7 @@ export default function AccountActions() {
   return (
     <Box>
       {user && !user._id && (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <Box>
           {!matches && <LoginButton />}
           <SignUpButton matches={matches} />
         </Box>

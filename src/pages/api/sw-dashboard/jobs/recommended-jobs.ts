@@ -9,7 +9,11 @@ import SWExtra from "@/lib/model/swExtra";
 const recommendedJobs = async (info: any, userId: string) => {
   const swExtra = await SWExtra.findOne({userId},{services:true,_id:false})
   const services = swExtra && swExtra.services
-  const jobs: any[] = [];
+  const servCat1 = services ? services[0].category :''
+  const servCat2 = services ? (services[1] && services[1].category) :''
+  const servTitle1 = services ? services[0].title :''
+  const servTitle2 = services ? (services[1] && services[1].title) :''
+  let jobs: any[] = [];
   let jobDetails = [];
 
   if (info) {
@@ -19,46 +23,39 @@ const recommendedJobs = async (info: any, userId: string) => {
     );
 
 
-     const jobsByLocation = jobDetails.filter(
-      (d: any) => d.jobDetails.state === info.state
+     jobs = jobDetails.filter(
+      (d: any) =>{
+
+      if(d.jobDetails.state === info.state ){
+        return  d.jobDetails.category === servCat1 ||  d.jobDetails.category === servCat2 ||
+              d.jobDetails.category === servTitle1 ||
+              d.jobDetails.title === servTitle2
+      }else if(d.jobDetails.type === 'online'){
+       
+        return  d.jobDetails.category === servCat1 ||  d.jobDetails.category === servCat2 ||
+        d.jobDetails.category === servTitle1 ||
+        d.jobDetails.title === servTitle2
+      }
+      }
     );
-    jobs.push(jobsByLocation);
   }
- if(services){
-  if (services[0]) {
-    const jobsByService1 = jobDetails.filter(
-      (d) =>
-        d.jobDetails.category === services[0].category ||
-        d.jobDetails.category === services[0].title ||
-        d.jobDetails.title === services[0].title
-    );
-    jobs.push(jobsByService1);
-  }
-  if (services[1]) {
-    const jobsByService2 = jobDetails.filter(
-      (d) =>
-        d.jobDetails.category === services[1].category ||
-        d.jobDetails.category === services[1].title ||
-        d.jobDetails.title === services[1].title
-    );
-    jobs.push(jobsByService2);
-  }
- }
-  //filter out jobs that are the same
-  let filterredJobs:any[] = []
- jobs.flat().map((job)=>{
-   //check if the job exists in filterredJobs
-   if(!filterredJobs.find((j)=>j._id.toString() === job._id.toString())){
-    filterredJobs.push(job)
-     }
- })
- //map the filterredJobs and return a new job object{_id,jobDetails}
-  const newJobs = filterredJobs.map((job) => {
+
+ 
+ 
+//  console.log(jobs)
+//   let filterredJobs:any[] = []
+//  jobs.flat().map((job)=>{
+//    //check if the job exists in filterredJobs
+//    if(!filterredJobs.find((j)=>j._id.toString() === job._id.toString())){
+//     filterredJobs.push(job)
+//      }
+//  })
+//map the jobs and return a new job object{_id,jobDetails}
+const newJobs = jobs.map((job) => {
     
     const newJob = { _id: job._id, details: job.jobDetails};
     return newJob;
   });
-
   return newJobs;
 };
 

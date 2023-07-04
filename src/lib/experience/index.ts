@@ -30,6 +30,7 @@ export type Experience = {
   startDate: Date;
   endDate?: Date;
   onRole: boolean;
+  _id?:string
 };
 
 

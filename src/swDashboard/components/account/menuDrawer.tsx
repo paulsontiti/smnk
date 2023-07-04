@@ -1,23 +1,26 @@
 import * as React from "react";
 import { IconButton, Drawer, Box } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
-import LogoutSwitch from "@/components/switch/LogoutSwitch";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import ThemeContainer from "@/components/theme/ThemeContainer";
 import { useTheme } from "@mui/material/styles";
+import CancelFloatingActionButtons from "@/components/fab/Cancel";
+import { useRouter } from "next/router";
+
 export default function MenuDrawer({ children }: { children: JSX.Element }) {
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const router = useRouter();
+  const openDrawerForDashboardOnly =
+    router.pathname === "/sw-dashboard" || router.pathname === "/c-dashboard";
+  const [openDrawer, setOpenDrawer] = React.useState(
+    openDrawerForDashboardOnly ? true : false
+  );
   const theme = useTheme();
-  const { _id } = useSelector((state: RootState) => state.users.user);
   return (
     <div>
       <IconButton
         onClick={() => {
           setOpenDrawer(!openDrawer);
         }}
-        sx={{ color: theme.smnk[100] }}
+        sx={{ color: theme.smnk[1000] }}
       >
         <MenuIcon />
       </IconButton>
@@ -32,24 +35,16 @@ export default function MenuDrawer({ children }: { children: JSX.Element }) {
           padding: ".5rem",
         }}
       >
-        <ThemeContainer>
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            <IconButton
-              onClick={() => {
+        <Box display={"flex"} alignItems={"center"} justifyContent={"flex-end"}>
+          <IconButton onClick={() => {}} sx={{ color: theme.smnk[100] }}>
+            <CancelFloatingActionButtons
+              handleClick={() => {
                 setOpenDrawer(!openDrawer);
               }}
-              sx={{ color: theme.smnk[100] }}
-            >
-              <CloseIcon />
-            </IconButton>
-            {_id && <LogoutSwitch />}
-          </Box>
-          {children}
-        </ThemeContainer>
+            />
+          </IconButton>
+        </Box>
+        {children}
       </Drawer>
     </div>
   );

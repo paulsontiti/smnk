@@ -15,6 +15,8 @@ import axios from "axios";
 import { object, string } from "yup";
 import moment from "moment";
 import ChatHeader from "./ChatHeader";
+import { useEffect, useState } from "react";
+import LoadingAlert from "../alerts/Loading";
 
 const styles = {
   messageBlue: {
@@ -90,14 +92,19 @@ const styles = {
 };
 function SenderBox({ chat }: { chat: any }) {
   return (
-    <Box display={"flex"} alignItems={"center"} justifyContent={"flex-end"}>
+    <Box
+      display={"flex"}
+      alignItems={"flex-end"}
+      justifyContent={"flex-end"}
+      flexDirection={"column"}
+    >
       <Box sx={styles.messageOrange}>
         <Typography>{chat.chat}</Typography>
         <Typography
           align="right"
           sx={{ fontWeight: "bold", fontSize: ".7rem" }}
         >
-          {moment(chat.createdAt).format("DD/MM/YY HH:MM")}
+          {moment(chat.time).format("DD/MM/YYYY hh:mm")}
         </Typography>
       </Box>
     </Box>
@@ -113,7 +120,7 @@ function RecieverBox({ chat }: { chat: any }) {
           align="right"
           sx={{ fontWeight: "bold", fontSize: ".7rem" }}
         >
-          {moment(chat.createdAt).format("DD/MM/YY HH:MM")}
+          {moment(chat.time).format("DD/MM/YYYY hh:mm")}
         </Typography>
       </Box>
     </Box>
@@ -226,16 +233,89 @@ export const ChatGround = ({
   chats,
   senderId,
   receiverId,
-  isAdmin,
 }: {
   receiverId: string;
   senderId: string;
-  chats: any[];
-  isAdmin:boolean
+  chats: any;
 }) => {
+  const [sortedChats, setSortedChats] = useState<any | null>(null);
+  useEffect(() => {
+    if (chats) {
+      let senderChats;
+      if (chats.sender) {
+        senderChats = chats.sender.me.map((chat: any) => {
+          return {
+            type: "sender",
+            ...chat,
+          };
+        });
+      }
+
+      let receiverChats;
+      if (chats.receiver) {
+        receiverChats = chats.receiver.me.map((chat: any) => {
+          return {
+            type: "receiver",
+            ...chat,
+          };
+        });
+      }
+
+      if (senderChats && receiverChats) {
+        setSortedChats(
+          senderChats
+            .concat(receiverChats)
+            .flat()
+            .sort(function (a: any, b: any) {
+              let x = a.time.toLowerCase();
+              let y = b.time.toLowerCase();
+              if (x < y) {
+                return -1;
+              }
+              if (x > y) {
+                return 1;
+              }
+              return 0;
+            })
+        );
+        return;
+      }
+      if (senderChats) {
+        setSortedChats(
+          senderChats.flat().sort(function (a: any, b: any) {
+            let x = a.time.toLowerCase();
+            let y = b.time.toLowerCase();
+            if (x < y) {
+              return -1;
+            }
+            if (x > y) {
+              return 1;
+            }
+            return 0;
+          })
+        );
+        return;
+      }
+      if (receiverChats) {
+        setSortedChats(
+          receiverChats.flat().sort(function (a: any, b: any) {
+            let x = a.time.toLowerCase();
+            let y = b.time.toLowerCase();
+            if (x < y) {
+              return -1;
+            }
+            if (x > y) {
+              return 1;
+            }
+            return 0;
+          })
+        );
+      }
+    }
+  }, [chats]);
   return (
     <Paper sx={{ mt: "1rem" }}>
-      <ChatHeader receiverId={receiverId} isChatRoom={false}/>
+      <ChatHeader receiverId={receiverId} isChatRoom={false} />
       <Box
         sx={{ backgroundColor: "whitesmoke" }}
         pt={3}
@@ -245,15 +325,17 @@ export const ChatGround = ({
         mr={1}
         ml={1}
       >
-        {chats.map((chat: any, i) => (
-          <Box key={i}>
-            {chat.senderId === senderId ? (
-              <SenderBox chat={chat} />
-            ) : (
-              <RecieverBox chat={chat} />
-            )}
-          </Box>
-        ))}
+        {sortedChats &&
+          sortedChats.map((chat: any) => (
+            <Box key={chat._id}>
+              {chat.type === "sender" ? (
+                <SenderBox chat={chat} />
+              ) : (
+                <RecieverBox chat={chat} />
+              )}
+            </Box>
+          ))}
+
         <CardActions>
           <SendBox senderId={senderId} receiverId={receiverId} />
         </CardActions>

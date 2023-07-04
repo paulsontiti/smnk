@@ -13,6 +13,7 @@ const swExtraSchema = new Schema({
     catalog:[
         {
             filename:String,
+            contentType:String,
             title:String,
             description:String
         }

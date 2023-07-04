@@ -1,5 +1,4 @@
 import dbConnect from '../../../lib/mongoose'
-import IndividualPersonalInfo from '../../../lib/model/individualPersonalInfo'
 import User from '@/lib/model/userModel'
 
 export default async function handler(req:any,res:any){

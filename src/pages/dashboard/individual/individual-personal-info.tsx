@@ -13,10 +13,11 @@ import { getUserProfile } from "@/lib/utils/user";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import InfoAlert from "@/components/alerts/Info";
+import LoadingAlert from "@/components/alerts/Loading";
 
 export default function IndividualPersonalInfo() {
   const router = useRouter();
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<any | null>(null);
 
   const { _id } = useSelector((state: RootState) => state.users.user);
 
@@ -26,8 +27,8 @@ export default function IndividualPersonalInfo() {
       setData(res.data);
     })();
   });
-
-  if (!data) return <InfoAlert message="No personal Info" />;
+  if (!data) return <LoadingAlert />;
+  if (!data.firstName) return <InfoAlert message="No personal Info" />;
   return (
     <Box>
       <Card>

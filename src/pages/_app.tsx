@@ -74,7 +74,7 @@ export const theme = createTheme({
   smnk: smnkColors,
   palette: {
     primary: {
-      main: smnkColors[700],
+      main: smnkColors[1200],
       light: smnkColors[100],
       dark: smnkColors[1200],
     },

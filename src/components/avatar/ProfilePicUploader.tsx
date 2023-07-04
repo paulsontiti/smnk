@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Avatar, IconButton } from "@mui/material";
-import {useTheme} from '@mui/material/styles'
-import UploadIcon from "@mui/icons-material/Upload";
+import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import axios from "axios";
 import { updateUser } from "@/store/slices/userSlice";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { LoadingButton } from "@mui/lab";
+import UploadBottomNavigation from "../bottomNavigation/UploadBottomNavigation";
 
 function ProfilePicUploader() {
   const { _id } = useSelector((state: RootState) => state.users.user);
-  const theme = useTheme()
+  const theme = useTheme();
   const [file, setFile] = useState<any>();
   const [displayFile, setDisplayFile] = useState();
   const [uploading, setUploading] = useState(false);
@@ -31,7 +31,7 @@ function ProfilePicUploader() {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    setUploading(true)
+    setUploading(true);
     try {
       if (_id && file) {
         const formData = new FormData();
@@ -44,8 +44,8 @@ function ProfilePicUploader() {
           data: formData,
         });
         const data = await res.data;
-        
-        setUploading(false)
+
+        setUploading(false);
         setFile("");
         //get user from local storage
         let user = JSON.parse(
@@ -58,7 +58,7 @@ function ProfilePicUploader() {
         //save the new user details in the localstorage
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(updateUser());
-      } 
+      }
     } catch (err: any) {
       console.log(err);
       return false;
@@ -75,11 +75,14 @@ function ProfilePicUploader() {
               alt="image to upload"
               sx={{ width: 80, height: 80 }}
             />
-        {uploading ? <LoadingButton
+            {uploading ? (
+              <LoadingButton
                 loading={uploading}
                 loadingPosition="start"
-              ></LoadingButton> : <UploadIcon sx={{ color: theme.smnk[1200] }} />}
-             
+              ></LoadingButton>
+            ) : (
+              <UploadBottomNavigation label="Upload" />
+            )}
           </>
         )}
       </IconButton>
@@ -91,7 +94,7 @@ function ProfilePicUploader() {
           accept="image"
           type="file"
         />
-        {!file && <AddAPhotoIcon sx={{ color:theme.smnk[1200] }} />}
+        {!file && <AddAPhotoIcon sx={{ color: theme.smnk[1200] }} />}
       </IconButton>
     </form>
   );

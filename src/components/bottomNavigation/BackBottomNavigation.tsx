@@ -6,15 +6,15 @@ import BackToHistoryFloatingActionButtons from "../fab/BackFloatingButton";
 
 export default function BackToHistoryBottomNavigation() {
   const [value, setValue] = useState(0);
-
   return (
-    <Box position={"fixed"} bottom={100} right={5}>
+    <Box position={"fixed"} bottom={100} right={5} zIndex={99}>
       <BottomNavigation
         showLabels
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
         }}
+        sx={{ bgcolor: "inherit" }}
       >
         <BottomNavigationAction
           label="Go Back"

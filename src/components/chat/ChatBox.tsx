@@ -4,10 +4,10 @@ import { Typography } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import ReceiverChatAccordion from "../accordion/ReceiverChatAccordion";
 import ErrorAlert from "../alerts/Error";
 import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
+import ChatHeader from "./ChatHeader";
 
 const ChatBox = () => {
   const { _id } = useSelector((state: RootState) => state.users.user);
@@ -22,39 +22,47 @@ const ChatBox = () => {
           url: `${process.env.SMNK_URL}/api/chat/${_id}`,
         });
         const data = res.data;
-        setChats(data);
+        setChats(
+          data.sort(function (a: any, b: any) {
+            let x = a.date.toLowerCase();
+            let y = b.date.toLowerCase();
+            if (x < y) {
+              return 1;
+            }
+            if (x > y) {
+              return -1;
+            }
+            return 0;
+          })
+        );
       } catch (err) {
-        console.log(err)
-       setError(err)
+        console.log(err);
+        setError(err);
       }
     })();
   }, [_id]);
-
-  if(error) return <ErrorAlert message="An Error occurred while loading your chats"/>
-  if(!chats) return <LoadingAlert/>
-  if(chats && chats.length < 1)  return(
-    <Container>
-    <Typography variant="h6">Chat Room</Typography>
-    <InfoAlert message="No Chats"/>
-    </Container>
-  )
+  if (error)
+    return <ErrorAlert message="An Error occurred while loading your chats" />;
+  if (!chats) return <LoadingAlert />;
+  if (chats && chats.length < 1)
+    return (
+      <Container>
+        <Typography variant="h6">Chat Room</Typography>
+        <InfoAlert message="No Chats" />
+      </Container>
+    );
   return (
     <Container sx={{ mt: "1rem" }}>
       <Typography variant="h6">Chat Room</Typography>
 
       {chats &&
-        chats.filter((chat)=> chat).map((chat: any, i) =>
-          //senderId was swapped here with the current user and the receiverId for the chat sender
-          //this is for the correct working of the ChatsAccordion.
-          //At the component that displays chats senderId is the receiver while the receiverId is the sender
-
-          chat && chat.senderId ? (
-            //this user is the sender for chats while the chat.sender is the receiver
-            <ReceiverChatAccordion receiverId={chat && chat.senderId} key={i}/>
-          ) : (
-            <ReceiverChatAccordion receiverId={chat && chat.receiverId} key={i}/>
-          )
-        )}
+        chats.map((chat) => (
+          <ChatHeader
+            receiverId={chat.userId}
+            isChatRoom={true}
+            key={chat.userId}
+          />
+        ))}
     </Container>
   );
 };

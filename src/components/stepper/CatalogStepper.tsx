@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
-import {Box } from "@mui/material";
+import { Box } from "@mui/material";
 import MobileStepper from "@mui/material/MobileStepper";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
@@ -38,13 +38,21 @@ function CatalogStepper() {
   };
   if (!catalog || catalog.length < 1)
     return (
-      <Box mt={5} ml={2} >
-        <InfoAlert message="No Catalog. Create one" /> <Button size="small" variant="outlined"
-        onClick={()=>{
-          router.push('/dashboard/catalog/add')
-        }}
-        sx={{
-          textTransform:'capitalize',m:2        }}>Create Catalog</Button>
+      <Box mt={5} ml={2}>
+        <InfoAlert message="No Catalog. Create one" />{" "}
+        <Button
+          size="small"
+          variant="outlined"
+          onClick={() => {
+            router.push("/dashboard/catalog/add");
+          }}
+          sx={{
+            textTransform: "capitalize",
+            m: 2,
+          }}
+        >
+          Create Catalog
+        </Button>
       </Box>
     );
   return (
@@ -54,13 +62,15 @@ function CatalogStepper() {
         elevation={0}
         sx={{
           display: "flex",
-          alignItems: "center",justifyContent:'center',
+          alignItems: "center",
+          justifyContent: "center",
           height: 50,
           pl: 2,
           bgcolor: "background.default",
         }}
       >
-        <Typography>{catalog[activeStep].title ?? ''}</Typography></Paper>
+        <Typography>{catalog[activeStep].title ?? ""}</Typography>
+      </Paper>
       <AutoPlaySwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={activeStep}
@@ -73,9 +83,11 @@ function CatalogStepper() {
             <Box key={cat.filename}>
               {Math.abs(activeStep - index) <= 2 ? (
                 <CatalogCard
-                  src={`/api/multer/catalog/${cat.filename}`}
+                  filename={cat.filename}
                   title={cat.title}
-                  description={cat.description} index={index}
+                  description={cat.description}
+                  index={index}
+                  contentType={cat.contentType ?? ""}
                 />
               ) : null}
             </Box>
@@ -111,9 +123,12 @@ function CatalogStepper() {
           </Button>
         }
       />
-      <AddBottomNavigation handleClick={()=>{
-        router.push('/dashboard/catalog/add')
-      }} label="Add To Catalog"/>
+      <AddBottomNavigation
+        handleClick={() => {
+          router.push("/dashboard/catalog/add");
+        }}
+        label="Add To Catalog"
+      />
     </Box>
   );
 }

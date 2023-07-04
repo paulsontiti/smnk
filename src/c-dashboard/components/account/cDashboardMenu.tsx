@@ -15,13 +15,14 @@ import {
   LiveChat,
   Verification,
 } from "@/swDashboard/components/account/swDashboardMenu";
-import { ListItemIcon, Typography } from "@mui/material";
+import { ListItemIcon, Typography, Box } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import PendingIcon from "@mui/icons-material/Pending";
 import CreateIcon from "@mui/icons-material/Create";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import HomeIcon from "@mui/icons-material/Home";
+import LogoutSwitch from "@/components/switch/LogoutSwitch";
 
 export default function CDashboardMenu() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -146,7 +147,8 @@ export default function CDashboardMenu() {
             </ListItemButton>
           </List>
         </Collapse>
-        <LiveChat router={router} />
+        {/* <LiveChat router={router} /> */}
+        <Box ml={2}> {user._id && <LogoutSwitch />}</Box>
       </List>
     </>
   );

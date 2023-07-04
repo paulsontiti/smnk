@@ -18,17 +18,20 @@ export default function ClientJobsComponent() {
   const getDate = (date: Date | null) => {
     return date && date.toString().slice(0, 10);
   };
-
   if (error) return <ErrorAlert />;
   if (!data) return <LoadingAlert />;
-  if (data.length < 1)
-    return <>
-
-    <InfoAlert message="No Job Available. Please Create A Job" />
-    <AddBottomNavigation label="Create Job" handleClick={()=>{
-      router.push('/c-dashboard/job/create-job')
-    }}/>
-  </>
+  if (!Array.isArray(data) || data.length < 1)
+    return (
+      <>
+        <InfoAlert message="No Job Available. Please Create A Job" />
+        <AddBottomNavigation
+          label="Create Job"
+          handleClick={() => {
+            router.push("/c-dashboard/job/create-job");
+          }}
+        />
+      </>
+    );
 
   return (
     <Box>
@@ -38,7 +41,8 @@ export default function ClientJobsComponent() {
       {data.map((job: any) => {
         return <JobDetailsAccordion key={job._id} job={job} />;
       })}
-      <AddBottomNavigation label="Create A Job"
+      <AddBottomNavigation
+        label="Create A Job"
         handleClick={() => {
           router.push("/c-dashboard/job/create-job");
         }}

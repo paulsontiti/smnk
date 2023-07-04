@@ -11,6 +11,9 @@ import Notification from "../dashboard/Notification";
 import DP from "../dashboard/dp";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
+import { MenuBarLogo } from "../home/navbar/navBarDrawer";
+import { AppBarLogo } from "./HomeLogoutAppBar";
+import DashBoardNotification from "../dashboard/DashBoardNotification";
 
 export default function DashBoardAppBar() {
   //retrive user from redux state
@@ -24,7 +27,6 @@ export default function DashBoardAppBar() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          bgcolor: "#04023B",
         }}
       >
         <Grid container>
@@ -36,11 +38,7 @@ export default function DashBoardAppBar() {
             justifyContent={"center"}
           >
             <MenuDrawer>
-              <Box
-                bgcolor={theme.smnk[1200]}
-                color={theme.smnk[300]}
-                minHeight={"100vh"}
-              >
+              <Box color={theme.smnk[1000]} minHeight={"100vh"}>
                 <DP />
 
                 {user && user.type === "client" ? (
@@ -58,16 +56,17 @@ export default function DashBoardAppBar() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Image
+            {/* <Image
               alt="SMNK Nig Ltd"
-              src="/assets/smnk.png"
+              src="/assets/smnk_logo.jpg"
               width={50}
               height={50}
-              style={{ borderRadius: "50%", marginRight: ".5rem" }}
+              style={{ marginRight: ".5rem" }}
               onClick={() => {
                 router.push("/");
               }}
-            />
+            /> */}
+            <AppBarLogo />
           </Grid>
           <Grid
             item
@@ -85,7 +84,7 @@ export default function DashBoardAppBar() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Notification />
+            <DashBoardNotification />
           </Grid>
         </Grid>
       </Toolbar>

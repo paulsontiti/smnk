@@ -1,19 +1,20 @@
 import * as React from "react";
-import { IconButton, Drawer, Box } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { IconButton, Drawer, Box, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NavbarMenuItem from "./navbarMenu";
-
+import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
 import LoginButton from "./loginButton";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
-import LogoutSwitch from "@/components/switch/LogoutSwitch";
-
+import { theme } from "@/pages/_app";
+import CancelFloatingActionButtons from "@/components/fab/Cancel";
 export default function NavbarDrawer() {
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const router = useRouter();
+  const [openDrawer, setOpenDrawer] = React.useState(
+    router.pathname === "/" ? true : false
+  );
   const { _id } = useSelector((state: RootState) => state.users.user);
-  const theme = useTheme();
   return (
     <div>
       <IconButton
@@ -23,7 +24,7 @@ export default function NavbarDrawer() {
         size="large"
         edge="start"
         aria-label="menu"
-        sx={{ mr: 2, color: "white" }}
+        sx={{ mr: 2, color: theme.smnk[1000] }}
       >
         <MenuIcon />
       </IconButton>
@@ -38,26 +39,49 @@ export default function NavbarDrawer() {
           padding: ".5rem",
         }}
       >
-        <Box bgcolor={theme.smnk[1200]} color={theme.smnk[300]}>
+        <Box>
           <Box
             display={"flex"}
             alignItems={"center"}
             justifyContent={"space-between"}
           >
-            {_id ? <LogoutSwitch /> : <LoginButton />}
+            {!_id && <LoginButton />}
 
             <IconButton
               onClick={() => {
                 setOpenDrawer(!openDrawer);
               }}
-              sx={{ color: "white" }}
+              sx={{ color: theme.smnk[1000] }}
             >
-              <CloseIcon />
+              <CancelFloatingActionButtons handleClick={() => {}} />
             </IconButton>
           </Box>
+          {/* <MenuBarLogo /> */}
           <NavbarMenuItem />
         </Box>
       </Drawer>
     </div>
+  );
+}
+export function MenuBarLogo() {
+  return (
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      mb={3}
+    >
+      <Typography
+        fontFamily={`'Bungee Shade', cursive`}
+        fontWeight={"bold"}
+        fontSize={"2rem"}
+      >
+        SMNK
+      </Typography>
+      <Typography fontFamily={`'Bungee Spice', cursive`} fontSize={".5rem"}>
+        we connect,you collect
+      </Typography>
+    </Box>
   );
 }

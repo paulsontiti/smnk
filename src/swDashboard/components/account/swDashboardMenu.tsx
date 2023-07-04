@@ -15,7 +15,7 @@ import BankDetailsLink from "./bank-details/bankDetailsLink";
 import { useRouter } from "next/router";
 import RecommendedJobsLink from "@/components/dashboard/RecommendedJobsLink";
 import VisibilityLink from "../visibility/VisibilityLink";
-import { ListItemIcon, Badge } from "@mui/material";
+import { ListItemIcon, Box } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -32,8 +32,11 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { useTheme } from "@mui/material/styles";
 import CollectionsIcon from "@mui/icons-material/Collections";
+import LogoutSwitch from "@/components/switch/LogoutSwitch";
+import { theme } from "@/pages/_app";
 
 export default function SWDashboardMenu() {
+  const { _id } = useSelector((state: RootState) => state.users.user);
   const theme = useTheme();
   const primary = theme.smnk[300];
   const {
@@ -65,7 +68,7 @@ export default function SWDashboardMenu() {
         maxWidth: 360,
         pl: 0,
         overflowY: "auto",
-        color: primary,
+        color: theme.smnk[700],
       }}
       component="nav"
       aria-labelledby="nested-list-subheader"
@@ -77,13 +80,13 @@ export default function SWDashboardMenu() {
         }}
       >
         <ListItemIcon>
-          <HomeIcon sx={{ color: "white" }} />
+          <HomeIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
         <ListItemText primary={<Typography variant="body1">Home</Typography>} />
       </ListItemButton>
       <ListItemButton sx={{ ml: 0 }} onClick={accountHandleClick}>
         <ListItemIcon>
-          <AccountCircleIcon sx={{ color: "white" }} />
+          <AccountCircleIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
         <ListItemText
           primary={<Typography variant="body1">Account</Typography>}
@@ -94,7 +97,7 @@ export default function SWDashboardMenu() {
         <List component="div">
           <ListItemButton onClick={profileHandleClick} sx={{ ml: 1 }}>
             <ListItemIcon>
-              <PersonIcon sx={{ color: "white" }} />
+              <PersonIcon sx={{ color: theme.smnk[1000] }} />
             </ListItemIcon>
 
             <ListItemText
@@ -125,7 +128,7 @@ export default function SWDashboardMenu() {
       </Collapse>
       <ListItemButton sx={{ ml: 0 }} onClick={jobHandleClick}>
         <ListItemIcon>
-          <WorkHistoryIcon sx={{ color: "white" }} />
+          <WorkHistoryIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
         <ListItemText primary={<Typography variant="body1">Job</Typography>} />
         {openJob ? <ExpandLess /> : <ExpandMore />}
@@ -142,10 +145,10 @@ export default function SWDashboardMenu() {
           >
             {" "}
             <ListItemIcon>
-              <StayCurrentPortraitIcon sx={{ color: "white" }} />
+              <StayCurrentPortraitIcon sx={{ color: theme.smnk[1000] }} />
             </ListItemIcon>
             <ListItemText
-              primary={<Typography variant="body2">Current</Typography>}
+              primary={<Typography variant="body2">Current Job</Typography>}
             />
           </ListItemButton>
           <ListItemButton
@@ -155,15 +158,16 @@ export default function SWDashboardMenu() {
             }}
           >
             <ListItemIcon>
-              <AssignmentTurnedInIcon sx={{ color: "white" }} />
+              <AssignmentTurnedInIcon sx={{ color: theme.smnk[1000] }} />
             </ListItemIcon>
             <ListItemText
-              primary={<Typography variant="body2">Done</Typography>}
+              primary={<Typography variant="body2">Jobs Done</Typography>}
             />
           </ListItemButton>
         </List>
       </Collapse>
-      <LiveChat router={router} />
+      {/* <LiveChat router={router} /> */}
+      <Box ml={2}> {_id && <LogoutSwitch />}</Box>
     </List>
   );
 }
@@ -177,7 +181,7 @@ export function ChangePassword({ router }: any) {
     >
       {" "}
       <ListItemIcon>
-        <SettingsIcon sx={{ color: "white" }} />
+        <SettingsIcon sx={{ color: theme.smnk[1000] }} />
       </ListItemIcon>
       <ListItemText
         primary={<Typography variant="caption">Change Password</Typography>}
@@ -193,7 +197,7 @@ export function LiveChat({ router }: any) {
       onClick={() => router.push(`/chat/${process.env.CUSTOMER_SERVICE_ID}`)}
     >
       <ListItemIcon>
-        <ContactSupportIcon sx={{ color: "white" }} />
+        <ContactSupportIcon sx={{ color: theme.smnk[1000] }} />
       </ListItemIcon>
       <ListItemText
         primary={<Typography variant="body1">Live Chat</Typography>}
@@ -211,7 +215,7 @@ export function Catalog({ router }: any) {
     >
       {" "}
       <ListItemIcon>
-        <CollectionsIcon sx={{ color: "white" }} />
+        <CollectionsIcon sx={{ color: theme.smnk[1000] }} />
       </ListItemIcon>
       <ListItemText
         primary={<Typography variant="caption">Catalog</Typography>}
@@ -237,7 +241,7 @@ export function Verification({
       <ListItemButton sx={{ ml: 2 }} onClick={openVerificationHandleClick}>
         {" "}
         <ListItemIcon>
-          <WorkspacePremiumIcon sx={{ color: "white" }} />
+          <WorkspacePremiumIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>{" "}
         <ListItemText
           primary={<Typography variant="caption">Verification</Typography>}
@@ -253,7 +257,7 @@ export function Verification({
             }}
           >
             <ListItemIcon>
-              <PermIdentityIcon sx={{ color: "white" }} />
+              <PermIdentityIcon sx={{ color: theme.smnk[1000] }} />
             </ListItemIcon>
             <ListItemText
               primary={<Typography variant="caption">ID Photo</Typography>}
@@ -266,7 +270,7 @@ export function Verification({
             }}
           >
             <ListItemIcon>
-              <AdminPanelSettingsIcon sx={{ color: "white" }} />
+              <AdminPanelSettingsIcon sx={{ color: theme.smnk[1000] }} />
             </ListItemIcon>
             <ListItemText
               primary={<Typography variant="caption">Camera Photo</Typography>}

@@ -9,23 +9,29 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { LoadingButton } from "@mui/lab";
 import { User } from "@/lib/types/userInfo";
 import SnackbarComponent from "../snackbar/SnackBar";
-import { useRouter } from "next/router";
 import { AlertColor } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { updateUser } from "@/store/slices/userSlice";
+import InfoAlert from "../alerts/Info";
+import SuccessAlert from "../alerts/Success";
 
 function IDCardUploader() {
-  const { _id } = useSelector((state: RootState) => state.users.user);
+  const { _id, verification } = useSelector(
+    (state: RootState) => state.users.user
+  );
   const [file, setFile] = useState<any>();
   const [displayFile, setDisplayFile] = useState("");
   const [uploading, setUploading] = useState(false);
-  const theme = useTheme();
   const dispatch = useDispatch<AppDispatch>();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-  const router = useRouter();
   //declare refs
   const snackBarRef = useRef();
+
+  let idCardUrl, kycVerified;
+  if (verification) {
+    idCardUrl = verification.idCardUrl;
+    kycVerified = verification.kycVerified;
+  }
 
   const handleChange = (e: any) => {
     const file = e.target.files[0];
@@ -71,9 +77,6 @@ function IDCardUploader() {
           setUploading(false);
           setFile("");
           dispatch(updateUser());
-          setTimeout(() => {
-            router.push("/sw-dashboard/verification");
-          }, 6000);
         } else {
           setMsg("An Error occurred. Id Card not uploaded. Please try again");
           setColor("error");
@@ -88,8 +91,32 @@ function IDCardUploader() {
   };
 
   return (
-    <Container sx={{ mt: "5rem" }}>
+    <Container sx={{ mt: "2rem" }}>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+
+      {kycVerified ? (
+        <SuccessAlert message="Your ID Card is verified" />
+      ) : (
+        <>
+          {idCardUrl && (
+            <Box
+              mb={2}
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              flexDirection={"column"}
+            >
+              <Image
+                src={`/api/multer/id-card/${idCardUrl}`}
+                width={250}
+                height={250}
+                alt="ID Card Upload"
+              />
+              <InfoAlert message="ID Card is being verified...." />
+            </Box>
+          )}
+        </>
+      )}
       <form onSubmit={submitHandler} encType="multipart/form-data">
         <IconButton type="submit" color="primary">
           {file && (
@@ -144,7 +171,9 @@ function IDCardUploader() {
             flexDirection={"column"}
           >
             <AddAPhotoIcon />
-            <Typography variant="caption">Select Your ID card</Typography>
+            <Typography variant="caption">
+              {idCardUrl ? "Change ID Card" : "Select Your ID card"}
+            </Typography>
           </Box>
         </IconButton>
       </form>

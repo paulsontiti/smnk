@@ -25,7 +25,7 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
         },
       }}
     >
-      <Typography>{formParams.headerTitle}</Typography>
+      <Typography mb={2}>{formParams.headerTitle}</Typography>
       <Formik
         validationSchema={formParams.formObject.validationSchema}
         initialValues={formParams.formObject.initialValues}

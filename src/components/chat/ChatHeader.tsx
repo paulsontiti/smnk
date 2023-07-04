@@ -2,7 +2,6 @@ import { Box, Typography, Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getUserInfo, getUserProfile } from "@/lib/utils/user";
 import { useRouter } from "next/router";
-import BackToChatRoomFloatingActionButtons from "../fab/BackToChatRoomFloatingActionButtons";
 
 function ChatHeader({
   receiverId,
@@ -55,7 +54,6 @@ function ChatHeader({
           {name}
         </Typography>
       </Box>
-      {!isChatRoom && <BackToChatRoomFloatingActionButtons/>}
     </Box>
   );
 }

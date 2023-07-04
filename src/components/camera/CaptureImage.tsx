@@ -11,6 +11,8 @@ import SnackbarComponent from "../snackbar/SnackBar";
 import { useRouter } from "next/router";
 import { User } from "@/lib/types/userInfo";
 import { updateUser } from "@/store/slices/userSlice";
+import SuccessAlert from "../alerts/Success";
+import InfoAlert from "../alerts/Info";
 
 const videoConstraints = {
   width: 250,
@@ -21,7 +23,15 @@ export default function CaptureCameraImage() {
   const webcamRef = useRef<Webcam | null>(null);
   const [url, setUrl] = useState("");
   const [uploading, setUploading] = useState(false);
-  const { _id } = useSelector((state: RootState) => state.users.user);
+  const { _id, verification } = useSelector(
+    (state: RootState) => state.users.user
+  );
+
+  let capturedPhotoUrl, kycVerified;
+  if (verification) {
+    capturedPhotoUrl = verification.capturedPhotoUrl;
+    kycVerified = verification.kycVerified;
+  }
   const dispatch = useDispatch<AppDispatch>();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
@@ -64,9 +74,6 @@ export default function CaptureCameraImage() {
           setUploading(false);
           setUrl("");
           dispatch(updateUser());
-          setTimeout(() => {
-            router.push("/sw-dashboard/verification");
-          }, 6000);
         } else {
           setMsg(data.message);
           setColor("error");
@@ -87,44 +94,72 @@ export default function CaptureCameraImage() {
       alignItems={"center"}
       justifyContent={"center"}
       mt={2}
+      mb={5}
     >
-      <Webcam
-        audio={false}
-        height={250}
-        ref={webcamRef}
-        width={"98%"}
-        screenshotFormat="image/jpeg"
-        videoConstraints={videoConstraints}
-      />
-      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <CaptureBottomNavigation label="Capture" handleClick={capturePhoto} />
-      {url && (
-        <Container
-          sx={{
-            mt: "1rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <Typography>Captured Photo Preview</Typography>
-          <Image
-            style={{ marginTop: ".5rem" }}
-            src={url}
-            width={250}
+      {kycVerified ? (
+        <SuccessAlert message="Your Face verification is successfull" />
+      ) : (
+        <>
+          {capturedPhotoUrl && (
+            <Box
+              mb={2}
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              flexDirection={"column"}
+            >
+              <Image
+                src={capturedPhotoUrl}
+                width={250}
+                height={250}
+                alt="ID Card Upload"
+              />
+              <InfoAlert message="Face verification in progress...." />
+            </Box>
+          )}
+          <Webcam
+            audio={false}
             height={250}
-            alt="verification capture"
+            ref={webcamRef}
+            width={"98%"}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
           />
-          <DeleteUploadImageBottomNavigation
-            deleteHandleClick={() => {
-              setUrl("");
-            }}
-            uploadHandleClick={uploadPhotoHandler}
-            uploading={uploading}
+          <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+          <CaptureBottomNavigation
+            label={capturedPhotoUrl ? "Take a new shot" : "Capture"}
+            handleClick={capturePhoto}
           />
-        </Container>
+          {url && (
+            <Container
+              sx={{
+                mt: "1rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <Typography>Captured Photo Preview</Typography>
+              <Image
+                style={{ marginTop: ".5rem" }}
+                src={url}
+                width={250}
+                height={250}
+                alt="verification capture"
+              />
+              <DeleteUploadImageBottomNavigation
+                deleteHandleClick={() => {
+                  setUrl("");
+                }}
+                uploadHandleClick={uploadPhotoHandler}
+                uploading={uploading}
+              />
+            </Container>
+          )}
+        </>
       )}
+      {}
     </Box>
   );
 }

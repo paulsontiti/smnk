@@ -28,11 +28,11 @@ multerHandler
       gfs.collection("dps");
     });
     const { userId, title, description } = req.body;
-    const { filename } = req.file;
+    const { filename,contentType } = req.file;
     try {
       const extra = await SWExtra.findOne({ userId });
       if (extra) {
-        extra.catalog.push({ filename, title, description });
+        extra.catalog.push({ filename, title, description,contentType });
         await extra.save();
         res
           .status(201)

@@ -1,6 +1,6 @@
 import { createSetFromArray, fetchJobs } from "@/lib/search";
 import React, { useEffect, useState } from "react";
-import { Container, Typography } from "@mui/material";
+import { Typography, Container } from "@mui/material";
 import JobsByCategory from "./JobsByCategory";
 import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
@@ -26,6 +26,7 @@ function AllJobs() {
       >
         All Jobs By Categories
       </Typography>
+
       {categories.map((category, i) => (
         <JobsByCategory category={category} key={i} />
       ))}

@@ -6,7 +6,8 @@ import { RootState } from "@/store";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { ListItemIcon, Typography } from "@mui/material";
-import RecommendIcon from '@mui/icons-material/Recommend';
+import RecommendIcon from "@mui/icons-material/Recommend";
+import { theme } from "@/pages/_app";
 
 function RecommendedJobsLink() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -41,8 +42,13 @@ function RecommendedJobsLink() {
       onClick={() => {
         router.push("/dashboard/job/recommended-jobs");
       }}
-    ><ListItemIcon><RecommendIcon sx={{color:"white"}}/></ListItemIcon>
-        <ListItemText primary={<Typography variant="body2">Recommended</Typography>} />
+    >
+      <ListItemIcon>
+        <RecommendIcon sx={{ color: theme.smnk[1000] }} />
+      </ListItemIcon>
+      <ListItemText
+        primary={<Typography variant="body2">Recommended Jobs</Typography>}
+      />
     </ListItemButton>
   );
 }

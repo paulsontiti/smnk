@@ -3,8 +3,13 @@ import React from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import InfoAlert from "../alerts/Info";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
+import { theme } from "@/pages/_app";
 
-function Notification() {
+function HomeNotification() {
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -17,17 +22,40 @@ function Notification() {
   };
   return (
     <>
-      {" "}
-      <IconButton
-        sx={{ color: "white" }}
+      <ListItemButton
         onClick={() => {
           setOpenDrawer(true);
         }}
       >
-        <Badge color="error" variant="dot">
-          {true ? <NotificationsActiveIcon /> : <NotificationsIcon />}
-        </Badge>
-      </IconButton>
+        <ListItemIcon>
+          <Badge color="error" variant="dot">
+            {true ? (
+              <NotificationsActiveIcon sx={{ color: theme.smnk[1000] }} />
+            ) : (
+              <NotificationsIcon sx={{ color: theme.smnk[1000] }} />
+            )}
+          </Badge>
+        </ListItemIcon>
+        <ListItemText
+          primary={
+            <Typography variant="body2" color="primary">
+              Notification
+            </Typography>
+          }
+        />
+      </ListItemButton>
+
+      {/* <IconButton
+          sx={{ color: theme.smnk[1000] }}
+          onClick={() => {
+            setOpenDrawer(true);
+          }}
+        >
+          <Badge color="error" variant="dot">
+            {true ? <NotificationsActiveIcon /> : <NotificationsIcon />}
+          </Badge>
+        </IconButton> */}
+
       <Drawer
         anchor="top"
         open={openDrawer}
@@ -51,4 +79,4 @@ function Notification() {
   );
 }
 
-export default Notification;
+export default HomeNotification;

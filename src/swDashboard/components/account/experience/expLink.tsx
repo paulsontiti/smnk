@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import AddHomeWorkIcon from "@mui/icons-material/AddHomeWork";
 import { ListItemIcon, Typography } from "@mui/material";
+import { theme } from "@/pages/_app";
 
 export default function ExpLink() {
   const { swExtra } = useSelector((state: RootState) => state.swExtra);
@@ -21,9 +22,11 @@ export default function ExpLink() {
       >
         {" "}
         <ListItemIcon>
-          <AddHomeWorkIcon sx={{ color: "white" }} />
+          <AddHomeWorkIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
-        <ListItemText primary={<Typography variant="caption">Add Experience</Typography>} />
+        <ListItemText
+          primary={<Typography variant="caption">Add Experience</Typography>}
+        />
       </ListItemButton>
     );
 
@@ -35,9 +38,11 @@ export default function ExpLink() {
       }}
     >
       <ListItemIcon>
-        <WorkHistoryIcon sx={{ color: "white" }} />
+        <WorkHistoryIcon sx={{ color: theme.smnk[1000] }} />
       </ListItemIcon>
-      <ListItemText primary={<Typography variant="caption">Experience</Typography>} />
+      <ListItemText
+        primary={<Typography variant="caption">Experience</Typography>}
+      />
     </ListItemButton>
   );
 }

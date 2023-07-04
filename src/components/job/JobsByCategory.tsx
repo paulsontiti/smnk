@@ -1,5 +1,5 @@
 import { fetchSearchJobs } from "@/lib/search";
-import { Container, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SearchedJobDetailsAccordion from "../accordion/SearchedJobDetailsAccordion";
 import LoadingAlert from "../alerts/Loading";
@@ -23,7 +23,7 @@ function JobsByCategory({ category }: { category: string }) {
   if (jobs && jobs.length < 1)
     return <InfoAlert message={`No jobs available in ${category} category`} />;
   return (
-    <Container>
+    <Box>
       <Typography
         fontWeight={"bold"}
         textTransform={"capitalize"}
@@ -32,10 +32,18 @@ function JobsByCategory({ category }: { category: string }) {
       >
         {category}
       </Typography>
-      {jobs.map((job, i) => (
-        <SearchedJobDetailsAccordion job={job} key={i} />
-      ))}
-    </Container>
+      <Box
+        display={"flex"}
+        alignItems={{ xs: "center", sm: "flex-start" }}
+        justifyContent={{ xs: "center", sm: "flex-start" }}
+        flexDirection={{ xs: "column", sm: "row" }}
+        flexWrap={"wrap"}
+      >
+        {jobs.map((job, i) => (
+          <SearchedJobDetailsAccordion job={job} key={i} />
+        ))}
+      </Box>
+    </Box>
   );
 }
 

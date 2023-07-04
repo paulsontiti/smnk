@@ -10,7 +10,7 @@ export default function VisibilityPage() {
       <Container>
         <CardHeader title="Upgrade Your Package" />
         <CardContent>
-          <Grid container>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={4} md={4}>
               {" "}
               <Platinium />

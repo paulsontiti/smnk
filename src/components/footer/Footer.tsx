@@ -21,11 +21,43 @@ import LogoutSwitch from "../switch/LogoutSwitch";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import SearchDrawer from "../drawer/SearchDrawer";
+import axios from "axios";
 
 export default function Footer() {
   const [color, setColor] = React.useState<ColorPaletteProp>("primary");
   const { _id } = useSelector((state: RootState) => state.users.user);
+  const [totalNumberOfProfessionals, setTotalNumberOfProfessionals] =
+    React.useState<number | null>(null);
+  const [totalNumberOfJobs, setTotalNumberOfJobs] = React.useState<
+    number | null
+  >(null);
+  const [totalNumberOfServices, setTotalNumberOfServices] = React.useState<
+    number | null
+  >(null);
+  const [totalNumberOfClients, setTotalNumberOfClients] = React.useState<
+    number | null
+  >(null);
   const router = useRouter();
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios({
+          method: "GET",
+          url: `${process.env.SMNK_URL}api/services`,
+        });
+        const data = await res.data;
+        //data has {servicesCount,jobsCount,profCount,clientCount}
+        setTotalNumberOfProfessionals(data.profCount);
+        setTotalNumberOfJobs(data.jobsCount);
+        setTotalNumberOfServices(data.servicesCount);
+        setTotalNumberOfClients(data.clientCount);
+      } catch (err: any) {
+        console.log(err);
+        return err;
+      }
+    })();
+  }, []);
   return (
     <Sheet
       variant="solid"
@@ -179,6 +211,22 @@ export default function Footer() {
           </ListItem>
           <SearchDrawer footer={true} />
         </List>
+      </Box>
+      <Divider sx={{ my: 2 }} />
+      <Box
+        sx={{
+          display: "flex",
+          //flexDirection: { xs: "column", md: "row" },
+          alignItems: "center",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          gap: 2,
+        }}
+      >
+        <Typography level="body4">{`Services(${totalNumberOfServices})`}</Typography>
+        <Typography level="body4">{`Jobs(${totalNumberOfJobs})`}</Typography>
+        <Typography level="body4">{`Professionals(${totalNumberOfProfessionals})`}</Typography>
+        <Typography level="body4">{`Clients(${totalNumberOfClients})`}</Typography>
       </Box>
       <Divider sx={{ my: 2 }} />
       <Box>

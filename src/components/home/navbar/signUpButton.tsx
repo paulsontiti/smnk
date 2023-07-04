@@ -1,18 +1,26 @@
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import {Button} from '@mui/material'
-import {useRouter } from 'next/router'
+import { theme } from "@/pages/_app";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { Button } from "@mui/material";
+import { useRouter } from "next/router";
 
-export default function SignUpButton({matches}:{matches:boolean}){
-    const router = useRouter()
+export default function SignUpButton({ matches }: { matches: boolean }) {
+  const router = useRouter();
 
-    return(
-        <Button onClick={()=>{
-                            router.push('/account/signup') 
-                        }} 
-                sx={{textTransform:'capitalize',margin:'1rem 0',color:'white'}}
-                variant='outlined'
-                size='small'
-                endIcon = {!matches && <AccountBoxIcon/>}
-        >Sign Up</Button>
-    )
+  return (
+    <Button
+      onClick={() => {
+        router.push("/account/signup");
+      }}
+      sx={{
+        textTransform: "capitalize",
+        color: "white",
+        bgcolor: theme.smnk[1000],
+      }}
+      variant="contained"
+      size="small"
+      endIcon={!matches && <AccountBoxIcon />}
+    >
+      Sign Up
+    </Button>
+  );
 }

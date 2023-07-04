@@ -8,57 +8,69 @@ import ProfilePic from "../avatar/ProfilePic";
 import { Chip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-
 export default function DP() {
-  const { users:{user:{_id,type,typeClass}},swExtra:{swExtra:{level}} } = useSelector((state: RootState) => state);
-const theme = useTheme()
-  const [name,setName] = useState('')
+  const {
+    users: {
+      user: { _id, type, typeClass },
+    },
+    swExtra: {
+      swExtra: { level },
+    },
+  } = useSelector((state: RootState) => state);
+  const theme = useTheme();
+  const [name, setName] = useState("");
 
-  useEffect(()=>{
-    (
-      async()=>{
-        const {data} = await getUserProfile(_id)
-        if(data){
-          if(typeClass === 'individual'){
-            setName(data.firstName + ' ' + data.lastName)
-          }else{
-            setName(data.name)
-          }
+  useEffect(() => {
+    (async () => {
+      const { data } = await getUserProfile(_id);
+      if (data) {
+        if (typeClass === "individual") {
+          setName(data.firstName + " " + data.lastName);
+        } else {
+          setName(data.name);
         }
       }
-    )()
-  },[_id,typeClass])
+    })();
+  }, [_id, typeClass]);
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "flex-start",bgcolor:theme.smnk[100],color:theme.smnk[1200],width:250
+        justifyContent: "flex-start",
+        width: 250,
       }}
     >
-      <ProfilePic/>
+      <ProfilePic />
       <br />
 
       {type !== "admin" && (
         <>
-          
-            {name && (
-              <Box display={'flex'} alignItems={'center'} justifyContent={'center'} flexDirection={'column'}>
-              
-                <Typography sx={{ textTransform:'capitalize',color:theme.smnk[1200],fontWeight:'bold' }} variant="subtitle1">
-                  {name}
-                </Typography>
-                <Typography variant="caption" component='i' color='primary'>
-                { `(${type}/${typeClass})`}
-                </Typography>
-                
-                
-              </Box>
-            )}
-           
-            
-          <UserRating type={type}/>
+          {name && (
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              flexDirection={"column"}
+            >
+              <Typography
+                sx={{
+                  textTransform: "capitalize",
+                  color: theme.smnk[1000],
+                  fontWeight: "bold",
+                }}
+                variant="subtitle1"
+              >
+                {name}
+              </Typography>
+              <Typography variant="caption" component="i" color="primary">
+                {`(${type}/${typeClass})`}
+              </Typography>
+            </Box>
+          )}
+
+          <UserRating type={type} />
         </>
       )}
     </Box>

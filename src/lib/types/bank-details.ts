@@ -59,7 +59,37 @@ export const bankDetailsSubmitHandler = async (
      refState.handleClick()
   }
 };
-
+const banks = [
+  "Access Bank",
+  "Citibank Nigeria",
+  "Coronation Merchant Bank",
+  "Ecobank Nigeria",
+  "FBNQuest Merchant Bank",
+  "Fidelity Bank Nigeria",
+  "First Bank of Nigeria",
+  "First City Monument Bank",
+  "FSDH Merchant Bank",
+  "Guaranty Trust Bank",
+  "Globus Bank ",
+  "Heritage Bank",
+  "Jaiz Bank Plc",
+  "Keystone Bank",
+  "Nova Merchant Bank",
+  "Polaris Bank",
+  "Providus Bank",
+  "Rand Merchant Bank",
+  "Stanbic IBTC Bank",
+  "Standard Chartered Bank Nigeria",
+  "Sterling Bank",
+  "SunTrust Bank Nigeria ",
+  "TAJBank ",
+  "Titan Trust Bank ",
+  "Union Bank of Nigeria",
+  "United Bank for Africa",
+  "Unity Bank",
+  "Wema Bank",
+  "Zenith Bank"
+]
 export const bankDetailsSchema = object({
   accountName: string().required("Account Name is required"),
   accountNumber: string()
@@ -72,5 +102,5 @@ export const bankDetailsSchema = object({
 export const bankDetailsFormControls: FormControls[] = [
   { name: "accountName", label: "Account Name", control: "input" },
   { name: "accountNumber", label: "Account Number", control: "input" },
-  { name: "bankName", label: "Bank Name", control: "input" },
+  { name: "bankName", label: "Bank Name", control: "freesolo",options:banks },
 ];

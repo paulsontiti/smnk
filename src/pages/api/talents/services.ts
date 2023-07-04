@@ -15,9 +15,7 @@ export default async function handler(req: any, res: any) {
       },
       {
        userId:true,
-        experience: true,
-        services: true,
-        subscription: true,
+        _id: false,
       }
     );
     

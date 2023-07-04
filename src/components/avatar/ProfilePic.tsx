@@ -17,13 +17,14 @@ export default function ProfilePic() {
 
   return (
     <Stack direction="row">
-      <Badge 
+      <Badge
         overlap="circular"
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         badgeContent={<ProfilePicUploader />}
       >
         {dpFileName ? (
-          <IconButton sx={{bgcolor:theme.smnk[1400],mt:1,mr:2}}
+          <IconButton
+            sx={{ bgcolor: theme.smnk[1400], mt: 1, mr: 2 }}
             onClick={() => {
               router.push("/sw-dashboard");
             }}
@@ -35,8 +36,9 @@ export default function ProfilePic() {
             />
           </IconButton>
         ) : (
-          <IconButton sx={{bgcolor:theme.smnk[1400],mt:1,mr:2}}>
-          <Skeleton variant="circular" width={80} height={80} /></IconButton>
+          <IconButton>
+            <Skeleton variant="circular" width={80} height={80} />
+          </IconButton>
         )}
       </Badge>
     </Stack>
