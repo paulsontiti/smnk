@@ -5,24 +5,25 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import AccountActions from "../home/navbar/actions";
-import SearchDrawer from "../drawer/SearchDrawer";
 import DPAvatar from "../avatar/DPAvatar";
-import { Grid, Typography, Box, Collapse } from "@mui/material";
+import { Grid, Typography, Box } from "@mui/material";
 import { useRouter } from "next/router";
+import { theme } from "@/pages/_app";
+import Logout from "../dashboard/logout";
+import SearchBox from "../autoComplete/SearchBox";
+
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import { theme } from "@/pages/_app";
+import { Container, Collapse } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import Logout from "../dashboard/logout";
-import DashBoardNotification from "../dashboard/DashBoardNotification";
 
 export default function DesktopHomeAppBar() {
   const { user } = useSelector((state: RootState) => state.users);
-  const [openAbout, setOpenAbout] = React.useState(false);
   const router = useRouter();
+  const [openAbout, setOpenAbout] = React.useState(false);
   return (
-    <Toolbar>
+    <Toolbar sx={{ pt: 2, display: "flex", flexDirection: "column" }}>
       <Grid container>
         <Grid
           item
@@ -31,153 +32,38 @@ export default function DesktopHomeAppBar() {
           alignItems={"center"}
           justifyContent={"center"}
         >
-          <AppBarLogo />
-          {/* <Image
-              alt="SMNK Nig Ltd"
-              src="/assets/smnk.png"
-              width={50}
-              height={50}
-              style={{ borderRadius: "50%", marginRight: ".5rem" }}
-              onClick={() => {
-                router.push("/");
-              }}
-            /> */}
+          {/* <AppBarLogo /> */}
+          <Image
+            alt="SMNK Nig Ltd"
+            src="/assets/smnk.png"
+            width={100}
+            height={100}
+            style={{ borderRadius: "50%", marginRight: ".5rem" }}
+            onClick={() => {
+              router.push("/");
+            }}
+          />
         </Grid>
         <Grid
           item
-          md={10}
+          md={6}
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-end",
+            justifyContent: "center",
           }}
         >
-          <Box>
-            <List
-              component="nav"
-              aria-label="main mailbox folders"
-              sx={{
-                color: theme.smnk[1200],
-                display: "flex",
-                alignItems: "flex-start",
-                justifyContent: "space-around",
-              }}
-            >
-              <ListItemButton
-                sx={{ ml: 0 }}
-                onClick={() => {
-                  setOpenAbout(!openAbout);
-                }}
-              >
-                <ListItemText
-                  primary={<Typography variant="body2">About SMNK</Typography>}
-                />
-                {openAbout ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openAbout} timeout="auto" unmountOnExit>
-                <Box
-                  display={openAbout ? "block" : "none"}
-                  bgcolor="whitesmoke"
-                  minWidth={150}
-                  position={"absolute"}
-                  left={15}
-                  top={50}
-                  zIndex={99}
-                >
-                  <ListItemButton
-                    onClick={(event) => {
-                      router.push("/about-us");
-                    }}
-                  >
-                    <ListItemText
-                      primary={
-                        <Typography variant="body2">About Us</Typography>
-                      }
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    onClick={(event) => {
-                      router.push("/vision");
-                    }}
-                  >
-                    <ListItemText
-                      primary={<Typography variant="body2">Vision</Typography>}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    onClick={(event) => {
-                      router.push("/mission");
-                    }}
-                  >
-                    <ListItemText
-                      primary={<Typography variant="body2">Mission</Typography>}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    onClick={(event) => {
-                      router.push("/purpose");
-                    }}
-                  >
-                    <ListItemText
-                      primary={<Typography variant="body2">Purpose</Typography>}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    onClick={(event) => {
-                      router.push("/team");
-                    }}
-                  >
-                    <ListItemText
-                      primary={
-                        <Typography variant="body2">Our Team</Typography>
-                      }
-                    />
-                  </ListItemButton>
-                </Box>
-              </Collapse>
-              <ListItemButton
-                sx={{ ml: 0 }}
-                onClick={() => {
-                  router.push("/services");
-                }}
-              >
-                <ListItemText
-                  primary={<Typography variant="body2">Services</Typography>}
-                />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ ml: 0 }}
-                onClick={() => {
-                  router.push("/jobs");
-                }}
-              >
-                <ListItemText
-                  primary={<Typography variant="body2">Jobs</Typography>}
-                />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ ml: 0 }}
-                onClick={() => {
-                  router.push("/jobs");
-                }}
-              >
-                <ListItemText
-                  primary={<Typography variant="body2">Contact</Typography>}
-                />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ ml: 0 }}
-                onClick={() => {
-                  router.push("/jobs");
-                }}
-              >
-                <ListItemText
-                  primary={<Typography variant="body2">Blog</Typography>}
-                />
-              </ListItemButton>
-            </List>
-          </Box>{" "}
-          <SearchDrawer footer={false} /> <DashBoardNotification />{" "}
+          <SearchBox />
+        </Grid>
+        <Grid
+          item
+          md={4}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           {user && user._id && (
             <Box
               display={"flex"}
@@ -201,6 +87,124 @@ export default function DesktopHomeAppBar() {
           {!user._id && <AccountActions />}
         </Grid>
       </Grid>
+      <Container
+        sx={{
+          maxWidth: 400,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+        }}
+      >
+        <List
+          component="nav"
+          aria-label="main mailbox folders"
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <ListItemButton
+            sx={{ ml: 0 }}
+            onClick={() => {
+              setOpenAbout(!openAbout);
+            }}
+          >
+            <ListItemText
+              primary={<Typography variant="body2">About Us</Typography>}
+            />
+            {openAbout ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={openAbout} timeout="auto" unmountOnExit>
+            <Box
+              display={openAbout ? "block" : "none"}
+              bgcolor="whitesmoke"
+              minWidth={150}
+              position={"absolute"}
+              left={15}
+              top={50}
+              zIndex={99}
+            >
+              <ListItemButton
+                onClick={(event) => {
+                  router.push("/about-us");
+                }}
+              >
+                <ListItemText
+                  primary={<Typography variant="body2">About SMNK</Typography>}
+                />
+              </ListItemButton>
+              <ListItemButton
+                onClick={(event) => {
+                  router.push("/vision");
+                }}
+              >
+                <ListItemText
+                  primary={<Typography variant="body2">Vision</Typography>}
+                />
+              </ListItemButton>
+              <ListItemButton
+                onClick={(event) => {
+                  router.push("/mission");
+                }}
+              >
+                <ListItemText
+                  primary={<Typography variant="body2">Mission</Typography>}
+                />
+              </ListItemButton>
+              <ListItemButton
+                onClick={(event) => {
+                  router.push("/purpose");
+                }}
+              >
+                <ListItemText
+                  primary={<Typography variant="body2">Purpose</Typography>}
+                />
+              </ListItemButton>
+              <ListItemButton
+                onClick={(event) => {
+                  router.push("/team");
+                }}
+              >
+                <ListItemText
+                  primary={<Typography variant="body2">Our Team</Typography>}
+                />
+              </ListItemButton>
+            </Box>
+          </Collapse>
+          <ListItemButton
+            sx={{ ml: 0 }}
+            onClick={() => {
+              router.push("/services");
+            }}
+          >
+            <ListItemText
+              primary={<Typography variant="body2">Services</Typography>}
+            />
+          </ListItemButton>
+          <ListItemButton
+            sx={{ ml: 0 }}
+            onClick={() => {
+              router.push("/jobs");
+            }}
+          >
+            <ListItemText
+              primary={<Typography variant="body2">Jobs</Typography>}
+            />
+          </ListItemButton>
+
+          <ListItemButton
+            sx={{ ml: 0 }}
+            onClick={() => {
+              router.push("/jobs");
+            }}
+          >
+            <ListItemText
+              primary={<Typography variant="body2">Blog</Typography>}
+            />
+          </ListItemButton>
+        </List>
+      </Container>
     </Toolbar>
   );
 }

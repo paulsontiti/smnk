@@ -61,10 +61,10 @@ export default function Footer() {
   return (
     <Sheet
       variant="solid"
-      color={color}
       invertedColors
       sx={{
-        bgcolor: "#04023B",
+        bgcolor: "#E08300",
+        color: "black",
         flexGrow: 1,
         p: 2,
         mx: -3,
@@ -85,10 +85,10 @@ export default function Footer() {
           }}
         />
 
-        <Divider orientation="vertical" sx={{ bgcolor: "white" }} />
+        <Divider orientation="vertical" sx={{ bgcolor: "black" }} />
         <IconButton
           variant="plain"
-          sx={{ color: "white" }}
+          sx={{ color: "black" }}
           onClick={() => {
             window.location.href = "https://www.facebook.com/smnkLTD";
           }}
@@ -97,7 +97,7 @@ export default function Footer() {
         </IconButton>
         <IconButton
           variant="plain"
-          sx={{ color: "white" }}
+          sx={{ color: "black" }}
           onClick={() => {
             window.location.href =
               "https://twitter.com/SMNKservicehub?t=15Dcj5Anh9NyTQnAw8f6fA&s=08";
@@ -107,7 +107,7 @@ export default function Footer() {
         </IconButton>
         <IconButton
           variant="plain"
-          sx={{ color: "white" }}
+          sx={{ color: "black" }}
           onClick={() => {
             window.location.href = "https://www.instagram.com/smnkservicehub/";
           }}
@@ -119,7 +119,7 @@ export default function Footer() {
         </IconButton> */}
         <IconButton
           variant="plain"
-          sx={{ color: "white" }}
+          sx={{ color: "black" }}
           onClick={() => {
             window.location.href =
               "https://www.linkedin.com/company/smnk-limited-nigeria/";
@@ -148,26 +148,28 @@ export default function Footer() {
             gap: 1,
           }}
         >
-          {/* <AspectRatio
-            ratio="21/9"
-            minHeight={80}
-            sx={{ flexBasis: { xs: 200, md: "initial" } }}
-          >
-          Hello
-          </AspectRatio> */}
           <CardContent>
-            <Typography level="body2">Contact Details:</Typography>
-            <Typography level="body3" sx={{ mb: 0.5 }}>
+            <Typography
+              level="body1"
+              sx={{
+                color: "black",
+                fontWeight: "bold",
+              }}
+            >
+              Contact Details:
+            </Typography>
+            <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
               Office address: No 2 Lucky Nwagwu street, Lugbe, Abuja
             </Typography>
-            <Typography level="body3" sx={{ mb: 0.5 }}>
+            <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
               Email: info@smnklimited.com
             </Typography>
-            <Typography level="body3" sx={{ mb: 0.5 }}>
+            <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
               Phone: 09048164462
             </Typography>
           </CardContent>
         </Card>
+
         <List
           size="sm"
           orientation="horizontal"
@@ -175,7 +177,7 @@ export default function Footer() {
           sx={{ flexGrow: 0, "--ListItem-radius": "8px" }}
         >
           <ListItem nested sx={{ width: { xs: "50%", md: 140 } }}>
-            <ListSubheader sx={{ color: "white" }}>Quick Links</ListSubheader>
+            {/* <ListSubheader sx={{ color: "black" }}>Quick Links</ListSubheader> */}
             <List>
               <ListItem>
                 <ListItemButton
@@ -183,16 +185,73 @@ export default function Footer() {
                     router.push("/about-us");
                   }}
                 >
-                  <Typography level="body4">About SMNK</Typography>
+                  <Typography level="body2" sx={{ color: "black" }}>
+                    About SMNK
+                  </Typography>
                 </ListItemButton>
               </ListItem>
+              <ListItem>
+                <ListItemButton
+                  onClick={() => {
+                    router.push("/vision");
+                  }}
+                >
+                  <Typography level="body2" sx={{ color: "black" }}>
+                    Our Vision
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton
+                  onClick={() => {
+                    router.push("/mission");
+                  }}
+                >
+                  <Typography level="body2" sx={{ color: "black" }}>
+                    Our Mission
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton
+                  onClick={() => {
+                    router.push("/purpose");
+                  }}
+                >
+                  <Typography level="body2" sx={{ color: "black" }}>
+                    Our Purpose
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton
+                  onClick={() => {
+                    router.push("/team");
+                  }}
+                >
+                  <Typography level="body2" sx={{ color: "black" }}>
+                    Our Team
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </ListItem>
+          <ListItem nested sx={{ width: { xs: "50%", md: 140 } }}>
+            <ListSubheader
+              sx={{ color: "black", fontSize: "1rem", fontWeight: "bold" }}
+            >
+              Quick Links
+            </ListSubheader>
+            <List>
               <ListItem>
                 <ListItemButton
                   onClick={() => {
                     router.push("/services");
                   }}
                 >
-                  <Typography level="body4">Services</Typography>
+                  <Typography level="body2" sx={{ color: "black" }}>
+                    Services
+                  </Typography>
                 </ListItemButton>
               </ListItem>
               {/* <ListItem>
@@ -204,15 +263,38 @@ export default function Footer() {
                     router.push("/jobs");
                   }}
                 >
-                  <Typography level="body4">Jobs</Typography>
+                  <Typography level="body2" sx={{ color: "black" }}>
+                    Jobs
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton
+                  onClick={() => {
+                    router.push("/jobs");
+                  }}
+                >
+                  <Typography level="body2" sx={{ color: "black" }}>
+                    Why you should choose SMNK
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton
+                  onClick={() => {
+                    router.push("/jobs");
+                  }}
+                >
+                  <Typography level="body2" sx={{ color: "black" }}>
+                    How to find Professionals/Artisans
+                  </Typography>
                 </ListItemButton>
               </ListItem>
             </List>
           </ListItem>
-          <SearchDrawer footer={true} />
         </List>
       </Box>
-      <Divider sx={{ my: 2 }} />
+      <Divider sx={{ my: 2, color: "black" }} />
       <Box
         sx={{
           display: "flex",
@@ -223,17 +305,30 @@ export default function Footer() {
           gap: 2,
         }}
       >
-        <Typography level="body4">{`Services(${totalNumberOfServices})`}</Typography>
-        <Typography level="body4">{`Jobs(${totalNumberOfJobs})`}</Typography>
-        <Typography level="body4">{`Professionals(${totalNumberOfProfessionals})`}</Typography>
-        <Typography level="body4">{`Clients(${totalNumberOfClients})`}</Typography>
+        <Typography
+          level="body2"
+          sx={{ color: "black" }}
+        >{`Services(${totalNumberOfServices})`}</Typography>
+        <Typography
+          level="body2"
+          sx={{ color: "black" }}
+        >{`Jobs(${totalNumberOfJobs})`}</Typography>
+        <Typography
+          level="body2"
+          sx={{ color: "black" }}
+        >{`Professionals(${totalNumberOfProfessionals})`}</Typography>
+        <Typography
+          level="body2"
+          sx={{ color: "black" }}
+        >{`Clients(${totalNumberOfClients})`}</Typography>
       </Box>
       <Divider sx={{ my: 2 }} />
       <Box>
         <Typography
-          level="body4"
+          level="body2"
+          sx={{ color: "black" }}
           startDecorator={
-            <Typography textColor="text.tertiary">
+            <Typography textColor="text.tertiary" sx={{ color: "black" }}>
               Powered & Sponsored by
             </Typography>
           }
@@ -246,7 +341,7 @@ export default function Footer() {
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <Typography level="body3" sx={{ ml: "irem" }}>
+          <Typography level="body3" sx={{ ml: "irem", color: "black" }}>
             Copyright {new Date().getFullYear()}
           </Typography>
           {_id && <LogoutSwitch />}

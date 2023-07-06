@@ -2,18 +2,13 @@ import * as React from "react";
 import { IconButton, Drawer, Box, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NavbarMenuItem from "./navbarMenu";
-import { useRouter } from "next/router";
-import CloseIcon from "@mui/icons-material/Close";
 import LoginButton from "./loginButton";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import { theme } from "@/pages/_app";
 import CancelFloatingActionButtons from "@/components/fab/Cancel";
 export default function NavbarDrawer() {
-  const router = useRouter();
-  const [openDrawer, setOpenDrawer] = React.useState(
-    router.pathname === "/" ? true : false
-  );
+  const [openDrawer, setOpenDrawer] = React.useState(false);
   const { _id } = useSelector((state: RootState) => state.users.user);
   return (
     <div>

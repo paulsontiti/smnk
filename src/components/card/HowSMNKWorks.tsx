@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
@@ -14,7 +14,6 @@ export default function HowSMNKWorks() {
       mt={5}
     >
       <Typography fontSize={"2rem"}>{`Let's Get You Started`}</Typography>
-      <Typography variant="subtitle2">Follow these simple steps</Typography>
       <Box
         p={2}
         mt={2}
@@ -23,20 +22,28 @@ export default function HowSMNKWorks() {
         justifyContent={"center"}
         flexDirection={"column"}
       >
-        <Image
-          src="/assets/create-account.png"
-          width={100}
-          height={100}
-          alt=""
-        />
-        <Typography variant="h5" m={3}>
-          Create An Account
-        </Typography>
         <Typography>
           Start Your journey with SMNK by creating an account. You can create an
           account as a Skilled Worker/Professional/Service Provider Or as a
           Client/Employer/Customer
         </Typography>
+        <Button
+          onClick={() => {
+            router.push("/account/signup");
+          }}
+          sx={{
+            bgcolor: "grey",
+            fontWeight: "bold",
+            height: 50,
+            fontSize: "1.5rem",
+            textTransform: "capitalize",
+            borderRadius: "30px",
+            mt: 3,
+          }}
+          fullWidth
+        >
+          Create an account
+        </Button>
       </Box>
       <Box
         p={2}
@@ -46,7 +53,6 @@ export default function HowSMNKWorks() {
         justifyContent={"center"}
         flexDirection={"column"}
       >
-        <Image src="/assets/hire2.png" width={100} height={100} alt="" />
         <Typography variant="h5" m={5}>
           Post Jobs
         </Typography>
@@ -64,7 +70,6 @@ export default function HowSMNKWorks() {
         justifyContent={"center"}
         flexDirection={"column"}
       >
-        <Image src="/assets/choose.png" width={100} height={100} alt="" />
         <Typography variant="h5" m={5}>
           Choose A Professional
         </Typography>
@@ -82,7 +87,6 @@ export default function HowSMNKWorks() {
         justifyContent={"center"}
         flexDirection={"column"}
       >
-        <Image src="/assets/pay-safely.jpeg" width={200} height={200} alt="" />
         <Typography variant="h5" m={5}>
           Pay Safely
         </Typography>
@@ -100,7 +104,6 @@ export default function HowSMNKWorks() {
         justifyContent={"center"}
         flexDirection={"column"}
       >
-        <Image src="/assets/help.png" width={100} height={100} alt="" />
         <Typography variant="h5" m={5}>
           We Are Here To help
         </Typography>
