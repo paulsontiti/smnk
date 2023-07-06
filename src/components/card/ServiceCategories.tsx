@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -11,9 +11,9 @@ export default function ServiceCategories() {
       alignItems={"center"}
       justifyContent={"center"}
       flexDirection={"column"}
-      mt={2}
+      mt={5}
     >
-      <Typography fontSize={"1.5rem"} mb={5} variant="h6">
+      <Typography fontSize={"2rem"} mb={5}>
         Search in our different categories
       </Typography>
       <Box
@@ -22,22 +22,38 @@ export default function ServiceCategories() {
         justifyContent={"center"}
         flexWrap={"wrap"}
       >
-        <Category src="/assets/graphics.png" title="Hair & Nails" />
-        <Category src="/assets/digital-marketing.png" title="Art" />
-        <Category src="/assets/writing.jpg" title="Building" />
-
-        <Category src="/assets/digital-marketing.png" title="Tech" />
-        <Category src="/assets/business.png" title="Interior Deco" />
+        <Category src="/assets/graphics.png" title="Graphics & Design" />
+        <Category
+          src="/assets/digital-marketing.png"
+          title="Digital Marketing"
+        />
+        <Category src="/assets/writing.jpg" title="Writing & Translation" />
+        <Category
+          src="/assets/videos-animation.png"
+          title="Videos & Animations"
+        />
+        <Category src="/assets/music.png" title="Music & Audio" />
+        <Category
+          src="/assets/digital-marketing.png"
+          title="Programming & Tech"
+        />
+        <Category src="/assets/business.png" title="Business" />
+        <Category src="/assets/lifestyle.png" title="Lifestyle" />
+        <Category src="/assets/data.png" title="Data" />
         <Category src="/assets/photography.png" title="Photography" />
+        <Category src="/assets/hair.jpg" title="Hair & Nails" />
+        <Category src="/assets/art.png" title="Art" />
+        <Category src="/assets/building.png" title="Building" />
+
+        <Category src="/assets/interior.png" title="Interior Deco" />
       </Box>
       <Box mt={2}>
         <Button
-          variant="contained"
           sx={{
             bgcolor: "#7E1120",
-            color: "white",
-            mr: 2,
             borderRadius: "30px",
+            mr: 2,
+            color: "white",
           }}
           onClick={() => {
             router.push("/account/signup");
@@ -46,8 +62,7 @@ export default function ServiceCategories() {
           Hire an Artisan
         </Button>
         <Button
-          variant="contained"
-          sx={{ borderRadius: "30px", bgcolor: "#E08300" }}
+          sx={{ bgcolor: "#E08300", borderRadius: "30px", color: "white" }}
           onClick={() => {
             router.push("/account/signup");
           }}
