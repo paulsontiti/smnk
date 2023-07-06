@@ -40,7 +40,6 @@ export default function Layout(props: { children: any }) {
               display: "flex",
               alignItems: "flex-start",
               justifyContent: "center",
-              color: theme.smnk[1200],
             }}
           >
             <ListItemButton
@@ -63,6 +62,7 @@ export default function Layout(props: { children: any }) {
                 left={15}
                 top={50}
                 zIndex={99}
+                color={theme.smnk[1200]}
               >
                 <ListItemButton
                   onClick={(event) => {
