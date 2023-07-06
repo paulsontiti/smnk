@@ -40,6 +40,7 @@ export default function Layout(props: { children: any }) {
               display: "flex",
               alignItems: "flex-start",
               justifyContent: "center",
+              color: theme.smnk[1200],
             }}
           >
             <ListItemButton
