@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import Image from "next/image";
 
 export default function HowSMNKWorks() {
   const router = useRouter();
@@ -12,6 +11,13 @@ export default function HowSMNKWorks() {
       justifyContent={"center"}
       flexDirection={"column"}
       mt={5}
+      p={{
+        xs: ".5rem",
+        sm: "1rem 10rem",
+        md: "3rem 12rem",
+        lg: "5rem 20rem",
+        xl: "5rem 30rem",
+      }}
     >
       <Typography fontSize={"2rem"}>{`Let's Get You Started`}</Typography>
       <Box
@@ -39,6 +45,7 @@ export default function HowSMNKWorks() {
             textTransform: "capitalize",
             borderRadius: "30px",
             mt: 3,
+            maxWidth: 300,
           }}
           fullWidth
         >
@@ -47,7 +54,6 @@ export default function HowSMNKWorks() {
       </Box>
       <Box
         p={2}
-        mt={2}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"center"}
@@ -64,7 +70,6 @@ export default function HowSMNKWorks() {
       </Box>
       <Box
         p={2}
-        mt={2}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"center"}
@@ -81,7 +86,6 @@ export default function HowSMNKWorks() {
       </Box>
       <Box
         p={2}
-        mt={2}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"center"}
@@ -98,7 +102,6 @@ export default function HowSMNKWorks() {
       </Box>
       <Box
         p={2}
-        mt={2}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"center"}

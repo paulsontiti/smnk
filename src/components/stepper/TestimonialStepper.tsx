@@ -36,7 +36,16 @@ function TestimonialStepper() {
   if (!data) return <p></p>;
   if (data && data.length < 1) return <p></p>;
   return (
-    <Box sx={{ maxWidth: "100%", flexGrow: 1, mt: 2 }}>
+    <Box
+      p={{
+        xs: ".5rem",
+        sm: "1rem 10rem",
+        md: "3rem 12rem",
+        lg: "5rem 20rem",
+        xl: "5rem 30rem",
+      }}
+      sx={{ flexGrow: 1, mt: 2 }}
+    >
       <Paper
         square
         elevation={0}

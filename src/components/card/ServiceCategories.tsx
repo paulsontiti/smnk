@@ -47,7 +47,7 @@ export default function ServiceCategories() {
 
         <Category src="/assets/interior.png" title="Interior Deco" />
       </Box>
-      <Box mt={2}>
+      <Box mt={5}>
         <Button
           sx={{
             bgcolor: "#7E1120",

@@ -38,38 +38,45 @@ export default function Home() {
 
         <ServiceCategories />
         <HowSMNKWorks />
-        <Card sx={{ bgcolor: "#2266BF", color: "white" }}>
-          <CardContent>
-            <Typography variant="h6">How service fees are charged</Typography>
-            <Typography>
-              Each job comes with a fee, however the amount depends on how much
-              money you would make from a customer. A 12% administrative cost
-              fee would be applied to all skilled personnel.
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card sx={{ bgcolor: "green", color: "white" }}>
-          <CardContent>
-            <Typography variant="h6">
-              How your ranking impacts your success of landing jobs
-            </Typography>
-            <Typography>
-              After completing them, your review gauges how happy your clients
-              are with your job. Your work rating affects how well-liked and
-              trusted you are among clients.
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card sx={{ bgcolor: "#7E1120", color: "white" }}>
-          <CardContent>
-            <Typography variant="h6">Improvement suggestions</Typography>
-            <Typography>
-              Before submitting your work, make sure you often review it to
-              ensure it is error-free. Before you start, take some time to go
-              through what your clients want you to deliver.
-            </Typography>
-          </CardContent>
-        </Card>
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          flexDirection={{ xs: "column", sm: "row" }}
+        >
+          <Card sx={{ bgcolor: "#2266BF", color: "white", minHeight: 300 }}>
+            <CardContent>
+              <Typography variant="h6">How service fees are charged</Typography>
+              <Typography>
+                Each job comes with a fee, however the amount depends on how
+                much money you would make from a customer. A 12% administrative
+                cost fee would be applied to all skilled personnel.
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card sx={{ bgcolor: "green", color: "white", minHeight: 300 }}>
+            <CardContent>
+              <Typography variant="h6">
+                How your ranking impacts your success of landing jobs
+              </Typography>
+              <Typography>
+                After completing them, your review gauges how happy your clients
+                are with your job. Your work rating affects how well-liked and
+                trusted you are among clients.
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card sx={{ bgcolor: "#7E1120", color: "white", minHeight: 300 }}>
+            <CardContent>
+              <Typography variant="h6">Improvement suggestions</Typography>
+              <Typography>
+                Before submitting your work, make sure you often review it to
+                ensure it is error-free. Before you start, take some time to go
+                through what your clients want you to deliver.
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
         <TestimonialStepper />
       </main>
     </Layout>
