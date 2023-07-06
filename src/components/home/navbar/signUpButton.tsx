@@ -3,7 +3,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 
-export default function SignUpButton({ matches }: { matches: boolean }) {
+export default function SignUpButton() {
   const router = useRouter();
 
   return (
@@ -18,7 +18,6 @@ export default function SignUpButton({ matches }: { matches: boolean }) {
       }}
       variant="contained"
       size="small"
-      endIcon={!matches && <AccountBoxIcon />}
     >
       Sign Up
     </Button>

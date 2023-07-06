@@ -15,7 +15,6 @@ export default function LoginButton() {
       }}
       variant="outlined"
       size="small"
-      endIcon={<LoginIcon />}
       onClick={() => {
         router.push("/account/login");
       }}

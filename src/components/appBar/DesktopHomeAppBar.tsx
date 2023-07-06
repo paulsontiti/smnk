@@ -27,7 +27,7 @@ export default function DesktopHomeAppBar() {
       <Grid container>
         <Grid
           item
-          md={2}
+          xs={2}
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
@@ -46,7 +46,7 @@ export default function DesktopHomeAppBar() {
         </Grid>
         <Grid
           item
-          md={6}
+          xs={6}
           sx={{
             display: "flex",
             alignItems: "center",
@@ -57,7 +57,7 @@ export default function DesktopHomeAppBar() {
         </Grid>
         <Grid
           item
-          md={4}
+          xs={4}
           sx={{
             display: "flex",
             alignItems: "center",
@@ -87,7 +87,7 @@ export default function DesktopHomeAppBar() {
           {!user._id && <AccountActions />}
         </Grid>
       </Grid>
-      <Container
+      {/* <Box
         sx={{
           maxWidth: 400,
           display: "flex",
@@ -204,7 +204,7 @@ export default function DesktopHomeAppBar() {
             />
           </ListItemButton>
         </List>
-      </Container>
+      </Box> */}
     </Toolbar>
   );
 }

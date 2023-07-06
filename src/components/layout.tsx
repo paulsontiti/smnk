@@ -7,7 +7,7 @@ import DesktopHomeAppBar from "./appBar/DesktopHomeAppBar";
 
 export default function Layout(props: { children: any }) {
   const newTheme = useTheme();
-  const mediaQuery = useMediaQuery(newTheme.breakpoints.up("md"));
+  const mediaQuery = useMediaQuery(newTheme.breakpoints.up("sm"));
 
   return (
     <Box bgcolor="#F4F5F6" sx={{ color: theme.smnk[1200] }}>

@@ -271,7 +271,7 @@ export default function Footer() {
               <ListItem>
                 <ListItemButton
                   onClick={() => {
-                    router.push("/jobs");
+                    router.push("/we-are-the-best");
                   }}
                 >
                   <Typography level="body2" sx={{ color: "black" }}>
@@ -282,7 +282,7 @@ export default function Footer() {
               <ListItem>
                 <ListItemButton
                   onClick={() => {
-                    router.push("/jobs");
+                    router.push("/how-to-find-artisans");
                   }}
                 >
                   <Typography level="body2" sx={{ color: "black" }}>

@@ -32,7 +32,7 @@ export default function HowSMNKWorks() {
             router.push("/account/signup");
           }}
           sx={{
-            bgcolor: "grey",
+            bgcolor: "#C7CEDB",
             fontWeight: "bold",
             height: 50,
             fontSize: "1.5rem",

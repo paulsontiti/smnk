@@ -33,7 +33,12 @@ export default function ServiceCategories() {
       <Box mt={2}>
         <Button
           variant="contained"
-          sx={{ mr: 2 }}
+          sx={{
+            bgcolor: "#7E1120",
+            color: "white",
+            mr: 2,
+            borderRadius: "30px",
+          }}
           onClick={() => {
             router.push("/account/signup");
           }}
@@ -42,6 +47,7 @@ export default function ServiceCategories() {
         </Button>
         <Button
           variant="contained"
+          sx={{ borderRadius: "30px", bgcolor: "#E08300" }}
           onClick={() => {
             router.push("/account/signup");
           }}

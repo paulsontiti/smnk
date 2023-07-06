@@ -16,12 +16,8 @@ export default function AccountActions() {
 
   return (
     <Box>
-      {user && !user._id && (
-        <Box>
-          {!matches && <LoginButton />}
-          <SignUpButton matches={matches} />
-        </Box>
-      )}
+      <LoginButton />
+      <SignUpButton />
     </Box>
   );
 }
