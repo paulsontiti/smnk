@@ -12,33 +12,28 @@ import { theme } from "@/pages/_app";
 import Logout from "../dashboard/logout";
 import SearchBox from "../autoComplete/SearchBox";
 
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import List from "@mui/material/List";
-import { Container, Collapse } from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
-
 export default function DesktopHomeAppBar() {
   const { user } = useSelector((state: RootState) => state.users);
   const router = useRouter();
-  const [openAbout, setOpenAbout] = React.useState(false);
   return (
-    <Toolbar sx={{ pt: 2, display: "flex", flexDirection: "column" }}>
+    <Toolbar
+      sx={{ pt: 2, display: "flex", flexDirection: "column", bgcolor: "white" }}
+    >
       <Grid container>
         <Grid
           item
-          xs={2}
+          sm={2}
           display={"flex"}
           alignItems={"center"}
-          justifyContent={"center"}
+          justifyContent={"flex-start"}
         >
           {/* <AppBarLogo /> */}
           <Image
             alt="SMNK Nig Ltd"
-            src="/assets/smnk.png"
-            width={100}
-            height={100}
-            style={{ borderRadius: "50%", marginRight: ".5rem" }}
+            src="/assets/smnk_logo.jpg"
+            width={70}
+            height={70}
+            style={{ marginRight: ".5rem" }}
             onClick={() => {
               router.push("/");
             }}
@@ -46,29 +41,30 @@ export default function DesktopHomeAppBar() {
         </Grid>
         <Grid
           item
-          xs={6}
+          sm={7}
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
+          {" "}
           <SearchBox />
         </Grid>
         <Grid
           item
-          xs={4}
+          sm={3}
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "flex-end",
           }}
         >
           {user && user._id && (
             <Box
               display={"flex"}
               alignItems={"center"}
-              justifyContent={"center"}
+              justifyContent={"flex-end"}
             >
               <IconButton
                 onClick={() => {

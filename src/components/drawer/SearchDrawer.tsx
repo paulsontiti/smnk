@@ -25,6 +25,7 @@ import SearchedJobDetailsAccordion from "../accordion/SearchedJobDetailsAccordio
 import CancelFloatingActionButtons from "../fab/Cancel";
 import SWDetailsCard from "../card/SWDetailsCard";
 import { theme } from "@/pages/_app";
+import SearchBox from "../autoComplete/SearchBox";
 export type SearchOption = { firstLetter: string; option: string };
 
 const searchOptionsList = async (searchOption: string) => {
@@ -71,12 +72,15 @@ export const getSearchOptions = (searchOptions: string[]) => {
   return options;
 };
 
-export default function SearchDrawer({ footer }: { footer: boolean }) {
+export default function SearchDrawer({
+  searchOption,
+}: {
+  searchOption: string;
+}) {
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const [openJobDrawer, setOpenJobDrawer] = React.useState(false);
   const [openServicesDrawer, setOpenServicesDrawer] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [searchOption, setSearchoption] = React.useState("Services");
   const [searchOptions, setSearchoptions] = React.useState<string[]>([]);
   const [value, setValue] = React.useState<SearchOption | null>(null);
   const [users, setUsers] = React.useState<any[]>([]);
@@ -90,17 +94,86 @@ export default function SearchDrawer({ footer }: { footer: boolean }) {
     })();
   }, [searchOption]);
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleClose = (label: string) => {
-    setSearchoption(label);
-    setAnchorEl(null);
-  };
+  // const handleClose = (label: string) => {
+  //   setSearchoption(label);
+  //   setAnchorEl(null);
+  // };
   return (
-    <Box>
-      {footer ? (
+    <Box mt={3} mb={3}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: ".5rem",
+        }}
+      >
+        <Autocomplete
+          id="grouped-demo"
+          value={value}
+          onChange={async (event: any, newValue: SearchOption | null) => {
+            setValue(newValue);
+            if (searchOption === "Services") {
+              const searchValue = newValue?.option as string;
+              if (searchValue) {
+                setOpenServicesDrawer(true);
+
+                const users = await fetchUsers(searchValue);
+                setUsers(users);
+              }
+            } else {
+              const searchValue = newValue?.option as string;
+              if (searchValue) {
+                setOpenJobDrawer(true);
+
+                const { data } = await fetchSearchJobs(searchValue);
+                setJobs(data);
+              }
+            }
+          }}
+          options={getSearchOptions(searchOptions).sort(
+            (a: any, b: any) => -b.firstLetter.localeCompare(a.firstLetter)
+          )}
+          groupBy={(option: any) => option.firstLetter}
+          getOptionLabel={(option: any) => option.option}
+          sx={{
+            minWidth: { xs: 300, sm: 400 },
+            maxWidth: { xs: 300, sm: 400 },
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={`search ${searchOption.toLowerCase()} by categories`}
+              InputProps={{
+                ...params.InputProps,
+                type: "search",
+                sx: {
+                  borderRadius: "30px",
+                  backgroundColor: "whitesmoke",
+                  height: 50,
+                },
+
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+          renderGroup={(params) => (
+            <li key={params.key}>
+              <GroupHeader>{params.group}</GroupHeader>
+              <GroupItems>{params.children}</GroupItems>
+            </li>
+          )}
+        />
+      </Box>
+      {/* {footer ? (
         <>
           <Button
             variant="outlined"
@@ -149,7 +222,7 @@ export default function SearchDrawer({ footer }: { footer: boolean }) {
             Search For Jobs
           </MenuItem>
         </Menu>
-      </Box>
+      </Box> */}
       <Drawer
         anchor="top"
         open={openDrawer}
@@ -157,16 +230,7 @@ export default function SearchDrawer({ footer }: { footer: boolean }) {
           setOpenDrawer(false);
         }}
       >
-        <SearchBox
-          value={value}
-          setJobs={setJobs}
-          setOpenJobDrawer={setOpenJobDrawer}
-          setOpenServicesDrawer={setOpenServicesDrawer}
-          setUsers={setUsers}
-          setValue={setValue}
-          options={getSearchOptions(searchOptions)}
-          searchOption={searchOption}
-        />
+        {" "}
       </Drawer>
       <Drawer
         anchor="left"
@@ -238,95 +302,6 @@ export default function SearchDrawer({ footer }: { footer: boolean }) {
           )}
         </Container>
       </Drawer>
-    </Box>
-  );
-}
-function SearchBox({
-  value,
-  setValue,
-  searchOption,
-  setOpenServicesDrawer,
-  setUsers,
-  setOpenJobDrawer,
-  options,
-  setJobs,
-}: {
-  value: SearchOption | null;
-  setValue: any;
-  searchOption: string;
-  setOpenServicesDrawer: any;
-  setUsers: any;
-  setOpenJobDrawer: any;
-  options: any;
-  setJobs: any;
-}) {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        margin: "1rem .0rem",
-        padding: ".5rem",
-      }}
-    >
-      <Autocomplete
-        id="grouped-demo"
-        value={value}
-        onChange={async (event: any, newValue: SearchOption | null) => {
-          setValue(newValue);
-          if (searchOption === "Services") {
-            const searchValue = newValue?.option as string;
-            if (searchValue) {
-              setOpenServicesDrawer(true);
-
-              const users = await fetchUsers(searchValue);
-              setUsers(users);
-            }
-          } else {
-            const searchValue = newValue?.option as string;
-            if (searchValue) {
-              setOpenJobDrawer(true);
-
-              const { data } = await fetchSearchJobs(searchValue);
-              setJobs(data);
-            }
-          }
-        }}
-        options={options.sort(
-          (a: any, b: any) => -b.firstLetter.localeCompare(a.firstLetter)
-        )}
-        groupBy={(option: any) => option.firstLetter}
-        getOptionLabel={(option: any) => option.option}
-        sx={{ minWidth: "100%" }}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="search by categories"
-            InputProps={{
-              ...params.InputProps,
-              type: "search",
-              sx: {
-                //borderRadius: 20,
-                backgroundColor: "whitesmoke",
-                height: 50,
-              },
-
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-        )}
-        renderGroup={(params) => (
-          <li key={params.key}>
-            <GroupHeader>{params.group}</GroupHeader>
-            <GroupItems>{params.children}</GroupItems>
-          </li>
-        )}
-      />
     </Box>
   );
 }

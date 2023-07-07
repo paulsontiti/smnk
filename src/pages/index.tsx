@@ -4,6 +4,10 @@ import TestimonialStepper from "@/components/stepper/TestimonialStepper";
 import Head from "next/head";
 import ServiceCategories from "@/components/card/ServiceCategories";
 import { Typography, Box, Card, CardContent } from "@mui/material";
+import ReactPlayer from "react-player";
+import { findDOMNode } from "react-dom";
+//import { toast } from 'react-toastify';
+import { useState } from "react";
 
 export default function Home() {
   return (
@@ -19,6 +23,7 @@ export default function Home() {
             height="100%"
             autoPlay
             loop
+            controls
             style={{ objectFit: "fill" }}
           >
             <source src="/assets/SMNK front page video.mp4" type="video/mp4" />
@@ -26,13 +31,13 @@ export default function Home() {
             Your browser does not support the video tag.
           </video>
         </Box>
-        {/* <Box mt={{ md: 5 }} width={1200}>
+        {/* <Box mt={{ md: 5 }} sx={{ objectFit: "fill" }}>
           <ReactPlayer
             url="/assets/SMNK front page video.mp4"
             playing
             loop
             controls
-            width={"100%"}
+            style={{ objectFit: "fill" }}
           />
         </Box> */}
 
@@ -41,10 +46,17 @@ export default function Home() {
         <Box
           display={"flex"}
           alignItems={"center"}
-          justifyContent={"center"}
-          flexDirection={{ xs: "column", sm: "row" }}
+          justifyContent={"flex-start"}
+          overflow={"scroll"}
         >
-          <Card sx={{ bgcolor: "#2266BF", color: "white", minHeight: 300 }}>
+          <Card
+            sx={{
+              bgcolor: "#2266BF",
+              color: "white",
+              minHeight: 250,
+              minWidth: 300,
+            }}
+          >
             <CardContent>
               <Typography variant="h6">How service fees are charged</Typography>
               <Typography>
@@ -54,7 +66,14 @@ export default function Home() {
               </Typography>
             </CardContent>
           </Card>
-          <Card sx={{ bgcolor: "green", color: "white", minHeight: 300 }}>
+          <Card
+            sx={{
+              bgcolor: "green",
+              color: "white",
+              minHeight: 250,
+              minWidth: 300,
+            }}
+          >
             <CardContent>
               <Typography variant="h6">
                 How your ranking impacts your success of landing jobs
@@ -66,7 +85,14 @@ export default function Home() {
               </Typography>
             </CardContent>
           </Card>
-          <Card sx={{ bgcolor: "#7E1120", color: "white", minHeight: 300 }}>
+          <Card
+            sx={{
+              bgcolor: "#7E1120",
+              color: "white",
+              minHeight: 250,
+              minWidth: 300,
+            }}
+          >
             <CardContent>
               <Typography variant="h6">Improvement suggestions</Typography>
               <Typography>
@@ -82,3 +108,30 @@ export default function Home() {
     </Layout>
   );
 }
+
+const PlayerComponent = () => {
+  const [fullscreenMode, setFullscreenMode] = useState(false);
+  let player: any;
+  const ref = (p: any) => {
+    player = p;
+  };
+
+  const onStart = () => {
+    setFullscreenMode(true);
+  };
+
+  const onEnded = () => {
+    setFullscreenMode(document.fullscreenElement !== null);
+  };
+
+  return (
+    <ReactPlayer
+      ref={ref}
+      url="/assets/SMNK front page video.mp4"
+      onStart={onStart}
+      onEnded={onEnded}
+      playing
+      loop
+    />
+  );
+};

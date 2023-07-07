@@ -15,27 +15,29 @@ export default function HomeLogoutAppBar() {
   const { user } = useSelector((state: RootState) => state.users);
   const router = useRouter();
   return (
-    <Toolbar sx={{ display: "flex", flexDirection: "column" }}>
+    <Toolbar sx={{ bgcolor: "white" }}>
       <Grid container>
         <Grid
           item
-          xs={4}
+          xs={2}
           display={"flex"}
           alignItems={"center"}
-          justifyContent={"center"}
+          justifyContent={"flex-start"}
         >
-          <Image
-            alt="SMNK Nig Ltd"
-            src="/assets/smnk.png"
-            width={80}
-            height={80}
-            style={{ borderRadius: "50%", marginRight: ".5rem" }}
-            onClick={() => {
-              router.push("/");
-            }}
-          />
+          <Box pt={2}>
+            <Image
+              alt="SMNK Nig Ltd"
+              src="/assets/smnk_logo.jpg"
+              width={70}
+              height={70}
+              style={{ marginRight: ".5rem" }}
+              onClick={() => {
+                router.push("/");
+              }}
+            />
+          </Box>
         </Grid>
-        <Grid
+        {/* <Grid
           item
           xs={1}
           display={"flex"}
@@ -43,14 +45,14 @@ export default function HomeLogoutAppBar() {
           justifyContent={"flex-end"}
         >
           <SearchDrawer footer={false} />
-        </Grid>
+        </Grid> */}
 
         <Grid
           item
-          xs={7}
+          xs={10}
           display={"flex"}
           alignItems={"center"}
-          justifyContent={"center"}
+          justifyContent={"flex-end"}
         >
           {user && user._id && (
             <IconButton
