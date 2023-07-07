@@ -10,6 +10,7 @@ import DPAvatar from "../avatar/DPAvatar";
 import { Grid, Typography, Box } from "@mui/material";
 import { useRouter } from "next/router";
 import { theme } from "@/pages/_app";
+import LogoutSwitch from "../switch/LogoutSwitch";
 
 export default function HomeLogoutAppBar() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -55,17 +56,20 @@ export default function HomeLogoutAppBar() {
           justifyContent={"flex-end"}
         >
           {user && user._id && (
-            <IconButton
-              onClick={() => {
-                if (user.type === "skilled worker") {
-                  router.push("/sw-dashboard");
-                } else {
-                  router.push("/c-dashboard");
-                }
-              }}
-            >
-              <DPAvatar dp={user.dpFileName} />
-            </IconButton>
+            <>
+              <IconButton
+                onClick={() => {
+                  if (user.type === "skilled worker") {
+                    router.push("/sw-dashboard");
+                  } else {
+                    router.push("/c-dashboard");
+                  }
+                }}
+              >
+                <DPAvatar dp={user.dpFileName} />
+              </IconButton>
+              <LogoutSwitch />
+            </>
           )}
           {!user._id && <AccountActions />}
         </Grid>

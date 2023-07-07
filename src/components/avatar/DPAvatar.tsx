@@ -7,10 +7,10 @@ function DPAvatar({ dp }: { dp: string }) {
         <Avatar
           alt=""
           src={`/api/multer/profile-pic/${dp}`}
-          sx={{ width: 30, height: 30 }}
+          sx={{ width: 50, height: 50 }}
         />
       ) : (
-        <Avatar alt="" sx={{ width: 30, height: 30 }} />
+        <Avatar alt="" sx={{ width: 50, height: 50 }} />
       )}
     </>
   );

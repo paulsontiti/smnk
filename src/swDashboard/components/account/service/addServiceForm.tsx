@@ -18,6 +18,7 @@ import {
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { AlertColor } from "@mui/material";
 import { updateSWExtra } from "@/store/slices/swExtraSlice";
+import { serviceCategories } from "@/components/card/ServiceCategories";
 
 export default function AddServiceForm() {
   const [options, setOptions] = useState<any[]>([]);
@@ -33,7 +34,8 @@ export default function AddServiceForm() {
   useEffect(() => {
     (async () => {
       const data = await fetchCategories();
-      setOptions(createSetFromArray(data.flat()));
+      const services = serviceCategories.map((servCat) => servCat.title);
+      setOptions(createSetFromArray(data.flat().concat(services)));
       const res = await fetchServiceTitles();
       setServiceTitles(res);
     })();

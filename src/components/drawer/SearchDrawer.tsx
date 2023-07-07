@@ -26,6 +26,7 @@ import CancelFloatingActionButtons from "../fab/Cancel";
 import SWDetailsCard from "../card/SWDetailsCard";
 import { theme } from "@/pages/_app";
 import SearchBox from "../autoComplete/SearchBox";
+import LoadingAlert from "../alerts/Loading";
 export type SearchOption = { firstLetter: string; option: string };
 
 const searchOptionsList = async (searchOption: string) => {
@@ -77,14 +78,14 @@ export default function SearchDrawer({
 }: {
   searchOption: string;
 }) {
-  const [openDrawer, setOpenDrawer] = React.useState(false);
   const [openJobDrawer, setOpenJobDrawer] = React.useState(false);
   const [openServicesDrawer, setOpenServicesDrawer] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [searchOptions, setSearchoptions] = React.useState<string[]>([]);
   const [value, setValue] = React.useState<SearchOption | null>(null);
   const [users, setUsers] = React.useState<any[]>([]);
   const [jobs, setJobs] = React.useState<any[]>([]);
+  const [loadingJob, setLoadingJob] = React.useState(true);
+  const [loadingUser, setLoadingUser] = React.useState(true);
 
   React.useEffect(() => {
     (async () => {
@@ -120,17 +121,21 @@ export default function SearchDrawer({
             if (searchOption === "Services") {
               const searchValue = newValue?.option as string;
               if (searchValue) {
+                setLoadingUser(true);
                 setOpenServicesDrawer(true);
 
                 const users = await fetchUsers(searchValue);
+                setLoadingUser(false);
                 setUsers(users);
               }
             } else {
               const searchValue = newValue?.option as string;
               if (searchValue) {
+                setLoadingJob(true);
                 setOpenJobDrawer(true);
 
                 const { data } = await fetchSearchJobs(searchValue);
+                setLoadingJob(false);
                 setJobs(data);
               }
             }
@@ -223,7 +228,7 @@ export default function SearchDrawer({
           </MenuItem>
         </Menu>
       </Box> */}
-      <Drawer
+      {/* <Drawer
         anchor="top"
         open={openDrawer}
         onClose={() => {
@@ -231,7 +236,7 @@ export default function SearchDrawer({
         }}
       >
         {" "}
-      </Drawer>
+      </Drawer> */}
       <Drawer
         anchor="left"
         open={openJobDrawer}
@@ -239,41 +244,73 @@ export default function SearchDrawer({
           setOpenJobDrawer(false);
         }}
       >
-        <Container sx={{ p: ".5rem", mt: "2rem" }}>
-          {jobs && jobs.length > 0 ? (
-            <>
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-              >
-                <Typography>
-                  All Jobs in <i>{value?.option}</i> Category
-                </Typography>
-                <CancelFloatingActionButtons
-                  handleClick={() => {
-                    setOpenJobDrawer(false);
-                  }}
-                />
-              </Box>
-              {jobs.map((job, i) => (
-                <SearchedJobDetailsAccordion job={job} key={i} />
-              ))}
-            </>
-          ) : (
-            <Typography>
-              No Jobs in <i>{value?.option} category</i>
-            </Typography>
-          )}
-        </Container>
+        {loadingJob ? (
+          <LoadingAlert />
+        ) : (
+          <Container sx={{ p: ".5rem", mt: "2rem" }}>
+            {jobs && jobs.length > 0 ? (
+              <>
+                <Box
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                >
+                  <Typography>
+                    All Jobs in <i>{value?.option}</i> Category
+                  </Typography>
+                  <CancelFloatingActionButtons
+                    handleClick={() => {
+                      setOpenJobDrawer(false);
+                    }}
+                  />
+                </Box>
+                {jobs.map((job, i) => (
+                  <SearchedJobDetailsAccordion job={job} key={i} />
+                ))}
+              </>
+            ) : (
+              <Typography>
+                No Jobs in <i>{value?.option} category</i>
+              </Typography>
+            )}
+          </Container>
+        )}
       </Drawer>
-      <Drawer
-        anchor="right"
-        open={openServicesDrawer}
-        onClose={() => {
-          setOpenServicesDrawer(false);
-        }}
-      >
+      <ServicesDrawer
+        openServicesDrawer={openServicesDrawer}
+        setOpenServicesDrawer={setOpenServicesDrawer}
+        searchedService={value?.option}
+        users={users}
+        loadingUser={loadingUser}
+      />
+    </Box>
+  );
+}
+
+export function ServicesDrawer({
+  searchedService,
+  users,
+  loadingUser,
+  openServicesDrawer,
+  setOpenServicesDrawer,
+}: {
+  searchedService: string | undefined;
+  users: any[];
+  loadingUser: boolean;
+  openServicesDrawer: boolean;
+  setOpenServicesDrawer: any;
+}) {
+  return (
+    <Drawer
+      anchor="right"
+      open={openServicesDrawer}
+      onClose={() => {
+        setOpenServicesDrawer(false);
+      }}
+    >
+      {loadingUser ? (
+        <LoadingAlert />
+      ) : (
         <Container sx={{ p: ".5rem", mt: "2rem" }}>
           {users && users.length > 0 ? (
             <>
@@ -283,7 +320,7 @@ export default function SearchDrawer({
                 justifyContent={"space-between"}
               >
                 <Typography>
-                  All Services in <i>{value?.option}</i> Category
+                  All Services in <i>{searchedService}</i> Category
                 </Typography>
                 <CancelFloatingActionButtons
                   handleClick={() => {
@@ -297,11 +334,11 @@ export default function SearchDrawer({
             </>
           ) : (
             <Typography>
-              No Services in <i>{value?.option} category</i>
+              No Services in <i>{searchedService} category</i>
             </Typography>
           )}
         </Container>
-      </Drawer>
-    </Box>
+      )}
+    </Drawer>
   );
 }
