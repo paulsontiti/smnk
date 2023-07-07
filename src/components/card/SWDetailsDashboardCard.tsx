@@ -23,6 +23,7 @@ import CatalogDisplayStepper from "../stepper/CatalogDisplayStepper";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import GppBadIcon from "@mui/icons-material/GppBad";
 import ProfilePic from "../avatar/ProfilePic";
+import InfoAlert from "../alerts/Info";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -59,7 +60,10 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
       setJobsDone(doneJobs.data.length);
     })();
   }, [userId]);
-  if (!userDetails || !userProfile) return <p></p>;
+  if (!userDetails || !userProfile)
+    return (
+      <InfoAlert message="Please complete your cccount creation by adding Info,services,experience" />
+    );
   return (
     <Card sx={{ mt: 5 }}>
       <CardHeader
