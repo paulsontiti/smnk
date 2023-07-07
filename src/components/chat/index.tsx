@@ -324,6 +324,8 @@ export const ChatGround = ({
         mb={10}
         mr={1}
         ml={1}
+        position={"static"}
+        bottom={100}
       >
         {sortedChats &&
           sortedChats.map((chat: any) => (

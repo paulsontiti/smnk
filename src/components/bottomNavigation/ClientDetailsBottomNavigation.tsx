@@ -2,27 +2,26 @@ import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import { Rating, Typography } from "@mui/material";
-export default function UserDetailsBottomNavigation({
+export default function ClientDetailsBottomNavigation({
   jobsDone,
   rating,
-  level,
 }: {
   jobsDone: number;
   rating: number;
-  level: string;
 }) {
   return (
     <Box
       sx={{ width: "95%" }}
       display={"flex"}
       alignItems={"center"}
-      justifyContent={"space-between"}
+      justifyContent={"flex-start"}
     >
       <Box
         display={"flex"}
         alignItems={"center"}
-        justifyContent={"space-between"}
+        justifyContent={"center"}
         flexDirection={"column"}
+        mr={1}
       >
         <WorkHistoryIcon color="primary" />
         <Typography variant="caption">{jobsDone}</Typography>
@@ -30,20 +29,12 @@ export default function UserDetailsBottomNavigation({
       <Box
         display={"flex"}
         alignItems={"center"}
-        justifyContent={"space-between"}
+        justifyContent={"center"}
         flexDirection={"column"}
+        mr={1}
       >
         <Rating value={rating} size="small" />
         <Typography variant="caption">Rating</Typography>
-      </Box>
-      <Box
-        display={"flex"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        flexDirection={"column"}
-      >
-        <StarIcon color="primary" />
-        <Typography variant="caption">{level}</Typography>
       </Box>
     </Box>
   );

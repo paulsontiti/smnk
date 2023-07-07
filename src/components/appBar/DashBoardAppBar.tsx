@@ -56,17 +56,18 @@ export default function DashBoardAppBar() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            {/* <Image
-              alt="SMNK Nig Ltd"
-              src="/assets/smnk_logo.jpg"
-              width={50}
-              height={50}
-              style={{ marginRight: ".5rem" }}
-              onClick={() => {
-                router.push("/");
-              }}
-            /> */}
-            <AppBarLogo />
+            <Box pt={2}>
+              <Image
+                alt="SMNK Nig Ltd"
+                src="/assets/smnk_logo.jpg"
+                width={70}
+                height={70}
+                style={{ marginRight: ".5rem" }}
+                onClick={() => {
+                  router.push("/");
+                }}
+              />
+            </Box>
           </Grid>
           <Grid
             item

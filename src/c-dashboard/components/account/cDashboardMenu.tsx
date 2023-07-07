@@ -59,7 +59,7 @@ export default function CDashboardMenu() {
           }}
         >
           <ListItemIcon>
-            <HomeIcon sx={{ color: "white" }} />
+            <HomeIcon color="primary" />
           </ListItemIcon>
           <ListItemText
             primary={<Typography variant="body1">Home</Typography>}
@@ -67,7 +67,7 @@ export default function CDashboardMenu() {
         </ListItemButton>
         <ListItemButton sx={{ ml: 0 }} onClick={accountHandleClick}>
           <ListItemIcon>
-            <AccountCircleIcon sx={{ color: "white" }} />
+            <AccountCircleIcon color="primary" />
           </ListItemIcon>
           <ListItemText
             primary={<Typography variant="body1">Account</Typography>}
@@ -90,7 +90,7 @@ export default function CDashboardMenu() {
         </Collapse>
         <ListItemButton sx={{ ml: 0 }} onClick={jobHandleClick}>
           <ListItemIcon>
-            <WorkHistoryIcon sx={{ color: "white" }} />
+            <WorkHistoryIcon color="primary" />
           </ListItemIcon>
           <ListItemText
             primary={<Typography variant="body1">Job</Typography>}
@@ -106,7 +106,7 @@ export default function CDashboardMenu() {
               }}
             >
               <ListItemIcon>
-                <PendingIcon sx={{ color: "white" }} />
+                <PendingIcon color="primary" />
               </ListItemIcon>
               <ListItemText
                 primary={
@@ -121,7 +121,7 @@ export default function CDashboardMenu() {
               }}
             >
               <ListItemIcon>
-                <CreateIcon sx={{ color: "white" }} />
+                <CreateIcon color="primary" />
               </ListItemIcon>
               <ListItemText
                 primary={
@@ -137,7 +137,7 @@ export default function CDashboardMenu() {
               }}
             >
               <ListItemIcon>
-                <AssignmentTurnedInIcon sx={{ color: "white" }} />
+                <AssignmentTurnedInIcon color="primary" />
               </ListItemIcon>
               <ListItemText
                 primary={

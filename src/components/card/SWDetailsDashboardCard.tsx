@@ -1,14 +1,13 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
-import Badge from "@mui/material/Badge";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import { Badge, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -23,6 +22,7 @@ import { Service } from "@/lib/types/service";
 import CatalogDisplayStepper from "../stepper/CatalogDisplayStepper";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import GppBadIcon from "@mui/icons-material/GppBad";
+import ProfilePic from "../avatar/ProfilePic";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -39,7 +39,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export default function SWDetailsCard({ userId }: { userId: string }) {
+export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
   const [expanded, setExpanded] = React.useState(false);
   const [userDetails, setUserDetails] = React.useState<any | null>(null);
   const [userProfile, setUserProfile] = React.useState<any | null>(null);
@@ -61,20 +61,11 @@ export default function SWDetailsCard({ userId }: { userId: string }) {
   }, [userId]);
   if (!userDetails || !userProfile) return <p></p>;
   return (
-    <Card
-      sx={{
-        maxWidth: { xs: 350, md: 300, lg: 400 },
-        minWidth: { xs: 350, md: 300, lg: 400 },
-        minHeight: { xs: 300, md: 300 },
-        maxHeight: { xs: 300, md: 300 },
-        overflow: "scroll",
-        mt: "1rem",
-      }}
-    >
+    <Card sx={{ mt: 5 }}>
       <CardHeader
         avatar={
           <Avatar
-            sx={{ bgcolor: red[500] }}
+            sx={{ width: 70, height: 70 }}
             aria-label="recipe"
             src={`/api/multer/profile-pic/${userDetails.user.dpFileName}`}
           ></Avatar>
@@ -85,21 +76,23 @@ export default function SWDetailsCard({ userId }: { userId: string }) {
         //   </IconButton>
         // }
         title={
-          <Badge
-            badgeContent={
-              userDetails.user.verification.kycVeried ? (
-                <VerifiedIcon color="success" />
-              ) : (
-                <GppBadIcon color="error" />
-              )
-            }
-          >
-            <Typography textTransform={"capitalize"}>
-              {userProfile.name
-                ? userProfile.name
-                : userProfile.firstName + " " + userProfile.lastName}
-            </Typography>
-          </Badge>
+          <>
+            <Badge
+              badgeContent={
+                userDetails.user.verification.kycVeried ? (
+                  <VerifiedIcon color="success" />
+                ) : (
+                  <GppBadIcon color="error" />
+                )
+              }
+            >
+              <Typography textTransform={"capitalize"}>
+                {userProfile.name
+                  ? userProfile.name
+                  : userProfile.firstName + " " + userProfile.lastName}
+              </Typography>
+            </Badge>
+          </>
         }
         subheader={
           <SubHeader userProfile={userProfile} userDetails={userDetails} />
@@ -107,11 +100,9 @@ export default function SWDetailsCard({ userId }: { userId: string }) {
       />
 
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" mb={5}>
           {userProfile.description}
         </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
         <UserDetailsBottomNavigation
           rating={
             userDetails.userExtra && userDetails.userExtra.rating
@@ -121,48 +112,7 @@ export default function SWDetailsCard({ userId }: { userId: string }) {
           jobsDone={jobsDone}
           level={userDetails.swExtras.level}
         />
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent sx={{ bgcolor: theme.smnk[100] }}>
-          {userDetails.swExtras.experience.length > 0 && (
-            <Box bgcolor={theme.smnk[200]} p={2}>
-              {userDetails.swExtras.experience.length > 0 && (
-                <Typography variant="subtitle2">Experiences:</Typography>
-              )}
-              {userDetails.swExtras.experience.map((exp: Experience) => (
-                <Experience exp={exp} key={exp._id} />
-              ))}
-            </Box>
-          )}
-          {userDetails.swExtras.services.length > 0 && (
-            <Box bgcolor={theme.smnk[300]} p={2}>
-              {userDetails.swExtras.services.length > 0 && (
-                <Typography variant="subtitle2">Servives:</Typography>
-              )}
-              {userDetails.swExtras.services.map((serv: Service) => (
-                <Service serv={serv} key={serv._id} />
-              ))}
-            </Box>
-          )}
-
-          {userDetails.swExtras.catalog && (
-            <Box p={2} bgcolor={"white"}>
-              {userDetails.swExtras.catalog && (
-                <Typography variant="subtitle2">Catalog:</Typography>
-              )}
-              <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
-            </Box>
-          )}
-        </CardContent>
-      </Collapse>
+      </CardContent>
     </Card>
   );
 }

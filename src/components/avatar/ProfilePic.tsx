@@ -24,7 +24,7 @@ export default function ProfilePic() {
       >
         {dpFileName ? (
           <IconButton
-            sx={{ bgcolor: theme.smnk[1400], mt: 1, mr: 2 }}
+            sx={{ mt: 1, mr: 2 }}
             onClick={() => {
               router.push("/sw-dashboard");
             }}
