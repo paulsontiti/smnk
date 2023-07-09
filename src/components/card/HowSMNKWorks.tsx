@@ -17,14 +17,7 @@ export default function HowSMNKWorks() {
     <>
       <Card
         sx={{
-          p: {
-            xs: ".5rem",
-            sm: "1rem 10rem",
-            md: "1rem 12rem",
-            lg: "1rem 20rem",
-            xl: "1rem 30rem",
-            width: "100%",
-          },
+          width: "90%",
           m: 2,
         }}
       >
