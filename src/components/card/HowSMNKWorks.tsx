@@ -32,7 +32,7 @@ export default function HowSMNKWorks() {
           <Card>
             <CardMedia
               component="img"
-              height="194"
+              sx={{ height: { xs: 100, md: 300 } }}
               src="/assets/create-account.png"
             />
             <CardContent>
@@ -71,7 +71,7 @@ export default function HowSMNKWorks() {
             <CardHeader title="Post Jobs" />
             <CardMedia
               component="img"
-              height="100"
+              sx={{ height: { xs: 100, md: 200 } }}
               src="/assets/post-a-job.png"
             />
             <CardContent>
@@ -86,7 +86,7 @@ export default function HowSMNKWorks() {
             <CardHeader title="Choose A Professional" />
             <CardMedia
               component="img"
-              height="100"
+              sx={{ height: { xs: 100, md: 200 } }}
               src="/assets/hire-smnk.png"
             />
             <CardContent>
@@ -100,7 +100,11 @@ export default function HowSMNKWorks() {
           </Card>
           <Card sx={{ mt: 2 }}>
             <CardHeader title="Pay Safely" />
-            <CardMedia component="img" height="100" src="/assets/pay.png" />
+            <CardMedia
+              component="img"
+              sx={{ height: { xs: 100, md: 200 } }}
+              src="/assets/pay.png"
+            />
             <CardContent>
               <Typography>
                 SMNK guarantees that only professionals/Skilled workers who have
