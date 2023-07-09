@@ -47,7 +47,7 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
       const profile = await getUserProfile(userId);
       setUserProfile(profile.data);
       const doneJobs = await getJobsDoneByUser(userId);
-      setJobsDone(doneJobs.data.length);
+      setJobsDone(doneJobs.data && doneJobs.data.length);
     })();
   }, [userId]);
   if (!userDetails || !userProfile) return <p></p>;
@@ -68,21 +68,28 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
         // }
         title={
           <>
-            <Badge
-              badgeContent={
-                userDetails.user.verification.kycVeried ? (
-                  <VerifiedIcon color="success" />
-                ) : (
-                  <GppBadIcon color="error" />
-                )
-              }
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"flex-start"}
             >
               <Typography textTransform={"capitalize"}>
                 {userProfile.name
                   ? userProfile.name
                   : userProfile.firstName + " " + userProfile.lastName}
               </Typography>
-            </Badge>
+              {userDetails.user.verification.kycVeried ? (
+                <VerifiedIcon
+                  color="success"
+                  sx={{ display: "flex", alignItems: "flex-start", width: 15 }}
+                />
+              ) : (
+                <GppBadIcon
+                  color="error"
+                  sx={{ display: "flex", alignItems: "flex-start", width: 15 }}
+                />
+              )}
+            </Box>
           </>
         }
         subheader={

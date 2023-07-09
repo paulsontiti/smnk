@@ -28,8 +28,8 @@ function DashBoardNotification() {
           setOpenDrawer(true);
         }}
       >
-        <Badge color="error" variant="dot">
-          {true ? <NotificationsActiveIcon /> : <NotificationsIcon />}
+        <Badge color="error" variant={false ? "dot" : "standard"}>
+          {false ? <NotificationsActiveIcon /> : <NotificationsIcon />}
         </Badge>
       </IconButton>
 

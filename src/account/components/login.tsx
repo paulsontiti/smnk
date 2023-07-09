@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import LoginIcon from "@mui/icons-material/Login";
 import { object, string } from "yup";
@@ -111,7 +110,6 @@ export default function Login() {
     <Container>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <FormikContainer formParams={formParams} />
-      <Link href="/account/forgotpassword">forgot password?</Link>
     </Container>
   );
 }

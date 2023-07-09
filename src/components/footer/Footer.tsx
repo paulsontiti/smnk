@@ -79,7 +79,7 @@ export default function Footer() {
           src="/assets/smnk.png"
           width={50}
           height={50}
-          style={{ borderRadius: "50%", marginRight: ".5rem" }}
+          style={{ marginRight: ".5rem" }}
           onClick={() => {
             router.push("/");
           }}

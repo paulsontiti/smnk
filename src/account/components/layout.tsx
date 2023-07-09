@@ -10,7 +10,7 @@ export default function AccountLayout(props: { children: any }) {
   return (
     <div id="container" className={styles.container}>
       <div className={styles.wrapper}>
-        {!matches && (
+        {/* {!matches && (
           <div>
             <Image
               src="/assets/ad2.png"
@@ -19,7 +19,7 @@ export default function AccountLayout(props: { children: any }) {
               height={600}
             />
           </div>
-        )}
+        )} */}
 
         <div>{props.children}</div>
       </div>

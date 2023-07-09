@@ -16,13 +16,14 @@ export default function UserDetailsBottomNavigation({
       sx={{ width: "95%" }}
       display={"flex"}
       alignItems={"center"}
-      justifyContent={"space-between"}
+      justifyContent={"flex-start"}
     >
       <Box
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-between"}
         flexDirection={"column"}
+        mr={2}
       >
         <WorkHistoryIcon color="primary" />
         <Typography variant="caption">{jobsDone}</Typography>
@@ -32,6 +33,7 @@ export default function UserDetailsBottomNavigation({
         alignItems={"center"}
         justifyContent={"space-between"}
         flexDirection={"column"}
+        mr={2}
       >
         <Rating value={rating} size="small" />
         <Typography variant="caption">Rating</Typography>
@@ -41,6 +43,7 @@ export default function UserDetailsBottomNavigation({
         alignItems={"center"}
         justifyContent={"space-between"}
         flexDirection={"column"}
+        mr={2}
       >
         <StarIcon color="primary" />
         <Typography variant="caption">{level}</Typography>

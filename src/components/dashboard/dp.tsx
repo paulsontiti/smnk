@@ -64,13 +64,13 @@ export default function DP() {
               >
                 {name}
               </Typography>
-              <Typography variant="caption" component="i" color="primary">
-                {`(${type}/${typeClass})`}
+              <Typography variant="caption" color="primary">
+                {`${type}/${typeClass}`}
               </Typography>
             </Box>
           )}
 
-          <UserRating type={type} />
+          {/* <UserRating type={type} /> */}
         </>
       )}
     </Box>

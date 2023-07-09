@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardContent,
   CardActions,
+  CardMedia,
 } from "@mui/material";
 import { useRouter } from "next/router";
 
@@ -29,6 +30,11 @@ export default function HowSMNKWorks() {
         <CardHeader title={`Let's Get You Started`} />
         <CardContent>
           <Card>
+            <CardMedia
+              component="img"
+              height="194"
+              src="/assets/create-account.png"
+            />
             <CardContent>
               <Typography>
                 Start Your journey with SMNK by creating an account. You can
@@ -63,6 +69,11 @@ export default function HowSMNKWorks() {
           </Card>
           <Card sx={{ mt: 2 }}>
             <CardHeader title="Post Jobs" />
+            <CardMedia
+              component="img"
+              height="100"
+              src="/assets/post-a-job.png"
+            />
             <CardContent>
               <Typography>
                 It is free and easy to post a job. You can simply choose your
@@ -73,6 +84,11 @@ export default function HowSMNKWorks() {
           </Card>
           <Card sx={{ mt: 2 }}>
             <CardHeader title="Choose A Professional" />
+            <CardMedia
+              component="img"
+              height="100"
+              src="/assets/hire-smnk.png"
+            />
             <CardContent>
               <Typography>
                 No discrimination on any job. We have got Professionals/Artisans
@@ -84,6 +100,7 @@ export default function HowSMNKWorks() {
           </Card>
           <Card sx={{ mt: 2 }}>
             <CardHeader title="Pay Safely" />
+            <CardMedia component="img" height="100" src="/assets/pay.png" />
             <CardContent>
               <Typography>
                 SMNK guarantees that only professionals/Skilled workers who have
@@ -94,6 +111,7 @@ export default function HowSMNKWorks() {
           </Card>
           <Card sx={{ mt: 2 }}>
             <CardHeader title="We Are Here To help" />
+            <CardMedia component="img" height="100" src="/assets/we-help.png" />
             <CardContent>
               <Typography>
                 Our talented team of recruiters are always available to find you

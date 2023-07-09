@@ -10,8 +10,13 @@ import { Form, Formik } from "formik";
 import FormControl from "./formControl";
 import { FormParams, getOptions } from "@/lib/form";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 function FormikContainer({ formParams }: { formParams: FormParams }) {
+  const router = useRouter();
+  //get the current url
+  const path = router.pathname;
   return (
     <Box
       maxWidth={"98%"}
@@ -89,6 +94,9 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
                 Reset
               </Button>
             </Box>
+            {path === "/account/login" && (
+              <Link href="/account/forgotpassword">forgot password?</Link>
+            )}
             <Backdrop
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
               open={isSubmitting}

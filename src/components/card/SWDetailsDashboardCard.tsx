@@ -3,26 +3,16 @@ import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import { Badge, Typography } from "@mui/material";
-import { red } from "@mui/material/colors";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Typography } from "@mui/material";
 import { fetchProfessionalsDetails } from "@/lib/search";
 import { getJobsDoneByUser, getUserProfile } from "@/lib/utils/user";
-import { Box, Divider } from "@mui/material";
+import { Box } from "@mui/material";
 import UserDetailsBottomNavigation from "../bottomNavigation/UserDetailsBottomNavigation";
-import { Experience } from "@/lib/experience";
-import moment from "moment";
 import { useTheme } from "@mui/material/styles";
-import { Service } from "@/lib/types/service";
-import CatalogDisplayStepper from "../stepper/CatalogDisplayStepper";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import GppBadIcon from "@mui/icons-material/GppBad";
-import ProfilePic from "../avatar/ProfilePic";
 import InfoAlert from "../alerts/Info";
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -57,15 +47,20 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
       const profile = await getUserProfile(userId);
       setUserProfile(profile.data);
       const doneJobs = await getJobsDoneByUser(userId);
-      setJobsDone(doneJobs.data.length);
+      setJobsDone(doneJobs.data && doneJobs.data.length);
     })();
   }, [userId]);
   if (!userDetails || !userProfile)
     return (
-      <InfoAlert message="Please complete your cccount creation by adding Info,services,experience" />
+      <InfoAlert message="Please complete your account creation by adding Info,services,experience" />
     );
   return (
-    <Card sx={{ mt: 5 }}>
+    <Card
+      sx={{
+        mt: 1,
+        minWidth: "100%",
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar
@@ -81,21 +76,28 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
         // }
         title={
           <>
-            <Badge
-              badgeContent={
-                userDetails.user.verification.kycVeried ? (
-                  <VerifiedIcon color="success" />
-                ) : (
-                  <GppBadIcon color="error" />
-                )
-              }
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"flex-start"}
             >
               <Typography textTransform={"capitalize"}>
                 {userProfile.name
                   ? userProfile.name
                   : userProfile.firstName + " " + userProfile.lastName}
               </Typography>
-            </Badge>
+              {userDetails.user.verification.kycVeried ? (
+                <VerifiedIcon
+                  color="success"
+                  sx={{ display: "flex", alignItems: "flex-start", width: 15 }}
+                />
+              ) : (
+                <GppBadIcon
+                  color="error"
+                  sx={{ display: "flex", alignItems: "flex-start", width: 15 }}
+                />
+              )}
+            </Box>
           </>
         }
         subheader={
@@ -144,86 +146,6 @@ function SubHeader({
       <Typography variant="caption">
         {userProfile.lga + "," + userProfile.state}
       </Typography>
-    </Box>
-  );
-}
-function Experience({ exp }: { exp: Experience }) {
-  return (
-    <Box
-      display={"flex"}
-      alignItems={"flex-start"}
-      justifyContent={"flex-start"}
-      flexDirection={"column"}
-      mt={2}
-    >
-      <Box>
-        <Typography variant="caption">Role Title:</Typography>
-        <Typography variant="caption" sx={{ ml: "1rem" }}>
-          {exp.title}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography variant="caption">Company:</Typography>
-        <Typography variant="caption" sx={{ ml: "1rem" }}>
-          {exp.company}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography variant="caption">Description:</Typography>
-        <Typography variant="caption" sx={{ ml: "1rem" }}>
-          {exp.description}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography variant="caption">Start Date:</Typography>
-        <Typography variant="caption" sx={{ ml: "1rem" }}>
-          {moment(exp.startDate).format("DD/MM/YYYY")}
-        </Typography>
-      </Box>
-      {exp.endDate ? (
-        <Box>
-          <Typography variant="caption">End Date:</Typography>
-          <Typography variant="caption" sx={{ ml: "1rem" }}>
-            {moment(exp.endDate).format("DD/MM/YYYY")}
-          </Typography>
-        </Box>
-      ) : (
-        <Box>
-          <Typography variant="caption">On Role</Typography>
-        </Box>
-      )}
-      <Divider />
-    </Box>
-  );
-}
-function Service({ serv }: { serv: Service }) {
-  return (
-    <Box
-      display={"flex"}
-      alignItems={"flex-start"}
-      justifyContent={"flex-start"}
-      flexDirection={"column"}
-      mt={2}
-    >
-      <Box>
-        <Typography variant="caption">Title:</Typography>
-        <Typography variant="caption" sx={{ ml: "1rem" }}>
-          {serv.title}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography variant="caption">Skills:</Typography>
-        <Typography variant="caption" sx={{ ml: "1rem" }}>
-          {`${serv.skills[0]}${serv.skills[1] ? "," + serv.skills[1] : ""}`}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography variant="caption">Description:</Typography>
-        <Typography variant="caption" sx={{ ml: "1rem" }}>
-          {serv.description}
-        </Typography>
-      </Box>
-      <Divider />
     </Box>
   );
 }
