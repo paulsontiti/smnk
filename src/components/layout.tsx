@@ -134,12 +134,7 @@ export default function Layout(props: { children: any }) {
               />
             </ListItemButton>
 
-            <ListItemButton
-              sx={{ ml: 0 }}
-              onClick={() => {
-                router.push("/jobs");
-              }}
-            >
+            <ListItemButton sx={{ ml: 0 }} onClick={() => {}}>
               <ListItemText
                 primary={<Typography variant="body2">Blog</Typography>}
               />
