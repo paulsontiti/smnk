@@ -27,12 +27,12 @@ export default function HowSMNKWorks() {
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "flex-start",
+              justifyContent: { xs: "center", md: "flex-start" },
               flexWrap: "wrap",
               flexDirection: { xs: "column", md: "row" },
             }}
           >
-            <Card>
+            <Card sx={{ maxWidth: 300 }}>
               <CardMedia
                 component="img"
                 sx={{ height: { xs: 300, md: 400 } }}
@@ -70,7 +70,7 @@ export default function HowSMNKWorks() {
                 </Button>
               </CardActions>
             </Card>
-            <Card sx={{ mt: 2 }}>
+            <Card sx={{ mt: 2, maxWidth: 300 }}>
               <CardHeader title="Post Jobs" />
               <CardMedia
                 component="img"
@@ -85,7 +85,7 @@ export default function HowSMNKWorks() {
                 </Typography>
               </CardContent>
             </Card>
-            <Card sx={{ mt: 2 }}>
+            <Card sx={{ mt: 2, maxWidth: 300 }}>
               <CardHeader title="Choose A Professional" />
               <CardMedia
                 component="img"
@@ -101,7 +101,7 @@ export default function HowSMNKWorks() {
                 </Typography>
               </CardContent>
             </Card>
-            <Card sx={{ mt: 2 }}>
+            <Card sx={{ mt: 2, maxWidth: 300 }}>
               <CardHeader title="Pay Safely" />
               <CardMedia
                 component="img"
@@ -116,7 +116,7 @@ export default function HowSMNKWorks() {
                 </Typography>
               </CardContent>
             </Card>
-            <Card sx={{ mt: 2 }}>
+            <Card sx={{ mt: 2, maxWidth: 300 }}>
               <CardHeader title="We Are Here To help" />
               <CardMedia
                 component="img"
