@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  Box,
   Button,
   Card,
   Typography,
@@ -10,6 +9,7 @@ import {
   CardMedia,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export default function HowSMNKWorks() {
   const router = useRouter();
@@ -30,12 +30,13 @@ export default function HowSMNKWorks() {
         <CardHeader title={`Let's Get You Started`} />
         <CardContent>
           <Card>
-            <CardMedia
-              component="img"
-              sx={{ height: { xs: 300, md: 400 } }}
-              src="/assets/create-account.png"
-            />
             <CardContent>
+              <Image
+                height={400}
+                width={350}
+                alt="create-account"
+                src="/assets/create-account.png"
+              />
               <Typography>
                 Start Your journey with SMNK by creating an account. You can
                 create an account as a Skilled Worker/Professional/Service
@@ -69,12 +70,14 @@ export default function HowSMNKWorks() {
           </Card>
           <Card sx={{ mt: 2 }}>
             <CardHeader title="Post Jobs" />
-            <CardMedia
-              component="img"
-              sx={{ height: { xs: 150, md: 200 } }}
-              src="/assets/post-a-job.png"
-            />
+
             <CardContent>
+              <Image
+                height={200}
+                width={350}
+                alt="create-account"
+                src="/assets/post-a-job.png"
+              />
               <Typography>
                 It is free and easy to post a job. You can simply choose your
                 identity,profile and budget and recommendations would come
@@ -84,12 +87,14 @@ export default function HowSMNKWorks() {
           </Card>
           <Card sx={{ mt: 2 }}>
             <CardHeader title="Choose A Professional" />
-            <CardMedia
-              component="img"
-              sx={{ height: { xs: 150, md: 200 } }}
-              src="/assets/hire-smnk.png"
-            />
+
             <CardContent>
+              <Image
+                height={200}
+                width={350}
+                alt="create-account"
+                src="/assets/hire-smnk.png"
+              />
               <Typography>
                 No discrimination on any job. We have got Professionals/Artisans
                 for jobs of any budget or size, across 1000+ skills. As long as
@@ -100,12 +105,14 @@ export default function HowSMNKWorks() {
           </Card>
           <Card sx={{ mt: 2 }}>
             <CardHeader title="Pay Safely" />
-            <CardMedia
-              component="img"
-              sx={{ height: { xs: 150, md: 200 } }}
-              src="/assets/pay.png"
-            />
+
             <CardContent>
+              <Image
+                height={200}
+                width={350}
+                alt="create-account"
+                src="/assets/pay.png"
+              />
               <Typography>
                 SMNK guarantees that only professionals/Skilled workers who have
                 completed their jobs satisfactorily will receive your money.
@@ -115,13 +122,15 @@ export default function HowSMNKWorks() {
           </Card>
           <Card sx={{ mt: 2 }}>
             <CardHeader title="We Are Here To help" />
-            <CardMedia
-              component="img"
-              sx={{ height: { xs: 150, md: 200 } }}
-              src="/assets/we-help.png"
-            />
+
             <CardContent>
               <Typography>
+                <Image
+                  height={200}
+                  width={350}
+                  alt="create-account"
+                  src="/assets/we-help.png"
+                />
                 Our talented team of recruiters are always available to find you
                 the best fit for your job and ensure you get true value for your
                 money
