@@ -26,7 +26,7 @@ export default function HowSMNKWorks() {
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: { xs: "center", md: "flex-start" },
+              justifyContent: "space-between",
               flexWrap: "wrap",
               flexDirection: { xs: "column", md: "row" },
             }}
