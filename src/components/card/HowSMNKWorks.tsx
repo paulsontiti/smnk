@@ -32,7 +32,7 @@ export default function HowSMNKWorks() {
           <Card>
             <CardMedia
               component="img"
-              sx={{ height: { xs: 100, md: 400 } }}
+              sx={{ height: { xs: 200, md: 400 } }}
               src="/assets/create-account.png"
             />
             <CardContent>
@@ -71,7 +71,7 @@ export default function HowSMNKWorks() {
             <CardHeader title="Post Jobs" />
             <CardMedia
               component="img"
-              sx={{ height: { xs: 100, md: 200 } }}
+              sx={{ height: { xs: 150, md: 200 } }}
               src="/assets/post-a-job.png"
             />
             <CardContent>
@@ -86,7 +86,7 @@ export default function HowSMNKWorks() {
             <CardHeader title="Choose A Professional" />
             <CardMedia
               component="img"
-              sx={{ height: { xs: 100, md: 200 } }}
+              sx={{ height: { xs: 150, md: 200 } }}
               src="/assets/hire-smnk.png"
             />
             <CardContent>
@@ -102,7 +102,7 @@ export default function HowSMNKWorks() {
             <CardHeader title="Pay Safely" />
             <CardMedia
               component="img"
-              sx={{ height: { xs: 100, md: 200 } }}
+              sx={{ height: { xs: 150, md: 200 } }}
               src="/assets/pay.png"
             />
             <CardContent>
@@ -117,7 +117,7 @@ export default function HowSMNKWorks() {
             <CardHeader title="We Are Here To help" />
             <CardMedia
               component="img"
-              sx={{ height: { xs: 100, md: 200 } }}
+              sx={{ height: { xs: 150, md: 200 } }}
               src="/assets/we-help.png"
             />
             <CardContent>
