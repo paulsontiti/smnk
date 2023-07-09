@@ -21,6 +21,7 @@ export default function HowSMNKWorks() {
           p: 2,
         }}
       >
+        <CardHeader title={`Let's Get You Started`} />
         <CardContent>
           <Box
             sx={{
@@ -34,7 +35,6 @@ export default function HowSMNKWorks() {
             <Card
               sx={{ maxWidth: { xs: 300, md: 400 }, minHeight: { md: 700 } }}
             >
-              <CardHeader title={`Let's Get You Started`} />
               <CardMedia
                 component="img"
                 sx={{ height: { xs: 300, md: 400 } }}
