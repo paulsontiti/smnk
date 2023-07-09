@@ -36,6 +36,7 @@ export default function HowSMNKWorks() {
                 width={350}
                 alt="create-account"
                 src="/assets/create-account.png"
+                loading="lazy"
               />
               <Typography>
                 Start Your journey with SMNK by creating an account. You can
@@ -77,6 +78,7 @@ export default function HowSMNKWorks() {
                 width={350}
                 alt="create-account"
                 src="/assets/post-a-job.png"
+                loading="lazy"
               />
               <Typography>
                 It is free and easy to post a job. You can simply choose your
@@ -94,6 +96,7 @@ export default function HowSMNKWorks() {
                 width={350}
                 alt="create-account"
                 src="/assets/hire-smnk.png"
+                loading="lazy"
               />
               <Typography>
                 No discrimination on any job. We have got Professionals/Artisans
@@ -112,6 +115,7 @@ export default function HowSMNKWorks() {
                 width={350}
                 alt="create-account"
                 src="/assets/pay.png"
+                loading="lazy"
               />
               <Typography>
                 SMNK guarantees that only professionals/Skilled workers who have
@@ -130,6 +134,7 @@ export default function HowSMNKWorks() {
                   width={350}
                   alt="create-account"
                   src="/assets/we-help.png"
+                  loading="lazy"
                 />
                 Our talented team of recruiters are always available to find you
                 the best fit for your job and ensure you get true value for your

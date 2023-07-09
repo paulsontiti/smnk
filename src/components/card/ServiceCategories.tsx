@@ -150,7 +150,7 @@ function Category({
         setUsers(users);
       }}
     >
-      <Image src={src} width={50} height={50} alt="" />
+      <Image src={src} width={50} height={50} alt="" loading="lazy" />
       <Typography variant="caption" m={1}>
         {title}
       </Typography>
