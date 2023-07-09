@@ -17,7 +17,7 @@ export default function Home() {
         <link rel="icon" href="smnk.jpg" type="image/x-icon" />
       </Head>
       <main>
-        <Box m={2} height={{ xs: 300, sm: 400, md: 500 }}>
+        {/* <Box m={2} height={{ xs: 300, sm: 400, md: 500 }}>
           <video
             width="100%"
             height="100%"
@@ -30,7 +30,7 @@ export default function Home() {
             <source src="/assets/SMNK front page video.ogg" type="video/ogg" />
             Your browser does not support the video tag.
           </video>
-        </Box>
+        </Box> */}
         {/* <Box mt={{ md: 5 }} sx={{ objectFit: "fill" }}>
           <ReactPlayer
             url="/assets/SMNK front page video.mp4"
