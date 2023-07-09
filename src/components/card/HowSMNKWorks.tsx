@@ -32,7 +32,7 @@ export default function HowSMNKWorks() {
           <Card>
             <CardMedia
               component="img"
-              sx={{ height: { xs: 100, md: 300 } }}
+              sx={{ height: { xs: 100, md: 350 } }}
               src="/assets/create-account.png"
             />
             <CardContent>
@@ -115,7 +115,11 @@ export default function HowSMNKWorks() {
           </Card>
           <Card sx={{ mt: 2 }}>
             <CardHeader title="We Are Here To help" />
-            <CardMedia component="img" height="100" src="/assets/we-help.png" />
+            <CardMedia
+              component="img"
+              sx={{ height: { xs: 100, md: 200 } }}
+              src="/assets/we-help.png"
+            />
             <CardContent>
               <Typography>
                 Our talented team of recruiters are always available to find you
