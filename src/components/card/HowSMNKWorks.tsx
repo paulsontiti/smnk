@@ -28,7 +28,13 @@ export default function HowSMNKWorks() {
         }}
       >
         <CardHeader title={`Let's Get You Started`} />
-        <CardContent>
+        <CardContent
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+          }}
+        >
           <Card>
             <CardMedia
               component="img"
