@@ -32,7 +32,7 @@ export default function HowSMNKWorks() {
           <Card>
             <CardMedia
               component="img"
-              sx={{ height: { xs: 200, md: 400 } }}
+              sx={{ height: { xs: 300, md: 400 } }}
               src="/assets/create-account.png"
             />
             <CardContent>
