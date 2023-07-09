@@ -26,13 +26,13 @@ export default function HowSMNKWorks() {
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
+              justifyContent: "center",
               flexWrap: "wrap",
-              flexDirection: { xs: "column", md: "row" },
+              flexDirection: { xs: "column", sm: "row" },
             }}
           >
             <Card
-              sx={{ maxWidth: { xs: 300, sm: 400 }, minHeight: { md: 600 } }}
+              sx={{ maxWidth: { xs: 300, md: 400 }, minHeight: { md: 600 } }}
             >
               <CardHeader title={`Let's Get You Started`} />
               <CardMedia
@@ -75,7 +75,7 @@ export default function HowSMNKWorks() {
             <Card
               sx={{
                 mt: 2,
-                maxWidth: { xs: 300, sm: 400 },
+                maxWidth: { xs: 300, md: 400 },
                 minHeight: { md: 600 },
               }}
             >
@@ -96,7 +96,7 @@ export default function HowSMNKWorks() {
             <Card
               sx={{
                 mt: 2,
-                maxWidth: { xs: 300, sm: 400 },
+                maxWidth: { xs: 300, md: 400 },
                 minHeight: { md: 600 },
               }}
             >
@@ -118,7 +118,7 @@ export default function HowSMNKWorks() {
             <Card
               sx={{
                 mt: 2,
-                maxWidth: { xs: 300, sm: 400 },
+                maxWidth: { xs: 300, md: 400 },
                 minHeight: { md: 600 },
               }}
             >
@@ -139,7 +139,7 @@ export default function HowSMNKWorks() {
             <Card
               sx={{
                 mt: 2,
-                maxWidth: { xs: 300, sm: 400 },
+                maxWidth: { xs: 300, md: 400 },
                 minHeight: { md: 600 },
               }}
             >
