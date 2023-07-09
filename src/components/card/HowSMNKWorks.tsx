@@ -32,7 +32,9 @@ export default function HowSMNKWorks() {
               flexDirection: { xs: "column", md: "row" },
             }}
           >
-            <Card sx={{ maxWidth: 300, minHeight: { md: 600 } }}>
+            <Card
+              sx={{ maxWidth: { xs: 300, sm: 400 }, minHeight: { md: 600 } }}
+            >
               <CardMedia
                 component="img"
                 sx={{ height: { xs: 300, md: 400 } }}
@@ -70,7 +72,13 @@ export default function HowSMNKWorks() {
                 </Button>
               </CardActions>
             </Card>
-            <Card sx={{ mt: 2, maxWidth: 300, minHeight: { md: 600 } }}>
+            <Card
+              sx={{
+                mt: 2,
+                maxWidth: { xs: 300, sm: 400 },
+                minHeight: { md: 600 },
+              }}
+            >
               <CardHeader title="Post Jobs" />
               <CardMedia
                 component="img"
@@ -85,7 +93,13 @@ export default function HowSMNKWorks() {
                 </Typography>
               </CardContent>
             </Card>
-            <Card sx={{ mt: 2, maxWidth: 300, minHeight: { md: 600 } }}>
+            <Card
+              sx={{
+                mt: 2,
+                maxWidth: { xs: 300, sm: 400 },
+                minHeight: { md: 600 },
+              }}
+            >
               <CardHeader title="Choose A Professional" />
               <CardMedia
                 component="img"
@@ -101,7 +115,13 @@ export default function HowSMNKWorks() {
                 </Typography>
               </CardContent>
             </Card>
-            <Card sx={{ mt: 2, maxWidth: 300, minHeight: { md: 600 } }}>
+            <Card
+              sx={{
+                mt: 2,
+                maxWidth: { xs: 300, sm: 400 },
+                minHeight: { md: 600 },
+              }}
+            >
               <CardHeader title="Pay Safely" />
               <CardMedia
                 component="img"
@@ -116,7 +136,13 @@ export default function HowSMNKWorks() {
                 </Typography>
               </CardContent>
             </Card>
-            <Card sx={{ mt: 2, maxWidth: 300, minHeight: { md: 600 } }}>
+            <Card
+              sx={{
+                mt: 2,
+                maxWidth: { xs: 300, sm: 400 },
+                minHeight: { md: 600 },
+              }}
+            >
               <CardHeader title="We Are Here To help" />
               <CardMedia
                 component="img"
