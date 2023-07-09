@@ -29,6 +29,7 @@ export default function HowSMNKWorks() {
               alignItems: "center",
               justifyContent: "flex-start",
               flexWrap: "wrap",
+              flexDirection: { xs: "column", md: "row" },
             }}
           >
             <Card>
