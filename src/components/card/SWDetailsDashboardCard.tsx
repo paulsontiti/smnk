@@ -191,13 +191,14 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
           Services:
         </Typography>
         <ul>
-          {services.map((service: any) => (
-            <li key={service.title}>
-              <Typography textTransform={"capitalize"}>
-                {service.category}
-              </Typography>
-            </li>
-          ))}
+          {services.length > 0 &&
+            services.map((service: any) => (
+              <li key={service.title}>
+                <Typography textTransform={"capitalize"}>
+                  {service.category}
+                </Typography>
+              </li>
+            ))}
         </ul>
         <Typography color="primary" fontWeight={"bold"} mt={5}>
           Skills:
@@ -243,6 +244,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
 }
 
 function Experience({ exp }: { exp: any }) {
+  if (!exp) return <p></p>;
   return (
     <Box mb={2}>
       <Typography maxWidth={300}>
@@ -257,6 +259,7 @@ function Experience({ exp }: { exp: any }) {
   );
 }
 function OnRoleExperience({ exp }: { exp: any }) {
+  if (!exp) return <p></p>;
   return (
     <Box mb={2}>
       <Typography maxWidth={300} mb={1}>
