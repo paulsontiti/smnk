@@ -168,6 +168,76 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
           <SubHeader userProfile={userProfile} serviceTitle={serviceTitle()} />
         }
       />
+      <CardContent>
+        <UserDetailsBottomNavigation
+          rating={
+            userDetails && userDetails.userExtra && userDetails.userExtra.rating
+              ? userDetails.userExtra.rating
+              : 0
+          }
+          jobsDone={jobsDone}
+          level={
+            userDetails && userDetails.swExtras && userDetails.swExtras.level
+          }
+        />
+        <Typography color="primary" fontWeight={"bold"} mt={5}>
+          Bio:
+        </Typography>
+        <Typography variant="body2" color="text.secondary" mb={5}>
+          {userProfile && userProfile.description}
+        </Typography>
+        {/* <Typography color="primary" fontWeight={"bold"} mt={5}>
+          Services:
+        </Typography>
+        <ul>
+          {services.length > 0 &&
+            services.map((service: any) => (
+              <li key={service.title}>
+                <Typography textTransform={"capitalize"}>
+                  {service.category}
+                </Typography>
+              </li>
+            ))}
+        </ul> */}
+        <Typography color="primary" fontWeight={"bold"} mt={5}>
+          Skills:
+        </Typography>
+        <ul>
+          {skills().map((skill: any) => (
+            <li key={skill}>
+              <Typography textTransform={"capitalize"}>{skill}</Typography>
+            </li>
+          ))}
+        </ul>
+        <Typography color="primary" fontWeight={"bold"} mt={5}>
+          Experiences:
+        </Typography>
+        <ul>
+          {experiences.map((exp: any) => (
+            <li key={exp._id}>
+              {exp.onRole ? (
+                <OnRoleExperience exp={exp} />
+              ) : (
+                <Experience exp={exp} />
+              )}
+            </li>
+          ))}
+        </ul>
+        {userDetails &&
+          userDetails.swExtras &&
+          userDetails.swExtras.catalog && (
+            <Box p={2} bgcolor={"white"} maxWidth={{ xs: "100%", md: 600 }}>
+              {userDetails.swExtras.catalog && (
+                <Typography variant="subtitle2">Catalog:</Typography>
+              )}
+              <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
+            </Box>
+          )}
+        <Typography fontWeight={"bold"} mt={2}>
+          Comments
+        </Typography>
+        <Comments />
+      </CardContent>
     </Card>
   );
 }
