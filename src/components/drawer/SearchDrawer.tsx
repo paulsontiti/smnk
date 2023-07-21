@@ -178,65 +178,7 @@ export default function SearchDrawer({
           )}
         />
       </Box>
-      {/* {footer ? (
-        <>
-          <Button
-            variant="outlined"
-            startIcon={<SearchIcon />}
-            sx={{ textTransform: "lowercase", color: "white" }}
-            onClick={handleMenu}
-          >
-            Search
-          </Button>
-        </>
-      ) : (
-        <IconButton onClick={handleMenu} sx={{ color: theme.smnk[1000] }}>
-          <SearchIcon />
-        </IconButton>
-      )}
-      <Box>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem
-            onClick={() => {
-              handleClose("Services");
-              setOpenDrawer(true);
-            }}
-          >
-            Search For Services
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handleClose("Jobs");
-              setOpenDrawer(true);
-            }}
-          >
-            Search For Jobs
-          </MenuItem>
-        </Menu>
-      </Box> */}
-      {/* <Drawer
-        anchor="top"
-        open={openDrawer}
-        onClose={() => {
-          setOpenDrawer(false);
-        }}
-      >
-        {" "}
-      </Drawer> */}
+
       <Drawer
         anchor="left"
         open={openJobDrawer}

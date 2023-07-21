@@ -163,7 +163,7 @@ function SendBox({
     });
   };
   return (
-    <Box width={"90vw"}>
+    <Box width={"90vw"} position={"relative"}>
       <Formik
         validationSchema={object({ msg: string().required() })}
         initialValues={{ msg: "" }}
@@ -175,15 +175,15 @@ function SendBox({
             <Box
               display={"flex"}
               alignItems={"center"}
-              justifyContent={"flex-start"}
+              justifyContent={"center"}
               borderRadius={20}
               border={"1px solid blue"}
               sx={{ backgroundColor: "whitesmoke" }}
               mt={5}
-              minWidth={"98%"}
-              position={"fixed"}
-              bottom={"2%"}
-              maxWidth={"98%"}
+              minWidth={"100%"}
+              position={"absolute"}
+              top={"10"}
+              maxWidth={"100%"}
               left={"1%"}
               right={"1%"}
             >
@@ -221,7 +221,6 @@ function SendBox({
                 </>
               )}
             </Box>
-            {/* <pre>{JSON.stringify(errors,null,4)}</pre> */}
           </Form>
         )}
       </Formik>
@@ -314,10 +313,10 @@ export const ChatGround = ({
     }
   }, [chats]);
   return (
-    <Paper sx={{ mt: "1rem" }}>
+    <Paper sx={{ mt: "1rem", maxWidth: "100%" }}>
       <ChatHeader receiverId={receiverId} isChatRoom={false} />
       <Box
-        sx={{ backgroundColor: "whitesmoke" }}
+        sx={{ backgroundColor: "whitesmoke", maxWidth: "100%" }}
         pt={3}
         pb={3}
         mt={1}

@@ -63,8 +63,8 @@ export default function SWDetailsCard({ userId }: { userId: string }) {
   return (
     <Card
       sx={{
-        maxWidth: { xs: 350, md: 300, lg: 400 },
-        minWidth: { xs: 350, md: 300, lg: 400 },
+        maxWidth: "100%",
+        minWidth: "100%",
         minHeight: { xs: 300, md: 300 },
         maxHeight: { xs: 300, md: 300 },
         overflow: "scroll",
@@ -107,7 +107,7 @@ export default function SWDetailsCard({ userId }: { userId: string }) {
       />
 
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" maxWidth={"100%"}>
           {userProfile.description}
         </Typography>
       </CardContent>

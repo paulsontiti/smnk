@@ -40,6 +40,7 @@ function JobDetailsComponent({ job }: { job: any }) {
     isProposalAccepted: false,
     isJobPaidFor: false,
     isJobRated: false,
+    isPaymentApproved: false,
   });
   const [error, setError] = useState();
 

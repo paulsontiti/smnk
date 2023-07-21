@@ -1,12 +1,12 @@
 import Box from "@mui/material/Box";
-import StarIcon from "@mui/icons-material/Star";
-import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import { Rating, Typography } from "@mui/material";
 export default function ClientDetailsBottomNavigation({
-  jobsDone,
+  completedJobs,
+  pendingJobs,
   rating,
 }: {
-  jobsDone: number;
+  completedJobs: number;
+  pendingJobs: number;
   rating: number;
 }) {
   return (
@@ -23,8 +23,18 @@ export default function ClientDetailsBottomNavigation({
         flexDirection={"column"}
         mr={1}
       >
-        <WorkHistoryIcon color="primary" />
-        <Typography variant="caption">{jobsDone}</Typography>
+        <Typography variant="caption">Completed Jobs</Typography>
+        <Typography variant="caption">{completedJobs}</Typography>
+      </Box>
+      <Box
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        flexDirection={"column"}
+        mr={1}
+      >
+        <Typography variant="caption">Pending Jobs</Typography>
+        <Typography variant="caption">{pendingJobs}</Typography>
       </Box>
       <Box
         display={"flex"}

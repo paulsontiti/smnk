@@ -29,6 +29,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
     isProposalAccepted: false,
     isJobPaidFor: false,
     isJobRated: false,
+    isPaymentApproved: false,
   });
   const [error, setError] = useState();
 
@@ -90,9 +91,9 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
           setValue(newValue);
         }}
       >
-        {!jobStatus.isJobPaidFor && !jobStatus.isProposalAccepted && (
+        {!jobStatus.isProposalAccepted && (
           <BottomNavigationAction
-            label="Edit"
+            label="Edit Job"
             icon={
               <EditFloatingActionButtons
                 handleClick={() => {
@@ -103,9 +104,9 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
           />
         )}
 
-        {!jobStatus.isJobPaidFor && !jobStatus.isProposalAccepted && (
+        {!jobStatus.isProposalAccepted && (
           <BottomNavigationAction
-            label="Delete"
+            label="Delete Job"
             icon={
               <DeleteFloatingActionButtons
                 handleClick={() => {
@@ -118,7 +119,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
         )}
         {!jobStatus.isJobPaidFor && jobStatus.isProposalAccepted && (
           <BottomNavigationAction
-            label="Pay"
+            label="Pay For This Job"
             icon={
               <PayFloatingActionButtons
                 handleClick={() => {
@@ -150,7 +151,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
         )}
         {jobStatus.isJobRated && (
           <BottomNavigationAction
-            label="Tip S.W"
+            label="Tip Professional"
             icon={
               <TipFloatingActionButtons
                 handleClick={() => {

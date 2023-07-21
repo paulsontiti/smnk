@@ -37,7 +37,8 @@ try{
         content,
         userId,
         file:{
-          name:req.file ? req.file.filename : ''
+          name:req.file ? req.file.filename : '',
+          contentType: req.file ? req.file.contentType : ''
         }
       }
       const job = await Job.findOne({_id:jobId})

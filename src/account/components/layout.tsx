@@ -8,8 +8,8 @@ export default function AccountLayout(props: { children: any }) {
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <div id="container" className={styles.container}>
-      <div className={styles.wrapper}>
+    <div>
+      <div>
         {/* {!matches && (
           <div>
             <Image

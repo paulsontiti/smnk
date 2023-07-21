@@ -70,7 +70,7 @@ export default function Footer() {
         mx: -3,
         my: -3,
         borderRadius: { xs: 0, sm: "xs" },
-        margin: "3rem 0",
+        margin: "3rem 0 0 0",
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 0 }}>

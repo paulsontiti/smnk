@@ -9,7 +9,22 @@ export default async function handler(req:any,res:any){
     const {receiverId} = req.body
         if(receiverId){
             try{
-                const chats = await Chat.updateMany({receiverId},{seen:true})
+                const chats = await Chat.find({'chats.youId':receiverId},{chats:true,})
+               if(chats){
+                chats.map(async(chat:any)=>{
+                    chat.chats.map((chat:any)=>{
+                        const filterredChats = chat.me.filter((me:any)=>me.seen === false)
+                        filterredChats.map((me:any)=>{
+                            me.seen = true
+                            
+                           })
+                    })
+                   
+                   await chat.save()
+                })
+               
+              
+               }
                      res.status(201).json('')
              }catch(err){
                  console.log(err)

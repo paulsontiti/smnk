@@ -9,7 +9,7 @@ export default async function handler(req:any,res:any){
     const {receiverId} = req.body
        if(receiverId){
         try{
-            const chats =  await Chat.find({receiverId,seen:false})
+            const chats =  await Chat.find({'chats.youId':receiverId,'chats.me.seen':false})
                   res.status(201).json(chats.length)
           }catch(err){
               console.log(err)

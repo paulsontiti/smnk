@@ -33,7 +33,7 @@ function AddFile() {
         .then(async (data: any) => {
           try {
             //checkif the file is valid
-            const isFileValid = validCatalogFile(values.catalog);
+            const isFileValid = validFile(values.catalog);
             if (isFileValid === "valid") {
               const formData = new FormData();
               formData.append("userId", _id);
@@ -142,7 +142,7 @@ function AddFile() {
       initialValues,
       reportFormControls
     ),
-    buttonLabel: "Add",
+    buttonLabel: "Upload",
     headerTitle: `Add To Your Catalog`,
   };
 
@@ -150,45 +150,13 @@ function AddFile() {
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <FormikContainer formParams={formParams} />
-      {/* <form
-        onSubmit={submitHandler}
-        encType="multipart/form-data"
-      >
-        <IconButton color="primary" type="submit">
-          {
-            
-          file  && (
-            <>
-              <Image src={displayFile} alt="image to upload" width={100} height={100}/>
-              <LoadingButton
-                loading={uploading}
-                loadingPosition="start"
-                startIcon={<UploadIcon sx={{ color: `${color}.900` }} />}
-              ></LoadingButton>
-            </>
-          )}
-        </IconButton>
-        <IconButton color="primary" aria-label="upload picture" component="label">
-          <input
-            name="cat"
-            onChange={handleChange}
-            hidden
-            accept="image/*"
-            type="file"
-          />
-                        <PhotoCamera />
-          {!file && <>
-                        <Typography sx={{marginRight:'1rem'}} component='span'>Select an image</Typography>
-                    </>}
-        </IconButton>
-      </form> */}
     </>
   );
 }
 
 export default AddFile;
 
-function validCatalogFile(catalog: any) {
+export function validFile(catalog: any) {
   switch (true) {
     case !catalog: {
       return "Invalid request,select a file";

@@ -11,7 +11,9 @@ import { useRouter } from "next/router";
 import { useTheme } from "@mui/material/styles";
 
 export default function ProfilePic() {
-  const { dpFileName } = useSelector((state: RootState) => state.users.user);
+  const { dpFileName, type } = useSelector(
+    (state: RootState) => state.users.user
+  );
   const router = useRouter();
   const theme = useTheme();
 
@@ -26,7 +28,11 @@ export default function ProfilePic() {
           <IconButton
             sx={{ mt: 1, mr: 2 }}
             onClick={() => {
-              router.push("/sw-dashboard");
+              if (type === "skilled worker") {
+                router.push("/sw-dashboard");
+              } else {
+                router.push("/c-dashboard");
+              }
             }}
           >
             <Avatar

@@ -12,6 +12,7 @@ export default function BackToChatRoomFloatingActionButtons() {
       onClick={() => {
         router.back();
       }}
+      sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}
     >
       <Fab color="primary" aria-label="add" size="small">
         <ArrowBackIcon />

@@ -57,14 +57,14 @@ export default function ProposalDetailsAccordion({ jobId }: { jobId: string }) {
       <AccordionDetails>
         <Box>{proposal.content}</Box>
 
-        <CardActions>
+        {/* <CardActions>
           {proposal && !proposal.rejected && !proposal.accepted && (
             <EditDeleteBottomNavigation
               editHandleClick={() => {}}
               deleteHandleClick={() => {}}
             />
           )}
-        </CardActions>
+        </CardActions> */}
       </AccordionDetails>
     </Accordion>
   );

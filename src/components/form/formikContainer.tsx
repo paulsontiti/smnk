@@ -19,16 +19,9 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
   const path = router.pathname;
   return (
     <Box
-      maxWidth={"98%"}
-      sx={{
-        p: {
-          xs: "3rem 1rem",
-          sm: "5rem",
-          md: "5rem 15rem",
-          lg: "5rem 25rem",
-          xl: "5rem 25rem",
-        },
-      }}
+      maxWidth={{ xs: "100%", md: "80%" }}
+      width={"100%"}
+      p={{ xs: 2, sm: 5, md: 10 }}
     >
       <Typography mb={2}>{formParams.headerTitle}</Typography>
       <Formik

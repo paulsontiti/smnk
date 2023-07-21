@@ -1,3 +1,4 @@
+import { validFile } from "@/components/catalog/AddFile";
 import FormikContainer from "@/components/form/formikContainer";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
@@ -59,19 +60,28 @@ function ApplyJobForm({ userId, jobId }: { userId: string; jobId: string }) {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
-    const formData = new FormData();
-
-    formData.append("proposalFile", values.proposalFile);
-    formData.append("content", values.content);
-    formData.append("userId", values.userId);
-    formData.append("jobId", values.jobId);
-
     return new Promise((res) => {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
-          submitHandler(formData);
-          res(data);
+          //checkif the file is valid
+          const isFileValid = validFile(values.proposalFile);
+          if (isFileValid === "valid") {
+            const formData = new FormData();
+
+            formData.append("proposalFile", values.proposalFile);
+            formData.append("content", values.content);
+            formData.append("userId", values.userId);
+            formData.append("jobId", values.jobId);
+            submitHandler(formData);
+            res(data);
+          } else {
+            setMsg(isFileValid);
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+            res(data);
+          }
         })
         .catch((err: any) => {
           console.log("Error from formik ", err);

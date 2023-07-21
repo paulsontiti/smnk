@@ -26,7 +26,7 @@ export default function Layout(props: { children: any }) {
         {mediaQuery ? <DesktopDashboardAppBar /> : <DashBoardAppBar />}
         <Grid container>
           {mediaQuery && (
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={3}>
               <Box
                 color={theme.smnk[1000]}
                 minHeight={"100vh"}
@@ -43,11 +43,10 @@ export default function Layout(props: { children: any }) {
               </Box>
             </Grid>
           )}{" "}
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={9}>
             <Grid container>
               <Grid item xs={12}>
                 <Box
-                  p={2}
                   display={"flex"}
                   alignItems={"center"}
                   justifyContent={"center"}
@@ -56,9 +55,6 @@ export default function Layout(props: { children: any }) {
                   {props.children ? props.children : <AdsStepper />}
                 </Box>
               </Grid>
-              {/* <Grid item xs={12}>
-                          
-                        </Grid> */}
             </Grid>
           </Grid>
         </Grid>

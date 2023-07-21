@@ -10,6 +10,7 @@ export type JobStatus = {
   isJobApproved: boolean;
   isProposalAccepted: boolean;
   isJobPaidFor: boolean;
+  isPaymentApproved: boolean;
   isJobRated?: boolean;
   approvedUserId?: string;
   hasThisUserApplied?: boolean;
@@ -28,6 +29,26 @@ export const getJobStatus = async (
         method: "POST",
         url: `${process.env.SMNK_URL}api/job/get-job-status`,
         data: { jobId, userId },
+      });
+      const data = await res.data;
+      //console.log(data)
+      setStatus(data);
+    }
+  } catch (err: any) {
+    console.log(err);
+    setError(err);
+  }
+};
+export const getJobComments = async (
+  setStatus: React.Dispatch<React.SetStateAction<any>>,
+  setError: React.Dispatch<React.SetStateAction<any>>,
+  userId?: string
+) => {
+  try {
+    if (userId) {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.SMNK_URL}api/job/comments/${userId}`,
       });
       const data = await res.data;
       //console.log(data)

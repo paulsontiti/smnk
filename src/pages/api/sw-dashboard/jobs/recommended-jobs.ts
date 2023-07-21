@@ -40,17 +40,6 @@ const recommendedJobs = async (info: any, userId: string) => {
     );
   }
 
- 
- 
-//  console.log(jobs)
-//   let filterredJobs:any[] = []
-//  jobs.flat().map((job)=>{
-//    //check if the job exists in filterredJobs
-//    if(!filterredJobs.find((j)=>j._id.toString() === job._id.toString())){
-//     filterredJobs.push(job)
-//      }
-//  })
-//map the jobs and return a new job object{_id,jobDetails}
 const newJobs = jobs.map((job) => {
     
     const newJob = { _id: job._id, details: job.jobDetails};

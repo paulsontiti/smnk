@@ -37,6 +37,7 @@ const jobSchema = new Schema(
     swPaid: { type: Boolean, default: false },
     rated: { type: Boolean, default: false },
     popConfirmed: { type: Boolean, default: false },
+    
     swId: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -75,7 +76,7 @@ const jobSchema = new Schema(
           default: false,
         },
         file: {
-          name: String,
+          name: String,contentType:String
         },
         date: { type: Date, default: new Date() },
       },

@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { theme } from "@/pages/_app";
 import Logout from "../dashboard/logout";
 import SearchBox from "../autoComplete/SearchBox";
+import LogoutSwitch from "../switch/LogoutSwitch";
 
 export default function DesktopHomeAppBar() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -77,7 +78,7 @@ export default function DesktopHomeAppBar() {
               >
                 <DPAvatar dp={user.dpFileName} />
               </IconButton>
-              <Logout />
+              <LogoutSwitch />
             </Box>
           )}
           {!user._id && <AccountActions />}

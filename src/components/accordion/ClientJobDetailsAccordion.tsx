@@ -25,6 +25,10 @@ import DoneIcon from "@mui/icons-material/Done";
 import NotStartedIcon from "@mui/icons-material/NotStarted";
 import ErrorAlert from "../alerts/Error";
 import LoadingAlert from "../alerts/Loading";
+import { fetchUsers } from "@/lib/search";
+import SWDetailsCard from "../card/SWDetailsCard";
+import InfoAlert from "../alerts/Info";
+import JobProgress from "../job/JobProgress";
 
 export default function ClientJobDetailsAccordion({ job }: { job: any }) {
   const { user } = useSelector((state: RootState) => state.users);
@@ -41,6 +45,7 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
     isProposalAccepted: false,
     isJobPaidFor: false,
     isJobRated: false,
+    isPaymentApproved: false,
   });
   const [error, setError] = React.useState();
 
@@ -48,9 +53,8 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
     getJobStatus(job._id, setJobStatus, setError, user._id);
   }, [job._id, user._id]);
 
-  if (error) return <ErrorAlert/>
-  if (!jobStatus) return <LoadingAlert/>
-
+  if (error) return <ErrorAlert />;
+  if (!jobStatus) return <LoadingAlert />;
   return (
     <Accordion>
       <AccordionSummary
@@ -67,7 +71,7 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
               >
                 {job.jobDetails.title}
               </Typography>
-              {jobStatus.isJobPaidFor &&
+              {jobStatus.isPaymentApproved &&
               jobStatus.isProposalAccepted &&
               !jobStatus.isJobApproved ? (
                 <>
@@ -83,7 +87,7 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
                 </>
               ) : (
                 <>
-                {!jobStatus.isJobApproved && <NotStartedIcon color="error" />}
+                  {!jobStatus.isJobApproved && <NotStartedIcon color="error" />}
                 </>
               )}
               {jobStatus.isJobApproved && <DoneIcon color="success" />}
@@ -99,7 +103,7 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
               <MoneyIcon />
               <Badge
                 badgeContent={
-                  jobStatus.isJobPaidFor ? (
+                  jobStatus.isPaymentApproved ? (
                     <VerifiedIcon color="success" />
                   ) : (
                     <PendingIcon color="error" />
@@ -161,7 +165,17 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
               <Divider />
             </Grid>
           )}
-          <Grid item xs={12} sx={dividerStyle}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              margin: "1rem 1rem",
+            }}
+          >
             <DateRangeIcon />
             <Typography variant="caption">
               {job.jobDetails.startDate?.toString().slice(0, 10)}
@@ -174,20 +188,31 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
               {job.jobDetails.endDate?.toString().slice(0, 10)}
             </Typography>
           </Grid>
+          <Grid item xs={12} sx={{ mt: 5, mb: 5 }}>
+            <JobProgress jobStatus={jobStatus} />
+          </Grid>
+          {!jobStatus.isProposalAccepted && (
+            <Grid item xs={12} sx={{ mt: 5, mb: 5 }}>
+              <Typography>Recommended Professionals</Typography>
+              <RecommendedProfessional jobCategory={job.jobDetails.category} />
+            </Grid>
+          )}
           <Grid item xs={12}>
-            {!job.proposalAccepted && job.proposals.length > 0 && (
-              <ProposalsAccordion proposals={job.proposals.filter((pro:any)=>pro.rejected === false)} jobId={job._id} />
-            )}
-            {!job.approved && job.reports.length > 0 && (
-              <ClientReportsAccordion
-                reports={job.reports}
+            {!job.proposalAccepted && (
+              <ProposalsAccordion
+                proposals={job.proposals.filter(
+                  (pro: any) => pro.rejected === false
+                )}
                 jobId={job._id}
               />
+            )}
+            {!job.approved && job.reports.length > 0 && (
+              <ClientReportsAccordion reports={job.reports} jobId={job._id} />
             )}
           </Grid>
         </Grid>
 
-        <CardActions>
+        <CardActions sx={{ mt: 5 }}>
           {user.type === "admin" ? (
             <>
               {job.pop && !jobStatus.isJobPaidFor && (
@@ -215,5 +240,30 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
         </CardActions>
       </AccordionDetails>
     </Accordion>
+  );
+}
+function RecommendedProfessional({ jobCategory }: { jobCategory: string }) {
+  const [users, setUsers] = useState<any[] | null>(null);
+  useEffect(() => {
+    (async () => {
+      const data = await fetchUsers(jobCategory);
+      setUsers(data);
+    })();
+  });
+  if (!users) return <LoadingAlert />;
+  if (users.length === 0)
+    return <InfoAlert message="No recommended professionals" />;
+  return (
+    <Box
+      display={"flex"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      flexWrap={"wrap"}
+      gap={5}
+    >
+      {users?.map((user: any) => (
+        <SWDetailsCard key={user.userId} userId={user.userId} />
+      ))}
+    </Box>
   );
 }

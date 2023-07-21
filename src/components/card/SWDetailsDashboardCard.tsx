@@ -14,6 +14,9 @@ import { useTheme } from "@mui/material/styles";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import GppBadIcon from "@mui/icons-material/GppBad";
 import InfoAlert from "../alerts/Info";
+import Comments from "../job/Comments";
+import moment from "moment";
+import CatalogDisplayStepper from "../stepper/CatalogDisplayStepper";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -50,10 +53,63 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
       setJobsDone(doneJobs.data && doneJobs.data.length);
     })();
   }, [userId]);
-  if (!userDetails || !userProfile)
-    return (
-      <InfoAlert message="Please complete your account creation by adding Info,services,experience" />
-    );
+
+  //check for data before using them
+  const dp =
+    userDetails && userDetails.user && userDetails.user.dpFileName
+      ? userDetails.user.dpFileName
+      : "";
+  const fullName = () => {
+    if (userProfile) {
+      if (userProfile.name) return userProfile.name;
+      return userProfile.firstName + " " + userProfile.lastName;
+    }
+    return "";
+  };
+  const verified =
+    userDetails &&
+    userDetails.user &&
+    userDetails.user.verification &&
+    userDetails.user.verification.kycVeried;
+
+  const serviceTitle = () => {
+    if (
+      userDetails &&
+      userDetails.swExtras &&
+      userDetails.swExtras.services &&
+      userDetails.swExtras.services[0]
+    ) {
+      if (userDetails.swExtras.services[1]) {
+        return (
+          userDetails.swExtras.services[0].title +
+          "," +
+          userDetails.swExtras.services[1].title
+        );
+      } else {
+        return userDetails.swExtras.services[0].title;
+      }
+    }
+    return "";
+  };
+  const services =
+    userDetails && userDetails.swExtras && userDetails.swExtras.services
+      ? userDetails.swExtras.services
+      : [];
+  const skills = () => {
+    const skillsArray: string[] = [];
+    if (services.length > 0) {
+      services.map((service: any) => {
+        service.skills.map((skill: string) => {
+          skillsArray.push(skill);
+        });
+      });
+    }
+    return skillsArray;
+  };
+  const experiences: any[] =
+    userDetails && userDetails.swExtras && userDetails.swExtras.experience
+      ? userDetails.swExtras.experience
+      : [];
   return (
     <Card
       sx={{
@@ -66,7 +122,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
           <Avatar
             sx={{ width: 70, height: 70 }}
             aria-label="recipe"
-            src={`/api/multer/profile-pic/${userDetails.user.dpFileName}`}
+            src={`/api/multer/profile-pic/${dp}`}
           ></Avatar>
         }
         // action={
@@ -81,54 +137,141 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
               alignItems={"center"}
               justifyContent={"flex-start"}
             >
-              <Typography textTransform={"capitalize"}>
-                {userProfile.name
-                  ? userProfile.name
-                  : userProfile.firstName + " " + userProfile.lastName}
-              </Typography>
-              {userDetails.user.verification.kycVeried ? (
-                <VerifiedIcon
-                  color="success"
-                  sx={{ display: "flex", alignItems: "flex-start", width: 15 }}
-                />
-              ) : (
-                <GppBadIcon
-                  color="error"
-                  sx={{ display: "flex", alignItems: "flex-start", width: 15 }}
-                />
+              <Typography textTransform={"capitalize"}>{fullName()}</Typography>
+              {fullName() && (
+                <>
+                  {verified ? (
+                    <VerifiedIcon
+                      color="success"
+                      sx={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        width: 15,
+                      }}
+                    />
+                  ) : (
+                    <GppBadIcon
+                      color="error"
+                      sx={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        width: 15,
+                      }}
+                    />
+                  )}
+                </>
               )}
             </Box>
           </>
         }
         subheader={
-          <SubHeader userProfile={userProfile} userDetails={userDetails} />
+          <SubHeader userProfile={userProfile} serviceTitle={serviceTitle()} />
         }
       />
 
       <CardContent>
-        <Typography variant="body2" color="text.secondary" mb={5}>
-          {userProfile.description}
-        </Typography>
         <UserDetailsBottomNavigation
           rating={
-            userDetails.userExtra && userDetails.userExtra.rating
+            userDetails && userDetails.userExtra && userDetails.userExtra.rating
               ? userDetails.userExtra.rating
               : 0
           }
           jobsDone={jobsDone}
-          level={userDetails.swExtras.level}
+          level={
+            userDetails && userDetails.swExtras && userDetails.swExtras.level
+          }
         />
+        <Typography color="primary" fontWeight={"bold"} mt={5}>
+          Bio:
+        </Typography>
+        <Typography variant="body2" color="text.secondary" mb={5}>
+          {userProfile && userProfile.description}
+        </Typography>
+        <Typography color="primary" fontWeight={"bold"} mt={5}>
+          Services:
+        </Typography>
+        <ul>
+          {services.map((service: any) => (
+            <li key={service.title}>
+              <Typography textTransform={"capitalize"}>
+                {service.category}
+              </Typography>
+            </li>
+          ))}
+        </ul>
+        <Typography color="primary" fontWeight={"bold"} mt={5}>
+          Skills:
+        </Typography>
+        <ul>
+          {skills().map((skill: any) => (
+            <li key={skill}>
+              <Typography textTransform={"capitalize"}>{skill}</Typography>
+            </li>
+          ))}
+        </ul>
+        <Typography color="primary" fontWeight={"bold"} mt={5}>
+          Experiences:
+        </Typography>
+        <ul>
+          {experiences.map((exp: any) => (
+            <li key={exp._id}>
+              {exp.onRole ? (
+                <OnRoleExperience exp={exp} />
+              ) : (
+                <Experience exp={exp} />
+              )}
+            </li>
+          ))}
+        </ul>
+        {userDetails &&
+          userDetails.swExtras &&
+          userDetails.swExtras.catalog && (
+            <Box p={2} bgcolor={"white"} maxWidth={{ xs: "100%", md: 600 }}>
+              {userDetails.swExtras.catalog && (
+                <Typography variant="subtitle2">Catalog:</Typography>
+              )}
+              <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
+            </Box>
+          )}
+        <Typography fontWeight={"bold"} mt={2}>
+          Comments
+        </Typography>
+        <Comments />
       </CardContent>
     </Card>
   );
 }
 
+function Experience({ exp }: { exp: any }) {
+  return (
+    <Box mb={2}>
+      <Typography maxWidth={300}>
+        {`I worked as a ${exp.title} for ${exp.company}, ${exp.address}, ${
+          exp.lga
+        }, ${exp.state} from ${moment(exp.startDate).format(
+          "DD-MM-YY"
+        )} to ${moment(exp.endDate).format("DD-MM-YY")}.`}
+      </Typography>
+      <Typography>{exp.description}</Typography>
+    </Box>
+  );
+}
+function OnRoleExperience({ exp }: { exp: any }) {
+  return (
+    <Box mb={2}>
+      <Typography maxWidth={300} mb={1}>
+        {`I am currently working as a ${exp.title} for ${exp.company}, ${exp.address}, ${exp.lga}, ${exp.state}.`}
+      </Typography>
+      <Typography>{exp.description}</Typography>
+    </Box>
+  );
+}
 function SubHeader({
   userProfile,
-  userDetails,
+  serviceTitle,
 }: {
   userProfile: any;
-  userDetails: any;
+  serviceTitle: string;
 }) {
   return (
     <Box
@@ -136,15 +279,11 @@ function SubHeader({
       justifyContent={"flex-start"}
       flexDirection={"column"}
     >
-      <Typography variant="caption">{`${
-        userDetails.swExtras.services[0].title
-      }${
-        userDetails.swExtras.services[1]
-          ? "," + userDetails.swExtras.services[1].title
-          : ""
-      }`}</Typography>
+      <Typography variant="caption" textTransform={"capitalize"}>
+        {serviceTitle}
+      </Typography>
       <Typography variant="caption">
-        {userProfile.lga + "," + userProfile.state}
+        {userProfile && userProfile.lga + "," + userProfile.state}
       </Typography>
     </Box>
   );

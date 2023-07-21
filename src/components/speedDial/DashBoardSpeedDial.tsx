@@ -25,16 +25,7 @@ export default function DashBoardSpeedDial() {
     //   { icon: <FileCopyIcon />, name: 'Copy' },
     //   { icon: <SaveIcon />, name: 'Save' },
     //   { icon: <PrintIcon />, name: 'Print' },
-    {
-      icon: <LogoutIcon />,
-      name: "Logout",
-      onClick: () => {
-        if (confirm("Are you sure you want to log out?")) {
-          dispatch(logout());
-          router.push("/");
-        }
-      },
-    },
+
     {
       icon: <RefreshIcon />,
       name: "Refresh Page",

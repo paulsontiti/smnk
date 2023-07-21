@@ -96,6 +96,25 @@ export const getJobsDoneByUser = async (userId: string) => {
   }
   return { data, error };
 };
+export const getClientJobHistory = async (userId: string) => {
+  let data;
+  let error;
+  if (userId) {
+    try {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.SMNK_URL}api/job/client/${userId}`,
+      });
+      data = await res.data;
+    } catch (err: any) {
+      console.log(err);
+      error = err;
+    }
+  } else {
+    return { data, error };
+  }
+  return { data, error };
+};
 export const getCompanyProfile = (userId: string) => {
   const res = async () => {
     try {

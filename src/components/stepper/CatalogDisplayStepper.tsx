@@ -115,11 +115,12 @@ function CatalogCard({
   return (
     <Card
       sx={{
-        maxWidth: { sm: "70%", lg: "50%" },
+        maxWidth: { xs: 300, sm: "100%" },
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
+        minHeight: 300,
         p: 2,
       }}
     >

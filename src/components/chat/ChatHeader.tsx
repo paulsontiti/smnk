@@ -2,6 +2,7 @@ import { Box, Typography, Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getUserInfo, getUserProfile } from "@/lib/utils/user";
 import { useRouter } from "next/router";
+import BackToChatRoomFloatingActionButtons from "../fab/BackToChatRoomFloatingActionButtons";
 
 function ChatHeader({
   receiverId,
@@ -37,22 +38,28 @@ function ChatHeader({
 
   return (
     <Box
-      display={"flex"}
-      alignItems={"center"}
-      justifyContent={"space-between"}
-      p={1}
       onClick={() => {
         //clickable only in chatroom
         if (isChatRoom) {
           router.push(`/chat/${receiverId}`);
         }
       }}
+      minWidth={"100%"}
     >
-      <Box display={"flex"} alignItems={"center"} justifyContent={"flex-start"}>
-        {senderDp && <Avatar src={`/api/multer/profile-pic/${senderDp}`} />}
-        <Typography sx={{ ml: "1rem", textTransform: "capitalize" }}>
-          {name}
-        </Typography>
+      <Box
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        p={2}
+      >
+        <Box display={"flex"} alignItems={"center"}>
+          {" "}
+          {senderDp && <Avatar src={`/api/multer/profile-pic/${senderDp}`} />}
+          <Typography sx={{ ml: "1rem", textTransform: "capitalize" }}>
+            {name}
+          </Typography>
+        </Box>
+        {!isChatRoom && <BackToChatRoomFloatingActionButtons />}
       </Box>
     </Box>
   );

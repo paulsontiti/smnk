@@ -15,10 +15,10 @@ function ChatNotification() {
   const router = useRouter();
 
   useEffect(() => {
-    (async () => {
+    setInterval(async () => {
       const data = await unSeenChats(_id);
       setCount(data);
-    })();
+    }, 1000);
   }, [_id]);
 
   return (

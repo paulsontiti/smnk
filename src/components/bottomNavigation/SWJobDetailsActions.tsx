@@ -4,11 +4,8 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { useRouter } from "next/router";
 import { JobStatus, getJobStatus } from "../job/AdminJobStatus";
 import { useEffect, useRef, useState } from "react";
-import { cancelJob } from "@/lib/job";
 import GenericDialog from "../dialog/GenericDialog";
-import ClientTippingContent from "../dialog/contents/ClientTippingContent";
 import ApplyFloatingActionButtons from "../fab/Apply";
-import CancelFloatingActionButtons from "../fab/Cancel";
 import ChatFloatingActionButtons from "../fab/Chat";
 import AcceptFloatingActionButtons from "../fab/Accept";
 import { confirmSWPaid } from "@/lib/payment";
@@ -28,6 +25,7 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
     isProposalAccepted: false,
     isJobPaidFor: false,
     isJobRated: false,
+    isPaymentApproved: false,
   });
   const [error, setError] = useState();
   const [msg, setMsg] = useState("");
@@ -36,8 +34,6 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
   //declare refs
   const snackBarRef = useRef();
   const dialogRef = useRef();
-  //ref for tipping dialog
-  const tippingRef = useRef();
 
   const confirmAction = async (confirm: boolean) => {
     if (!confirm) {
@@ -61,21 +57,6 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
         const refState = snackBarRef.current as any;
         refState.handleClick();
       }
-      // const result = await cancelJob(jobId);
-      // if (result) {
-      //   setMsg("Job cancelled");
-      //   setColor("success");
-      //   const refState = snackBarRef.current as any;
-      //   refState.handleClick();
-      //   setTimeout(() => {
-      //     router.push(`/dashboard/job/recommended-jobs`);
-      //   }, 3000);
-      // } else {
-      //   setMsg("An error occurred,try again");
-      //   setColor("error");
-      //   const refState = snackBarRef.current as any;
-      //   refState.handleClick();
-      // }
     }
   };
   const dialogHandler = () => {
@@ -123,14 +104,6 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
           />
         )}
 
-        {/* {jobStatus.isProposalAccepted &&
-          !jobStatus.isJobPaidFor &&
-          jobStatus.hasThisUserApplied && (
-            <BottomNavigationAction
-              label="Cancel"
-              icon={<CancelFloatingActionButtons handleClick={dialogHandler} />}
-            />
-          )} */}
         {jobStatus.isJobApproved && !jobStatus.swPaid && (
           <BottomNavigationAction
             label="Confirm Payment"
@@ -148,7 +121,6 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
           />
         )}
       </BottomNavigation>
-      {/* <pre>{JSON.stringify(jobStatus,null,4)}</pre> */}
     </Box>
   );
 }

@@ -12,7 +12,7 @@ const userExtraSchema = new Schema({
     comments:[
         {
             comment:{type:String},
-            clientId:{ 
+            userId:{ 
                 type: Schema.Types.ObjectId,
                 ref: 'User',
              },
@@ -24,5 +24,5 @@ const userExtraSchema = new Schema({
     timestamps:true,
     versionKey:false
 })
-const UserExtra = models.UserExtra || model('UserExtra', userExtraSchema)
+const UserExtra : any = models.UserExtra || model('UserExtra', userExtraSchema)
 export default UserExtra

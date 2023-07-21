@@ -5,15 +5,15 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import { Badge, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { fetchProfessionalsDetails } from "@/lib/search";
-import { getJobsDoneByUser, getUserProfile } from "@/lib/utils/user";
-import { Box, Divider } from "@mui/material";
-import moment from "moment";
-import { useTheme } from "@mui/material/styles";
+import { getClientJobHistory, getUserProfile } from "@/lib/utils/user";
+import { Box } from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import GppBadIcon from "@mui/icons-material/GppBad";
 import ClientDetailsBottomNavigation from "../bottomNavigation/ClientDetailsBottomNavigation";
+import ClientJobHistory from "../job/ClientJobHistory";
+import Comments from "../job/Comments";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -31,14 +31,10 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export default function ClientDetailsDashboard({ userId }: { userId: string }) {
-  const [expanded, setExpanded] = React.useState(false);
   const [userDetails, setUserDetails] = React.useState<any | null>(null);
   const [userProfile, setUserProfile] = React.useState<any | null>(null);
-  const [jobsDone, setJobsDone] = React.useState<number>(0);
-  const theme = useTheme();
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const [completedJobs, setCompletedJobs] = React.useState<number>(0);
+  const [pendingJobs, setPendingJobs] = React.useState<number>(0);
   React.useEffect(() => {
     (async () => {
       const data = await fetchProfessionalsDetails(userId);
@@ -46,19 +42,39 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
       setUserDetails(data);
       const profile = await getUserProfile(userId);
       setUserProfile(profile.data);
-      const doneJobs = await getJobsDoneByUser(userId);
-      setJobsDone(doneJobs.data && doneJobs.data.length);
+      const {
+        data: { completedJobs, pendingJobs },
+      } = await getClientJobHistory(userId);
+
+      setCompletedJobs(completedJobs && completedJobs.length);
+      setPendingJobs(pendingJobs && pendingJobs.length);
     })();
   }, [userId]);
-  if (!userDetails || !userProfile) return <p></p>;
+  //check for data before using them
+  const dp =
+    userDetails && userDetails.user && userDetails.user.dpFileName
+      ? userDetails.user.dpFileName
+      : "";
+  const fullName = () => {
+    if (userProfile) {
+      if (userProfile.name) return userProfile.name;
+      return userProfile.firstName + " " + userProfile.lastName;
+    }
+    return "";
+  };
+  const verified =
+    userDetails &&
+    userDetails.user &&
+    userDetails.user.verification &&
+    userDetails.user.verification.kycVeried;
   return (
-    <Card sx={{ mt: 5 }}>
+    <Card sx={{ mt: 1, width: "100%" }}>
       <CardHeader
         avatar={
           <Avatar
             sx={{ width: 70, height: 70 }}
             aria-label="recipe"
-            src={`/api/multer/profile-pic/${userDetails.user.dpFileName}`}
+            src={`/api/multer/profile-pic/${dp}`}
           ></Avatar>
         }
         // action={
@@ -73,54 +89,60 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
               alignItems={"center"}
               justifyContent={"flex-start"}
             >
-              <Typography textTransform={"capitalize"}>
-                {userProfile.name
-                  ? userProfile.name
-                  : userProfile.firstName + " " + userProfile.lastName}
-              </Typography>
-              {userDetails.user.verification.kycVeried ? (
-                <VerifiedIcon
-                  color="success"
-                  sx={{ display: "flex", alignItems: "flex-start", width: 15 }}
-                />
-              ) : (
-                <GppBadIcon
-                  color="error"
-                  sx={{ display: "flex", alignItems: "flex-start", width: 15 }}
-                />
+              <Typography textTransform={"capitalize"}>{fullName()}</Typography>
+              {fullName() && (
+                <>
+                  {verified ? (
+                    <VerifiedIcon
+                      color="success"
+                      sx={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        width: 15,
+                      }}
+                    />
+                  ) : (
+                    <GppBadIcon
+                      color="error"
+                      sx={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        width: 15,
+                      }}
+                    />
+                  )}
+                </>
               )}
             </Box>
           </>
         }
-        subheader={
-          <SubHeader userProfile={userProfile} userDetails={userDetails} />
-        }
+        subheader={<SubHeader userProfile={userProfile} />}
       />
 
       <CardContent>
         <Typography variant="body2" color="text.secondary" mb={5}>
-          {userProfile.description}
+          {userProfile && userProfile.description}
         </Typography>
         <ClientDetailsBottomNavigation
           rating={
-            userDetails.userExtra && userDetails.userExtra.rating
+            userDetails && userDetails.userExtra && userDetails.userExtra.rating
               ? userDetails.userExtra.rating
               : 0
           }
-          jobsDone={jobsDone}
+          completedJobs={completedJobs}
+          pendingJobs={pendingJobs}
         />
+        <ClientJobHistory />
+        <Typography fontWeight={"bold"} mt={2}>
+          Comments
+        </Typography>
+        <Comments />
       </CardContent>
     </Card>
   );
 }
 
-function SubHeader({
-  userProfile,
-  userDetails,
-}: {
-  userProfile: any;
-  userDetails: any;
-}) {
+function SubHeader({ userProfile }: { userProfile: any }) {
   return (
     <Box
       display={"flex"}
@@ -128,7 +150,7 @@ function SubHeader({
       flexDirection={"column"}
     >
       <Typography variant="caption">
-        {userProfile.lga + "," + userProfile.state}
+        {userProfile && userProfile.lga + "," + userProfile.state}
       </Typography>
     </Box>
   );
