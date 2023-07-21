@@ -186,7 +186,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
         <Typography variant="body2" color="text.secondary" mb={5}>
           {userProfile && userProfile.description}
         </Typography>
-        {/* <Typography color="primary" fontWeight={"bold"} mt={5}>
+        <Typography color="primary" fontWeight={"bold"} mt={5}>
           Services:
         </Typography>
         <ul>
@@ -198,7 +198,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
                 </Typography>
               </li>
             ))}
-        </ul> */}
+        </ul>
         <Typography color="primary" fontWeight={"bold"} mt={5}>
           Skills:
         </Typography>
@@ -230,7 +230,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
               {userDetails.swExtras.catalog && (
                 <Typography variant="subtitle2">Catalog:</Typography>
               )}
-              <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
+              {/* <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} /> */}
             </Box>
           )}
         <Typography fontWeight={"bold"} mt={2}>
