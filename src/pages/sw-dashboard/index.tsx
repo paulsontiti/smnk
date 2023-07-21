@@ -15,7 +15,9 @@ export default function Dashboard() {
   });
   return (
     <>
-      <Layout>{/* <SWDetailsDashboardCard userId={_id} /> */}</Layout>
+      <Layout>
+        <SWDetailsDashboardCard userId={_id} />
+      </Layout>
     </>
   );
 }
