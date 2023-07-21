@@ -35,7 +35,7 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };
-  if (!catalog) return <p></p>;
+
   return (
     <Box>
       <Typography variant="caption">

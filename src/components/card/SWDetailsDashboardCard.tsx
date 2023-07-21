@@ -225,11 +225,9 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
         </ul>
         {userDetails &&
           userDetails.swExtras &&
-          userDetails.swExtras.catalog && (
+          userDetails.swExtras.catalog.length > 0 && (
             <Box p={2} bgcolor={"white"} maxWidth={{ xs: "100%", md: 600 }}>
-              {userDetails.swExtras.catalog && (
-                <Typography variant="subtitle2">Catalog:</Typography>
-              )}
+              <Typography variant="subtitle2">Catalog:</Typography>
               <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
             </Box>
           )}
