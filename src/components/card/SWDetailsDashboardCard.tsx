@@ -230,7 +230,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
               {userDetails.swExtras.catalog && (
                 <Typography variant="subtitle2">Catalog:</Typography>
               )}
-              {/* <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} /> */}
+              <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
             </Box>
           )}
         <Typography fontWeight={"bold"} mt={2}>

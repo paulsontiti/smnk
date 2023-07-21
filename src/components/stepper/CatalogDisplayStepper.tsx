@@ -14,6 +14,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 function CatalogDisplayStepper({ catalog }: { catalog: any }) {
+  console.log(catalog);
   //configure react-pdf
   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.js",
@@ -34,7 +35,7 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };
-
+  if (!catalog) return <p></p>;
   return (
     <Box>
       <Typography variant="caption">
