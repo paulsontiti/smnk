@@ -164,9 +164,9 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
             </Box>
           </>
         }
-        subheader={
-          <SubHeader userProfile={userProfile} serviceTitle={serviceTitle()} />
-        }
+        // subheader={
+        //   <SubHeader userProfile={userProfile} serviceTitle={serviceTitle()} />
+        // }
       />
 
       <CardContent>
