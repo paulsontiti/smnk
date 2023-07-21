@@ -180,49 +180,68 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
             userDetails && userDetails.swExtras && userDetails.swExtras.level
           }
         />
-        <Typography color="primary" fontWeight={"bold"} mt={5}>
-          Bio:
-        </Typography>
-        <Typography variant="body2" color="text.secondary" mb={5}>
-          {userProfile && userProfile.description}
-        </Typography>
-        <Typography color="primary" fontWeight={"bold"} mt={5}>
-          Services:
-        </Typography>
-        <ul>
-          {services.length > 0 &&
-            services.map((service: any) => (
-              <li key={service.title}>
-                <Typography textTransform={"capitalize"}>
-                  {service.category}
-                </Typography>
-              </li>
-            ))}
-        </ul>
-        <Typography color="primary" fontWeight={"bold"} mt={5}>
-          Skills:
-        </Typography>
-        <ul>
-          {skills().map((skill: any) => (
-            <li key={skill}>
-              <Typography textTransform={"capitalize"}>{skill}</Typography>
-            </li>
-          ))}
-        </ul>
-        <Typography color="primary" fontWeight={"bold"} mt={5}>
-          Experiences:
-        </Typography>
-        <ul>
-          {experiences.map((exp: any) => (
-            <li key={exp._id}>
-              {exp.onRole ? (
-                <OnRoleExperience exp={exp} />
-              ) : (
-                <Experience exp={exp} />
-              )}
-            </li>
-          ))}
-        </ul>
+        {userProfile && userProfile.description && (
+          <>
+            {" "}
+            <Typography color="primary" fontWeight={"bold"} mt={5}>
+              Bio:
+            </Typography>
+            <Typography variant="body2" color="text.secondary" mb={5}>
+              {userProfile.description}
+            </Typography>
+          </>
+        )}
+
+        {services.length > 0 && (
+          <>
+            {" "}
+            <Typography color="primary" fontWeight={"bold"} mt={5}>
+              Services:
+            </Typography>
+            <ul>
+              {services.map((service: any) => (
+                <li key={service.title}>
+                  <Typography textTransform={"capitalize"}>
+                    {service.category}
+                  </Typography>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+        {skills.length > 1 && (
+          <>
+            {" "}
+            <Typography color="primary" fontWeight={"bold"} mt={5}>
+              Skills:
+            </Typography>
+            <ul>
+              {skills().map((skill: any) => (
+                <li key={skill}>
+                  <Typography textTransform={"capitalize"}>{skill}</Typography>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+        {experiences.length > 0 && (
+          <>
+            <Typography color="primary" fontWeight={"bold"} mt={5}>
+              Experiences:
+            </Typography>
+            <ul>
+              {experiences.map((exp: any) => (
+                <li key={exp._id}>
+                  {exp.onRole ? (
+                    <OnRoleExperience exp={exp} />
+                  ) : (
+                    <Experience exp={exp} />
+                  )}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
         {userDetails &&
           userDetails.swExtras &&
           userDetails.swExtras.catalog.length > 0 && (
@@ -231,9 +250,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
               <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
             </Box>
           )}
-        <Typography fontWeight={"bold"} mt={2}>
-          Comments
-        </Typography>
+
         <Comments />
       </CardContent>
     </Card>

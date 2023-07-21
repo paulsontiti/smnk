@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "@mui/material";
+import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getJobComments } from "./AdminJobStatus";
 import { useSelector } from "react-redux";
@@ -20,9 +20,10 @@ function Comments() {
 
   if (error) return <ErrorAlert />;
   if (!comments) return <LoadingAlert />;
-  if (comments.length === 0) return <InfoAlert message="No Comments" />;
+  if (comments.length === 0) return <p></p>;
   return (
     <>
+      <Typography fontWeight={"bold"}>Comments:</Typography>
       {comments.map((comment: any) => (
         <Card sx={{ marginBottom: "1rem" }} key={comment.userId}>
           <CardContent></CardContent>
