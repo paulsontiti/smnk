@@ -43,7 +43,7 @@ function CatalogStepper() {
   }, [catalog]);
   const maxSteps = cat && cat.length;
   if (cat === null) return <LoadingAlert />;
-  if (cat === undefined)
+  if (cat === undefined || cat.length === 0)
     return (
       <Box mt={5} ml={2}>
         <InfoAlert message="No Catalog. Create one" />{" "}
@@ -63,7 +63,6 @@ function CatalogStepper() {
       </Box>
     );
 
-  console.log(cat);
   return (
     <>
       <Box maxWidth={{ xs: "100%", md: "100%" }} mt={10}>
