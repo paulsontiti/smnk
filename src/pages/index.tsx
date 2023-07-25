@@ -5,6 +5,7 @@ import Head from "next/head";
 import ServiceCategories from "@/components/card/ServiceCategories";
 import { Typography, Box, Card, CardContent, IconButton } from "@mui/material";
 import ReactPlayer from "react-player";
+import Image from "next/image";
 
 //import { toast } from 'react-toastify';
 import { useState } from "react";
@@ -161,6 +162,30 @@ export default function Home() {
           </Card>
         </Box>
         <HomePageStepper />
+        <Box
+          position={"relative"}
+          height={{ xs: 300, sm: 400, md: 500, lg: 600 }}
+          width={"100vw"}
+          mb={2}
+        >
+          <Image
+            src="/assets/blog1.png"
+            alt=""
+            fill
+            style={{ objectFit: "fill" }}
+          />
+        </Box>
+        <Box
+          position={"relative"}
+          height={{ xs: 300, sm: 400, md: 500, lg: 600 }}
+        >
+          <Image
+            src="/assets/blog2.png"
+            alt=""
+            fill
+            style={{ objectFit: "fill" }}
+          />
+        </Box>
         <TestimonialStepper />
       </main>
     </Layout>
