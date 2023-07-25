@@ -18,10 +18,11 @@ export default function ExperienceComponent() {
   const { experience } = useSelector(
     (state: RootState) => state.swExtra.swExtra
   );
+  console.log(experience);
   const router = useRouter();
   if (!experience)
     return (
-      <InfoAlert message="You don't have any experirnce added. Please add one to boost your chances in getting jobs" />
+      <InfoAlert message="You don't have any experience added. Please add one to boost your chances in getting jobs" />
     );
   return (
     <Box>
