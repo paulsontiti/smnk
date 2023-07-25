@@ -140,7 +140,7 @@ export default function HowSMNKWorks() {
           minWidth={"100%"}
           display={"flex"}
           flexDirection={{ xs: "column", sm: "row" }}
-          height={400}
+          height={500}
         >
           <Box
             position={"relative"}
@@ -185,7 +185,7 @@ export default function HowSMNKWorks() {
           minWidth={"100%"}
           display={"flex"}
           flexDirection={{ xs: "column", sm: "row" }}
-          height={400}
+          height={500}
         >
           <Box
             position={"relative"}
