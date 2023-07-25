@@ -25,7 +25,6 @@ function CatalogStepper() {
   const router = useRouter();
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = catalog && catalog.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -42,7 +41,7 @@ function CatalogStepper() {
   useEffect(() => {
     setCat(catalog);
   }, [catalog]);
-
+  const maxSteps = cat && cat.length;
   if (cat === null) return <LoadingAlert />;
   if (cat === undefined)
     return (
@@ -63,6 +62,8 @@ function CatalogStepper() {
         </Button>
       </Box>
     );
+
+  console.log(cat);
   return (
     <>
       <Box maxWidth={{ xs: "100%", md: "100%" }} mt={10}>
