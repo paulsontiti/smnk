@@ -23,7 +23,8 @@ export default function Home() {
         <link rel="icon" href="smnk.jpg" type="image/x-icon" />
       </Head>
       <main>
-        <Box m={2} height={{ xs: 300, sm: 400, md: 500 }}>
+        <HomePageStepper />
+        {/* <Box m={2} height={{ xs: 300, sm: 400, md: 500 }}>
           <video
             width="100%"
             height="100%"
@@ -36,7 +37,7 @@ export default function Home() {
             <source src="/assets/SMNK front page video.ogg" type="video/ogg" />
             Your browser does not support the video tag.
           </video>
-        </Box>
+        </Box> */}
         <Box
           bgcolor={"black"}
           height={{ xs: 200, md: 300 }}
@@ -98,7 +99,7 @@ export default function Home() {
         <Box
           display={"flex"}
           alignItems={"center"}
-          justifyContent={"center"}
+          justifyContent={"flex-start"}
           overflow={"scroll"}
           p={2}
         >
@@ -161,7 +162,7 @@ export default function Home() {
             </CardContent>
           </Card>
         </Box>
-        <HomePageStepper />
+
         <Box
           position={"relative"}
           height={{ xs: 300, sm: 400, md: 500, lg: 600 }}
