@@ -117,7 +117,7 @@ function CatalogStepper() {
             bgcolor: "background.default",
           }}
         >
-          <Typography>{catalog[activeStep].title ?? ""}</Typography>
+          <Typography>{cat[activeStep].title ?? ""}</Typography>
         </Paper>
         <AutoPlaySwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -126,20 +126,19 @@ function CatalogStepper() {
           enableMouseEvents
           interval={10000}
         >
-          {catalog &&
-            catalog.map((cat: any, index: number) => (
-              <Box key={cat.filename} minWidth={"100%"} maxWidth={"100%"}>
-                {Math.abs(activeStep - index) <= 2 ? (
-                  <CatalogCard
-                    filename={cat.filename}
-                    title={cat.title}
-                    description={cat.description}
-                    index={index}
-                    contentType={cat.contentType ?? ""}
-                  />
-                ) : null}
-              </Box>
-            ))}
+          {cat.map((cat: any, index: number) => (
+            <Box key={cat.filename} minWidth={"100%"} maxWidth={"100%"}>
+              {Math.abs(activeStep - index) <= 2 ? (
+                <CatalogCard
+                  filename={cat.filename}
+                  title={cat.title}
+                  description={cat.description}
+                  index={index}
+                  contentType={cat.contentType ?? ""}
+                />
+              ) : null}
+            </Box>
+          ))}
         </AutoPlaySwipeableViews>
       </Box>
     </>

@@ -13,7 +13,7 @@ export default function ExpLink() {
   const { swExtra } = useSelector((state: RootState) => state.swExtra);
   const router = useRouter();
   const [exp, setExp] = useState<any[] | null>(null);
-  console.log(swExtra.experience);
+
   useEffect(() => {
     setExp(swExtra.experience);
   }, [swExtra.experience]);
