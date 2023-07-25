@@ -7,12 +7,17 @@ import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import AddHomeWorkIcon from "@mui/icons-material/AddHomeWork";
 import { ListItemIcon, Typography } from "@mui/material";
 import { theme } from "@/pages/_app";
+import { useEffect, useState } from "react";
 
 export default function ExpLink() {
   const { swExtra } = useSelector((state: RootState) => state.swExtra);
   const router = useRouter();
-
-  if (!swExtra.experience)
+  const [exp, setExp] = useState<any[] | null>(null);
+  console.log(swExtra.experience);
+  useEffect(() => {
+    setExp(swExtra.experience);
+  }, [swExtra.experience]);
+  if (exp?.length === 0)
     return (
       <ListItemButton
         sx={{ ml: 8 }}
