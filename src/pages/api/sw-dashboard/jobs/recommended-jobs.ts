@@ -26,15 +26,15 @@ const recommendedJobs = async (info: any, userId: string) => {
      jobs = jobDetails.filter(
       (d: any) =>{
 
-      if(d.jobDetails.state === info.state ){
-        return  d.jobDetails.category === servCat1 ||  d.jobDetails.category === servCat2 ||
-              d.jobDetails.category === servTitle1 ||
-              d.jobDetails.title === servTitle2
-      }else if(d.jobDetails.type === 'online'){
+      if(d.jobDetails.state.toString() === info.state.toString() ){
+        return  d.jobDetails.category.toString() === servCat1.toString() ||  d.jobDetails.category.toString() === servCat2.toString() ||
+              d.jobDetails.category.toString() === servTitle1.toString() ||
+              d.jobDetails.title.toString() === servTitle2.toString()
+      }else if(d.jobDetails.type.toString() === 'online'){
        
-        return  d.jobDetails.category === servCat1 ||  d.jobDetails.category === servCat2 ||
-        d.jobDetails.category === servTitle1 ||
-        d.jobDetails.title === servTitle2
+        return  d.jobDetails.category.toString() === servCat1.toString() ||  d.jobDetails.category.toString() === servCat2.toString() ||
+        d.jobDetails.category.toString() === servTitle1.toString() ||
+        d.jobDetails.title.toString() === servTitle2.toString()
       }
       }
     );

@@ -38,7 +38,7 @@ function RecommendedJobsLink() {
   return (
     <ListItemButton
       disabled={isOnAJob}
-      sx={{ ml: 1 }}
+      sx={{ ml: 4 }}
       onClick={() => {
         router.push("/dashboard/job/recommended-jobs");
       }}

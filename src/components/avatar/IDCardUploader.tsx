@@ -13,6 +13,7 @@ import { AlertColor } from "@mui/material";
 import { updateUser } from "@/store/slices/userSlice";
 import InfoAlert from "../alerts/Info";
 import SuccessAlert from "../alerts/Success";
+import { useRouter } from "next/router";
 
 function IDCardUploader() {
   const { _id, verification } = useSelector(
@@ -26,7 +27,7 @@ function IDCardUploader() {
   const [color, setColor] = useState<AlertColor>("error");
   //declare refs
   const snackBarRef = useRef();
-
+  const router = useRouter();
   let idCardUrl, kycVerified;
   if (verification) {
     idCardUrl = verification.idCardUrl;
@@ -62,6 +63,7 @@ function IDCardUploader() {
         if (data) {
           setMsg("Id Card uploaded successfully");
           setColor("success");
+
           const refState = snackBarRef.current as any;
           refState.handleClick();
           //get user from local storage
@@ -77,6 +79,9 @@ function IDCardUploader() {
           setUploading(false);
           setFile("");
           dispatch(updateUser());
+          setTimeout(() => {
+            router.reload();
+          }, 6000);
         } else {
           setMsg("An Error occurred. Id Card not uploaded. Please try again");
           setColor("error");

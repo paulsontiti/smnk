@@ -1,3 +1,6 @@
+"use client";
+
+import { ErrorBoundary } from "react-error-boundary";
 import Providers from "@/store/provider";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
@@ -8,6 +11,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme } from "@mui/material/styles";
+import ErrorAlert from "@/components/alerts/Error";
 declare module "@mui/material/styles" {
   interface Theme {
     smnk: {
@@ -91,7 +95,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Providers>
-        <Component {...pageProps} />
+        <ErrorBoundary fallback={<ErrorAlert />}>
+          <Component {...pageProps} />
+        </ErrorBoundary>
       </Providers>
     </>
   );

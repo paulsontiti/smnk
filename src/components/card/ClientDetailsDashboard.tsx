@@ -14,6 +14,7 @@ import GppBadIcon from "@mui/icons-material/GppBad";
 import ClientDetailsBottomNavigation from "../bottomNavigation/ClientDetailsBottomNavigation";
 import ClientJobHistory from "../job/ClientJobHistory";
 import Comments from "../job/Comments";
+import LoadingAlert from "../alerts/Loading";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -37,17 +38,19 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
   const [pendingJobs, setPendingJobs] = React.useState<number>(0);
   React.useEffect(() => {
     (async () => {
-      const data = await fetchProfessionalsDetails(userId);
-      //data comes with {swExtras,user,userExtra}
-      setUserDetails(data);
-      const profile = await getUserProfile(userId);
-      setUserProfile(profile.data);
-      const {
-        data: { completedJobs, pendingJobs },
-      } = await getClientJobHistory(userId);
+      if (userId) {
+        const data = await fetchProfessionalsDetails(userId);
+        //data comes with {swExtras,user,userExtra}
+        setUserDetails(data);
+        const profile = await getUserProfile(userId);
+        setUserProfile(profile.data);
+        const {
+          data: { completedJobs, pendingJobs },
+        } = await getClientJobHistory(userId);
 
-      setCompletedJobs(completedJobs && completedJobs.length);
-      setPendingJobs(pendingJobs && pendingJobs.length);
+        setCompletedJobs(completedJobs && completedJobs.length);
+        setPendingJobs(pendingJobs && pendingJobs.length);
+      }
     })();
   }, [userId]);
   //check for data before using them
@@ -67,6 +70,7 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
     userDetails.user &&
     userDetails.user.verification &&
     userDetails.user.verification.kycVeried;
+  if (!userDetails || !userProfile) return <LoadingAlert />;
   return (
     <Card sx={{ mt: 1, width: "100%" }}>
       <CardHeader
@@ -133,9 +137,7 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
           pendingJobs={pendingJobs}
         />
         <ClientJobHistory />
-        <Typography fontWeight={"bold"} mt={2}>
-          Comments
-        </Typography>
+
         <Comments />
       </CardContent>
     </Card>
@@ -143,6 +145,7 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
 }
 
 function SubHeader({ userProfile }: { userProfile: any }) {
+  if (!userProfile) return <p></p>;
   return (
     <Box
       display={"flex"}

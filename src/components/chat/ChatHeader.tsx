@@ -11,23 +11,21 @@ function ChatHeader({
   isChatRoom: boolean;
   receiverId: string;
 }) {
-  const [name, setName] = useState("Admin");
+  const [name, setName] = useState<string | null>(null);
   const [senderDp, setSenderDp] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
       const { data } = await getUserProfile(receiverId);
-
       if (data) {
         if (data.firstName) {
           setName(data.firstName + " " + data.lastName);
         } else {
           setName(data.name);
         }
-      } else {
-        setName("Admin");
       }
+
       //get sender dp
       const res = await getUserInfo(receiverId);
       if (res.data) {
@@ -35,7 +33,6 @@ function ChatHeader({
       }
     })();
   }, [receiverId]);
-
   return (
     <Box
       onClick={() => {
@@ -55,9 +52,11 @@ function ChatHeader({
         <Box display={"flex"} alignItems={"center"}>
           {" "}
           {senderDp && <Avatar src={`/api/multer/profile-pic/${senderDp}`} />}
-          <Typography sx={{ ml: "1rem", textTransform: "capitalize" }}>
-            {name}
-          </Typography>
+          {name && (
+            <Typography sx={{ ml: "1rem", textTransform: "capitalize" }}>
+              {name}
+            </Typography>
+          )}
         </Box>
         {!isChatRoom && <BackToChatRoomFloatingActionButtons />}
       </Box>

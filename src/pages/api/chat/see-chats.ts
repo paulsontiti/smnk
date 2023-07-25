@@ -10,20 +10,11 @@ export default async function handler(req:any,res:any){
         if(receiverId){
             try{
                 const chats = await Chat.find({'chats.youId':receiverId},{chats:true,})
+               
                if(chats){
                 chats.map(async(chat:any)=>{
-                    chat.chats.map((chat:any)=>{
-                        const filterredChats = chat.me.filter((me:any)=>me.seen === false)
-                        filterredChats.map((me:any)=>{
-                            me.seen = true
-                            
-                           })
-                    })
-                   
-                   await chat.save()
-                })
-               
-              
+               SeeChats(chat,'seen')
+              })
                }
                      res.status(201).json('')
              }catch(err){
@@ -33,4 +24,21 @@ export default async function handler(req:any,res:any){
         }else{
             res.status(400).json({message:"Invalid request"})
         }
+}
+
+export async function SeeChats(chat: any, propToChange: string) {
+  if (chat) {
+   
+      chat.chats.map((chat:any)=>{
+          const filterredChats = chat.me.filter((me:any)=>me[propToChange] === false)
+          filterredChats.map((me:any)=>{
+              me[propToChange] = true
+              
+             })
+      })
+
+     await chat.save()
+ 
+ 
+  }
 }

@@ -81,6 +81,7 @@ export default function ServiceCategories() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            mb: 5,
           }}
         >
           <Button

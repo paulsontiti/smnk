@@ -15,7 +15,7 @@ const gold = {
 export const Gold = () => {
   const theme = useTheme();
   return (
-    <Card sx={{ bgcolor: theme.smnk[500], color: "white" }}>
+    <Card sx={{ bgcolor: theme.smnk[500], color: "white", minHeight: 500 }}>
       <CardContent>
         <Typography sx={{ fontSize: "1.5rem", fontWeight: "bold", mb: "1rem" }}>
           {gold.name}

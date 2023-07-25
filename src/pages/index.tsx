@@ -3,13 +3,18 @@ import Layout from "@/components/layout";
 import TestimonialStepper from "@/components/stepper/TestimonialStepper";
 import Head from "next/head";
 import ServiceCategories from "@/components/card/ServiceCategories";
-import { Typography, Box, Card, CardContent } from "@mui/material";
+import { Typography, Box, Card, CardContent, IconButton } from "@mui/material";
 import ReactPlayer from "react-player";
-import { findDOMNode } from "react-dom";
+
 //import { toast } from 'react-toastify';
 import { useState } from "react";
+import { Cancel } from "@mui/icons-material";
+import HomePageStepper from "@/components/stepper/HomePageStepper";
 
 export default function Home() {
+  const [showVideo, setShowVideo] = useState("block");
+  const [muted, setMuted] = useState(false);
+
   return (
     <Layout>
       <Head>
@@ -26,38 +31,69 @@ export default function Home() {
             controls
             style={{ objectFit: "fill" }}
           >
-            <source src="/assets/video.mp4" type="video/mp4" />
-            <source src="/assets/video.ogg" type="video/ogg" />
-            Your browser does not support the video tag.
-          </video>
-        </Box>
-
-        {/* <Box mt={{ md: 5 }} sx={{ objectFit: "fill" }}>
-          <ReactPlayer
-            url="/assets/SMNK front page video.mp4"
-            playing
-            loop
-            controls
-            style={{ objectFit: "fill" }}
-          />
-        </Box> */}
-
-        <ServiceCategories />
-        <HowSMNKWorks />
-        <Box m={2} height={{ xs: 300, sm: 400, md: 500 }}>
-          <video
-            width="100%"
-            height="100%"
-            autoPlay
-            loop
-            controls
-            style={{ objectFit: "fill" }}
-          >
             <source src="/assets/SMNK front page video.mp4" type="video/mp4" />
             <source src="/assets/SMNK front page video.ogg" type="video/ogg" />
             Your browser does not support the video tag.
           </video>
         </Box>
+        <Box
+          bgcolor={"black"}
+          height={{ xs: 200, md: 300 }}
+          width={{ xs: 200, md: 300 }}
+          position={"fixed"}
+          bottom={50}
+          left={0}
+          display={showVideo}
+          zIndex={100}
+        >
+          <IconButton
+            sx={{ color: "white" }}
+            onClick={() => {
+              setShowVideo("none");
+              setMuted(true);
+            }}
+          >
+            <Cancel />
+          </IconButton>
+          <video
+            width="100%"
+            height="100%"
+            muted={muted}
+            autoPlay={true}
+            loop
+            controls
+            style={{ objectFit: "fill" }}
+          >
+            <source src="/assets/video.mp4" type="video/mp4" />
+            <source src="/assets/video.mp4" type="video/ogg" />
+            Your browser does not support the video tag.
+          </video>
+          {/* <ReactPlayer
+            url="/assets/video.mp4"
+            volume={volume}
+            playing={playing}
+            controls
+            width={200}
+            height={200}
+          /> */}
+          {/* <video
+            width="100%"
+            height="100%"
+            loop
+            controls
+            style={{ objectFit: "fill" }}
+          >
+            <source src="/assets/video.mp4" type="video/mp4" />
+            <source src="/assets/video.ogg" type="video/ogg" />
+            Your browser does not support the video tag.
+          </video> */}
+        </Box>
+
+        {/* <*/}
+
+        <ServiceCategories />
+        <HowSMNKWorks />
+
         <Box
           display={"flex"}
           alignItems={"center"}
@@ -124,6 +160,7 @@ export default function Home() {
             </CardContent>
           </Card>
         </Box>
+        <HomePageStepper />
         <TestimonialStepper />
       </main>
     </Layout>

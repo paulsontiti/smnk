@@ -4,13 +4,7 @@ import { useSelector } from "react-redux";
 import { IndividualPersonalInfo } from "@/lib/types/userInfo";
 import axios from "axios";
 import FormikContainer from "../form/formikContainer";
-import {
-  FormControlObject,
-  FormControls,
-  FormParams,
-  createFormObject,
-  states,
-} from "@/lib/form";
+import { FormControls, FormParams, createFormObject, states } from "@/lib/form";
 import SnackbarComponent from "../snackbar/SnackBar";
 import { useRef, useState } from "react";
 import { AlertColor } from "@mui/material";
@@ -19,7 +13,7 @@ export default function IndividualForm({ router }: { router: any }) {
   const { user } = useSelector((state: RootState) => state.users);
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-  const [initialValues,setInitialvalues] = useState<IndividualPersonalInfo>({
+  const [initialValues, setInitialvalues] = useState<IndividualPersonalInfo>({
     firstName: "",
     lastName: "",
     userName: "",
@@ -28,7 +22,7 @@ export default function IndividualForm({ router }: { router: any }) {
     address: "",
     description: "",
     userId: user._id,
-  })
+  });
 
   //declare refs
   const snackBarRef = useRef();
@@ -42,8 +36,6 @@ export default function IndividualForm({ router }: { router: any }) {
     lga: string().required("L.G.A is required"),
     description: string().required("Description is required"),
   });
-
-
 
   //sign up submit handler
   const submitHandler = async (values: IndividualPersonalInfo) => {
@@ -60,8 +52,10 @@ export default function IndividualForm({ router }: { router: any }) {
           setColor("success");
           const refState = snackBarRef.current as any;
           refState.handleClick();
-          setTimeout(()=>{ router.push('/dashboard/individual')},3000)
-        }else{
+          setTimeout(() => {
+            router.push("/dashboard/individual");
+          }, 3000);
+        } else {
           setMsg(data.message);
           setColor("error");
           const refState = snackBarRef.current as any;
@@ -84,7 +78,7 @@ export default function IndividualForm({ router }: { router: any }) {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
-    setInitialvalues(values)
+    setInitialvalues(values);
     return new Promise((res) => {
       formikHelpers
         .validateForm()
@@ -102,23 +96,22 @@ export default function IndividualForm({ router }: { router: any }) {
     });
   };
 
-  const formControls: FormControls[] =  [
-      { name: "firstName", label: "First Name", control: "input" },
-      { name: "lastName", label: "Last Name", control: "input" },
-      { name: "userName", label: "User Name", control: "input" },
-      { name: "state", label: "State", control: "auto", options: states },
-      {
-        name: "lga",
-        label: "LGA",
-        control: "auto",
-        options: states,
-        fieldToCheckAgainst: "state",
-        valueOfFieldToCheckAgainst: "",
-      },
-      { name: "address", label: "Address", control: "input" },
-      { name: "description", label: "Description", control: "textarea" },
-    
-    ]
+  const formControls: FormControls[] = [
+    { name: "firstName", label: "First Name", control: "input" },
+    { name: "lastName", label: "Last Name", control: "input" },
+    { name: "userName", label: "User Name", control: "input" },
+    { name: "state", label: "State", control: "auto", options: states },
+    {
+      name: "lga",
+      label: "LGA",
+      control: "auto",
+      options: states,
+      fieldToCheckAgainst: "state",
+      valueOfFieldToCheckAgainst: "",
+    },
+    { name: "address", label: "Address", control: "input" },
+    { name: "description", label: "Description", control: "textarea" },
+  ];
 
   const formParams: FormParams = {
     formObject: createFormObject(

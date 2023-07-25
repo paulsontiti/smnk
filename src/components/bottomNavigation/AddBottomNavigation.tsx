@@ -14,7 +14,7 @@ export default function AddBottomNavigation({
   const [value, setValue] = useState(0);
 
   return (
-    <Box sx={{ width: "100%" }} mt={3} mb={5}>
+    <Box sx={{ width: "100%" }} mb={5}>
       <BottomNavigation
         showLabels
         value={value}

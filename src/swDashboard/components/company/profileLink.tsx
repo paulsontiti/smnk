@@ -21,7 +21,7 @@ export default function CompanyProfileLink() {
   if (!data)
     return (
       <ListItemButton
-        sx={{ ml: 2 }}
+        sx={{ ml: 8 }}
         onClick={() => {
           router.push("/dashboard/company/add-company-profile");
         }}
@@ -36,7 +36,7 @@ export default function CompanyProfileLink() {
     );
   return (
     <ListItemButton
-      sx={{ ml: 2 }}
+      sx={{ ml: 8 }}
       onClick={() => {
         router.push(`/dashboard/company`);
       }}

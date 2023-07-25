@@ -238,6 +238,7 @@ export const ChatGround = ({
   chats: any;
 }) => {
   const [sortedChats, setSortedChats] = useState<any | null>(null);
+
   useEffect(() => {
     if (chats) {
       let senderChats;
@@ -312,6 +313,7 @@ export const ChatGround = ({
       }
     }
   }, [chats]);
+  if (!sortedChats) return <LoadingAlert />;
   return (
     <Paper sx={{ mt: "1rem", maxWidth: "100%" }}>
       <ChatHeader receiverId={receiverId} isChatRoom={false} />

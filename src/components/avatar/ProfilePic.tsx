@@ -9,6 +9,7 @@ import ProfilePicUploader from "./ProfilePicUploader";
 import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 import { useTheme } from "@mui/material/styles";
+import Image from "next/image";
 
 export default function ProfilePic() {
   const { dpFileName, type } = useSelector(
@@ -17,6 +18,7 @@ export default function ProfilePic() {
   const router = useRouter();
   const theme = useTheme();
 
+  const [imgLoadComplete, setImgLoadComplete] = useState(false);
   return (
     <Stack direction="row">
       <Badge
@@ -35,15 +37,31 @@ export default function ProfilePic() {
               }
             }}
           >
-            <Avatar
-              alt=""
+            <Image
+              onLoadingComplete={() => {
+                setImgLoadComplete(true);
+              }}
+              style={{
+                borderRadius: "50%",
+                display: imgLoadComplete ? "flex" : "none",
+              }}
+              width={80}
+              height={80}
+              alt="Profile picture"
               src={`/api/multer/profile-pic/${dpFileName}`}
-              sx={{ width: 80, height: 80 }}
             />
+            {!imgLoadComplete && (
+              <Skeleton
+                variant="circular"
+                width={80}
+                height={80}
+                animation="wave"
+              />
+            )}
           </IconButton>
         ) : (
           <IconButton>
-            <Skeleton variant="circular" width={80} height={80} />
+            <Avatar sx={{ width: 80, height: 80 }} />
           </IconButton>
         )}
       </Badge>

@@ -10,6 +10,17 @@ export default async function handler(req:any,res:any){
        if(receiverId){
         try{
             const chats =  await Chat.find({'chats.youId':receiverId,'chats.me.seen':false})
+//             let unSeenChats = 0
+//             chats.map((chat)=>{
+//                chat.chats.map((ch:any)=>{
+//                 ch.me.map((me:any)=>{
+//                    if(!me.seen){
+// unSeenChats++
+//                    }
+//                 })
+//                })
+//             })
+
                   res.status(201).json(chats.length)
           }catch(err){
               console.log(err)

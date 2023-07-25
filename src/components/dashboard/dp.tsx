@@ -1,11 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import UserRating from "./UserRating";
 import { getUserProfile } from "@/lib/utils/user";
 import { useEffect, useState } from "react";
 import ProfilePic from "../avatar/ProfilePic";
-import { Chip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 export default function DP() {

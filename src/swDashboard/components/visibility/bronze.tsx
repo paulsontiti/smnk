@@ -23,7 +23,7 @@ const bronze = {
 export const Bronze = () => {
   const theme = useTheme();
   return (
-    <Card sx={{ bgcolor: theme.smnk[200] }}>
+    <Card sx={{ bgcolor: theme.smnk[200], minHeight: 500 }}>
       <CardContent>
         <Typography sx={{ fontSize: "1.5rem", fontWeight: "bold", mb: "1rem" }}>
           {bronze.name}

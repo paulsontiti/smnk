@@ -24,18 +24,6 @@ export default function ClientJobsComponent() {
   };
   if (error) return <ErrorAlert />;
   if (!data) return <LoadingAlert />;
-  if (!Array.isArray(data) || data.length < 1)
-    return (
-      <>
-        <InfoAlert message="No Pending Job Available. Please Create A Job" />
-        <AddBottomNavigation
-          label="Create Job"
-          handleClick={() => {
-            router.push("/c-dashboard/job/create-job");
-          }}
-        />
-      </>
-    );
 
   return (
     <>
@@ -44,9 +32,21 @@ export default function ClientJobsComponent() {
         <Typography sx={{ margin: "1rem 1rem", fontWeight: "bold" }}>
           All Jobs
         </Typography>
-        {data.map((job: any) => {
-          return <JobDetailsAccordion key={job._id} job={job} />;
-        })}
+        {!Array.isArray(data) || data.length < 1 ? (
+          <>
+            <InfoAlert message="No Pending Job Available. Please Create A Job" />
+            <AddBottomNavigation
+              label="Create Job"
+              handleClick={() => {
+                router.push("/c-dashboard/job/create-job");
+              }}
+            />
+          </>
+        ) : (
+          data.map((job: any) => {
+            return <JobDetailsAccordion key={job._id} job={job} />;
+          })
+        )}
         <AddBottomNavigation
           label="Create A Job"
           handleClick={() => {

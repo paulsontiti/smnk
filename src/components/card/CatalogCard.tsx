@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
@@ -94,32 +94,22 @@ export default function CatalogCard({
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <Box
-        m={1}
-        display={"center"}
+        display={"flex"}
         alignItems={"center"}
         justifyContent={"center"}
+        flexDirection={"column"}
+        maxWidth="100%"
+        minWidth="100%"
       >
-        <Card
-          sx={{
-            maxWidth: { sm: "70%", lg: "50%" },
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <CardContent>
-            <CatalogMediaCard
-              title={title}
-              description={description}
-              filename={filename}
-              contentType={contentType}
-            />
-          </CardContent>
-          <CardActions>
-            <DeleteCatalogBottomNavigation deleteHandleClick={deleteHandler} />
-          </CardActions>
-        </Card>
+        <CatalogMediaCard
+          title={title}
+          description={description}
+          filename={filename}
+          contentType={contentType}
+        />
+        <CardActions>
+          <DeleteCatalogBottomNavigation deleteHandleClick={deleteHandler} />
+        </CardActions>
         <GenericDialog
           content={<CatalogDeleteContent />}
           actions={<CatalogDeleteAction confirmDelete={confirmDelete} />}
@@ -145,10 +135,15 @@ function CatalogMediaCard({
   function onDocumentLoadSuccess(numPages: any) {
     setNumPages(numPages);
   }
+  const newTheme = useTheme();
+  const xs = useMediaQuery(newTheme.breakpoints.down("sm"));
+  const sm = useMediaQuery(newTheme.breakpoints.between(600, 900));
   return (
     <Card
       sx={{
-        maxWidth: { sm: "70%", lg: "50%" },
+        maxWidth: "100%",
+        minWidth: "100%",
+        maxHeight: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -179,8 +174,8 @@ function CatalogMediaCard({
         {contentType.startsWith("image") && (
           <CardMedia
             sx={{
-              maxHeight: 200,
-              minHeight: 200,
+              maxWidth: "100%",
+              minWidth: "100%",
               width: { xs: 250, sm: 600, md: 700 },
             }}
             image={`/api/multer/catalog/${filename}`}
@@ -188,19 +183,26 @@ function CatalogMediaCard({
           />
         )}
         {filename.endsWith(".pdf") && (
-          <Box overflow={"scroll"} maxHeight={200}>
+          <Box
+            overflow={"scroll"}
+            sx={{
+              maxWidth: "100%",
+              minWidth: "100%",
+              maxHeight: 400,
+            }}
+          >
             <Document
               file={`/api/multer/catalog/${filename}`}
               onLoadSuccess={onDocumentLoadSuccess}
             >
-              <Page pageNumber={pageNumber} width={250} />
+              <Page pageNumber={pageNumber} width={xs ? 350 : sm ? 600 : 900} />
             </Document>
           </Box>
         )}
         <Typography fontWeight={"bold"} variant="subtitle1">
           Description:
-        </Typography>
-        <Typography textTransform={"capitalize"} variant="caption">
+        </Typography>{" "}
+        <Typography textTransform={"capitalize"} variant="caption" mb={10}>
           {description}
         </Typography>
       </CardContent>

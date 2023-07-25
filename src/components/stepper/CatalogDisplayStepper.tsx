@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
-import { Box, CardMedia } from "@mui/material";
+import { Box, CardMedia, useMediaQuery } from "@mui/material";
 import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
@@ -14,7 +14,6 @@ import { Document, Page, pdfjs } from "react-pdf";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 function CatalogDisplayStepper({ catalog }: { catalog: any }) {
-  console.log(catalog);
   //configure react-pdf
   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.js",
@@ -37,32 +36,7 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
   };
 
   return (
-    <Box>
-      <Typography variant="caption">
-        {catalog[activeStep].title ?? ""}
-      </Typography>
-      <AutoPlaySwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-        interval={100000}
-      >
-        {catalog &&
-          catalog.map((cat: any, index: number) => (
-            <Box key={cat.filename}>
-              {Math.abs(activeStep - index) <= 2 ? (
-                <CatalogCard
-                  filename={cat.filename}
-                  title={cat.title}
-                  description={cat.description}
-                  contentType={cat.contentType ?? ""}
-                />
-              ) : null}
-            </Box>
-          ))}
-      </AutoPlaySwipeableViews>
-
+    <Box minWidth={"100%"} maxWidth={"100%"}>
       <MobileStepper
         steps={maxSteps}
         position="static"
@@ -92,6 +66,30 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
           </Button>
         }
       />
+      <Typography variant="caption">
+        {catalog[activeStep].title ?? ""}
+      </Typography>
+      <AutoPlaySwipeableViews
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+        index={activeStep}
+        onChangeIndex={handleStepChange}
+        enableMouseEvents
+        interval={100000}
+      >
+        {catalog &&
+          catalog.map((cat: any, index: number) => (
+            <Box key={cat.filename} minWidth={"100%"} maxWidth={"100%"}>
+              {Math.abs(activeStep - index) <= 2 ? (
+                <CatalogCard
+                  filename={cat.filename}
+                  title={cat.title}
+                  description={cat.description}
+                  contentType={cat.contentType ?? ""}
+                />
+              ) : null}
+            </Box>
+          ))}
+      </AutoPlaySwipeableViews>
     </Box>
   );
 }
@@ -113,6 +111,9 @@ function CatalogCard({
   function onDocumentLoadSuccess(numPages: any) {
     setNumPages(numPages);
   }
+  const newTheme = useTheme();
+  const xs = useMediaQuery(newTheme.breakpoints.down("sm"));
+  const sm = useMediaQuery(newTheme.breakpoints.between(600, 900));
   return (
     <Card
       sx={{
@@ -157,21 +158,23 @@ function CatalogCard({
           />
         )}
         {filename.endsWith(".pdf") && (
-          <Box overflow={"scroll"} maxHeight={200} minHeight={200}>
+          <Box overflow={"scroll"} maxHeight={400} minHeight={400}>
             <Document
               file={`/api/multer/catalog/${filename}`}
               onLoadSuccess={onDocumentLoadSuccess}
             >
-              <Page pageNumber={pageNumber} width={250} />
+              <Page pageNumber={pageNumber} width={xs ? 350 : sm ? 600 : 900} />
             </Document>
           </Box>
         )}
-        <Typography fontWeight={"bold"} variant="subtitle1">
-          Description:
-        </Typography>
-        <Typography textTransform={"capitalize"} variant="caption">
-          {description}
-        </Typography>
+        <Box p={5}>
+          <Typography fontWeight={"bold"} variant="subtitle1">
+            Description:
+          </Typography>
+          <Typography textTransform={"capitalize"} variant="caption">
+            {description}
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );

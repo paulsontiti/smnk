@@ -21,7 +21,7 @@ function VisibilityLink() {
   if (!subscription)
     return (
       <ListItemButton
-        sx={{ ml: 1 }}
+        sx={{ ml: 4 }}
         onClick={() => {
           router.push("/sw-dashboard/visibility");
         }}
@@ -51,7 +51,7 @@ function VisibilityLink() {
     );
   return (
     <ListItemButton
-      sx={{ ml: 1 }}
+      sx={{ ml: 4 }}
       onClick={() => {
         router.push("/sw-dashboard/visibility");
       }}

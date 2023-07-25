@@ -95,7 +95,7 @@ export default function SWDashboardMenu() {
       </ListItemButton>
       <Collapse in={openAccount} timeout="auto" unmountOnExit>
         <List component="div">
-          <ListItemButton onClick={profileHandleClick} sx={{ ml: 1 }}>
+          <ListItemButton onClick={profileHandleClick} sx={{ ml: 4 }}>
             <ListItemIcon>
               <PersonIcon sx={{ color: theme.smnk[1000] }} />
             </ListItemIcon>
@@ -138,7 +138,7 @@ export default function SWDashboardMenu() {
           <RecommendedJobsLink />
 
           <ListItemButton
-            sx={{ ml: 1 }}
+            sx={{ ml: 4 }}
             onClick={() => {
               router.push("/dashboard/job/current");
             }}
@@ -152,7 +152,7 @@ export default function SWDashboardMenu() {
             />
           </ListItemButton>
           <ListItemButton
-            sx={{ ml: 1 }}
+            sx={{ ml: 4 }}
             onClick={() => {
               router.push("/dashboard/job/done");
             }}
@@ -174,7 +174,7 @@ export default function SWDashboardMenu() {
 export function ChangePassword({ router }: any) {
   return (
     <ListItemButton
-      sx={{ ml: 2 }}
+      sx={{ ml: 8 }}
       onClick={() => {
         router.push("/dashboard/change-password");
       }}
@@ -208,7 +208,7 @@ export function LiveChat({ router }: any) {
 export function Catalog({ router }: any) {
   return (
     <ListItemButton
-      sx={{ ml: 2 }}
+      sx={{ ml: 8 }}
       onClick={() => {
         router.push("/dashboard/catalog/");
       }}
@@ -238,7 +238,7 @@ export function Verification({
   const router = useRouter();
   return (
     <>
-      <ListItemButton sx={{ ml: 2 }} onClick={openVerificationHandleClick}>
+      <ListItemButton sx={{ ml: 8 }} onClick={openVerificationHandleClick}>
         {" "}
         <ListItemIcon>
           <WorkspacePremiumIcon sx={{ color: theme.smnk[1000] }} />
@@ -251,7 +251,7 @@ export function Verification({
       <Collapse in={openVerification} timeout="auto" unmountOnExit>
         <List component="div">
           <ListItemButton
-            sx={{ ml: 3 }}
+            sx={{ ml: 12 }}
             onClick={() => {
               router.push(idUrl);
             }}
@@ -264,7 +264,7 @@ export function Verification({
             />
           </ListItemButton>
           <ListItemButton
-            sx={{ ml: 3 }}
+            sx={{ ml: 12 }}
             onClick={() => {
               router.push(captureUrl);
             }}

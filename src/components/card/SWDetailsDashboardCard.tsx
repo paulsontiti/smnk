@@ -17,6 +17,7 @@ import InfoAlert from "../alerts/Info";
 import Comments from "../job/Comments";
 import moment from "moment";
 import CatalogDisplayStepper from "../stepper/CatalogDisplayStepper";
+import LoadingAlert from "../alerts/Loading";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -34,14 +35,9 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
-  const [expanded, setExpanded] = React.useState(false);
   const [userDetails, setUserDetails] = React.useState<any | null>(null);
   const [userProfile, setUserProfile] = React.useState<any | null>(null);
   const [jobsDone, setJobsDone] = React.useState<number>(0);
-  const theme = useTheme();
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
   React.useEffect(() => {
     (async () => {
       const data = await fetchProfessionalsDetails(userId);
@@ -110,11 +106,14 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
     userDetails && userDetails.swExtras && userDetails.swExtras.experience
       ? userDetails.swExtras.experience
       : [];
+
+  if (!userDetails || !userProfile) return <LoadingAlert />;
   return (
     <Card
       sx={{
         mt: 1,
         minWidth: "100%",
+        maxWidth: "100%",
       }}
     >
       <CardHeader
@@ -209,7 +208,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
             </ul>
           </>
         )}
-        {skills.length > 1 && (
+        {skills().length > 0 && (
           <>
             {" "}
             <Typography color="primary" fontWeight={"bold"} mt={5}>
@@ -245,8 +244,10 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
         {userDetails &&
           userDetails.swExtras &&
           userDetails.swExtras.catalog.length > 0 && (
-            <Box p={2} bgcolor={"white"} maxWidth={{ xs: "100%", md: 600 }}>
-              <Typography variant="subtitle2">Catalog:</Typography>
+            <Box p={2} bgcolor={"white"} maxWidth={{ xs: "100%", md: "100%" }}>
+              <Typography color="primary" fontWeight={"bold"} mt={5}>
+                Catalog:
+              </Typography>
               <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
             </Box>
           )}

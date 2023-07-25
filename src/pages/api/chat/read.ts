@@ -1,5 +1,6 @@
 import Chat from "@/lib/model/chat";
 import dbConnect from "@/lib/mongoose";
+import { SeeChats } from "./see-chats";
 
 export default async function handler(req: any, res: any) {
   //get database connection
@@ -9,20 +10,24 @@ export default async function handler(req: any, res: any) {
     //get sender chats
     const senderChats = await Chat.findOne(
       { userId:senderId},
-     { chats: true, _id: false }
+     { chats: true}
     );
     let sentChatsByReceiverId
     if(senderChats){
       sentChatsByReceiverId= senderChats.chats.filter((chat:any)=> chat.youId.toString() === receiverId )
+      
+     
     }
     //get receiver chats
     const receiverChats = await Chat.findOne(
       { userId: receiverId },
-      { chats: true, _id: false }
+      { chats: true, }
     );
     let receivedChatsBySenderId 
     if(receiverChats){
       receivedChatsBySenderId =  receiverChats.chats.filter((chat:any)=> chat.youId.toString() === senderId )
+   
+     SeeChats(receiverChats,'read')
     }
     if (sentChatsByReceiverId && receivedChatsBySenderId) {
       res

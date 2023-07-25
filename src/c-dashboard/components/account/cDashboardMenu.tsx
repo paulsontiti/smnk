@@ -100,7 +100,7 @@ export default function CDashboardMenu() {
         <Collapse in={openJob} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton
-              sx={{ ml: 2 }}
+              sx={{ ml: 8 }}
               onClick={() => {
                 router.push("/c-dashboard/job");
               }}
@@ -115,7 +115,7 @@ export default function CDashboardMenu() {
               />
             </ListItemButton>
             <ListItemButton
-              sx={{ ml: 2 }}
+              sx={{ ml: 8 }}
               onClick={() => {
                 router.push("/c-dashboard/job/create-job");
               }}
@@ -131,7 +131,7 @@ export default function CDashboardMenu() {
             </ListItemButton>
 
             <ListItemButton
-              sx={{ ml: 2 }}
+              sx={{ ml: 8 }}
               onClick={() => {
                 router.push("/c-dashboard/job/completed-jobs");
               }}
