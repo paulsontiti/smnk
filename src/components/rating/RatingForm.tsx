@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { Rating } from "@/lib/rating";
 import axios from "axios";
 import SnackbarComponent from "../snackbar/SnackBar";
-import { AlertColor } from "@mui/material";
+import { AlertColor, Box } from "@mui/material";
 
 function RatingForm({
   jobId,
@@ -44,8 +44,8 @@ function RatingForm({
           const refState = snackBarRef.current as any;
           refState.handleClick();
           setTimeout(() => {
-            router.push(url);
-          }, 3000);
+            router.reload();
+          }, 6000);
         } else {
           setMsg(data.message);
           setColor("error");
@@ -128,10 +128,10 @@ function RatingForm({
   };
 
   return (
-    <>
+    <Box minWidth={{ xs: 300, sm: 400, md: 600 }}>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <FormikContainer formParams={formParams} />
-    </>
+    </Box>
   );
 }
 

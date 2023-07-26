@@ -90,7 +90,7 @@ const jobSchema = new Schema(
           default: false,
         },
         file: {
-          name: String,
+          name: String,contentType:String
         },
         date: { type: Date, default: new Date() },
         correction: {

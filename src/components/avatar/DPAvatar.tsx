@@ -1,4 +1,4 @@
-import { Avatar, Skeleton } from "@mui/material";
+import { Avatar } from "@mui/material";
 
 function DPAvatar({ dp }: { dp: string }) {
   return (

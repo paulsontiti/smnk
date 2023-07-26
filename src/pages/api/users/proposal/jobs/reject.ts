@@ -24,7 +24,8 @@ export default async function handler(req:any,res:any){
           
             //update the job proposals
             job.proposals[index] = pro
-            await job.save()
+           const j =  await job.save()
+           console.log(j)
                  res.status(201).json({rejected:pro.rejected,message:"Proposal rejected"})
         }catch(err){
             console.log(err)

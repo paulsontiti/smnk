@@ -87,6 +87,15 @@ export const theme = createTheme({
     },
   },
 });
+const logError = (error: Error, info: { componentStack: string }) => {
+  // Do something with the error, e.g. log to an external API
+  console.log(error);
+};
+function fallbackRender({ error, resetErrorBoundary }: any) {
+  // Call resetErrorBoundary() to reset the error boundary and retry the render.
+  //resetErrorBoundary();
+  return <ErrorAlert />;
+}
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -95,7 +104,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Providers>
-        <ErrorBoundary fallback={<ErrorAlert />}>
+        <ErrorBoundary fallbackRender={fallbackRender} onError={logError}>
           <Component {...pageProps} />
         </ErrorBoundary>
       </Providers>

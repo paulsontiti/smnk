@@ -84,7 +84,9 @@ export default function ClientProposalDetailsAccordion({
         setColor("success");
         const refState = snackBarRef.current as any;
         refState.handleClick();
-        router.push("/c-dashboard/job");
+        setTimeout(() => {
+          router.reload();
+        }, 6000);
       } else {
         setMsg(message);
         setColor("error");
@@ -105,7 +107,8 @@ export default function ClientProposalDetailsAccordion({
     })();
   }, [proposal.userId]);
 
-  if (!proposal) return <p></p>;
+  if (!proposal || (proposal && proposal.rejected) || proposal.accepted)
+    return <p></p>;
 
   return (
     <>
@@ -141,7 +144,7 @@ export default function ClientProposalDetailsAccordion({
                 downloadReport(`/api/multer/proposal/${proposal.file.name}`)
               }
             />
-            <Button onClick={readFileDialogHandler}>Read File</Button>
+            <Button onClick={readFileDialogHandler}>View File</Button>
             <GenericDialog
               title=""
               content={

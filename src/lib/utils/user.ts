@@ -20,6 +20,7 @@ export const getUserInfo = async (userId: string) => {
   }
   return { data, error };
 };
+
 export const getSWExtraDetails = async (userId: string) => {
   let data;
   let error;
@@ -39,8 +40,7 @@ export const getSWExtraDetails = async (userId: string) => {
   }
   return { data, error };
 };
-export const getUserDp =  (userId: string) => {
-  const res = async()=>{
+export const getUserDp =  async(userId: string) => {
     if (userId) {
     try {
       const res = await axios({
@@ -56,8 +56,22 @@ export const getUserDp =  (userId: string) => {
     }
   }
 }
-return res
-};
+export const getUserName =  async(userId: string) => {
+  if (userId) {
+  try {
+    const res = await axios({
+      method: "GET",
+      url: `${process.env.SMNK_URL}api/profile/name/${userId}`,
+    });
+    const data = await res.data;
+    return data;
+  } catch (err: any) {
+    console.log(err);
+    const error = err;
+    return error;
+  }
+}
+}
 export const getUserProfile = async (userId: string) => {
   let data;
   let error;

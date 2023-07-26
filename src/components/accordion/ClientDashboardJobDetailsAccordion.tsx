@@ -69,7 +69,7 @@ export default function ClientDashboardJobDetailsAccordion({
               >
                 {job.jobDetails.title}
               </Typography>
-              {jobStatus.isJobPaidFor &&
+              {jobStatus.isPaymentApproved &&
               jobStatus.isProposalAccepted &&
               !jobStatus.isJobApproved ? (
                 <>
@@ -101,7 +101,7 @@ export default function ClientDashboardJobDetailsAccordion({
               <MoneyIcon />
               <Badge
                 badgeContent={
-                  jobStatus.isJobPaidFor ? (
+                  jobStatus.isPaymentApproved ? (
                     <VerifiedIcon color="success" />
                   ) : (
                     <PendingIcon color="error" />

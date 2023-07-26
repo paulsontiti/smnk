@@ -37,7 +37,8 @@ const reportUpload = async (req:any, res:NextApiResponse)=>{
             subject:subject,
             report:report,
             file:{
-              name:req.file ? req.file.filename : ''
+              name:req.file ? req.file.filename : '',
+              contentType:req.file ? req.file.contentType : ''
             }
           }
               const job = await Job.findById(jobId)

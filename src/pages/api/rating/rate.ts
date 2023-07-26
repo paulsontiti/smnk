@@ -24,13 +24,13 @@ export default async function handler(req: any, res: any) {
       const user = await UserExtra.findOne({ userId: job.swId });
       if (user) {
         user.rating = averageRating(user, swRating);
-        user.comments.push({ comment: aboutSW, clientId: raterId });
+        user.comments.push({ comment: aboutSW,raterId,date:new Date(),rating:swRating });
         await user.save();
       } else {
         await UserExtra.create({
           userId: job.swId,
           rating: swRating,
-          comments: [{ comment: aboutSW, clientId: raterId }],
+          comments: [{ comment: aboutSW,raterId,date:new Date(),rating:swRating  }],
         });
       }
 

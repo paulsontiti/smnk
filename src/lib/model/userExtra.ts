@@ -11,11 +11,12 @@ const userExtraSchema = new Schema({
     rating:{type:Number,default:1},
     comments:[
         {
-            comment:{type:String},
-            userId:{ 
+            comment:{type:String}, rating:{type:Number},
+            raterId:{ 
                 type: Schema.Types.ObjectId,
                 ref: 'User',
              },
+             date:{type:Date}
         }
     ],
   

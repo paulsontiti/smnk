@@ -1,3 +1,4 @@
+import SWExtra from "@/lib/model/swExtra"
 import User from "@/lib/model/userModel"
 import dbConnect from "@/lib/mongoose"
 
@@ -10,7 +11,7 @@ export default async function handler(req:any,res:any){
     if(userId){
 
         try{
-            const user = await User.findOne({_id:userId},{onAJob:true})
+            const user = await SWExtra.findOne({userId},{onAJob:true})
             res.status(201).json(user.onAJob)
             
         }catch(err){

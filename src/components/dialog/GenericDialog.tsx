@@ -5,6 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
+import { Box } from "@mui/material";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -45,8 +46,9 @@ const GenericDialog = React.forwardRef(
     };
 
     return (
-      <div>
+      <Box minWidth={"100%"}>
         <Dialog
+          sx={{ minWidth: "100%" }}
           open={open}
           TransitionComponent={Transition}
           keepMounted
@@ -57,7 +59,7 @@ const GenericDialog = React.forwardRef(
           <DialogContent>{content}</DialogContent>
           <DialogActions>{actions}</DialogActions>
         </Dialog>
-      </div>
+      </Box>
     );
   }
 );

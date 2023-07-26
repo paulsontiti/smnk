@@ -75,7 +75,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%" }} m={2}>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <GenericDialog
         ref={dialogRef}

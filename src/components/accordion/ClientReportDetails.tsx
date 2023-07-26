@@ -2,7 +2,13 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box, CardActions, Typography, AlertColor } from "@mui/material";
+import {
+  Box,
+  CardActions,
+  Typography,
+  AlertColor,
+  Button,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import axios from "axios";
 import moment from "moment";
@@ -16,6 +22,7 @@ import { useRef, useState } from "react";
 import GenericDialog from "../dialog/GenericDialog";
 import GenericContent from "../dialog/contents/GenericContent";
 import GenericActions from "../dialog/actions/GenericActions";
+import FileReaderCard from "../card/FileReaderCard";
 
 //download report handler
 export const downloadReport = (url: string) => {
@@ -45,6 +52,7 @@ export default function ClientReportDetailsAccordion({
   //declare refs
   const snackBarRef = useRef();
   const dialogRef = useRef();
+  const readFileDialogRef = useRef();
 
   //accept report handler
   async function approveJob() {
@@ -62,7 +70,9 @@ export default function ClientReportDetailsAccordion({
           setColor("success");
           const refState = snackBarRef.current as any;
           refState.handleClick();
-          router.push("/c-dashboard");
+          setTimeout(() => {
+            router.reload();
+          }, 6000);
         } else {
           setMsg(data.message);
           setColor("error");
@@ -96,6 +106,11 @@ export default function ClientReportDetailsAccordion({
   };
   const dialogHandler = () => {
     const refState = dialogRef.current as any;
+    refState.showDialog();
+  };
+
+  const readFileDialogHandler = () => {
+    const refState = readFileDialogRef.current as any;
     refState.showDialog();
   };
   return (
@@ -171,6 +186,18 @@ export default function ClientReportDetailsAccordion({
                 handleDownloadClick={() =>
                   downloadReport(`/api/multer/reports/${report.file.name}`)
                 }
+              />{" "}
+              <Button onClick={readFileDialogHandler}>View File</Button>
+              <GenericDialog
+                title=""
+                content={
+                  <FileReaderCard
+                    filename={report.file.name}
+                    contentType={report.file.contentType ?? ""}
+                  />
+                }
+                actions={<p></p>}
+                ref={readFileDialogRef}
               />
             </Box>
           </>

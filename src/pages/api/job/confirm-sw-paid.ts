@@ -11,7 +11,8 @@ export default async function handler(req:any,res:any){
         
         try{
             const job = await Job.findOneAndUpdate({_id:jobId},{swPaid:true},{new:true})
-                if(job.popConfirmed){
+          
+                if(job.swPaid){
                     res.status(201).json(true)
                 }else{
                     res.status(201).json(false)

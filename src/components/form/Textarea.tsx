@@ -20,7 +20,7 @@ function Textarea({ name, label, required, helperText, ...rest }: any) {
           label={label}
           {...rest}
         />
-        <CustomErrorMessage name={name}/>
+        <CustomErrorMessage name={name} />
       </FormGroup>
     </Box>
   );

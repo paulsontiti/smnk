@@ -34,7 +34,6 @@ function RecommendedJobsLink() {
       }
     })();
   }, [user._id]);
-
   return (
     <ListItemButton
       disabled={isOnAJob}

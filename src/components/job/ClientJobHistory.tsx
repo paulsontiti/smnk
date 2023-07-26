@@ -36,7 +36,7 @@ export default function ClientJobHistory() {
   return (
     <Box maxWidth={"100%"} mt={5}>
       <Typography sx={{ margin: "1rem 1rem", fontWeight: "bold" }}>
-        Job History - All Jobs
+        Pending Jobs
       </Typography>
       {data.map((job: any) => {
         return <ClientDashboardJobDetailsAccordion key={job._id} job={job} />;

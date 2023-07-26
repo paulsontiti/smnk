@@ -23,6 +23,7 @@ import Image from "next/image";
 import SWReportsAccordion from "../accordion/SWReportsAccordion";
 import ErrorAlert from "../alerts/Error";
 import LoadingAlert from "../alerts/Loading";
+import JobProgress from "./JobProgress";
 
 function JobDetailsComponent({ job }: { job: any }) {
   const { user } = useSelector((state: RootState) => state.users);
@@ -65,7 +66,7 @@ function JobDetailsComponent({ job }: { job: any }) {
               </Typography>
               <Badge
                 badgeContent={
-                  jobStatus.isJobPaidFor ? (
+                  jobStatus.isPaymentApproved ? (
                     <VerifiedIcon color="success" />
                   ) : (
                     <PendingIcon color="error" />
@@ -138,6 +139,7 @@ function JobDetailsComponent({ job }: { job: any }) {
             </Typography>
           </Grid>
         </Grid>
+        <JobProgress jobStatus={jobStatus} />
       </CardContent>
       {user.type === "admin" ? (
         <>
@@ -160,7 +162,7 @@ function JobDetailsComponent({ job }: { job: any }) {
         </>
       ) : (
         <Box>
-          {jobStatus.isJobPaidFor && !jobStatus.isJobApproved && (
+          {jobStatus.isPaymentApproved && !jobStatus.isJobApproved && (
             <SWReportsAccordion reports={job.reports} jobId={job._id} />
           )}
           <ApplyForJobButton job={job} />

@@ -32,7 +32,6 @@ function RecommendedJobs() {
       }
     })();
   }, [_id]);
-
   if (error) return <ErrorAlert />;
   if (!jobs) return <LoadingAlert />;
   if (jobs && jobs.length === 0)

@@ -1,5 +1,5 @@
 import Job from "@/lib/model/job"
-import User from "@/lib/model/userModel"
+import SWExtra from "@/lib/model/swExtra"
 import dbConnect from "@/lib/mongoose"
 
 
@@ -12,7 +12,7 @@ export default async function handler(req:any,res:any){
         
         try{
             const job = await Job.findOneAndUpdate({_id:jobId},{approved:true},{new:true})
-            await User.findOneAndUpdate({_id:job.swId},{onAJob:false})
+            await SWExtra.findOneAndUpdate({userId:job.swId},{onAJob:false})
             if(job.approved){
                 res.status(201).json({message:'Job approved',successful:job.approved})
             }else{

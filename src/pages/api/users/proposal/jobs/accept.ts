@@ -1,4 +1,5 @@
 import Job from "@/lib/model/job";
+import SWExtra from "@/lib/model/swExtra";
 import User from "@/lib/model/userModel";
 import dbConnect from "@/lib/mongoose";
 
@@ -22,7 +23,7 @@ export default async function handler(req: any, res: any) {
       //update the skilled worker for the job
       job.swId = swId;
       //get skilled worker and update isOnAJob
-      await User.findOneAndUpdate({ _id: swId }, { onAJob: true });
+      await SWExtra.findOneAndUpdate({ userId: swId }, { onAJob: true });
       //update the job that the proposal has been accepted
       job.proposalAccepted = true;
       //update the job proposals

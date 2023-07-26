@@ -29,10 +29,7 @@ export default function ClientJobsComponent() {
     <>
       <ClientSearchBox />
       <Box maxWidth={{ xs: "100%", md: "80%" }}>
-        <Typography sx={{ margin: "1rem 1rem", fontWeight: "bold" }}>
-          All Jobs
-        </Typography>
-        {!Array.isArray(data) || data.length < 1 ? (
+        {!Array.isArray(data) && data.length === 0 ? (
           <>
             <InfoAlert message="No Pending Job Available. Please Create A Job" />
             <AddBottomNavigation
@@ -43,16 +40,21 @@ export default function ClientJobsComponent() {
             />
           </>
         ) : (
-          data.map((job: any) => {
-            return <JobDetailsAccordion key={job._id} job={job} />;
-          })
+          <>
+            <AddBottomNavigation
+              label="Create A Job"
+              handleClick={() => {
+                router.push("/c-dashboard/job/create-job");
+              }}
+            />
+            <Typography variant="h6" sx={{ margin: "1rem 1rem" }}>
+              All Pending Jobs
+            </Typography>
+            {data.map((job: any) => {
+              return <JobDetailsAccordion key={job._id} job={job} />;
+            })}
+          </>
         )}
-        <AddBottomNavigation
-          label="Create A Job"
-          handleClick={() => {
-            router.push("/c-dashboard/job/create-job");
-          }}
-        />
       </Box>
     </>
   );
