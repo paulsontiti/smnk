@@ -18,6 +18,9 @@ import Comments from "../job/Comments";
 import moment from "moment";
 import CatalogDisplayStepper from "../stepper/CatalogDisplayStepper";
 import LoadingAlert from "../alerts/Loading";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import Collapse from "@mui/material/Collapse";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -38,6 +41,10 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
   const [userDetails, setUserDetails] = React.useState<any | null>(undefined);
   const [userProfile, setUserProfile] = React.useState<any | null>(undefined);
   const [jobsDone, setJobsDone] = React.useState<number>(0);
+  const [expanded, setExpanded] = React.useState(false);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   React.useEffect(() => {
     (async () => {
       const data = await fetchProfessionalsDetails(userId);
@@ -167,18 +174,26 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
           <SubHeader userProfile={userProfile} serviceTitle={serviceTitle()} />
         }
       />
-      <Box>
-        <UserDetailsBottomNavigation
-          rating={
-            userDetails && userDetails.userExtra && userDetails.userExtra.rating
-              ? userDetails.userExtra.rating
-              : 0
-          }
-          jobsDone={jobsDone}
-          level={
-            userDetails && userDetails.swExtras && userDetails.swExtras.level
-          }
-        />
+      <UserDetailsBottomNavigation
+        rating={
+          userDetails && userDetails.userExtra && userDetails.userExtra.rating
+            ? userDetails.userExtra.rating
+            : 0
+        }
+        jobsDone={jobsDone}
+        level={
+          userDetails && userDetails.swExtras && userDetails.swExtras.level
+        }
+      />
+      <ExpandMore
+        expand={expanded}
+        onClick={handleExpandClick}
+        aria-expanded={expanded}
+        aria-label="show more"
+      >
+        <ExpandMoreIcon />
+      </ExpandMore>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
         {userProfile && userProfile.description && (
           <Box p={2}>
             {" "}
@@ -254,7 +269,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
           )}
         <Divider />
         <Comments />
-      </Box>
+      </Collapse>
     </Box>
   );
 }

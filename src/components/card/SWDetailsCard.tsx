@@ -154,7 +154,12 @@ export default function SWDetailsCard({ userId }: { userId: string }) {
           )}
 
           {userDetails.swExtras.catalog && (
-            <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
+            <Box p={2} bgcolor={"white"}>
+              {userDetails.swExtras.catalog && (
+                <Typography variant="subtitle2">Catalog:</Typography>
+              )}
+              <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
+            </Box>
           )}
         </CardContent>
       </Collapse>
