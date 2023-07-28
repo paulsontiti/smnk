@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
 import SWDetailsCard from "../card/SWDetailsCard";
+import SWDetailsDashboardCard from "../card/SWDetailsDashboardCard";
 
 function ServicesByCategory({ category }: { category: string }) {
   const [talents, setTalent] = useState<any[] | null>(null);
@@ -35,7 +36,7 @@ function ServicesByCategory({ category }: { category: string }) {
         flexWrap={"wrap"}
       >
         {talents.map((talent, i) => (
-          <SWDetailsCard userId={talent.userId} key={talent.userId} />
+          <SWDetailsDashboardCard userId={talent.userId} key={talent.userId} />
         ))}
       </Box>
     </Box>
