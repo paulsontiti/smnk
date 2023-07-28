@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Cancel } from "@mui/icons-material";
 import HomePageStepper from "@/components/stepper/HomePageStepper";
+import BlogStepper from "@/components/stepper/BlogStepper";
 
 export default function Home() {
   const [showVideo, setShowVideo] = useState("block");
@@ -43,7 +44,7 @@ export default function Home() {
           height={{ xs: 200, md: 300 }}
           width={{ xs: 200, md: 300 }}
           position={"fixed"}
-          bottom={50}
+          top={400}
           left={0}
           display={showVideo}
           zIndex={100}
@@ -101,16 +102,18 @@ export default function Home() {
           alignItems={"center"}
           justifyContent={"flex-start"}
           overflow={"scroll"}
-          p={2}
+          p={1}
+          mb={5}
         >
           <Card
             sx={{
               bgcolor: "#2266BF",
               color: "white",
               minHeight: 250,
-              minWidth: { xs: 300, md: 400 },
-              maxWidth: { xs: 300, md: 400 },
+              minWidth: { xs: 300, md: 400, lg: 500 },
+              maxWidth: { xs: 300, md: 400, lg: 500 },
               mr: 2,
+              mb: 5,
             }}
           >
             <CardContent>
@@ -127,9 +130,10 @@ export default function Home() {
               bgcolor: "green",
               color: "white",
               minHeight: 250,
-              minWidth: { xs: 300, md: 400 },
-              maxWidth: { xs: 300, md: 400 },
+              minWidth: { xs: 300, md: 400, lg: 500 },
+              maxWidth: { xs: 300, md: 400, lg: 500 },
               mr: 2,
+              mb: 5,
             }}
           >
             <CardContent>
@@ -148,8 +152,9 @@ export default function Home() {
               bgcolor: "#7E1120",
               color: "white",
               minHeight: 250,
-              minWidth: { xs: 300, md: 400 },
-              maxWidth: { xs: 300, md: 400 },
+              minWidth: { xs: 300, md: 400, lg: 500 },
+              maxWidth: { xs: 300, md: 400, lg: 500 },
+              mb: 5,
             }}
           >
             <CardContent>
@@ -163,30 +168,7 @@ export default function Home() {
           </Card>
         </Box>
 
-        <Box
-          position={"relative"}
-          height={{ xs: 300, sm: 400, md: 500, lg: 600 }}
-          width={"100vw"}
-          mb={2}
-        >
-          <Image
-            src="/assets/blog1.png"
-            alt=""
-            fill
-            style={{ objectFit: "fill" }}
-          />
-        </Box>
-        <Box
-          position={"relative"}
-          height={{ xs: 300, sm: 400, md: 500, lg: 600 }}
-        >
-          <Image
-            src="/assets/blog2.png"
-            alt=""
-            fill
-            style={{ objectFit: "fill" }}
-          />
-        </Box>
+        <BlogStepper />
         <TestimonialStepper />
       </main>
     </Layout>

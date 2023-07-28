@@ -12,7 +12,7 @@ function ComplaintForm({ jobId, url }: { jobId: string; url: string }) {
   const router = useRouter();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
   //complaint submit handler
@@ -103,7 +103,7 @@ function ComplaintForm({ jobId, url }: { jobId: string; url: string }) {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

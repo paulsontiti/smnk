@@ -17,6 +17,7 @@ export default function UserDetailsBottomNavigation({
       display={"flex"}
       alignItems={"center"}
       justifyContent={"flex-start"}
+      p={2}
     >
       <Box
         display={"flex"}
@@ -46,7 +47,7 @@ export default function UserDetailsBottomNavigation({
         mr={2}
       >
         <StarIcon color="primary" />
-        <Typography variant="caption">{level}</Typography>
+        <Typography variant="caption">{level ?? "Beginner"}</Typography>
       </Box>
     </Box>
   );

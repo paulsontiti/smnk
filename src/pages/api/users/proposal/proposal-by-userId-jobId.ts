@@ -13,7 +13,7 @@ export default async function handler(req: any, res: any) {
     try {
       const job = await Job.findById(jobId,{proposals:true,_id:false})
       
-      const pro = job.proposals.find((pro:any)=>pro.userId.toString() === userId && !pro.rejected)
+      const pro = job.proposals.find((pro:any)=>pro.userId.toString() === userId)
     
       
       res.json(pro);

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { AlertColor, Box, Container, Typography } from "@mui/material";
 import CaptureBottomNavigation from "../bottomNavigation/CaptureBottomNavigation";
@@ -13,6 +13,7 @@ import { User } from "@/lib/types/userInfo";
 import { updateUser } from "@/store/slices/userSlice";
 import SuccessAlert from "../alerts/Success";
 import InfoAlert from "../alerts/Info";
+import { BlackImage } from "../avatar/DashboardDp";
 
 const videoConstraints = {
   width: 250,
@@ -35,7 +36,6 @@ export default function CaptureCameraImage() {
   const dispatch = useDispatch<AppDispatch>();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-  const router = useRouter();
   //declare refs
   const snackBarRef = useRef();
 
@@ -108,7 +108,7 @@ export default function CaptureCameraImage() {
               justifyContent={"center"}
               flexDirection={"column"}
             >
-              <Image
+              <BlackImage
                 src={capturedPhotoUrl}
                 width={250}
                 height={250}
@@ -140,9 +140,8 @@ export default function CaptureCameraImage() {
                 flexDirection: "column",
               }}
             >
-              <Typography>Captured Photo Preview</Typography>
-              <Image
-                style={{ marginTop: ".5rem" }}
+              <Typography mb={5}>Captured Photo Preview</Typography>
+              <BlackImage
                 src={url}
                 width={250}
                 height={250}

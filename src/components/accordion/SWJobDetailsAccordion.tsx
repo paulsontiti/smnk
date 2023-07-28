@@ -19,6 +19,7 @@ import ApplyForJobButton from "../job/ApplyForJobButton";
 import ProposalDetailsAccordion from "./ProposalDetailsAccordion";
 import ErrorAlert from "../alerts/Error";
 import LoadingAlert from "../alerts/Loading";
+import JobProgress from "../job/JobProgress";
 
 export default function SWJobDetailsAccordion({ job }: { job: any }) {
   const { user } = useSelector((state: RootState) => state.users);

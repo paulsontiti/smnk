@@ -27,16 +27,16 @@ export default function Footer() {
   const [color, setColor] = React.useState<ColorPaletteProp>("primary");
   const { _id } = useSelector((state: RootState) => state.users.user);
   const [totalNumberOfProfessionals, setTotalNumberOfProfessionals] =
-    React.useState<number | null>(null);
+    React.useState<number | string>("");
   const [totalNumberOfJobs, setTotalNumberOfJobs] = React.useState<
-    number | null
-  >(null);
+    number | string
+  >("");
   const [totalNumberOfServices, setTotalNumberOfServices] = React.useState<
-    number | null
-  >(null);
+    number | string
+  >("");
   const [totalNumberOfClients, setTotalNumberOfClients] = React.useState<
-    number | null
-  >(null);
+    number | string
+  >("");
   const router = useRouter();
 
   React.useEffect(() => {

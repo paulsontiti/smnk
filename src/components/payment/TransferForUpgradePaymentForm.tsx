@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { IconButton, Typography, AlertColor } from "@mui/material";
+import { IconButton, Typography, AlertColor, Box } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import UploadIcon from "@mui/icons-material/Upload";
 import axios from "axios";
@@ -68,7 +68,6 @@ function TransferForUpgradePaymentForm({
           //save the new user details in the localstorage
           localStorage.setItem("swExtra", JSON.stringify(swExtra));
           dispatch(updateSWExtra());
-          setUploading(false);
           setMsg(data.message);
           setColor("success");
           const refState = snackBarRef.current as any;
@@ -81,18 +80,21 @@ function TransferForUpgradePaymentForm({
           setColor("error");
           const refState = snackBarRef.current as any;
           refState.handleClick();
+          setUploading(false);
         }
       } else {
         setMsg("Invalid request,select proof of payment");
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
+        setUploading(false);
       }
     } catch (err: any) {
       setMsg("An error occurred ,please try again");
       setColor("error");
       const refState = snackBarRef.current as any;
       refState.handleClick();
+      setUploading(false);
       console.log(err);
       return false;
     }
@@ -102,48 +104,85 @@ function TransferForUpgradePaymentForm({
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <SMNKBankDetails />
-      <form onSubmit={submitHandler} encType="multipart/form-data">
-        <IconButton color="primary" type="submit">
-          {file && (
-            <>
-              <Image
-                src={displayFile}
-                alt="image to upload"
-                width={100}
-                height={100}
-              />
-              <LoadingButton
-                loading={uploading}
-                loadingPosition="start"
-                startIcon={<UploadIcon sx={{ color: `${color}.900` }} />}
-              ></LoadingButton>
-            </>
-          )}
-        </IconButton>
-        <IconButton
-          color="primary"
-          aria-label="upload picture"
-          component="label"
-        >
-          <input
-            name="sub"
-            onChange={handleChange}
-            hidden
-            accept="image/*"
-            type="file"
-          />
-          <PhotoCamera />
-          {!file && (
-            <>
-              <Typography sx={{ marginRight: "1rem" }} component="span">
-                Upload Proof of Payment
-              </Typography>
-            </>
-          )}
-        </IconButton>
-      </form>
+      <PaymentForm
+        submitHandler={submitHandler}
+        file={file}
+        displayFile={displayFile}
+        uploading={uploading}
+        color={color}
+        handleChange={handleChange}
+      />
     </>
   );
 }
 
 export default TransferForUpgradePaymentForm;
+
+export function PaymentForm({
+  submitHandler,
+  file,
+  displayFile,
+  uploading,
+  color,
+  handleChange,
+}: {
+  submitHandler: any;
+  file: any;
+  displayFile: string;
+  uploading: boolean;
+  color: any;
+  handleChange: any;
+}) {
+  return (
+    <form onSubmit={submitHandler} encType="multipart/form-data">
+      <IconButton color="primary" type="submit">
+        {file && (
+          <>
+            <Image
+              src={displayFile}
+              alt="image to upload"
+              width={100}
+              height={100}
+            />
+            <LoadingButton
+              loading={uploading}
+              loadingPosition="start"
+              startIcon={
+                uploading ? null : (
+                  <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    ml={2}
+                  >
+                    <UploadIcon sx={{ color: `${color}.900` }} />
+                    <Typography
+                      component="span"
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      Upload
+                    </Typography>
+                  </Box>
+                )
+              }
+            ></LoadingButton>
+          </>
+        )}
+      </IconButton>
+      <IconButton color="primary" aria-label="upload picture" component="label">
+        <input
+          name="sub"
+          onChange={handleChange}
+          hidden
+          accept="image/*"
+          type="file"
+        />
+        <PhotoCamera />
+        <Typography component="span">
+          {file ? "Change Photo" : "Select Proof of Payment"}
+        </Typography>
+      </IconButton>
+    </form>
+  );
+}

@@ -13,6 +13,8 @@ const JobProgress = ({ jobStatus }: { jobStatus: JobStatus }) => {
       justifyContent={"flex-start"}
       flexWrap={"wrap"}
       gap={1}
+      mt={5}
+      mb={5}
     >
       <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
         <Typography variant="caption">Proposal accepted</Typography>

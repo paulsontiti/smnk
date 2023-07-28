@@ -5,136 +5,147 @@ import FormikContainer from "@/components/form/formikContainer";
 import { FormControls, FormParams, createFormObject, states } from "@/lib/form";
 import { JobDetails } from "@/lib/job";
 import { useEffect, useRef, useState } from "react";
-import { createSetFromArray, fetchTalents } from "@/lib/search";
+import { createSetFromArray, fetchCategories } from "@/lib/search";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
-import { AlertColor } from "@mui/material";
+import { AlertColor, Typography } from "@mui/material";
 import Link from "next/link";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { serviceCategories } from "@/components/card/ServiceCategories";
 
 export const validateDate = (startDate: Date, endDate: Date) => {
-  return endDate > startDate && new Date(startDate) > new Date() && new Date(endDate) > new Date() ;
+  return (
+    endDate > startDate &&
+    new Date(startDate) > new Date() &&
+    new Date(endDate) > new Date()
+  );
 };
 export default function JobForm({
   initialValues,
 }: {
-  initialValues: {details:JobDetails,jobId:string};
+  initialValues: { details: JobDetails; jobId: string };
 }) {
+  const categories = serviceCategories.map((cat) => cat.title.toLowerCase());
   const [jobCategoryOptions, setJobCategoryOption] = useState<string[]>();
   const router = useRouter();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-  const {_id} = useSelector((state:RootState)=>state.users.user)
+  const { _id } = useSelector((state: RootState) => state.users.user);
 
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
 
   useEffect(() => {
     (async () => {
-      const data = await fetchTalents();
-      setJobCategoryOption(createSetFromArray(data));
+      const data = await fetchCategories();
+
+      setJobCategoryOption(createSetFromArray(data.concat(categories)));
     })();
   }, []);
 
-   const createJobSubmitHandler = async (values:any)=>{
+  const createJobSubmitHandler = async (values: any) => {
     //return console.log(values)
-      if(_id){
-          const res = await axios({
-              method:'POST',
-              url:`${process.env.SMNK_URL}api/c-dashboard/job/create-job`,
-              data:{jobDetails:values}
-          })
-          const data = await res.data
-          
-          if(data.isJobAdded){
-            setMsg(data.message);
-            setColor("success");
-            const refState = snackBarRef.current as any;
-            refState.handleClick();
-           setTimeout(()=>{
-            router.push('/c-dashboard/job')
-           },6000)
-          }else{
-            setMsg(data.message);
-            setColor("error");
-            const refState = snackBarRef.current as any;
-            refState.handleClick();
-            return
-          }
-          
-        }else{
-          setMsg('Bad request!!!! No user id');
-          setColor("error");
-          const refState = snackBarRef.current as any;
-          refState.handleClick();
-        } 
-  }
- const editJobSubmitHandler = async (values:any)=>{
-    //return console.log(values)
-      if(_id){
-          const res = await axios({
-              method:'POST',
-              url:`${process.env.SMNK_URL}api/c-dashboard/job/edit-job`,
-              data:{jobDetails:values,jobId:initialValues.jobId}
-          })
-          const data = await res.data
-          
-          if(data.isJobEdited){
-            setMsg(data.message);
-            setColor("success");
-            const refState = snackBarRef.current as any;
-            refState.handleClick();
-           setTimeout(()=>{
-            router.push('/c-dashboard/job')
-           },6000)
-          }else{
-            setMsg(data.message);
-            setColor("error");
-            const refState = snackBarRef.current as any;
-            refState.handleClick();
-         
-            return
-          }
-          
-        }else{
-          setMsg('Bad request!!!! No user id');
-          setColor("error");
-          const refState = snackBarRef.current as any;
-          refState.handleClick();
-        } 
-  }
+    if (_id) {
+      const res = await axios({
+        method: "POST",
+        url: `${process.env.SMNK_URL}api/c-dashboard/job/create-job`,
+        data: { jobDetails: values },
+      });
+      const data = await res.data;
 
-  const typeOptions = [
-    { label: "Physical", value: "physical"},
-    { label: "Online", value: "online" },
-  ];
-
-
-  //formik submit handler
-  const formikSubmitHandler = (
-    values: JobDetails,
-    { validateForm }: FormikHelpers<JobDetails>
-  ) => {
-    return new Promise((res) => {
-      if (validateDate(values.startDate, values.endDate)) {
-        validateForm()
-          .then((data: any) => {
-            initialValues.jobId ? editJobSubmitHandler(values) : createJobSubmitHandler(values);
-            res(data);
-          })
-          .catch((err: any) => {
-            setMsg('An error occurred while filling the form');
-            setColor("error");
-            const refState = snackBarRef.current as any;
-            refState.handleClick();
-            res(err);
-          });
+      if (data.isJobAdded) {
+        setMsg(data.message);
+        setColor("success");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+        setTimeout(() => {
+          router.push("/c-dashboard/job");
+        }, 6000);
       } else {
-        setMsg("Your End date should be greater than your Start Date and Both dates should be after yesterday");
+        setMsg(data.message);
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
+        return;
+      }
+    } else {
+      setMsg("Bad request!!!! No user id");
+      setColor("error");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
+    }
+  };
+  const editJobSubmitHandler = async (values: any) => {
+    //return console.log(values)
+    if (_id) {
+      const res = await axios({
+        method: "POST",
+        url: `${process.env.SMNK_URL}api/c-dashboard/job/edit-job`,
+        data: { jobDetails: values, jobId: initialValues.jobId },
+      });
+      const data = await res.data;
+
+      if (data.isJobEdited) {
+        setMsg(data.message);
+        setColor("success");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+        setTimeout(() => {
+          router.push("/c-dashboard/job");
+        }, 6000);
+      } else {
+        setMsg(data.message);
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+
+        return;
+      }
+    } else {
+      setMsg("Bad request!!!! No user id");
+      setColor("error");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
+    }
+  };
+
+  const typeOptions = [
+    { label: "Physical", value: "physical" },
+    { label: "Online", value: "online" },
+  ];
+
+  //formik submit handler
+  const formikSubmitHandler = (values: JobDetails, formikHelpers: any) => {
+    return new Promise((res) => {
+      if (validateDate(values.startDate, values.endDate)) {
+        setLoading(true);
+        formikHelpers
+          .validateForm()
+          .then(async (data: any) => {
+            initialValues.jobId
+              ? await editJobSubmitHandler(values)
+              : await createJobSubmitHandler(values);
+            setLoading(false);
+            res(data);
+          })
+          .catch((err: any) => {
+            setMsg("An error occurred while filling the form");
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+            setLoading(false);
+            res(err);
+          });
+      } else {
+        setMsg(
+          "Your End date should be greater than your Start Date and Both dates should be after yesterday"
+        );
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+        setLoading(false);
         res("");
       }
     });
@@ -148,13 +159,13 @@ export default function JobForm({
       required: true,
       helperText: "Title of your job",
     },
-    
+
     {
       name: "type",
       label: "Type Of Job",
       control: "radio",
       options: typeOptions,
-      checkedValue:'physical'
+      checkedValue: "physical",
     },
     {
       name: "category",
@@ -208,7 +219,16 @@ export default function JobForm({
     { name: "endDate", label: "End Date", control: "date" },
     {
       name: "agreeToTerms",
-      label: <Link href={'/t&c'}>I agree to terms & conditions</Link>,
+      label: (
+        <>
+          <Typography component={"span"}>
+            By signing up, you agree to our{" "}
+          </Typography>
+          <Link href="/t&c">terms and conditions</Link>{" "}
+          <Typography component={"span"}>and </Typography>{" "}
+          <Link href="/privacy-policy">privacy policy</Link>
+        </>
+      ),
       control: "switch",
     },
   ];
@@ -226,8 +246,8 @@ export default function JobForm({
 
   return (
     <>
-    <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

@@ -1,19 +1,16 @@
-import * as React from "react";
-import IconButton from "@mui/material/IconButton";
+import { useState, useEffect } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import AccountActions from "../home/navbar/actions";
-import SearchDrawer from "../drawer/SearchDrawer";
-import DPAvatar from "../avatar/DPAvatar";
-import { Grid, Typography, Box } from "@mui/material";
+import { Grid, Typography, Box, Skeleton } from "@mui/material";
 import { useRouter } from "next/router";
 import { theme } from "@/pages/_app";
 import LogoutSwitch from "../switch/LogoutSwitch";
+import DashboardDp from "../avatar/DashboardDp";
 
 export default function HomeLogoutAppBar() {
-  const { user } = useSelector((state: RootState) => state.users);
   const router = useRouter();
   return (
     <Toolbar sx={{ bgcolor: "white" }}>
@@ -55,23 +52,8 @@ export default function HomeLogoutAppBar() {
           alignItems={"center"}
           justifyContent={"flex-end"}
         >
-          {user && user._id && (
-            <>
-              <IconButton
-                onClick={() => {
-                  if (user.type === "skilled worker") {
-                    router.push("/sw-dashboard");
-                  } else {
-                    router.push("/c-dashboard");
-                  }
-                }}
-              >
-                <DPAvatar dp={user.dpFileName} />
-              </IconButton>
-              <LogoutSwitch />
-            </>
-          )}
-          {!user._id && <AccountActions />}
+          {" "}
+          <DpAndAccounts />
         </Grid>
       </Grid>
     </Toolbar>
@@ -96,5 +78,40 @@ export function AppBarLogo() {
         we connect,you collect
       </Typography>
     </Box>
+  );
+}
+export function DpAndAccounts() {
+  const { _id } = useSelector((state: RootState) => state.users.user);
+  const [userId, setUserId] = useState<any>(null);
+
+  useEffect(() => {
+    setUserId(_id);
+  }, [_id]);
+  return (
+    <>
+      {userId === null ? (
+        <>
+          <Skeleton
+            variant="rectangular"
+            width={100}
+            height={30}
+            animation="wave"
+          />
+          <Skeleton
+            variant="circular"
+            width={50}
+            height={50}
+            animation="wave"
+          />
+        </>
+      ) : userId ? (
+        <>
+          <LogoutSwitch />
+          <DashboardDp />
+        </>
+      ) : (
+        <AccountActions />
+      )}
+    </>
   );
 }

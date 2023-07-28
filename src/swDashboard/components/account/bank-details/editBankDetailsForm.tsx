@@ -25,7 +25,7 @@ export default function EditBankDetailsForm() {
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
   const dispatch = useDispatch<AppDispatch>();
-
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
   const router = useRouter();
@@ -36,6 +36,7 @@ export default function EditBankDetailsForm() {
   };
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setLoading(true);
     return new Promise((res) => {
       if (_id) {
         formikHelpers
@@ -54,6 +55,7 @@ export default function EditBankDetailsForm() {
             );
             //update user object in localstorage
             dispatch(updateSWExtra());
+            setLoading(false);
             res(msg);
           })
           .catch((err: any) => {
@@ -62,6 +64,7 @@ export default function EditBankDetailsForm() {
             const refState = snackBarRef.current as any;
             refState.handleClick();
             console.log("Error from formik ", err);
+            setLoading(false);
             res(err);
           });
       } else {
@@ -69,6 +72,7 @@ export default function EditBankDetailsForm() {
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
+        setLoading(false);
         res(msg);
       }
     });
@@ -81,13 +85,13 @@ export default function EditBankDetailsForm() {
       initialValues,
       bankDetailsFormControls
     ),
-    buttonLabel: "Edit Bank Details",
+    buttonLabel: "Upload",
     headerTitle: "Edit Your Bank Details",
   };
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

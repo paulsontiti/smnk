@@ -9,13 +9,14 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import SnackbarComponent from "../snackbar/SnackBar";
+import { PaymentForm } from "./TransferForUpgradePaymentForm";
 
 function TransferForJobPaymentForm({ jobId }: { jobId: string }) {
   const { _id } = useSelector((state: RootState) => state.users.user);
   const router = useRouter();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-
+  const [uploading, setUploading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
   const [file, setFile] = useState<any>();
@@ -33,6 +34,7 @@ function TransferForJobPaymentForm({ jobId }: { jobId: string }) {
   };
 
   const submitHandler = async (e: any) => {
+    setUploading(true);
     e.preventDefault();
     try {
       if (file) {
@@ -61,18 +63,21 @@ function TransferForJobPaymentForm({ jobId }: { jobId: string }) {
           setColor("error");
           const refState = snackBarRef.current as any;
           refState.handleClick();
+          setUploading(false);
         }
       } else {
         setMsg("Invalid request,select proof of payment");
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
+        setUploading(false);
       }
     } catch (err: any) {
       setMsg("An error occurred ,please try again");
       setColor("error");
       const refState = snackBarRef.current as any;
       refState.handleClick();
+      setUploading(false);
       console.log(err);
       return false;
     }
@@ -82,42 +87,14 @@ function TransferForJobPaymentForm({ jobId }: { jobId: string }) {
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <SMNKBankDetails />
-      <form onSubmit={submitHandler} encType="multipart/form-data">
-        <IconButton color="primary" type="submit">
-          {file && (
-            <>
-              <Image
-                src={displayFile}
-                alt="image to upload"
-                width={100}
-                height={100}
-              />
-              <UploadIcon />
-            </>
-          )}
-        </IconButton>
-        <IconButton
-          color="primary"
-          aria-label="upload picture"
-          component="label"
-        >
-          <input
-            name="pop"
-            onChange={handleChange}
-            hidden
-            accept="image/*"
-            type="file"
-          />
-          <PhotoCamera />
-          {!file && (
-            <>
-              <Typography sx={{ marginRight: "1rem" }} component="span">
-                Upload Proof of Payment
-              </Typography>
-            </>
-          )}
-        </IconButton>
-      </form>
+      <PaymentForm
+        submitHandler={submitHandler}
+        uploading={uploading}
+        color={color}
+        handleChange={handleChange}
+        file={file}
+        displayFile={displayFile}
+      />
     </>
   );
 }

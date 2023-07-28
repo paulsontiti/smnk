@@ -27,6 +27,7 @@ export default function ChangePassword() {
   );
   const dispatch = useDispatch<AppDispatch>();
 
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
 
@@ -49,7 +50,7 @@ export default function ChangePassword() {
     if (user) {
       switch (true) {
         case user.type === "skilled worker":
-          dispatch(getSWExtra(user._id))
+          dispatch(getSWExtra(user._id));
           router.push("/sw-dashboard");
           break;
         case user.type === "client":
@@ -60,7 +61,7 @@ export default function ChangePassword() {
           break;
       }
     }
-  }, [user, router, successful, response,dispatch]);
+  }, [user, router, successful, response, dispatch]);
 
   //sign up submit handler
   const submitHandler = async (values: {
@@ -73,11 +74,13 @@ export default function ChangePassword() {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setLoading(true);
     return new Promise((res) => {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
           const msg = await submitHandler(values);
+          setLoading(false);
           res(msg);
         })
         .catch((err: any) => {
@@ -85,6 +88,7 @@ export default function ChangePassword() {
           setColor("error");
           const refState = snackBarRef.current as any;
           refState.handleClick();
+          setLoading(false);
           res(err);
         });
     });
@@ -125,7 +129,7 @@ export default function ChangePassword() {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />;
+      <FormikContainer formParams={formParams} loading={loading} />;
     </>
   );
 }

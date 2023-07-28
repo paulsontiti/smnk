@@ -39,11 +39,11 @@ multerHandler
           .json({
             message: "Your upload was successfully added to your catalog",
             successful: true,
-            resData: filename,
+            resData: {filename,contentType},
           });
       } else {
         const extra = await SWExtra.create({
-          catalog: [{ filename, title, description }],
+          catalog: [{ filename, title, description,contentType }],
         });
         if (extra) {
           res
@@ -51,7 +51,7 @@ multerHandler
             .json({
               message: "Your upload was successfully added to your catalog",
               successful: true,
-              resData: filename,
+              resData: {filename,contentType},
             });
         } else {
           res

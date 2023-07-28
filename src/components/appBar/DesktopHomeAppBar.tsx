@@ -12,6 +12,7 @@ import { theme } from "@/pages/_app";
 import Logout from "../dashboard/logout";
 import SearchBox from "../autoComplete/SearchBox";
 import LogoutSwitch from "../switch/LogoutSwitch";
+import { DpAndAccounts } from "./HomeLogoutAppBar";
 
 export default function DesktopHomeAppBar() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -61,27 +62,7 @@ export default function DesktopHomeAppBar() {
             justifyContent: "flex-end",
           }}
         >
-          {user && user._id && (
-            <Box
-              display={"flex"}
-              alignItems={"center"}
-              justifyContent={"flex-end"}
-            >
-              <IconButton
-                onClick={() => {
-                  if (user.type === "skilled worker") {
-                    router.push("/sw-dashboard");
-                  } else {
-                    router.push("/c-dashboard");
-                  }
-                }}
-              >
-                <DPAvatar dp={user.dpFileName} />
-              </IconButton>
-              <LogoutSwitch />
-            </Box>
-          )}
-          {!user._id && <AccountActions />}
+          <DpAndAccounts />
         </Grid>
       </Grid>
       {/* <Box

@@ -163,7 +163,7 @@ export default function ClientDashboardJobDetailsAccordion({
               <Divider />
             </Grid>
           )}
-          <Grid item xs={12} sx={dividerStyle}>
+          <Grid item xs={12} sm={6} sx={dividerStyle}>
             <DateRangeIcon />
             <Typography variant="caption">
               {job.jobDetails.startDate?.toString().slice(0, 10)}

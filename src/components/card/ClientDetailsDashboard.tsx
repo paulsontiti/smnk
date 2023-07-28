@@ -5,7 +5,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import { fetchProfessionalsDetails } from "@/lib/search";
 import { getClientJobHistory, getUserProfile } from "@/lib/utils/user";
 import { Box } from "@mui/material";
@@ -32,8 +32,8 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export default function ClientDetailsDashboard({ userId }: { userId: string }) {
-  const [userDetails, setUserDetails] = React.useState<any | null>(null);
-  const [userProfile, setUserProfile] = React.useState<any | null>(null);
+  const [userDetails, setUserDetails] = React.useState<any | null>(undefined);
+  const [userProfile, setUserProfile] = React.useState<any | null>(undefined);
   const [completedJobs, setCompletedJobs] = React.useState<number>(0);
   const [pendingJobs, setPendingJobs] = React.useState<number>(0);
   React.useEffect(() => {
@@ -70,9 +70,10 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
     userDetails.user &&
     userDetails.user.verification &&
     userDetails.user.verification.kycVeried;
-  if (!userDetails || !userProfile) return <LoadingAlert />;
+  if (userDetails === undefined || userProfile === undefined)
+    return <LoadingAlert />;
   return (
-    <Card sx={{ mt: 1, width: "100%" }}>
+    <Box sx={{ mt: 1, width: "100%" }}>
       <CardHeader
         avatar={
           <Avatar
@@ -123,10 +124,11 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
         subheader={<SubHeader userProfile={userProfile} />}
       />
 
-      <CardContent>
-        <Typography variant="body2" color="text.secondary" mb={5}>
+      <Box>
+        <Typography variant="body2" color="text.secondary" mb={5} mt={5}>
           {userProfile && userProfile.description}
         </Typography>
+        <Divider />
         <ClientDetailsBottomNavigation
           rating={
             userDetails && userDetails.userExtra && userDetails.userExtra.rating
@@ -135,12 +137,13 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
           }
           completedJobs={completedJobs}
           pendingJobs={pendingJobs}
-        />
+        />{" "}
+        <Divider />
         <ClientJobHistory />
-
+        <Divider />
         <Comments />
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
 }
 

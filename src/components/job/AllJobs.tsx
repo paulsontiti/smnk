@@ -11,7 +11,7 @@ function AllJobs() {
   useEffect(() => {
     (async () => {
       const data = await fetchJobs();
-      setCategories(createSetFromArray(data.flat().sort()));
+      setCategories(createSetFromArray(data.sort()));
     })();
   }, []);
   if (!categories) return <LoadingAlert />;

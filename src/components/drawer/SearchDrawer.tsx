@@ -58,7 +58,7 @@ export const GroupItems = styled("ul")({
 
 export const getSearchOptions = (searchOptions: string[]) => {
   let options: SearchOption[] = [];
-  if (searchOptions) {
+  if (searchOptions.length > 0) {
     options = searchOptions.map((option) => {
       if (option) {
         const firstLetter = option[0].toUpperCase();

@@ -95,9 +95,16 @@ export default function IndividualPersonalInfo() {
             </Grid>
           </Grid>
         </CardContent>
-        <CardActions>
+        <CardActions
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Button
             fullWidth
+            sx={{ maxWidth: 300 }}
             size="small"
             onClick={() => {
               router.push(

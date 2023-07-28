@@ -28,17 +28,15 @@ export default function HowSMNKWorks() {
           maxWidth={"100%"}
           minWidth={"100%"}
           display={"flex"}
-          flexDirection={{ xs: "column", sm: "row" }}
-          height={{ xs: 500, sm: 400 }}
+          justifyContent={"center"}
+          alignItems={"center"}
+          flexDirection="column"
+          height={"auto"}
         >
-          <Box
-            position={"relative"}
-            width={{ xs: "100%", md: "50%" }}
-            height={{ xs: "60%", sm: "100%" }}
-          >
+          <Box position={"relative"} width={{ xs: "100%", md: "50%" }}>
             <Image
               src="/assets/create-account.png"
-              style={{ height: "100%", width: "100%" }}
+              style={{ height: "auto", width: "100%" }}
               width={100}
               height={100}
               sizes="100vw"
@@ -96,17 +94,18 @@ export default function HowSMNKWorks() {
           maxWidth={"100%"}
           minWidth={"100%"}
           display={"flex"}
-          flexDirection={{ xs: "column", sm: "row" }}
-          height={400}
+          justifyContent={"center"}
+          alignItems={"center"}
+          flexDirection="column"
+          height={"auto"}
         >
           <Box
             position={"relative"}
-            width={{ xs: "100%", sm: "50%" }}
-            height={{ xs: "70%", sm: "100%" }}
+            width={{ xs: "100%", sm: "50%", md: "20%" }}
           >
             <Image
               src="/assets/post-a-job.png"
-              style={{ height: "100%", width: "100%" }}
+              style={{ height: "auto", width: "100%" }}
               width={100}
               height={100}
               sizes="100vw"
@@ -139,13 +138,14 @@ export default function HowSMNKWorks() {
           maxWidth={"100%"}
           minWidth={"100%"}
           display={"flex"}
-          flexDirection={{ xs: "column", sm: "row" }}
-          height={500}
+          justifyContent={"center"}
+          alignItems={"center"}
+          flexDirection="column"
+          height={"auto"}
         >
           <Box
             position={"relative"}
-            width={{ xs: "100%", sm: "50%" }}
-            height={{ xs: "70%", sm: "100%" }}
+            width={{ xs: "100%", sm: "50%", md: "20%" }}
           >
             <Image
               src="/assets/hire-smnk.png"
@@ -184,13 +184,14 @@ export default function HowSMNKWorks() {
           maxWidth={"100%"}
           minWidth={"100%"}
           display={"flex"}
-          flexDirection={{ xs: "column", sm: "row" }}
-          height={500}
+          justifyContent={"center"}
+          alignItems={"center"}
+          flexDirection="column"
+          height={"auto"}
         >
           <Box
             position={"relative"}
-            width={{ xs: "100%", sm: "50%" }}
-            height={{ xs: "70%", sm: "100%" }}
+            width={{ xs: "100%", sm: "50%", md: "20%" }}
           >
             <Image
               src="/assets/pay.png"
@@ -226,13 +227,14 @@ export default function HowSMNKWorks() {
           maxWidth={"100%"}
           minWidth={"100%"}
           display={"flex"}
-          flexDirection={{ xs: "column", sm: "row" }}
-          height={400}
+          justifyContent={"center"}
+          alignItems={"center"}
+          flexDirection="column"
+          height={"auto"}
         >
           <Box
             position={"relative"}
-            width={{ xs: "100%", sm: "50%" }}
-            height={{ xs: "70%", sm: "100%" }}
+            width={{ xs: "100%", sm: "50%", md: "20%" }}
           >
             <Image
               src="/assets/we-help.png"

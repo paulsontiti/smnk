@@ -139,11 +139,10 @@ function CatalogMediaCard({
   const xs = useMediaQuery(newTheme.breakpoints.down("sm"));
   const sm = useMediaQuery(newTheme.breakpoints.between(600, 900));
   return (
-    <Card
+    <Box
       sx={{
         maxWidth: "100%",
         minWidth: "100%",
-        maxHeight: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -151,61 +150,47 @@ function CatalogMediaCard({
         p: 2,
       }}
     >
-      <CardContent>
-        {contentType.startsWith("video") && (
-          <ReactPlayer
-            url={`/api/multer/catalog/${filename}`}
-            controls={true}
-            width={250}
-            maxHeight={200}
-            minHeight={200}
-          />
-        )}
-        {contentType.startsWith("audio") && (
-          <ReactPlayer
-            url={`/api/multer/catalog/${filename}`}
-            controls={true}
-            width={250}
-            maxHeight={200}
-            minHeight={200}
-            height={200}
-          />
-        )}
-        {contentType.startsWith("image") && (
-          <CardMedia
-            sx={{
-              maxWidth: "100%",
-              minWidth: "100%",
-              width: { xs: 250, sm: 600, md: 700 },
-            }}
-            image={`/api/multer/catalog/${filename}`}
-            title={title}
-          />
-        )}
-        {filename.endsWith(".pdf") && (
-          <Box
-            overflow={"scroll"}
-            sx={{
-              maxWidth: "100%",
-              minWidth: "100%",
-              maxHeight: 400,
-            }}
+      {contentType.startsWith("video") && (
+        <ReactPlayer url={`/api/multer/catalog/${filename}`} controls={true} />
+      )}
+      {contentType.startsWith("audio") && (
+        <ReactPlayer url={`/api/multer/catalog/${filename}`} controls={true} />
+      )}
+      {contentType.startsWith("image") && (
+        <CardMedia
+          sx={{
+            maxWidth: "100%",
+            minWidth: "100%",
+            width: { xs: 350, sm: 500, md: 600 },
+            height: 400,
+          }}
+          image={`/api/multer/catalog/${filename}`}
+          title={title}
+        />
+      )}
+      {filename.endsWith(".pdf") && (
+        <Box
+          overflow={"scroll"}
+          sx={{
+            maxWidth: "100%",
+            minWidth: "100%",
+            maxHeight: 300,
+          }}
+        >
+          <Document
+            file={`/api/multer/catalog/${filename}`}
+            onLoadSuccess={onDocumentLoadSuccess}
           >
-            <Document
-              file={`/api/multer/catalog/${filename}`}
-              onLoadSuccess={onDocumentLoadSuccess}
-            >
-              <Page pageNumber={pageNumber} width={xs ? 350 : sm ? 600 : 900} />
-            </Document>
-          </Box>
-        )}
-        <Typography fontWeight={"bold"} variant="subtitle1">
-          Description:
-        </Typography>{" "}
-        <Typography textTransform={"capitalize"} variant="caption" mb={10}>
-          {description}
-        </Typography>
-      </CardContent>
-    </Card>
+            <Page pageNumber={pageNumber} width={xs ? 350 : sm ? 600 : 900} />
+          </Document>
+        </Box>
+      )}
+      <Typography fontWeight={"bold"} variant="subtitle1" mt={5}>
+        Description:
+      </Typography>{" "}
+      <Typography textTransform={"capitalize"} variant="caption" mb={2}>
+        {description}
+      </Typography>
+    </Box>
   );
 }

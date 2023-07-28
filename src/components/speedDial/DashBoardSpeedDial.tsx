@@ -50,7 +50,7 @@ export default function DashBoardSpeedDial() {
       onClose={handleClose}
       onOpen={handleOpen}
       open={open}
-      sx={{ position: "fixed", top: 200, right: 20 }}
+      sx={{ position: "fixed", bottom: 100, right: 50 }}
     >
       {actions.map((action) => (
         <SpeedDialAction

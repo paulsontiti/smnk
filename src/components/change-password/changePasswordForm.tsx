@@ -18,6 +18,7 @@ const initialValues = {
 
 export default function ChangePasswordForm() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { user, response, successful } = useSelector(
     (state: RootState) => state.users
@@ -43,21 +44,21 @@ export default function ChangePasswordForm() {
         setColor("success");
         const refState = snackBarRef.current as any;
         refState.handleClick();
-      setTimeout(()=>{
-        if (user) {
-          switch (true) {
-            case user.type === "skilled worker":
-              router.push("/sw-dashboard");
-              break;
-            case user.type === "client":
-              router.push("/c-dashboard");
-              break;
-            case user.type === "admin":
-              router.push("/a-dashboard");
-              break;
+        setTimeout(() => {
+          if (user) {
+            switch (true) {
+              case user.type === "skilled worker":
+                router.push("/sw-dashboard");
+                break;
+              case user.type === "client":
+                router.push("/c-dashboard");
+                break;
+              case user.type === "admin":
+                router.push("/a-dashboard");
+                break;
+            }
           }
-        }
-      },2000)
+        }, 2000);
       } else {
         setMsg(response);
         setColor("error");
@@ -65,21 +66,25 @@ export default function ChangePasswordForm() {
         refState.handleClick();
       }
     }
- 
+
     dispatch(updateState());
   }, [user, router, successful, response, dispatch]);
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
     values.userId = user._id;
+    setLoading(true);
     return new Promise((res) => {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
           const msg = await submitHandler(values);
+          setLoading(false);
           res(msg);
         })
         .catch((err: any) => {
+          setLoading(false);
+          res(err);
           console.log(err);
         });
     });
@@ -130,7 +135,7 @@ export default function ChangePasswordForm() {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

@@ -5,14 +5,26 @@ import LoadingAlert from "@/components/alerts/Loading";
 import { RootState } from "@/store";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 function RecommendedJobs() {
-  const { _id } = useSelector((state: RootState) => state.users.user);
-  const [jobs, setJobs] = useState<any[]>();
+  const {
+    users: {
+      user: { _id },
+    },
+    swExtra: {
+      swExtra: { onAJob },
+    },
+  } = useSelector((state: RootState) => state);
+  const [jobs, setJobs] = useState<any[] | null>(null);
   const [error, setError] = useState<any>(null);
+  const router = useRouter();
   useEffect(() => {
+    if (onAJob) {
+      router.push("/dashboard/job/current");
+    }
     (async () => {
       try {
         if (_id) {
@@ -33,7 +45,7 @@ function RecommendedJobs() {
     })();
   }, [_id]);
   if (error) return <ErrorAlert />;
-  if (!jobs) return <LoadingAlert />;
+  if (jobs === null) return <LoadingAlert />;
   if (jobs && jobs.length === 0)
     return (
       <InfoAlert

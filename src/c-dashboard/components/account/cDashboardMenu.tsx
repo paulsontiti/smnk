@@ -23,6 +23,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutSwitch from "@/components/switch/LogoutSwitch";
+import Divider from "@mui/material/Divider";
 
 export default function CDashboardMenu() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -65,6 +66,7 @@ export default function CDashboardMenu() {
             primary={<Typography variant="body1">Home</Typography>}
           />
         </ListItemButton>
+        <Divider />
         <ListItemButton sx={{ ml: 0 }} onClick={accountHandleClick}>
           <ListItemIcon>
             <AccountCircleIcon color="primary" />
@@ -74,6 +76,7 @@ export default function CDashboardMenu() {
           />
           {openAccount ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
+        <Divider />
         <Collapse in={openAccount} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {user && user.typeClass === "individual" ? (
@@ -81,13 +84,16 @@ export default function CDashboardMenu() {
             ) : (
               <CompanyProfileLink />
             )}
+            <Divider />
             <Verification
               idUrl="/c-dashboard/verification/id-card"
               captureUrl="/c-dashboard/verification/capture"
             />
+            <Divider />
             <ChangePassword router={router} />
           </List>
         </Collapse>
+        <Divider />
         <ListItemButton sx={{ ml: 0 }} onClick={jobHandleClick}>
           <ListItemIcon>
             <WorkHistoryIcon color="primary" />
@@ -97,10 +103,11 @@ export default function CDashboardMenu() {
           />
           {openJob ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
+        <Divider />
         <Collapse in={openJob} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton
-              sx={{ ml: 8 }}
+              sx={{ ml: 0 }}
               onClick={() => {
                 router.push("/c-dashboard/job");
               }}
@@ -114,8 +121,9 @@ export default function CDashboardMenu() {
                 }
               />
             </ListItemButton>
+            <Divider />
             <ListItemButton
-              sx={{ ml: 8 }}
+              sx={{ ml: 0 }}
               onClick={() => {
                 router.push("/c-dashboard/job/create-job");
               }}
@@ -129,9 +137,9 @@ export default function CDashboardMenu() {
                 }
               />
             </ListItemButton>
-
+            <Divider />
             <ListItemButton
-              sx={{ ml: 8 }}
+              sx={{ ml: 0 }}
               onClick={() => {
                 router.push("/c-dashboard/job/completed-jobs");
               }}
@@ -147,6 +155,7 @@ export default function CDashboardMenu() {
             </ListItemButton>
           </List>
         </Collapse>
+        <Divider />
         {/* <LiveChat router={router} /> */}
         <Box ml={2}> {user._id && <LogoutSwitch />}</Box>
       </List>

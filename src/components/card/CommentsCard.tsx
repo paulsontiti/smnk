@@ -20,7 +20,7 @@ export default function CommentsCard({ comment }: any) {
     })();
   }, [comment]);
   return (
-    <Card sx={{ maxWidth: "100%" }}>
+    <Card sx={{ maxWidth: "100%", mb: 2 }}>
       <CardHeader
         avatar={<DPAvatar dp={dp} />}
         title={rater && rater}

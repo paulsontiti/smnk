@@ -13,6 +13,8 @@ export default function IndividualForm({ router }: { router: any }) {
   const { user } = useSelector((state: RootState) => state.users);
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
+
+  const [loading, setLoading] = useState(false);
   const [initialValues, setInitialvalues] = useState<IndividualPersonalInfo>({
     firstName: "",
     lastName: "",
@@ -79,11 +81,13 @@ export default function IndividualForm({ router }: { router: any }) {
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
     setInitialvalues(values);
+    setLoading(true);
     return new Promise((res) => {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
           const msg = await submitHandler(values);
+          setLoading(false);
           res(msg);
         })
         .catch((err: any) => {
@@ -91,6 +95,7 @@ export default function IndividualForm({ router }: { router: any }) {
           setColor("error");
           const refState = snackBarRef.current as any;
           refState.handleClick();
+          setLoading(false);
           res(err);
         });
     });
@@ -126,7 +131,7 @@ export default function IndividualForm({ router }: { router: any }) {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

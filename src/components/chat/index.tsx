@@ -179,17 +179,16 @@ function SendBox({
               borderRadius={20}
               border={"1px solid blue"}
               sx={{ backgroundColor: "whitesmoke" }}
-              mt={5}
+              mt={9}
               minWidth={"100%"}
               position={"absolute"}
               top={"10"}
               maxWidth={"100%"}
               left={"1%"}
               right={"1%"}
+              pl={3}
+              pr={3}
             >
-              <IconButton>
-                <AttachFileIcon />
-              </IconButton>
               <Field
                 as={TextField}
                 autoFocus
@@ -237,7 +236,7 @@ export const ChatGround = ({
   senderId: string;
   chats: any;
 }) => {
-  const [sortedChats, setSortedChats] = useState<any | null>(null);
+  const [sortedChats, setSortedChats] = useState<any>(undefined);
 
   useEffect(() => {
     if (chats) {
@@ -313,7 +312,7 @@ export const ChatGround = ({
       }
     }
   }, [chats]);
-  if (!sortedChats) return <LoadingAlert />;
+
   return (
     <Paper sx={{ mt: "1rem", maxWidth: "100%" }}>
       <ChatHeader receiverId={receiverId} isChatRoom={false} />

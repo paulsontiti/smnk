@@ -21,8 +21,10 @@ function Comments() {
   if (!comments) return <LoadingAlert />;
   if (comments.length === 0) return <p></p>;
   return (
-    <>
-      <Typography fontWeight={"bold"}>Comments:</Typography>
+    <Box p={2}>
+      <Typography fontWeight={"bold"} mt={5} mb={2}>
+        Comments:
+      </Typography>
       {comments.map((comment: any) => (
         <>
           {comment.comments.map((comm: any) => (
@@ -30,7 +32,7 @@ function Comments() {
           ))}
         </>
       ))}
-    </>
+    </Box>
   );
 }
 

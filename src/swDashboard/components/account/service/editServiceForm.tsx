@@ -21,10 +21,18 @@ export default function EditServiceForm({ index }: { index: number }) {
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
   const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = useState(false);
 
   //declare refs
   const snackBarRef = useRef();
-  const {users:{user:{_id}},swExtra:{swExtra:{services}} } = useSelector((state: RootState) => state);
+  const {
+    users: {
+      user: { _id },
+    },
+    swExtra: {
+      swExtra: { services },
+    },
+  } = useSelector((state: RootState) => state);
 
   const [options, setOptions] = useState<any[]>([]);
 
@@ -48,6 +56,7 @@ export default function EditServiceForm({ index }: { index: number }) {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setLoading(true);
     return new Promise((res) => {
       formikHelpers
         .validateForm()
@@ -65,6 +74,7 @@ export default function EditServiceForm({ index }: { index: number }) {
             index
           );
           dispatch(updateSWExtra());
+          setLoading(false);
           res(msg);
         })
         .catch((err: any) => {
@@ -73,6 +83,7 @@ export default function EditServiceForm({ index }: { index: number }) {
           const refState = snackBarRef.current as any;
           refState.handleClick();
           console.log("Error from formik ", err);
+          setLoading(false);
           res(err);
         });
     });
@@ -104,7 +115,7 @@ export default function EditServiceForm({ index }: { index: number }) {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

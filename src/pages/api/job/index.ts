@@ -10,10 +10,10 @@ export default async function handler(req: any, res: any) {
       { approved: false },
       { jobDetails: true }
     );
-    const jobDetails = jobs.map((job) => [job.jobDetails.title,
-      job.jobDetails.category]
+    const jobDetails = jobs.map((job) => 
+      job.jobDetails.category
     );
-    res.status(201).json(jobDetails.flat());
+    res.status(201).json(jobDetails);
   } catch (err) {
     console.log(err);
     res

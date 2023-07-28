@@ -36,7 +36,7 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
   };
 
   return (
-    <Box minWidth={"100%"} maxWidth={"100%"}>
+    <Box minWidth={"100%"} maxWidth={{ xs: 300, md: "100%" }}>
       <MobileStepper
         steps={maxSteps}
         position="static"

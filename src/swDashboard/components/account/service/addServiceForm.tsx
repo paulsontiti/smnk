@@ -21,6 +21,7 @@ import { updateSWExtra } from "@/store/slices/swExtraSlice";
 import { serviceCategories } from "@/components/card/ServiceCategories";
 
 export default function AddServiceForm() {
+  const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState<any[]>([]);
   const [serviceTitles, setServiceTitles] = useState<any[]>([]);
   const [msg, setMsg] = useState("");
@@ -51,6 +52,7 @@ export default function AddServiceForm() {
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
     if (values) {
+      setLoading(true);
       return new Promise((res) => {
         formikHelpers
           .validateForm()
@@ -67,6 +69,7 @@ export default function AddServiceForm() {
               snackbarParams
             );
             dispatch(updateSWExtra());
+            setLoading(false);
             res(msg);
           })
           .catch((err: any) => {
@@ -75,6 +78,7 @@ export default function AddServiceForm() {
             const refState = snackBarRef.current as any;
             refState.handleClick();
             console.log("Error from formik ", err);
+            setLoading(false);
             res(err);
           });
       });
@@ -133,7 +137,7 @@ export default function AddServiceForm() {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

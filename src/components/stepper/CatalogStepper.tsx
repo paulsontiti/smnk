@@ -65,7 +65,7 @@ function CatalogStepper() {
 
   return (
     <>
-      <Box maxWidth={{ xs: "100%", md: "100%" }} mt={10}>
+      <Box maxWidth={{ xs: "100%", md: "100%" }} mt={2}>
         <AddBottomNavigation
           handleClick={() => {
             router.push("/dashboard/catalog/add");

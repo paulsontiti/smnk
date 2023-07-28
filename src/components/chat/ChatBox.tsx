@@ -47,13 +47,13 @@ const ChatBox = () => {
   if (chats && chats.length < 1)
     return (
       <Container>
-        <Typography variant="h6">Chat Room</Typography>
+        <Typography variant="h6">Messages</Typography>
         <InfoAlert message="No Chats" />
       </Container>
     );
   return (
     <Container sx={{ mt: "1rem" }}>
-      <Typography variant="h6">Chat Room</Typography>
+      <Typography variant="h6">Messages</Typography>
 
       {chats &&
         chats.map((chat) => (

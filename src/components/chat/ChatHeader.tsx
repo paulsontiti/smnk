@@ -58,7 +58,6 @@ function ChatHeader({
             </Typography>
           )}
         </Box>
-        {!isChatRoom && <BackToChatRoomFloatingActionButtons />}
       </Box>
     </Box>
   );

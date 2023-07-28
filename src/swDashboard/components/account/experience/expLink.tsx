@@ -17,10 +17,10 @@ export default function ExpLink() {
   useEffect(() => {
     setExp(swExtra.experience);
   }, [swExtra.experience]);
-  if (exp?.length === 0)
+  if (exp?.length === 0 || exp === undefined)
     return (
       <ListItemButton
-        sx={{ ml: 8 }}
+        sx={{ ml: 0 }}
         onClick={() => {
           router.push("/sw-dashboard/experience/add-experience");
         }}
@@ -37,7 +37,7 @@ export default function ExpLink() {
 
   return (
     <ListItemButton
-      sx={{ ml: 8 }}
+      sx={{ ml: 0 }}
       onClick={() => {
         router.push("/sw-dashboard/experience");
       }}

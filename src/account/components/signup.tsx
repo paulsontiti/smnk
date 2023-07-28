@@ -12,6 +12,7 @@ import { AlertColor } from "@mui/material";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { getSWExtra } from "@/store/slices/swExtraSlice";
 import Link from "next/link";
+import Typography from "@mui/material/Typography";
 
 // program to generate random strings
 
@@ -52,6 +53,7 @@ export default function SignUp() {
   const [color, setColor] = useState<AlertColor>("error");
   const dispatch = useDispatch<AppDispatch>();
 
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
 
@@ -111,6 +113,7 @@ export default function SignUp() {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setLoading(true);
     return new Promise((res) => {
       formikHelpers
         .validateForm()
@@ -118,6 +121,7 @@ export default function SignUp() {
           //if (values.emailVerificationCode === verificationCode) {
           const msg = await submitHandler(values);
 
+          setLoading(false);
           res(msg);
           // } else {
           //   setMsg("Invalid email verification code");
@@ -128,6 +132,7 @@ export default function SignUp() {
           //}
         })
         .catch((err: any) => {
+          setLoading(false);
           res(err);
         });
     });
@@ -197,9 +202,14 @@ export default function SignUp() {
     {
       name: "tc",
       label: (
-        <Link href="/t&c">
-          by signing up, you agree to the terms and conditions
-        </Link>
+        <>
+          <Typography component={"span"}>
+            By signing up, you agree to our{" "}
+          </Typography>
+          <Link href="/t&c">terms and conditions</Link>{" "}
+          <Typography component={"span"}>and </Typography>{" "}
+          <Link href="/privacy-policy">privacy policy</Link>
+        </>
       ),
       control: "switch",
     },
@@ -219,7 +229,7 @@ export default function SignUp() {
 
   return (
     <>
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
     </>
   );

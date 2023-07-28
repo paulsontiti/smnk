@@ -19,7 +19,7 @@ function RatingForm({
 }) {
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
   const router = useRouter();
@@ -130,7 +130,7 @@ function RatingForm({
   return (
     <Box minWidth={{ xs: 300, sm: 400, md: 600 }}>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </Box>
   );
 }

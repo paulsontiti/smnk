@@ -2,24 +2,22 @@ import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { useState } from "react";
-import BackToHistoryFloatingActionButtons from "../fab/BackFloatingButton";
+import PhotoCameraFloatingButton from "../fab/PhotoCameraFloatingButton";
 
-export default function BackToHistoryBottomNavigation() {
+export default function PhotoCameraBottomNavigation() {
   const [value, setValue] = useState(0);
+
   return (
-    <Box position={"fixed"} top={80} right={5} zIndex={99}>
+    <Box ml={1}>
       <BottomNavigation
+        sx={{ bgcolor: "inherit" }}
         showLabels
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
         }}
-        sx={{ bgcolor: "inherit" }}
       >
-        <BottomNavigationAction
-          label="Go Back"
-          icon={<BackToHistoryFloatingActionButtons />}
-        />
+        <BottomNavigationAction label="" icon={<PhotoCameraFloatingButton />} />
       </BottomNavigation>
     </Box>
   );

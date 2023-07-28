@@ -17,7 +17,7 @@ export default function CompanyForm({ router }: { router: any }) {
   const { user } = useSelector((state: RootState) => state.users);
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
 
@@ -25,7 +25,7 @@ export default function CompanyForm({ router }: { router: any }) {
   const companyProfileSubmitHandler = async (
     values: CompanyInfo,
     user: User,
-    router: any,
+    router: any
   ) => {
     values.userId = user._id;
     if (values.userId) {
@@ -73,15 +73,13 @@ export default function CompanyForm({ router }: { router: any }) {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setLoading(true);
     return new Promise((res) => {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
-          const msg = await companyProfileSubmitHandler(
-            values,
-            user,
-            router,
-          );
+          const msg = await companyProfileSubmitHandler(values, user, router);
+          setLoading(false);
           res(msg);
         })
         .catch((err: any) => {
@@ -89,6 +87,7 @@ export default function CompanyForm({ router }: { router: any }) {
           setColor("error");
           const refState = snackBarRef.current as any;
           refState.handleClick();
+          setLoading(false);
           res(err);
         });
     });
@@ -106,7 +105,7 @@ export default function CompanyForm({ router }: { router: any }) {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

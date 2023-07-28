@@ -20,7 +20,7 @@ export default function AddBankDetailsForm() {
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
   const dispatch = useDispatch<AppDispatch>();
-
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
 
@@ -34,6 +34,7 @@ export default function AddBankDetailsForm() {
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
     setInitialValues(values);
+    setLoading(true);
     return new Promise((res) => {
       if (_id) {
         formikHelpers
@@ -51,6 +52,7 @@ export default function AddBankDetailsForm() {
               snackbarParams
             );
             dispatch(updateSWExtra());
+            setLoading(false);
             res(msg);
           })
 
@@ -60,6 +62,7 @@ export default function AddBankDetailsForm() {
             const refState = snackBarRef.current as any;
             refState.handleClick();
             console.log("Error from formik ", err);
+            setLoading(false);
             res(err);
           });
       } else {
@@ -67,6 +70,7 @@ export default function AddBankDetailsForm() {
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
+        setLoading(false);
         res(msg);
       }
     });
@@ -79,13 +83,13 @@ export default function AddBankDetailsForm() {
       initialValues,
       bankDetailsFormControls
     ),
-    buttonLabel: "Save",
+    buttonLabel: "Upload",
     headerTitle: "Add Your Bank Details",
   };
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

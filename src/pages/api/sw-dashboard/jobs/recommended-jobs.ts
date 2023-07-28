@@ -7,12 +7,30 @@ import CompanyProfile from "@/lib/model/companyInfo";
 import SWExtra from "@/lib/model/swExtra";
 
 const recommendedJobs = async (info: any, userId: string) => {
-  const swExtra = await SWExtra.findOne({userId},{services:true,_id:false})
-  const services = swExtra && swExtra.services
-  const servCat1 = services ? services[0].category :''
-  const servCat2 = services ? (services[1] && services[1].category) :''
-  const servTitle1 = services ? services[0].title :''
-  const servTitle2 = services ? (services[1] && services[1].title) :''
+  const swExtra = await SWExtra.findOne(
+    { userId },
+    { services: true, _id: false }
+  );
+  const services = swExtra && swExtra.services;
+ 
+  const servCat1 = services
+    ? (services[0].category
+      ? services[0].category.toLowerCase()
+      : "")
+    : "";
+  const servCat2 = services
+    ? services[1] &&
+      (services[1].category ? services[1].category.toLowerCase() : "")
+    : "";
+  const servTitle1 = services
+    ? (services[0].title
+      ? services[0].title.toLowerCase()
+      : "")
+    : "";
+  const servTitle2 = services
+    ? services[1] && (services[1].title ? services[1].title.toLowerCase() : "")
+    : "";
+
   let jobs: any[] = [];
   let jobDetails = [];
 
@@ -22,30 +40,31 @@ const recommendedJobs = async (info: any, userId: string) => {
       { jobDetails: true, proposals: true }
     );
 
-
-     jobs = jobDetails.filter(
-      (d: any) =>{
-
-      if(d.jobDetails.state.toString() === info.state.toString() ){
-        return  d.jobDetails.category.toString() === servCat1.toString() ||  d.jobDetails.category.toString() === servCat2.toString() ||
-              d.jobDetails.category.toString() === servTitle1.toString() ||
-              d.jobDetails.title.toString() === servTitle2.toString()
-      }else if(d.jobDetails.type.toString() === 'online'){
-       
-        return  d.jobDetails.category.toString() === servCat1.toString() ||  d.jobDetails.category.toString() === servCat2.toString() ||
-        d.jobDetails.category.toString() === servTitle1.toString() ||
-        d.jobDetails.title.toString() === servTitle2.toString()
+    jobs = jobDetails.filter((d: any) => {
+      const jobCategory = d.jobDetails.category.toLowerCase();
+      const jobTitle = d.jobDetails.title.toLowerCase();
+      const returnedCat =
+        jobCategory === servCat1 ||
+        jobCategory === servCat2 ||
+        jobCategory === servTitle1 ||
+        jobTitle === servTitle2;
+      if (
+        d.jobDetails.type.toLowerCase() === "physical" &&
+        d.jobDetails.state.toLowerCase() === info.state.toLowerCase()
+      ) {
+        return returnedCat;
+      } else if (d.jobDetails.type.toLowerCase() === "online") {
+        return returnedCat;
       }
-      }
-    );
+    });
   }
 
-const newJobs = jobs.map((job) => {
-    
-    const newJob = { _id: job._id, details: job.jobDetails};
-    return newJob;
-  });
-  return newJobs;
+  const newJobs = jobs.map((job) => {
+
+      const newJob = { _id: job._id, details: job.jobDetails};
+      return newJob;
+    });
+    return newJobs;
 };
 
 export default async function handler(req: any, res: any) {

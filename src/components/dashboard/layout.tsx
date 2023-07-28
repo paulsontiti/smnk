@@ -11,6 +11,7 @@ import CDashboardMenu from "@/c-dashboard/components/account/cDashboardMenu";
 import SWDashboardMenu from "@/swDashboard/components/account/swDashboardMenu";
 import { useTheme, useMediaQuery } from "@mui/material";
 import DesktopDashboardAppBar from "../appBar/DesktopDashboardAppBar";
+import BackToHistoryBottomNavigation from "../bottomNavigation/BackBottomNavigation";
 
 export default function Layout(props: { children: any }) {
   const { user } = useSelector((state: RootState) => state.users);
@@ -58,7 +59,7 @@ export default function Layout(props: { children: any }) {
             </Grid>
           </Grid>
         </Grid>
-        <DashBoardSpeedDial />
+        <BackToHistoryBottomNavigation />
       </Box>
     </ThemeProvider>
   );

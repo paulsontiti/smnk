@@ -25,6 +25,7 @@ export default function EditExperienceForm({
   const [color, setColor] = useState<AlertColor>("error");
   const dispatch = useDispatch<AppDispatch>();
 
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
 
@@ -101,6 +102,7 @@ export default function EditExperienceForm({
   };
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setLoading(true);
     return new Promise((res) => {
       formikHelpers
         .validateForm()
@@ -110,6 +112,7 @@ export default function EditExperienceForm({
             setColor("error");
             const refState = snackBarRef.current as any;
             refState.handleClick();
+            setLoading(false);
             res("");
             return;
           }
@@ -118,10 +121,12 @@ export default function EditExperienceForm({
             setColor("error");
             const refState = snackBarRef.current as any;
             refState.handleClick();
+            setLoading(false);
             res("");
             return;
           }
           const msg = await experienceSubmitHandler(values, router, index);
+          setLoading(false);
           res(msg);
         })
         .catch((err: any) => {
@@ -130,6 +135,7 @@ export default function EditExperienceForm({
           const refState = snackBarRef.current as any;
           refState.handleClick();
           console.log("Error from formik ", err);
+          setLoading(false);
           res(err);
         });
     });
@@ -148,7 +154,7 @@ export default function EditExperienceForm({
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

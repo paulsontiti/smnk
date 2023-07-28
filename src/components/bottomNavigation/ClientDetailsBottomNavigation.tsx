@@ -15,6 +15,8 @@ export default function ClientDetailsBottomNavigation({
       display={"flex"}
       alignItems={"center"}
       justifyContent={"flex-start"}
+      mt={5}
+      mb={5}
     >
       <Box
         display={"flex"}

@@ -19,6 +19,7 @@ export default function EditCompanyProfileForm({ router }: { router: any }) {
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
 
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
   const { data, error } = useSWR("getCompProfile", getCompanyProfile(user._id));
@@ -74,11 +75,13 @@ export default function EditCompanyProfileForm({ router }: { router: any }) {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setLoading(true);
     return new Promise((res) => {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
           const msg = await companyProfileSubmitHandler(values);
+          setLoading(false);
           res(msg);
         })
         .catch((err: any) => {
@@ -86,6 +89,7 @@ export default function EditCompanyProfileForm({ router }: { router: any }) {
           setColor("error");
           const refState = snackBarRef.current as any;
           refState.handleClick();
+          setLoading(false);
           res(err);
         });
     });
@@ -103,7 +107,7 @@ export default function EditCompanyProfileForm({ router }: { router: any }) {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

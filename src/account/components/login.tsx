@@ -24,6 +24,7 @@ export default function Login() {
     (state: RootState) => state.users
   );
 
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   //declare refs
   const snackBarRef = useRef();
@@ -72,11 +73,13 @@ export default function Login() {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setLoading(true);
     return new Promise((res) => {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
           const msg = await submitHandler(values);
+          setLoading(false);
           res(msg);
         })
         .catch((err: any) => {
@@ -84,6 +87,7 @@ export default function Login() {
           setColor("error");
           const refState = snackBarRef.current as any;
           refState.handleClick();
+          setLoading(false);
           res(err);
         });
     });
@@ -107,9 +111,9 @@ export default function Login() {
   };
 
   return (
-    <Container>
+    <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
-    </Container>
+      <FormikContainer formParams={formParams} loading={loading} />
+    </>
   );
 }

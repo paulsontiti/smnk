@@ -15,7 +15,7 @@ export default function BankDetailsLink() {
   if (!swExtra.bankDetails)
     return (
       <ListItemButton
-        sx={{ ml: 8 }}
+        sx={{ ml: 0 }}
         onClick={() => {
           router.push("/sw-dashboard/bank-details/add-bank-details");
         }}
@@ -32,7 +32,7 @@ export default function BankDetailsLink() {
 
   return (
     <ListItemButton
-      sx={{ ml: 8 }}
+      sx={{ ml: 0 }}
       onClick={() => {
         router.push("/sw-dashboard/bank-details");
       }}

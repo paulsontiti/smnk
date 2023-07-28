@@ -31,7 +31,7 @@ export const jobSchema = object({
     state: string().when('type',{is:'physical',then:string().required('State is required')}),
     lga: string().when('type',{is:'physical',then:string().required('LGA is required')}),
     address: string().when('type',{is:'physical',then:string().required('Address is required')}),
-    budget: number().required('Budget is required'),
+    budget: number().min(1).required('Budget is required'),
     startDate: date().required('Start Date is required'),
     endDate: date().required('End date is required'),
     agreeToTerms: boolean().isTrue("Please agree to Terms & Conditions").required('Agreeing to Terms and Conditions is required'),

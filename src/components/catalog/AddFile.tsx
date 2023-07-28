@@ -23,9 +23,11 @@ function AddFile() {
   //declare refs
   const snackBarRef = useRef();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setLoading(true);
     setInitiaValues(values);
     return new Promise((res) => {
       formikHelpers
@@ -55,21 +57,24 @@ function AddFile() {
                 );
                 if (swExtra.catalog) {
                   swExtra.catalog.push({
-                    filename: data.resData,
+                    filename: data.resData.filename,
                     title: values.title,
                     description: values.description,
+                    contentType: data.resData.contentType,
                   });
                 } else {
                   swExtra.catalog = [];
                   swExtra.catalog.push({
-                    filename: data.resData,
+                    filename: data.resData.filename,
                     title: values.title,
                     description: values.description,
+                    contentType: data.resData.contentType,
                   });
                 }
                 //save the new user details in the localstorage
                 localStorage.setItem("swExtra", JSON.stringify(swExtra));
                 dispatch(updateSWExtra());
+                setLoading(false);
                 setMsg(data.message);
                 setColor("success");
                 const refState = snackBarRef.current as any;
@@ -78,12 +83,14 @@ function AddFile() {
                   router.push("/dashboard/catalog");
                 }, 6000);
               } else {
+                setLoading(false);
                 setMsg(data.message);
                 setColor("error");
                 const refState = snackBarRef.current as any;
                 refState.handleClick();
               }
             } else {
+              setLoading(false);
               setMsg(isFileValid);
               setColor("error");
               const refState = snackBarRef.current as any;
@@ -91,6 +98,7 @@ function AddFile() {
               res(data);
             }
           } catch (err: any) {
+            setLoading(false);
             setMsg("An error occurred ,please try again");
             setColor("error");
             const refState = snackBarRef.current as any;
@@ -98,9 +106,9 @@ function AddFile() {
             console.log(err);
             res(err);
           }
-          res(data);
         })
         .catch((err: any) => {
+          setLoading(false);
           setMsg(err.message);
           setColor("error");
           const refState = snackBarRef.current as any;
@@ -149,7 +157,7 @@ function AddFile() {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

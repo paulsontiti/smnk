@@ -13,7 +13,6 @@ const images: ImageType[] = [
   { id: 3, src: "/assets/dp3.png" },
   { id: 4, src: "/assets/dp4.png" },
   { id: 5, src: "/assets/dp5.png" },
-  { id: 6, src: "/assets/dp6.png" },
 ];
 function HomePageStepper() {
   const theme = useTheme();
@@ -24,29 +23,26 @@ function HomePageStepper() {
   };
 
   return (
-    <Box>
-      <AutoPlaySwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-        interval={4000}
-      >
-        {images.map((img: ImageType, index: number) => (
-          <div key={img.id}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component={"img"}
-                src={img.src}
-                width={"100%"}
-                height={{ xs: "50vh", md: "70vh", lg: "80vh" }}
-                p={{ xs: 2, md: 3 }}
-              />
-            ) : null}
-          </div>
-        ))}
-      </AutoPlaySwipeableViews>
-    </Box>
+    <AutoPlaySwipeableViews
+      axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+      index={activeStep}
+      onChangeIndex={handleStepChange}
+      enableMouseEvents
+      interval={4000}
+    >
+      {images.map((img: ImageType, index: number) => (
+        <div key={img.id}>
+          {Math.abs(activeStep - index) <= 2 ? (
+            <Box
+              component={"img"}
+              src={img.src}
+              width={"100%"}
+              height={{ xs: "50vh", md: "70vh", lg: "80vh" }}
+            />
+          ) : null}
+        </div>
+      ))}
+    </AutoPlaySwipeableViews>
   );
 }
 

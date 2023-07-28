@@ -14,6 +14,7 @@ import { updateUser } from "@/store/slices/userSlice";
 import InfoAlert from "../alerts/Info";
 import SuccessAlert from "../alerts/Success";
 import { useRouter } from "next/router";
+import { BlackImage } from "./DashboardDp";
 
 function IDCardUploader() {
   const { _id, verification } = useSelector(
@@ -111,12 +112,13 @@ function IDCardUploader() {
               justifyContent={"center"}
               flexDirection={"column"}
             >
-              <Image
+              <BlackImage
                 src={`/api/multer/id-card/${idCardUrl}`}
                 width={250}
                 height={250}
                 alt="ID Card Upload"
               />
+
               <InfoAlert message="ID Card is being verified...." />
             </Box>
           )}

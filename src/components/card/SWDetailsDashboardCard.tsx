@@ -5,7 +5,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import { fetchProfessionalsDetails } from "@/lib/search";
 import { getJobsDoneByUser, getUserProfile } from "@/lib/utils/user";
 import { Box } from "@mui/material";
@@ -35,8 +35,8 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
-  const [userDetails, setUserDetails] = React.useState<any | null>(null);
-  const [userProfile, setUserProfile] = React.useState<any | null>(null);
+  const [userDetails, setUserDetails] = React.useState<any | null>(undefined);
+  const [userProfile, setUserProfile] = React.useState<any | null>(undefined);
   const [jobsDone, setJobsDone] = React.useState<number>(0);
   React.useEffect(() => {
     (async () => {
@@ -106,10 +106,10 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
     userDetails && userDetails.swExtras && userDetails.swExtras.experience
       ? userDetails.swExtras.experience
       : [];
-
-  if (!userDetails || !userProfile) return <LoadingAlert />;
+  if (userDetails === undefined || userProfile === undefined)
+    return <LoadingAlert />;
   return (
-    <Card
+    <Box
       sx={{
         mt: 1,
         minWidth: "100%",
@@ -167,7 +167,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
           <SubHeader userProfile={userProfile} serviceTitle={serviceTitle()} />
         }
       />
-      <CardContent>
+      <Box>
         <UserDetailsBottomNavigation
           rating={
             userDetails && userDetails.userExtra && userDetails.userExtra.rating
@@ -180,7 +180,7 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
           }
         />
         {userProfile && userProfile.description && (
-          <>
+          <Box p={2}>
             {" "}
             <Typography color="primary" fontWeight={"bold"} mt={5}>
               Bio:
@@ -188,11 +188,12 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
             <Typography variant="body2" color="text.secondary" mb={5}>
               {userProfile.description}
             </Typography>
-          </>
+            <Divider />
+          </Box>
         )}
 
         {services.length > 0 && (
-          <>
+          <Box p={2}>
             {" "}
             <Typography color="primary" fontWeight={"bold"} mt={5}>
               Services:
@@ -206,10 +207,11 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
                 </li>
               ))}
             </ul>
-          </>
+          </Box>
         )}
+        <Divider />
         {skills().length > 0 && (
-          <>
+          <Box p={2}>
             {" "}
             <Typography color="primary" fontWeight={"bold"} mt={5}>
               Skills:
@@ -221,10 +223,11 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
                 </li>
               ))}
             </ul>
-          </>
+          </Box>
         )}
+        <Divider />
         {experiences.length > 0 && (
-          <>
+          <Box p={2}>
             <Typography color="primary" fontWeight={"bold"} mt={5}>
               Experiences:
             </Typography>
@@ -239,8 +242,9 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
                 </li>
               ))}
             </ul>
-          </>
+          </Box>
         )}
+        <Divider />
         {userDetails &&
           userDetails.swExtras &&
           userDetails.swExtras.catalog.length > 0 && (
@@ -251,10 +255,10 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
               <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
             </Box>
           )}
-
+        <Divider />
         <Comments />
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
 }
 

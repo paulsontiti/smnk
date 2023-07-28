@@ -34,6 +34,7 @@ import { useTheme } from "@mui/material/styles";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import LogoutSwitch from "@/components/switch/LogoutSwitch";
 import { theme } from "@/pages/_app";
+import Divider from "@mui/material/Divider";
 
 export default function SWDashboardMenu() {
   const { _id } = useSelector((state: RootState) => state.users.user);
@@ -84,18 +85,20 @@ export default function SWDashboardMenu() {
         </ListItemIcon>
         <ListItemText primary={<Typography variant="body1">Home</Typography>} />
       </ListItemButton>
+      <Divider />
       <ListItemButton sx={{ ml: 0 }} onClick={accountHandleClick}>
         <ListItemIcon>
           <AccountCircleIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
         <ListItemText
-          primary={<Typography variant="body1">Account</Typography>}
+          primary={<Typography variant="body2">Account</Typography>}
         />
         {openAccount ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
+      <Divider />
       <Collapse in={openAccount} timeout="auto" unmountOnExit>
         <List component="div">
-          <ListItemButton onClick={profileHandleClick} sx={{ ml: 4 }}>
+          <ListItemButton onClick={profileHandleClick} sx={{ ml: 0 }}>
             <ListItemIcon>
               <PersonIcon sx={{ color: theme.smnk[1000] }} />
             </ListItemIcon>
@@ -105,40 +108,50 @@ export default function SWDashboardMenu() {
             />
             {openProfile ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
+          <Divider />
           <Collapse in={openProfile} timeout="auto" unmountOnExit>
             <List component="div">
               <Verification
                 idUrl="/sw-dashboard/verification/id-card"
                 captureUrl="/sw-dashboard/verification/capture"
               />
+              <Divider />
               {user && user.typeClass === "individual" ? (
                 <UserInfoLink />
               ) : (
                 <CompanyProfileLink />
               )}
+              <Divider />
               <ExpLink />
+              <Divider />
               <ServiceLink />
+              <Divider />
               <BankDetailsLink />
+              <Divider />
               <Catalog router={router} />
+              <Divider />
               <ChangePassword router={router} />
             </List>
           </Collapse>
+          <Divider />
           <VisibilityLink />
         </List>
       </Collapse>
+      <Divider />
       <ListItemButton sx={{ ml: 0 }} onClick={jobHandleClick}>
         <ListItemIcon>
           <WorkHistoryIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
         <ListItemText primary={<Typography variant="body1">Job</Typography>} />
         {openJob ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
+      </ListItemButton>{" "}
+      <Divider />
       <Collapse in={openJob} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <RecommendedJobsLink />
-
+          <Divider />
           <ListItemButton
-            sx={{ ml: 4 }}
+            sx={{ ml: 0 }}
             onClick={() => {
               router.push("/dashboard/job/current");
             }}
@@ -151,8 +164,9 @@ export default function SWDashboardMenu() {
               primary={<Typography variant="body2">Current Job</Typography>}
             />
           </ListItemButton>
+          <Divider />
           <ListItemButton
-            sx={{ ml: 4 }}
+            sx={{ ml: 0 }}
             onClick={() => {
               router.push("/dashboard/job/done");
             }}
@@ -165,6 +179,7 @@ export default function SWDashboardMenu() {
             />
           </ListItemButton>
         </List>
+        <Divider />
       </Collapse>
       {/* <LiveChat router={router} /> */}
       <Box ml={2}> {_id && <LogoutSwitch />}</Box>
@@ -174,7 +189,7 @@ export default function SWDashboardMenu() {
 export function ChangePassword({ router }: any) {
   return (
     <ListItemButton
-      sx={{ ml: 8 }}
+      sx={{ ml: 0 }}
       onClick={() => {
         router.push("/dashboard/change-password");
       }}
@@ -208,7 +223,7 @@ export function LiveChat({ router }: any) {
 export function Catalog({ router }: any) {
   return (
     <ListItemButton
-      sx={{ ml: 8 }}
+      sx={{ ml: 0 }}
       onClick={() => {
         router.push("/dashboard/catalog/");
       }}
@@ -238,7 +253,7 @@ export function Verification({
   const router = useRouter();
   return (
     <>
-      <ListItemButton sx={{ ml: 8 }} onClick={openVerificationHandleClick}>
+      <ListItemButton sx={{ ml: 0 }} onClick={openVerificationHandleClick}>
         {" "}
         <ListItemIcon>
           <WorkspacePremiumIcon sx={{ color: theme.smnk[1000] }} />
@@ -248,10 +263,11 @@ export function Verification({
         />
         {openVerification ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
+      <Divider />
       <Collapse in={openVerification} timeout="auto" unmountOnExit>
         <List component="div">
           <ListItemButton
-            sx={{ ml: 12 }}
+            sx={{ ml: 0 }}
             onClick={() => {
               router.push(idUrl);
             }}
@@ -263,8 +279,9 @@ export function Verification({
               primary={<Typography variant="caption">ID Photo</Typography>}
             />
           </ListItemButton>
+          <Divider />
           <ListItemButton
-            sx={{ ml: 12 }}
+            sx={{ ml: 0 }}
             onClick={() => {
               router.push(captureUrl);
             }}

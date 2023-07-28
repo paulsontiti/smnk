@@ -14,7 +14,7 @@ export default function ServiceLink() {
   if (!swExtra.services)
     return (
       <ListItemButton
-        sx={{ ml: 8 }}
+        sx={{ ml: 0 }}
         onClick={() => {
           router.push("/sw-dashboard/service/add-service");
         }}
@@ -31,7 +31,7 @@ export default function ServiceLink() {
 
   return (
     <ListItemButton
-      sx={{ ml: 8 }}
+      sx={{ ml: 0 }}
       onClick={() => {
         router.push("/sw-dashboard/service");
       }}

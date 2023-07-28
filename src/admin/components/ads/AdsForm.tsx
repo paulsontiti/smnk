@@ -12,7 +12,7 @@ function AdsForm() {
   const router = useRouter();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-
+  const [loading, setLoading] = useState(false);
   //declare refs
   const snackBarRef = useRef();
   //ad submit handler
@@ -139,7 +139,7 @@ function AdsForm() {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />;
+      <FormikContainer formParams={formParams} loading={loading} />;
     </>
   );
 }

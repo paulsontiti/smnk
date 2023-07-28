@@ -13,7 +13,13 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-function FormikContainer({ formParams }: { formParams: FormParams }) {
+function FormikContainer({
+  formParams,
+  loading,
+}: {
+  formParams: FormParams;
+  loading: boolean;
+}) {
   const router = useRouter();
   //get the current url
   const path = router.pathname;
@@ -71,7 +77,7 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
               <Button
                 type="submit"
                 variant="contained"
-                disabled={isValidating || isSubmitting}
+                disabled={loading || isSubmitting || isValidating}
                 endIcon={formParams.endIcon}
                 startIcon={formParams.startIcon}
                 size="small"
@@ -92,7 +98,7 @@ function FormikContainer({ formParams }: { formParams: FormParams }) {
             )}
             <Backdrop
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-              open={isSubmitting}
+              open={loading || isSubmitting || isValidating}
             >
               <CircularProgress color="inherit" />
             </Backdrop>

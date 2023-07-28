@@ -16,6 +16,7 @@ import axios from "axios";
 import { updateSWExtra } from "@/store/slices/swExtraSlice";
 
 export default function AddExperienceForm({ router }: { router: NextRouter }) {
+  const [loading, setLoading] = useState(false);
   const { _id } = useSelector((state: RootState) => state.users.user);
   const [initialValues, setInitialValues] = useState<Experience>({
     title: "",
@@ -53,8 +54,6 @@ export default function AddExperienceForm({ router }: { router: NextRouter }) {
       swExtra.experience.push(values);
     }
 
- 
-
     //save to the database
     try {
       const res = await axios({
@@ -65,8 +64,8 @@ export default function AddExperienceForm({ router }: { router: NextRouter }) {
       const data = await res.data;
 
       if (data.successful) {
-           //save the new user details in the localstorage
-    localStorage.setItem("swExtra", JSON.stringify(swExtra));
+        //save the new user details in the localstorage
+        localStorage.setItem("swExtra", JSON.stringify(swExtra));
         dispatch(updateSWExtra());
         setMsg(data.message);
         setColor("success");
@@ -91,6 +90,7 @@ export default function AddExperienceForm({ router }: { router: NextRouter }) {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
+    setLoading(true);
     setInitialValues(values);
     return new Promise((res) => {
       formikHelpers
@@ -101,6 +101,7 @@ export default function AddExperienceForm({ router }: { router: NextRouter }) {
             setColor("error");
             const refState = snackBarRef.current as any;
             refState.handleClick();
+            setLoading(false);
             res("");
             return;
           }
@@ -109,11 +110,13 @@ export default function AddExperienceForm({ router }: { router: NextRouter }) {
             setColor("error");
             const refState = snackBarRef.current as any;
             refState.handleClick();
+            setLoading(false);
             res("");
             return;
           }
-       
+
           const msg = await experienceSubmitHandler(values, router);
+          setLoading(false);
           res(msg);
         })
         .catch((err: any) => {
@@ -122,6 +125,7 @@ export default function AddExperienceForm({ router }: { router: NextRouter }) {
           const refState = snackBarRef.current as any;
           refState.handleClick();
           console.log("Error from formik ", err);
+          setLoading(false);
           res(err);
         });
     });
@@ -140,7 +144,7 @@ export default function AddExperienceForm({ router }: { router: NextRouter }) {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} />
+      <FormikContainer formParams={formParams} loading={loading} />
     </>
   );
 }

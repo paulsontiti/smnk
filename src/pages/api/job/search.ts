@@ -11,7 +11,7 @@ export default async function handler(req: any, res: any) {
   try {
     const jobs = await Job.find(
       {
-        $or:[{'jobDetails.title':searchParam},{'jobDetails.category':searchParam}],proposalAccepted:false
+        'jobDetails.category':searchParam,proposalAccepted:false
       },
       {
         jobDetails: true,
