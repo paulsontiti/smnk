@@ -19,7 +19,7 @@ function AllServices() {
     })();
   }, []);
   if (services === undefined) return <LoadingAlert />;
-  if (services === null || services.length === 0)
+  if (services === null || !Array.isArray(services) || services.length === 0)
     return <InfoAlert message="No Services Available" />;
   return (
     <Container>
