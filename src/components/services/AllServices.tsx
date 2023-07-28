@@ -11,7 +11,7 @@ function AllServices() {
   useEffect(() => {
     (async () => {
       const data = await fetchTalents();
-      console.log(data);
+      console.log("data", data);
       if (data) {
         setServices(createSetFromArray(data.flat().sort()));
       } else {
