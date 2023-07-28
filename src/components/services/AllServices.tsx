@@ -14,6 +14,7 @@ function AllServices() {
       setServices(createSetFromArray(data.flat().sort()));
     })();
   }, []);
+  console.log(services);
   if (!services) return <LoadingAlert />;
   if (services.length < 1) return <InfoAlert message="No Services Available" />;
   return (
