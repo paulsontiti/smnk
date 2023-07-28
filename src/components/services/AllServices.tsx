@@ -22,7 +22,14 @@ function AllServices() {
   if (services === null || !Array.isArray(services) || services.length === 0)
     return <InfoAlert message="No Services Available" />;
   return (
-    <Container>
+    <Container
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+      }}
+    >
       <Typography
         fontWeight={"bold"}
         textTransform={"capitalize"}
