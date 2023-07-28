@@ -1,19 +1,16 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import CardActions from "@mui/material/CardActions";
 import { Divider, Typography } from "@mui/material";
 import { fetchProfessionalsDetails } from "@/lib/search";
 import { getJobsDoneByUser, getUserProfile } from "@/lib/utils/user";
 import { Box } from "@mui/material";
 import UserDetailsBottomNavigation from "../bottomNavigation/UserDetailsBottomNavigation";
-import { useTheme } from "@mui/material/styles";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import GppBadIcon from "@mui/icons-material/GppBad";
-import InfoAlert from "../alerts/Info";
 import Comments from "../job/Comments";
 import moment from "moment";
 import CatalogDisplayStepper from "../stepper/CatalogDisplayStepper";
@@ -174,25 +171,28 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
           <SubHeader userProfile={userProfile} serviceTitle={serviceTitle()} />
         }
       />
-      <UserDetailsBottomNavigation
-        rating={
-          userDetails && userDetails.userExtra && userDetails.userExtra.rating
-            ? userDetails.userExtra.rating
-            : 0
-        }
-        jobsDone={jobsDone}
-        level={
-          userDetails && userDetails.swExtras && userDetails.swExtras.level
-        }
-      />
-      <ExpandMore
-        expand={expanded}
-        onClick={handleExpandClick}
-        aria-expanded={expanded}
-        aria-label="show more"
-      >
-        <ExpandMoreIcon />
-      </ExpandMore>
+      <CardActions disableSpacing>
+        <UserDetailsBottomNavigation
+          rating={
+            userDetails && userDetails.userExtra && userDetails.userExtra.rating
+              ? userDetails.userExtra.rating
+              : 0
+          }
+          jobsDone={jobsDone}
+          level={
+            userDetails && userDetails.swExtras && userDetails.swExtras.level
+          }
+        />
+        <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
+      </CardActions>
+
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         {userProfile && userProfile.description && (
           <Box p={2}>
