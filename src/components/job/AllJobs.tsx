@@ -6,16 +6,23 @@ import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
 
 function AllJobs() {
-  const [categories, setCategories] = useState<string[] | null>(null);
+  const [categories, setCategories] = useState<string[] | null | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     (async () => {
       const data = await fetchJobs();
-      setCategories(createSetFromArray(data.sort()));
+      if (data) {
+        setCategories(createSetFromArray(data.sort()));
+      } else {
+        setCategories(data);
+      }
     })();
   }, []);
-  if (!categories) return <LoadingAlert />;
-  if (categories.length === 0) return <InfoAlert message="No Jobs Available" />;
+  if (categories === undefined) return <LoadingAlert />;
+  if (categories === null || categories.length === 0)
+    return <InfoAlert message="No Jobs Available" />;
   return (
     <Container>
       <Typography
