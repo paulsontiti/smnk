@@ -151,9 +151,9 @@ export default function SignUp() {
     confirmPassword: string()
       .oneOf([ref("password"), ""], "Both Passwords must match")
       .required("Confirm Password is required"),
-    tc: boolean()
-      .isTrue("Please agree to Terms & Conditions")
-      .required("Agreeing to terms and conditions is required"),
+    // tc: boolean()
+    //   .isTrue("Please agree to Terms & Conditions")
+    //   .required("Agreeing to terms and conditions is required"),
   });
 
   const signUpFormControls: FormControls[] = [
