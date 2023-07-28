@@ -26,7 +26,7 @@ function AllServices() {
       sx={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         flexDirection: "column",
       }}
     >
