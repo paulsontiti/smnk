@@ -34,9 +34,12 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };
-
+  if (!catalog) return <p></p>;
   return (
     <Box minWidth={"100%"} maxWidth={{ xs: 300, md: "100%" }}>
+      <Typography color="primary" fontWeight={"bold"} mt={5}>
+        Catalog:
+      </Typography>
       <MobileStepper
         steps={maxSteps}
         position="static"
