@@ -13,7 +13,7 @@ function AllJobs() {
   useEffect(() => {
     (async () => {
       const data = await fetchJobs();
-      if (data) {
+      if (Array.isArray(data) && data.length > 0) {
         setCategories(createSetFromArray(data.sort()));
       } else {
         setCategories(data);
@@ -21,7 +21,11 @@ function AllJobs() {
     })();
   }, []);
   if (categories === undefined) return <LoadingAlert />;
-  if (categories === null || categories.length === 0)
+  if (
+    categories === null ||
+    !Array.isArray(categories) ||
+    categories.length === 0
+  )
     return <InfoAlert message="No Jobs Available" />;
   return (
     <Container>
