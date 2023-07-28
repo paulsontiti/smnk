@@ -6,18 +6,23 @@ import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
 
 function AllServices() {
-  const [services, setServices] = useState<any[] | null>(null);
+  const [services, setServices] = useState<any[] | null | undefined>(null);
 
   useEffect(() => {
     (async () => {
       const data = await fetchTalents();
       console.log(data);
-      setServices(createSetFromArray(data.flat().sort()));
+      if (data) {
+        setServices(createSetFromArray(data.flat().sort()));
+      } else {
+        setServices(data);
+      }
     })();
   }, []);
 
-  if (!services) return <LoadingAlert />;
-  if (services.length < 1) return <InfoAlert message="No Services Available" />;
+  if (services === null) return <LoadingAlert />;
+  if (services === undefined)
+    return <InfoAlert message="No Services Available" />;
   return (
     <Container>
       <Typography
