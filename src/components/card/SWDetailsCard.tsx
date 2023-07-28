@@ -153,14 +153,14 @@ export default function SWDetailsCard({ userId }: { userId: string }) {
             </Box>
           )}
 
-          {userDetails.swExtras.catalog.length > 1 && (
+          {/* {userDetails.swExtras.catalog.length > 1 && (
             <Box p={2} bgcolor={"white"}>
               {userDetails.swExtras.catalog && (
                 <Typography variant="subtitle2">Catalog:</Typography>
               )}
               <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
             </Box>
-          )}
+          )} */}
         </CardContent>
       </Collapse>
     </Card>

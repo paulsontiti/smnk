@@ -11,7 +11,7 @@ export default async function handler(req: any, res: any) {
   try {
     const swExtras = await SWExtra.find(
       {
-        $or:[{'services.title':service},{'services.category':service}]
+       'services.category':service
       },
       {
        userId:true,

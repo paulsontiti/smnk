@@ -9,6 +9,7 @@ import {
   Autocomplete,
   Container,
   Typography,
+  Button,
 } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
@@ -22,8 +23,10 @@ import {
 import { styled } from "@mui/system";
 import SearchedJobDetailsAccordion from "../accordion/SearchedJobDetailsAccordion";
 import CancelFloatingActionButtons from "../fab/Cancel";
+import SWDetailsCard from "../card/SWDetailsCard";
+import { theme } from "@/pages/_app";
+import SearchBox from "../autoComplete/SearchBox";
 import LoadingAlert from "../alerts/Loading";
-import SWDetailsDashboardCard from "../card/SWDetailsDashboardCard";
 export type SearchOption = { firstLetter: string; option: string };
 
 const searchOptionsList = async (searchOption: string) => {
@@ -268,7 +271,7 @@ export function ServicesDrawer({
                 />
               </Box>
               {users.map((user, i) => (
-                <SWDetailsDashboardCard key={i} userId={user.userId} />
+                <SWDetailsCard key={i} userId={user.userId} />
               ))}
             </>
           ) : (
