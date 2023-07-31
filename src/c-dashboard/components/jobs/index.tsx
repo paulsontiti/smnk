@@ -29,7 +29,7 @@ export default function ClientJobsComponent() {
     <>
       <ClientSearchBox />
       <Box maxWidth={{ xs: "100%", md: "80%" }}>
-        {!Array.isArray(data) && data.length === 0 ? (
+        {Array.isArray(data) && data.length === 0 ? (
           <>
             <InfoAlert message="No Pending Job Available. Please Create A Job" />
             <AddBottomNavigation

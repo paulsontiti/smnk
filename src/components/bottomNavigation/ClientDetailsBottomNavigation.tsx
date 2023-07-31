@@ -45,7 +45,7 @@ export default function ClientDetailsBottomNavigation({
         flexDirection={"column"}
         mr={1}
       >
-        <Rating value={rating} size="small" />
+        <Rating value={rating} size="small" readOnly />
         <Typography variant="caption">Rating</Typography>
       </Box>
     </Box>
