@@ -160,7 +160,7 @@ function CatalogCard({
           sx={{
             maxHeight: { xs: 300, sm: 400, md: 500 },
             minHeight: { xs: 300, sm: 400, md: 500 },
-            width: { xs: 250, sm: 600, md: 700 },
+            width: "100%",
           }}
           image={`/api/multer/catalog/${filename}`}
           title={title}
