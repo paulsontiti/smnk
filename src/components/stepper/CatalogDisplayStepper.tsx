@@ -130,7 +130,7 @@ function CatalogCard({
         maxWidth: "100%",
         minWidth: "100%",
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "flex-start",
         flexDirection: "column",
         minHeight: 300,
