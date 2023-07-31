@@ -2,6 +2,10 @@ import dbConnect from "../../../../lib/mongoose";
 import SWExtra from "@/lib/model/swExtra";
 
 export const UpdateSWExtra = async(userId:string,key:string,updateParam:any,res:any,nameOfParam:string,resData?:any)=>{
+  console.log(userId)
+  console.log(key)
+  console.log(updateParam)
+  console.log(nameOfParam)
     if (userId) {
         try {
           let newSWExtra;

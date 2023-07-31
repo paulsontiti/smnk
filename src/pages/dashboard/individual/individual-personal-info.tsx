@@ -24,7 +24,6 @@ export default function IndividualPersonalInfo() {
   useEffect(() => {
     (async () => {
       const res = await getUserProfile(_id);
-      console.log(res.data);
       setData(res.data);
     })();
   });

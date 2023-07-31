@@ -15,6 +15,7 @@ import moment from "moment";
 import CatalogDisplayStepper from "../stepper/CatalogDisplayStepper";
 import LoadingAlert from "../alerts/Loading";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { BlackAvatar } from "../avatar/DashboardDp";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -111,8 +112,6 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
       : [];
   if (userDetails === undefined || userProfile === undefined)
     return <LoadingAlert />;
-  console.log(userDetails, "user Details");
-  console.log(userProfile, "user Profile");
   return (
     <SmnkErrorBoundary>
       <Box
@@ -124,17 +123,13 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
       >
         <CardHeader
           avatar={
-            <Avatar
-              sx={{ width: 70, height: 70 }}
-              aria-label="recipe"
+            <BlackAvatar
               src={`/api/multer/profile-pic/${dp}`}
-            ></Avatar>
+              alt="Dp"
+              width={70}
+              height={70}
+            />
           }
-          // action={
-          //   <IconButton aria-label="settings">
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
           title={
             <>
               <Box

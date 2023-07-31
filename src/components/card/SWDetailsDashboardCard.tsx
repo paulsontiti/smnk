@@ -19,6 +19,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import Collapse from "@mui/material/Collapse";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { BlackAvatar } from "../avatar/DashboardDp";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -126,17 +127,13 @@ export default function SWDetailsDashboardCard({ userId }: { userId: string }) {
       >
         <CardHeader
           avatar={
-            <Avatar
-              sx={{ width: 70, height: 70 }}
-              aria-label="recipe"
+            <BlackAvatar
               src={`/api/multer/profile-pic/${dp}`}
-            ></Avatar>
+              alt="Dp"
+              width={70}
+              height={70}
+            />
           }
-          // action={
-          //   <IconButton aria-label="settings">
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
           title={
             <>
               <Box
