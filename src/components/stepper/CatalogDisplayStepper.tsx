@@ -125,67 +125,65 @@ function CatalogCard({
   const xs = useMediaQuery(newTheme.breakpoints.down("sm"));
   const sm = useMediaQuery(newTheme.breakpoints.between(600, 900));
   return (
-    <Card
+    <Box
       sx={{
-        maxWidth: { xs: 300, sm: "100%" },
+        maxWidth: "100%",
+        minWidth: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
         minHeight: 300,
-        p: 2,
       }}
     >
-      <CardContent>
-        {contentType.startsWith("video") && (
-          <ReactPlayer
-            url={`/api/multer/catalog/${filename}`}
-            controls={true}
-            width={250}
-            maxHeight={200}
-            minHeight={200}
-          />
-        )}
-        {contentType.startsWith("audio") && (
-          <ReactPlayer
-            url={`/api/multer/catalog/${filename}`}
-            controls={true}
-            width={250}
-            maxHeight={200}
-            minHeight={200}
-            height={200}
-          />
-        )}
-        {contentType.startsWith("image") && (
-          <CardMedia
-            sx={{
-              maxHeight: { xs: 300, sm: 400, md: 500 },
-              minHeight: { xs: 300, sm: 400, md: 500 },
-              width: { xs: 250, sm: 600, md: 700 },
-            }}
-            image={`/api/multer/catalog/${filename}`}
-            title={title}
-          />
-        )}
-        {filename.endsWith(".pdf") && (
-          <Box overflow={"scroll"} maxHeight={400} minHeight={400}>
-            <Document
-              file={`/api/multer/catalog/${filename}`}
-              onLoadSuccess={onDocumentLoadSuccess}
-            >
-              <Page pageNumber={pageNumber} width={xs ? 350 : sm ? 600 : 900} />
-            </Document>
-          </Box>
-        )}
-        <Box p={5}>
-          <Typography fontWeight={"bold"} variant="subtitle1">
-            Description:
-          </Typography>
-          <Typography textTransform={"capitalize"} variant="caption">
-            {description}
-          </Typography>
+      {contentType.startsWith("video") && (
+        <ReactPlayer
+          url={`/api/multer/catalog/${filename}`}
+          controls={true}
+          width={250}
+          maxHeight={200}
+          minHeight={200}
+        />
+      )}
+      {contentType.startsWith("audio") && (
+        <ReactPlayer
+          url={`/api/multer/catalog/${filename}`}
+          controls={true}
+          width={250}
+          maxHeight={200}
+          minHeight={200}
+          height={200}
+        />
+      )}
+      {contentType.startsWith("image") && (
+        <CardMedia
+          sx={{
+            maxHeight: { xs: 300, sm: 400, md: 500 },
+            minHeight: { xs: 300, sm: 400, md: 500 },
+            width: { xs: 250, sm: 600, md: 700 },
+          }}
+          image={`/api/multer/catalog/${filename}`}
+          title={title}
+        />
+      )}
+      {filename.endsWith(".pdf") && (
+        <Box overflow={"scroll"} maxHeight={400} minHeight={400}>
+          <Document
+            file={`/api/multer/catalog/${filename}`}
+            onLoadSuccess={onDocumentLoadSuccess}
+          >
+            <Page pageNumber={pageNumber} width={xs ? 350 : sm ? 600 : 900} />
+          </Document>
         </Box>
-      </CardContent>
-    </Card>
+      )}
+      <Box p={2}>
+        <Typography fontWeight={"bold"} variant="subtitle1">
+          Description:
+        </Typography>
+        <Typography textTransform={"capitalize"} variant="caption">
+          {description}
+        </Typography>
+      </Box>
+    </Box>
   );
 }
