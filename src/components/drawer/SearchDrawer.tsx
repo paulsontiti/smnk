@@ -56,6 +56,7 @@ export const GroupItems = styled("ul")({
 });
 
 export const getSearchOptions = (searchOptions: string[]) => {
+  console.log(searchOptions, "search options");
   let options: SearchOption[] = [];
   if (searchOptions.length > 0) {
     options = searchOptions.map((option) => {
@@ -69,6 +70,7 @@ export const getSearchOptions = (searchOptions: string[]) => {
       return { firstLetter: "", option: "" };
     });
   }
+  console.log(options, "options");
   return options;
 };
 
@@ -89,8 +91,10 @@ export default function SearchDrawer({
   React.useEffect(() => {
     (async () => {
       const data = await searchOptionsList(searchOption);
-
-      setSearchoptions(createSetFromArray(data));
+      console.log(data, "data");
+      if (data) {
+        setSearchoptions(createSetFromArray(data));
+      }
     })();
   }, [searchOption]);
 

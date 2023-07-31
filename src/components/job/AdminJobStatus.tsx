@@ -32,7 +32,6 @@ export const getJobStatus = async (
         data: { jobId, userId },
       });
       const data = await res.data;
-      //console.log(data)
       setStatus(data);
     }
   } catch (err: any) {
