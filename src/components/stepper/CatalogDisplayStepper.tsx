@@ -11,6 +11,7 @@ import { Typography, Card, CardContent } from "@mui/material";
 import ReactPlayer from "react-player";
 import { Document, Page, pdfjs } from "react-pdf";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { BlackImage } from "../avatar/DashboardDp";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -157,15 +158,20 @@ function CatalogCard({
           />
         )}
         {contentType.startsWith("image") && (
-          <CardMedia
+          <Box
             sx={{
-              maxHeight: 200,
-              minHeight: 200,
+              maxHeight: { xs: 300, sm: 400, md: 500 },
+              minHeight: { xs: 300, sm: 400, md: 500 },
               width: { xs: 250, sm: 600, md: 700 },
             }}
-            image={`/api/multer/catalog/${filename}`}
-            title={title}
-          />
+          >
+            <BlackImage
+              alt={filename}
+              width={"100%"}
+              height={"100%"}
+              src={`/api/multer/catalog/${filename}`}
+            />
+          </Box>
         )}
         {filename.endsWith(".pdf") && (
           <Box overflow={"scroll"} maxHeight={400} minHeight={400}>
