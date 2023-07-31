@@ -22,6 +22,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import NotStartedIcon from "@mui/icons-material/NotStarted";
 import ErrorAlert from "../alerts/Error";
 import LoadingAlert from "../alerts/Loading";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export default function ClientDashboardJobDetailsAccordion({
   job,
@@ -47,140 +48,146 @@ export default function ClientDashboardJobDetailsAccordion({
   const [error, setError] = React.useState();
 
   useEffect(() => {
-    getJobStatus(job._id, setJobStatus, setError, user._id);
-  }, [job._id, user._id]);
+    if (job && user) {
+      getJobStatus(job._id, setJobStatus, setError, user._id);
+    }
+  }, [job, user]);
 
+  if (!job || !jobStatus) return <p></p>;
   if (error) return <ErrorAlert />;
-  if (!jobStatus) return <LoadingAlert />;
 
   return (
-    <Accordion>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel2a-content"
-        id="panel2a-header"
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Box sx={dividerStyle}>
-              <Typography
-                variant="body2"
-                sx={{ fontWeight: "600", textTransform: "capitalize" }}
-              >
-                {job.jobDetails.title}
-              </Typography>
-              {jobStatus.isPaymentApproved &&
-              jobStatus.isProposalAccepted &&
-              !jobStatus.isJobApproved ? (
-                <>
-                  <LoadingButton
-                    loading
-                    loadingPosition="end"
-                    sx={{
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    Work in progress
-                  </LoadingButton>
-                </>
-              ) : (
-                <>
-                  {!jobStatus.isJobApproved && <NotStartedIcon color="error" />}
-                </>
-              )}
-              {jobStatus.isJobApproved && <DoneIcon color="success" />}
-            </Box>
-          </Grid>
-        </Grid>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Grid container>
-          <Grid item xs={12}>
-            <Box>
-              {" "}
-              <MoneyIcon />
-              <Badge
-                badgeContent={
-                  jobStatus.isPaymentApproved ? (
-                    <VerifiedIcon color="success" />
-                  ) : (
-                    <PendingIcon color="error" />
-                  )
-                }
-              >
-                <Typography
-                  variant="caption"
-                  sx={{ textDecorationLine: "line-through" }}
-                >
-                  N
-                </Typography>
-                <Typography variant="caption">
-                  {job.jobDetails.budget}
-                </Typography>
-              </Badge>
-            </Box>
-            <Divider />
-          </Grid>
-          <Grid item xs={12}>
-            <Box>
-              <LocationOnIcon />
-              <Typography variant="caption">{job.jobDetails.type}</Typography>
-            </Box>
-            <Divider />
-          </Grid>
-          <Grid item xs={12}>
-            <Box>
-              <CategoryIcon />
-              <Typography
-                variant="caption"
-                sx={{ textTransform: "capitalize" }}
-              >
-                {`  ${job.jobDetails.category}`}{" "}
-              </Typography>
-            </Box>
-            <Divider />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Box sx={{ marginBottom: "1rem" }}>
-              <DescriptionIcon />
-              <Typography
-                sx={{ textOverflow: "ellipsis" }}
-                variant="caption"
-                component="div"
-              >
-                {job.jobDetails.description}
-              </Typography>
-            </Box>
-            <Divider />
-          </Grid>
-          {job.jobDetails.type === "physical" && (
+    <SmnkErrorBoundary>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Box sx={{ marginBottom: "1rem" }}>
-                <HomeIcon />
-                <Typography variant="caption">{`${job.jobDetails.address},${job.jobDetails.lga},${job.jobDetails.state}`}</Typography>
+              <Box sx={dividerStyle}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontWeight: "600", textTransform: "capitalize" }}
+                >
+                  {job.jobDetails.title}
+                </Typography>
+                {jobStatus.isPaymentApproved &&
+                jobStatus.isProposalAccepted &&
+                !jobStatus.isJobApproved ? (
+                  <>
+                    <LoadingButton
+                      loading
+                      loadingPosition="end"
+                      sx={{
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      Work in progress
+                    </LoadingButton>
+                  </>
+                ) : (
+                  <>
+                    {!jobStatus.isJobApproved && (
+                      <NotStartedIcon color="error" />
+                    )}
+                  </>
+                )}
+                {jobStatus.isJobApproved && <DoneIcon color="success" />}
+              </Box>
+            </Grid>
+          </Grid>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid container>
+            <Grid item xs={12}>
+              <Box>
+                {" "}
+                <MoneyIcon />
+                <Badge
+                  badgeContent={
+                    jobStatus.isPaymentApproved ? (
+                      <VerifiedIcon color="success" />
+                    ) : (
+                      <PendingIcon color="error" />
+                    )
+                  }
+                >
+                  <Typography
+                    variant="caption"
+                    sx={{ textDecorationLine: "line-through" }}
+                  >
+                    N
+                  </Typography>
+                  <Typography variant="caption">
+                    {job.jobDetails.budget}
+                  </Typography>
+                </Badge>
               </Box>
               <Divider />
             </Grid>
-          )}
-          <Grid item xs={12} sm={6} sx={dividerStyle}>
-            <DateRangeIcon />
-            <Typography variant="caption">
-              {job.jobDetails.startDate?.toString().slice(0, 10)}
-            </Typography>
-            <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-              {" "}
-              -{" "}
-            </Typography>
-            <Typography variant="caption">
-              {job.jobDetails.endDate?.toString().slice(0, 10)}
-            </Typography>
+            <Grid item xs={12}>
+              <Box>
+                <LocationOnIcon />
+                <Typography variant="caption">{job.jobDetails.type}</Typography>
+              </Box>
+              <Divider />
+            </Grid>
+            <Grid item xs={12}>
+              <Box>
+                <CategoryIcon />
+                <Typography
+                  variant="caption"
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  {`  ${job.jobDetails.category}`}{" "}
+                </Typography>
+              </Box>
+              <Divider />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box sx={{ marginBottom: "1rem" }}>
+                <DescriptionIcon />
+                <Typography
+                  sx={{ textOverflow: "ellipsis" }}
+                  variant="caption"
+                  component="div"
+                >
+                  {job.jobDetails.description}
+                </Typography>
+              </Box>
+              <Divider />
+            </Grid>
+            {job.jobDetails.type === "physical" && (
+              <Grid item xs={12}>
+                <Box sx={{ marginBottom: "1rem" }}>
+                  <HomeIcon />
+                  <Typography variant="caption">{`${job.jobDetails.address},${job.jobDetails.lga},${job.jobDetails.state}`}</Typography>
+                </Box>
+                <Divider />
+              </Grid>
+            )}
+            <Grid item xs={12} sm={6} sx={dividerStyle}>
+              <DateRangeIcon />
+              <Typography variant="caption">
+                {job.jobDetails.startDate?.toString().slice(0, 10)}
+              </Typography>
+              <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+                {" "}
+                -{" "}
+              </Typography>
+              <Typography variant="caption">
+                {job.jobDetails.endDate?.toString().slice(0, 10)}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <JobProgress jobStatus={jobStatus} />
+            </Grid>
           </Grid>
-          <Grid item>
-            <JobProgress jobStatus={jobStatus} />
-          </Grid>
-        </Grid>
-      </AccordionDetails>
-    </Accordion>
+        </AccordionDetails>
+      </Accordion>
+    </SmnkErrorBoundary>
   );
 }

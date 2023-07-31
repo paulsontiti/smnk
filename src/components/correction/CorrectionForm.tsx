@@ -74,6 +74,10 @@ function CorrectionForm({
           res(data);
         })
         .catch((err: any) => {
+          setMsg("An Error occurred");
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
           console.log("Error from formik ", err);
           res(err);
         });

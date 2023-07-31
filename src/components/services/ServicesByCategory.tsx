@@ -1,10 +1,10 @@
 import { fetchUsers } from "@/lib/search";
-import { Container, Typography, Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
-import SWDetailsCard from "../card/SWDetailsCard";
 import SWDetailsDashboardCard from "../card/SWDetailsDashboardCard";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 function ServicesByCategory({ category }: { category: string }) {
   const [talents, setTalent] = useState<any[] | null>(null);
@@ -19,27 +19,32 @@ function ServicesByCategory({ category }: { category: string }) {
   if (talents && talents.length < 1)
     return <InfoAlert message="No Information available" />;
   return (
-    <Box>
-      <Typography
-        fontWeight={"bold"}
-        textTransform={"capitalize"}
-        mt={2}
-        mb={2}
-      >
-        {category}
-      </Typography>
-      <Box
-        display={"flex"}
-        alignItems={{ xs: "center", sm: "flex-start" }}
-        justifyContent={{ xs: "center", sm: "flex-start" }}
-        flexDirection={{ xs: "column", sm: "row" }}
-        flexWrap={"wrap"}
-      >
-        {talents.map((talent, i) => (
-          <SWDetailsDashboardCard userId={talent.userId} key={talent.userId} />
-        ))}
+    <SmnkErrorBoundary>
+      <Box>
+        <Typography
+          fontWeight={"bold"}
+          textTransform={"capitalize"}
+          mt={2}
+          mb={2}
+        >
+          {category}
+        </Typography>
+        <Box
+          display={"flex"}
+          alignItems={{ xs: "center", sm: "flex-start" }}
+          justifyContent={{ xs: "center", sm: "flex-start" }}
+          flexDirection={{ xs: "column", sm: "row" }}
+          flexWrap={"wrap"}
+        >
+          {talents.map((talent, i) => (
+            <SWDetailsDashboardCard
+              userId={talent.userId}
+              key={talent.userId}
+            />
+          ))}
+        </Box>
       </Box>
-    </Box>
+    </SmnkErrorBoundary>
   );
 }
 

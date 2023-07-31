@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useRouter } from "next/router";
 import { seeAllChats, unSeenChats } from "@/lib/chat";
-import { theme } from "@/pages/_app";
+import { SmnkErrorBoundary, theme } from "@/pages/_app";
 
 function ChatNotification() {
   const { _id } = useSelector((state: RootState) => state.users.user);
@@ -15,14 +15,16 @@ function ChatNotification() {
   const router = useRouter();
 
   useEffect(() => {
-    setInterval(async () => {
-      const data = await unSeenChats(_id);
-      setCount(data);
-    }, 1000);
+    if (_id) {
+      setInterval(async () => {
+        const data = await unSeenChats(_id);
+        setCount(data);
+      }, 1000);
+    }
   }, [_id]);
 
   return (
-    <>
+    <SmnkErrorBoundary>
       <IconButton
         onClick={async () => {
           await seeAllChats(_id);
@@ -37,7 +39,7 @@ function ChatNotification() {
           <ChatIcon />
         </Badge>
       </IconButton>
-    </>
+    </SmnkErrorBoundary>
   );
 }
 

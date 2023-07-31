@@ -3,6 +3,7 @@ import InfoAlert from "../alerts/Info";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ErrorAlert from "../alerts/Error";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 function UserBankDetails({ userId }: { userId: string }) {
   const [bankDetails, setBankDetails] = useState<any | null>(null);
@@ -10,15 +11,17 @@ function UserBankDetails({ userId }: { userId: string }) {
 
   useEffect(() => {
     (async () => {
-      try {
-        const res = await axios({
-          method: "GET",
-          url: `${process.env.SMNK_URL}api/users/swExtra/bank-details/${userId}`,
-        });
-        const data = await res.data;
-        setBankDetails(data);
-      } catch (err: any) {
-        setError(err);
+      if (userId) {
+        try {
+          const res = await axios({
+            method: "GET",
+            url: `${process.env.SMNK_URL}api/users/swExtra/bank-details/${userId}`,
+          });
+          const data = await res.data;
+          setBankDetails(data);
+        } catch (err: any) {
+          setError(err);
+        }
       }
     })();
   }, [userId]);
@@ -28,17 +31,19 @@ function UserBankDetails({ userId }: { userId: string }) {
   if (!bankDetails) return <InfoAlert message="No Bank details" />;
 
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Typography variant="caption">{bankDetails.bankName}</Typography>
+    <SmnkErrorBoundary>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="caption">{bankDetails.bankName}</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="caption">{bankDetails.accountName}</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="caption">{bankDetails.accountNumber}</Typography>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Typography variant="caption">{bankDetails.accountName}</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="caption">{bankDetails.accountNumber}</Typography>
-      </Grid>
-    </Grid>
+    </SmnkErrorBoundary>
   );
 }
 

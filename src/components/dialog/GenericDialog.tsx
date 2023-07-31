@@ -6,6 +6,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { Box } from "@mui/material";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -46,20 +47,22 @@ const GenericDialog = React.forwardRef(
     };
 
     return (
-      <Box minWidth={"100%"}>
-        <Dialog
-          sx={{ minWidth: "100%" }}
-          open={open}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={handleClose}
-          aria-describedby="alert-dialog-slide-description"
-        >
-          <DialogTitle>{title}</DialogTitle>
-          <DialogContent>{content}</DialogContent>
-          <DialogActions>{actions}</DialogActions>
-        </Dialog>
-      </Box>
+      <SmnkErrorBoundary>
+        <Box minWidth={"100%"}>
+          <Dialog
+            sx={{ minWidth: "100%" }}
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{title}</DialogTitle>
+            <DialogContent>{content}</DialogContent>
+            <DialogActions>{actions}</DialogActions>
+          </Dialog>
+        </Box>
+      </SmnkErrorBoundary>
     );
   }
 );

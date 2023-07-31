@@ -23,6 +23,7 @@ import GenericDialog from "../dialog/GenericDialog";
 import GenericContent from "../dialog/contents/GenericContent";
 import GenericActions from "../dialog/actions/GenericActions";
 import FileReaderCard from "../card/FileReaderCard";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 //download report handler
 export const downloadReport = (url: string) => {
@@ -113,125 +114,128 @@ export default function ClientReportDetailsAccordion({
     const refState = readFileDialogRef.current as any;
     refState.showDialog();
   };
+  if (!report || !jobId) return <p></p>;
   return (
-    <Accordion
-      onClick={async () => {
-        await readReport(jobId, report._id);
-      }}
-    >
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel2a-content"
-        id="panel2a-header"
+    <SmnkErrorBoundary>
+      <Accordion
+        onClick={async () => {
+          await readReport(jobId, report._id);
+        }}
       >
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
         >
-          <Typography
-            variant="caption"
-            component="span"
-            sx={{ fontWeight: "bold" }}
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
           >
-            {report.subject}
-          </Typography>
-          <Typography
-            variant="caption"
-            component="span"
-            sx={{ fontWeight: "bold" }}
-          >
-            {moment(report.date).format("YYYY/MM/DD")}
-          </Typography>
-          {report.read ? (
-            <MarkChatReadIcon color="success" />
-          ) : (
-            <MarkChatUnreadIcon color="warning" />
-          )}
-        </Box>
-      </AccordionSummary>
-      <AccordionDetails>
-        <GenericDialog
-          content={
-            <GenericContent message="Are you sure you want to approve this job?" />
-          }
-          actions={<GenericActions confirmAction={confirmAction} />}
-          ref={dialogRef}
-        />
-        <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-        <Typography sx={{ fontWeight: "bold", margin: "1rem 0" }}>
-          Report:
-        </Typography>
-        <Box sx={{ marginBottom: "1rem" }}>{report.report}</Box>
-        {report.file.name && (
-          <>
-            <Typography sx={{ fontWeight: "bold", margin: "1rem 0" }}>
-              Attached file:
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: "2rem",
-              }}
-            >
-              <Typography sx={{ marginBottom: "1rem" }}>
-                {report.file.name}
-              </Typography>
-              <DownloadFileBottomNavigation
-                handleDownloadClick={() =>
-                  downloadReport(`/api/multer/reports/${report.file.name}`)
-                }
-              />{" "}
-              <Button onClick={readFileDialogHandler}>View File</Button>
-              <GenericDialog
-                title=""
-                content={
-                  <FileReaderCard
-                    filename={report.file.name}
-                    contentType={report.file.contentType ?? ""}
-                  />
-                }
-                actions={<p></p>}
-                ref={readFileDialogRef}
-              />
-            </Box>
-          </>
-        )}
-        {report.correction.subject && (
-          <>
             <Typography
               variant="caption"
               component="span"
               sx={{ fontWeight: "bold" }}
             >
-              Corection{" "}
+              {report.subject}
             </Typography>
-            {report.correction.read ? (
+            <Typography
+              variant="caption"
+              component="span"
+              sx={{ fontWeight: "bold" }}
+            >
+              {moment(report.date).format("YYYY/MM/DD")}
+            </Typography>
+            {report.read ? (
               <MarkChatReadIcon color="success" />
             ) : (
               <MarkChatUnreadIcon color="warning" />
             )}
-          </>
-        )}
-        {!report.correction.subject && (
-          <CardActions>
-            <ClientReportAction
-              handleApproveClick={dialogHandler}
-              handleComplainClick={() => {
-                router.push(`/report/complaint/${jobId}`);
-              }}
-              handleCorrectionClick={() => {
-                router.push(`/report/corrections/${jobId}-${report._id}`);
-              }}
-            />
-          </CardActions>
-        )}
-      </AccordionDetails>
-    </Accordion>
+          </Box>
+        </AccordionSummary>
+        <AccordionDetails>
+          <GenericDialog
+            content={
+              <GenericContent message="Are you sure you want to approve this job?" />
+            }
+            actions={<GenericActions confirmAction={confirmAction} />}
+            ref={dialogRef}
+          />
+          <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+          <Typography sx={{ fontWeight: "bold", margin: "1rem 0" }}>
+            Report:
+          </Typography>
+          <Box sx={{ marginBottom: "1rem" }}>{report.report}</Box>
+          {report.file.name && (
+            <>
+              <Typography sx={{ fontWeight: "bold", margin: "1rem 0" }}>
+                Attached file:
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "2rem",
+                }}
+              >
+                <Typography sx={{ marginBottom: "1rem" }}>
+                  {report.file.name}
+                </Typography>
+                <DownloadFileBottomNavigation
+                  handleDownloadClick={() =>
+                    downloadReport(`/api/multer/reports/${report.file.name}`)
+                  }
+                />{" "}
+                <Button onClick={readFileDialogHandler}>View File</Button>
+                <GenericDialog
+                  title=""
+                  content={
+                    <FileReaderCard
+                      filename={report.file.name}
+                      contentType={report.file.contentType ?? ""}
+                    />
+                  }
+                  actions={<p></p>}
+                  ref={readFileDialogRef}
+                />
+              </Box>
+            </>
+          )}
+          {report.correction.subject && (
+            <>
+              <Typography
+                variant="caption"
+                component="span"
+                sx={{ fontWeight: "bold" }}
+              >
+                Corection{" "}
+              </Typography>
+              {report.correction.read ? (
+                <MarkChatReadIcon color="success" />
+              ) : (
+                <MarkChatUnreadIcon color="warning" />
+              )}
+            </>
+          )}
+          {!report.correction.subject && (
+            <CardActions>
+              <ClientReportAction
+                handleApproveClick={dialogHandler}
+                handleComplainClick={() => {
+                  router.push(`/report/complaint/${jobId}`);
+                }}
+                handleCorrectionClick={() => {
+                  router.push(`/report/corrections/${jobId}-${report._id}`);
+                }}
+              />
+            </CardActions>
+          )}
+        </AccordionDetails>
+      </Accordion>
+    </SmnkErrorBoundary>
   );
 }

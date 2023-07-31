@@ -7,6 +7,7 @@ import AddFloatingActionButtons from "@/components/fab/Add";
 import InfoAlert from "@/components/alerts/Info";
 import LoadingAlert from "@/components/alerts/Loading";
 import { useState, useEffect } from "react";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export default function Service() {
   const router = useRouter();
@@ -20,18 +21,20 @@ export default function Service() {
   if (servs === undefined || servs.length === 0)
     return <InfoAlert message="No services. Please create one" />;
   return (
-    <Box width={"100%"}>
-      <Typography sx={{ fontWeight: "bold" }}>Your Services</Typography>
-      {services.map((serv: any, i: number) => (
-        <ServiceAccordion serv={serv} key={i} index={i} services={services} />
-      ))}
-      {services && services.length < 2 && (
-        <AddFloatingActionButtons
-          handleClick={() => {
-            router.push(`/sw-dashboard/service/add-service`);
-          }}
-        />
-      )}
-    </Box>
+    <SmnkErrorBoundary>
+      <Box width={"100%"}>
+        <Typography sx={{ fontWeight: "bold" }}>Your Services</Typography>
+        {services.map((serv: any, i: number) => (
+          <ServiceAccordion serv={serv} key={i} index={i} services={services} />
+        ))}
+        {services && services.length < 2 && (
+          <AddFloatingActionButtons
+            handleClick={() => {
+              router.push(`/sw-dashboard/service/add-service`);
+            }}
+          />
+        )}
+      </Box>
+    </SmnkErrorBoundary>
   );
 }

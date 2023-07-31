@@ -2,10 +2,11 @@ import * as React from "react";
 
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export interface MenuAction {
   label: string;
-  disabled?:boolean
+  disabled?: boolean;
   handleClick: () => void;
 }
 
@@ -24,29 +25,33 @@ const ActionsMenuComponent = React.forwardRef(
     };
 
     return (
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        {menuActions.map((menu, i) => (
-          <MenuItem key={i}
-            onClick={() => {
-              menu.handleClick();
-              handleClose();
-            }} disabled={menu.disabled}
-          >
-            {menu.label}
-          </MenuItem>
-        ))}
-      </Menu>
+      <SmnkErrorBoundary>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          {menuActions.map((menu, i) => (
+            <MenuItem
+              key={i}
+              onClick={() => {
+                menu.handleClick();
+                handleClose();
+              }}
+              disabled={menu.disabled}
+            >
+              {menu.label}
+            </MenuItem>
+          ))}
+        </Menu>
+      </SmnkErrorBoundary>
     );
   }
 );
-ActionsMenuComponent.displayName = "ActionsMenuComponent"
+ActionsMenuComponent.displayName = "ActionsMenuComponent";
 
 export default ActionsMenuComponent;

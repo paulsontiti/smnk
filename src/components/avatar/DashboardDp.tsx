@@ -9,6 +9,7 @@ import ProfilePicUploader from "./ProfilePicUploader";
 import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export default function DashboardDp() {
   const { dpFileName, type } = useSelector(
@@ -48,7 +49,7 @@ export function BlackImage({
 }) {
   const [imgLoadComplete, setImgLoadComplete] = useState(false);
   return (
-    <>
+    <SmnkErrorBoundary>
       <Image
         onLoadingComplete={() => {
           setImgLoadComplete(true);
@@ -69,7 +70,7 @@ export function BlackImage({
           animation="wave"
         />
       )}
-    </>
+    </SmnkErrorBoundary>
   );
 }
 export function BlackAvatar({
@@ -85,7 +86,7 @@ export function BlackAvatar({
 }) {
   const [imgLoadComplete, setImgLoadComplete] = useState(false);
   return (
-    <>
+    <SmnkErrorBoundary>
       <Image
         onLoadingComplete={() => {
           setImgLoadComplete(true);
@@ -102,6 +103,6 @@ export function BlackAvatar({
       {!imgLoadComplete && (
         <Skeleton variant="circular" width={50} height={50} animation="wave" />
       )}
-    </>
+    </SmnkErrorBoundary>
   );
 }

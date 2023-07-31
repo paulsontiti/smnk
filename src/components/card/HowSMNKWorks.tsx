@@ -1,23 +1,11 @@
 import * as React from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Typography,
-  CardHeader,
-  CardContent,
-  CardActions,
-  CardMedia,
-  Divider,
-} from "@mui/material";
+import { Box, Button, Typography, CardActions, Divider } from "@mui/material";
 import { useRouter } from "next/router";
 import { useTheme, useMediaQuery } from "@mui/material";
 import Image from "next/image";
 
 export default function HowSMNKWorks() {
   const router = useRouter();
-  const newTheme = useTheme();
-  const mediaQuery = useMediaQuery(newTheme.breakpoints.down("sm"));
   return (
     <Box>
       {/*  */}

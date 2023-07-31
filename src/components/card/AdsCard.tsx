@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 interface AdDetails {
   title: string;
@@ -28,41 +29,43 @@ export default function AdvertCard({
   actionText: string;
 }) {
   return (
-    <Box
-      m={1}
-      display={"center"}
-      alignItems={"center"}
-      justifyContent={"center"}
-      mb={2}
-    >
-      <Card sx={{ maxWidth: "100%" }}>
-        <CardMedia sx={{ height: 400 }} image={src} title={title} />
-        <CardContent>
-          <Typography
-            fontWeight={"bold"}
-            textTransform={"capitalize"}
-            mt={1}
-            mb={1}
-          >
-            {title}
-          </Typography>
+    <SmnkErrorBoundary>
+      <Box
+        m={1}
+        display={"center"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        mb={2}
+      >
+        <Card sx={{ maxWidth: "100%" }}>
+          <CardMedia sx={{ height: 400 }} image={src} title={title} />
+          <CardContent>
+            <Typography
+              fontWeight={"bold"}
+              textTransform={"capitalize"}
+              mt={1}
+              mb={1}
+            >
+              {title}
+            </Typography>
 
-          <Typography variant="body2" color="text.secondary">
-            {message}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button
-            size="small"
-            sx={{ textTransform: "capitalize", color: "#04023B" }}
-            onClick={() => {
-              window.location.href = landingPage;
-            }}
-          >
-            {actionText}
-          </Button>
-        </CardActions>
-      </Card>
-    </Box>
+            <Typography variant="body2" color="text.secondary">
+              {message}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              size="small"
+              sx={{ textTransform: "capitalize", color: "#04023B" }}
+              onClick={() => {
+                window.location.href = landingPage;
+              }}
+            >
+              {actionText}
+            </Button>
+          </CardActions>
+        </Card>
+      </Box>
+    </SmnkErrorBoundary>
   );
 }

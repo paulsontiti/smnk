@@ -11,6 +11,7 @@ import { AppDispatch, RootState } from "@/store";
 import SnackbarComponent from "../snackbar/SnackBar";
 import { LoadingButton } from "@mui/lab";
 import { updateSWExtra } from "@/store/slices/swExtraSlice";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 function TransferForUpgradePaymentForm({
   packageName,
@@ -134,55 +135,61 @@ export function PaymentForm({
   handleChange: any;
 }) {
   return (
-    <form onSubmit={submitHandler} encType="multipart/form-data">
-      <IconButton color="primary" type="submit">
-        {file && (
-          <>
-            <Image
-              src={displayFile}
-              alt="image to upload"
-              width={100}
-              height={100}
-            />
-            <LoadingButton
-              loading={uploading}
-              loadingPosition="start"
-              startIcon={
-                uploading ? null : (
-                  <Box
-                    display={"flex"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    ml={2}
-                  >
-                    <UploadIcon sx={{ color: `${color}.900` }} />
-                    <Typography
-                      component="span"
-                      sx={{ textTransform: "capitalize" }}
+    <SmnkErrorBoundary>
+      <form onSubmit={submitHandler} encType="multipart/form-data">
+        <IconButton color="primary" type="submit">
+          {file && (
+            <>
+              <Image
+                src={displayFile}
+                alt="image to upload"
+                width={100}
+                height={100}
+              />
+              <LoadingButton
+                loading={uploading}
+                loadingPosition="start"
+                startIcon={
+                  uploading ? null : (
+                    <Box
+                      display={"flex"}
+                      flexDirection={"column"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      ml={2}
                     >
-                      Upload
-                    </Typography>
-                  </Box>
-                )
-              }
-            ></LoadingButton>
-          </>
-        )}
-      </IconButton>
-      <IconButton color="primary" aria-label="upload picture" component="label">
-        <input
-          name="sub"
-          onChange={handleChange}
-          hidden
-          accept="image/*"
-          type="file"
-        />
-        <PhotoCamera />
-        <Typography component="span">
-          {file ? "Change Photo" : "Select Proof of Payment"}
-        </Typography>
-      </IconButton>
-    </form>
+                      <UploadIcon sx={{ color: `${color}.900` }} />
+                      <Typography
+                        component="span"
+                        sx={{ textTransform: "capitalize" }}
+                      >
+                        Upload
+                      </Typography>
+                    </Box>
+                  )
+                }
+              ></LoadingButton>
+            </>
+          )}
+        </IconButton>
+        <IconButton
+          color="primary"
+          aria-label="upload picture"
+          component="label"
+        >
+          <input
+            name="sub"
+            onChange={handleChange}
+            hidden
+            accept="image/*"
+            type="file"
+          />
+          <PhotoCamera />
+          <Typography component="span">
+            {file ? "Change Photo" : "Select Proof of Payment"}
+          </Typography>
+        </IconButton>
+      </form>
+    </SmnkErrorBoundary>
   );
 }

@@ -5,7 +5,8 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import { getUserDp, getUserName } from "@/lib/utils/user";
-import DPAvatar from "../avatar/DPAvatar";
+import { BlackAvatar } from "../avatar/DashboardDp";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export default function CommentsCard({ comment }: any) {
   const [dp, setDp] = useState("");
@@ -13,28 +14,42 @@ export default function CommentsCard({ comment }: any) {
 
   useEffect(() => {
     (async () => {
-      const name = await getUserName(comment.raterId ?? "");
-      const dp = await getUserDp(comment.raterId ?? "");
-      setRater(name);
-      setDp(dp);
+      if (comment && comment.raterId) {
+        const name = await getUserName(comment.raterId);
+        const dp = await getUserDp(comment.raterId);
+        setRater(name);
+        setDp(dp);
+      }
     })();
   }, [comment]);
+  if (!comment) return <p></p>;
   return (
-    <Card sx={{ maxWidth: "100%", mb: 2 }}>
-      <CardHeader
-        avatar={<DPAvatar dp={dp} />}
-        title={rater && rater}
-        subheader={
-          comment.date ? new Date(comment.date).toDateString().slice(0, 10) : ""
-        }
-      />
+    <SmnkErrorBoundary>
+      <Card sx={{ maxWidth: "100%", mb: 2 }}>
+        <CardHeader
+          avatar={
+            <BlackAvatar
+              width={50}
+              height={50}
+              alt="Profice pic"
+              src={`/api/multer/profile-pic/${dp}`}
+            />
+          }
+          title={rater && rater}
+          subheader={
+            comment.date
+              ? new Date(comment.date).toDateString().slice(0, 10)
+              : ""
+          }
+        />
 
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {comment.comment}
-        </Typography>
-        <Rating value={comment.rating} readOnly />
-      </CardContent>
-    </Card>
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            {comment.comment}
+          </Typography>
+          <Rating value={comment.rating} readOnly />
+        </CardContent>
+      </Card>
+    </SmnkErrorBoundary>
   );
 }

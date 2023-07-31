@@ -15,6 +15,7 @@ import InfoAlert from "../alerts/Info";
 import SuccessAlert from "../alerts/Success";
 import { useRouter } from "next/router";
 import { BlackImage } from "./DashboardDp";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 function IDCardUploader() {
   const { _id, verification } = useSelector(
@@ -84,6 +85,7 @@ function IDCardUploader() {
             router.reload();
           }, 6000);
         } else {
+          setUploading(false);
           setMsg("An Error occurred. Id Card not uploaded. Please try again");
           setColor("error");
           const refState = snackBarRef.current as any;
@@ -91,100 +93,107 @@ function IDCardUploader() {
         }
       }
     } catch (err: any) {
+      setUploading(false);
+      setMsg("An Error occurred. Id Card not uploaded. Please try again");
+      setColor("error");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
       console.log(err);
       return false;
     }
   };
 
   return (
-    <Container sx={{ mt: "2rem" }}>
-      <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+    <SmnkErrorBoundary>
+      <Container sx={{ mt: "2rem" }}>
+        <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
 
-      {kycVerified ? (
-        <SuccessAlert message="Your ID Card is verified" />
-      ) : (
-        <>
-          {idCardUrl && (
+        {kycVerified ? (
+          <SuccessAlert message="Your ID Card is verified" />
+        ) : (
+          <>
+            {idCardUrl && (
+              <Box
+                mb={2}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+              >
+                <BlackImage
+                  src={`/api/multer/id-card/${idCardUrl}`}
+                  width={250}
+                  height={250}
+                  alt="ID Card Upload"
+                />
+
+                <InfoAlert message="ID Card is being verified...." />
+              </Box>
+            )}
+          </>
+        )}
+        <form onSubmit={submitHandler} encType="multipart/form-data">
+          <IconButton type="submit" color="primary">
+            {file && (
+              <Box
+                mt={"2rem"}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Image
+                  src={displayFile}
+                  alt="image to upload"
+                  width={200}
+                  height={200}
+                />
+                {uploading ? (
+                  <LoadingButton
+                    loading={uploading}
+                    loadingPosition="start"
+                  ></LoadingButton>
+                ) : (
+                  <Box
+                    ml={1}
+                    display={"flex"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    flexDirection={"column"}
+                  >
+                    <UploadIcon />
+                    <Typography variant="caption">Upload</Typography>
+                  </Box>
+                )}
+              </Box>
+            )}
+          </IconButton>
+          <IconButton
+            aria-label="upload picture"
+            component="label"
+            color="primary"
+          >
+            <input
+              name="idCard"
+              onChange={handleChange}
+              hidden
+              accept="image"
+              type="file"
+            />
             <Box
-              mb={2}
               display={"flex"}
               alignItems={"center"}
               justifyContent={"center"}
               flexDirection={"column"}
             >
-              <BlackImage
-                src={`/api/multer/id-card/${idCardUrl}`}
-                width={250}
-                height={250}
-                alt="ID Card Upload"
-              />
-
-              <InfoAlert message="ID Card is being verified...." />
+              <AddAPhotoIcon />
+              <Typography variant="caption">
+                {idCardUrl ? "Change ID Card" : "Select Your ID card"}
+              </Typography>
             </Box>
-          )}
-        </>
-      )}
-      <form onSubmit={submitHandler} encType="multipart/form-data">
-        <IconButton type="submit" color="primary">
-          {file && (
-            <Box
-              mt={"2rem"}
-              display={"flex"}
-              alignItems={"center"}
-              justifyContent={"center"}
-            >
-              <Image
-                src={displayFile}
-                alt="image to upload"
-                width={200}
-                height={200}
-              />
-              {uploading ? (
-                <LoadingButton
-                  loading={uploading}
-                  loadingPosition="start"
-                ></LoadingButton>
-              ) : (
-                <Box
-                  ml={1}
-                  display={"flex"}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  flexDirection={"column"}
-                >
-                  <UploadIcon />
-                  <Typography variant="caption">Upload</Typography>
-                </Box>
-              )}
-            </Box>
-          )}
-        </IconButton>
-        <IconButton
-          aria-label="upload picture"
-          component="label"
-          color="primary"
-        >
-          <input
-            name="idCard"
-            onChange={handleChange}
-            hidden
-            accept="image"
-            type="file"
-          />
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            flexDirection={"column"}
-          >
-            <AddAPhotoIcon />
-            <Typography variant="caption">
-              {idCardUrl ? "Change ID Card" : "Select Your ID card"}
-            </Typography>
-          </Box>
-        </IconButton>
-      </form>
-    </Container>
+          </IconButton>
+        </form>
+      </Container>
+    </SmnkErrorBoundary>
   );
 }
 

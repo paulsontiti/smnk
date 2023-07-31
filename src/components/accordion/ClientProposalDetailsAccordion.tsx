@@ -13,9 +13,9 @@ import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { AlertColor } from "@mui/material";
 import GenericActions from "../dialog/actions/GenericActions";
 import GenericContent from "../dialog/contents/GenericContent";
-import SWDetailsCard from "../card/SWDetailsCard";
-import CatalogCard from "../card/CatalogCard";
 import FileReaderCard from "../card/FileReaderCard";
+import { SmnkErrorBoundary } from "@/pages/_app";
+import SWDetailsDashboardCard from "../card/SWDetailsDashboardCard";
 
 export default function ClientProposalDetailsAccordion({
   proposal,
@@ -107,12 +107,17 @@ export default function ClientProposalDetailsAccordion({
     })();
   }, [proposal.userId]);
 
-  if (!proposal || (proposal && proposal.rejected) || proposal.accepted)
+  if (
+    !jobId ||
+    !proposal ||
+    (proposal && proposal.rejected) ||
+    proposal.accepted
+  )
     return <p></p>;
 
   return (
-    <>
-      <SWDetailsCard userId={proposal.userId} />
+    <SmnkErrorBoundary>
+      <SWDetailsDashboardCard userId={proposal.userId} />
       <AccordionDetails>
         {/* <SWFullDetailsAccordion userId={proposal.userId} /> */}
         <GenericDialog
@@ -167,6 +172,6 @@ export default function ClientProposalDetailsAccordion({
           />
         </CardActions>
       </AccordionDetails>
-    </>
+    </SmnkErrorBoundary>
   );
 }

@@ -10,6 +10,7 @@ import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export default function ProfilePic() {
   const { dpFileName, type } = useSelector(
@@ -20,51 +21,53 @@ export default function ProfilePic() {
 
   const [imgLoadComplete, setImgLoadComplete] = useState(false);
   return (
-    <Stack direction="row">
-      <Badge
-        overlap="circular"
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        badgeContent={<ProfilePicUploader />}
-      >
-        {dpFileName ? (
-          <IconButton
-            sx={{ mt: 1, mr: 2 }}
-            onClick={() => {
-              if (type === "skilled worker") {
-                router.push("/sw-dashboard");
-              } else {
-                router.push("/c-dashboard");
-              }
-            }}
-          >
-            <Image
-              onLoadingComplete={() => {
-                setImgLoadComplete(true);
+    <SmnkErrorBoundary>
+      <Stack direction="row">
+        <Badge
+          overlap="circular"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          badgeContent={<ProfilePicUploader />}
+        >
+          {dpFileName ? (
+            <IconButton
+              sx={{ mt: 1, mr: 2 }}
+              onClick={() => {
+                if (type === "skilled worker") {
+                  router.push("/sw-dashboard");
+                } else {
+                  router.push("/c-dashboard");
+                }
               }}
-              style={{
-                borderRadius: "50%",
-                display: imgLoadComplete ? "flex" : "none",
-              }}
-              width={80}
-              height={80}
-              alt="Profile picture"
-              src={`/api/multer/profile-pic/${dpFileName}`}
-            />
-            {!imgLoadComplete && (
-              <Skeleton
-                variant="circular"
+            >
+              <Image
+                onLoadingComplete={() => {
+                  setImgLoadComplete(true);
+                }}
+                style={{
+                  borderRadius: "50%",
+                  display: imgLoadComplete ? "flex" : "none",
+                }}
                 width={80}
                 height={80}
-                animation="wave"
+                alt="Profile picture"
+                src={`/api/multer/profile-pic/${dpFileName}`}
               />
-            )}
-          </IconButton>
-        ) : (
-          <IconButton>
-            <Avatar sx={{ width: 80, height: 80 }} />
-          </IconButton>
-        )}
-      </Badge>
-    </Stack>
+              {!imgLoadComplete && (
+                <Skeleton
+                  variant="circular"
+                  width={80}
+                  height={80}
+                  animation="wave"
+                />
+              )}
+            </IconButton>
+          ) : (
+            <IconButton>
+              <Avatar sx={{ width: 80, height: 80 }} />
+            </IconButton>
+          )}
+        </Badge>
+      </Stack>
+    </SmnkErrorBoundary>
   );
 }

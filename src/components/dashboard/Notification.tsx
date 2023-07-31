@@ -7,7 +7,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import { theme } from "@/pages/_app";
+import { SmnkErrorBoundary, theme } from "@/pages/_app";
 
 function HomeNotification() {
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -21,31 +21,32 @@ function HomeNotification() {
     setAnchorEl(null);
   };
   return (
-    <>
-      <ListItemButton
-        onClick={() => {
-          setOpenDrawer(true);
-        }}
-      >
-        <ListItemIcon>
-          <Badge color="error" variant="dot">
-            {true ? (
-              <NotificationsActiveIcon sx={{ color: theme.smnk[1000] }} />
-            ) : (
-              <NotificationsIcon sx={{ color: theme.smnk[1000] }} />
-            )}
-          </Badge>
-        </ListItemIcon>
-        <ListItemText
-          primary={
-            <Typography variant="body2" color="primary">
-              Notification
-            </Typography>
-          }
-        />
-      </ListItemButton>
+    <SmnkErrorBoundary>
+      <>
+        <ListItemButton
+          onClick={() => {
+            setOpenDrawer(true);
+          }}
+        >
+          <ListItemIcon>
+            <Badge color="error" variant="dot">
+              {true ? (
+                <NotificationsActiveIcon sx={{ color: theme.smnk[1000] }} />
+              ) : (
+                <NotificationsIcon sx={{ color: theme.smnk[1000] }} />
+              )}
+            </Badge>
+          </ListItemIcon>
+          <ListItemText
+            primary={
+              <Typography variant="body2" color="primary">
+                Notification
+              </Typography>
+            }
+          />
+        </ListItemButton>
 
-      {/* <IconButton
+        {/* <IconButton
           sx={{ color: theme.smnk[1000] }}
           onClick={() => {
             setOpenDrawer(true);
@@ -56,26 +57,27 @@ function HomeNotification() {
           </Badge>
         </IconButton> */}
 
-      <Drawer
-        anchor="top"
-        open={openDrawer}
-        onClose={() => {
-          setOpenDrawer(false);
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "1rem .0rem",
-            padding: ".5rem",
+        <Drawer
+          anchor="top"
+          open={openDrawer}
+          onClose={() => {
+            setOpenDrawer(false);
           }}
         >
-          <InfoAlert message="No notifications" />
-        </Box>
-      </Drawer>
-    </>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "1rem .0rem",
+              padding: ".5rem",
+            }}
+          >
+            <InfoAlert message="No notifications" />
+          </Box>
+        </Drawer>
+      </>
+    </SmnkErrorBoundary>
   );
 }
 

@@ -12,6 +12,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import SearchDrawer, { ServicesDrawer } from "../drawer/SearchDrawer";
 import { fetchUsers } from "@/lib/search";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export const serviceCategories = [
   { id: 1, src: "/assets/graphics.png", title: "Graphics & Design" },
@@ -36,86 +37,88 @@ export default function ServiceCategories() {
   const [users, setUsers] = React.useState<any[]>([]);
   const [loadingUser, setLoadingUser] = React.useState(true);
   return (
-    <>
-      <ServicesDrawer
-        loadingUser={loadingUser}
-        users={users}
-        searchedService={value}
-        openServicesDrawer={openServicesDrawer}
-        setOpenServicesDrawer={setOpenServicesDrawer}
-      />
-      <Card sx={{ m: 2 }}>
-        <CardHeader title=" Search in our different categories" />
-        <CardContent>
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            flexDirection={"column"}
-          >
+    <SmnkErrorBoundary>
+      <>
+        <ServicesDrawer
+          loadingUser={loadingUser}
+          users={users}
+          searchedService={value}
+          openServicesDrawer={openServicesDrawer}
+          setOpenServicesDrawer={setOpenServicesDrawer}
+        />
+        <Card sx={{ m: 2 }}>
+          <CardHeader title=" Search in our different categories" />
+          <CardContent>
             <Box
               display={"flex"}
               alignItems={"center"}
               justifyContent={"center"}
-              flexWrap={"wrap"}
+              flexDirection={"column"}
             >
-              {serviceCategories.map((cat) => (
-                <Category
-                  key={cat.id}
-                  src={cat.src}
-                  title={cat.title}
-                  setLoadingUser={setLoadingUser}
-                  setUsers={setUsers}
-                  setOpenServicesDrawer={setOpenServicesDrawer}
-                  setValue={setValue}
-                />
-              ))}
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexWrap={"wrap"}
+              >
+                {serviceCategories.map((cat) => (
+                  <Category
+                    key={cat.id}
+                    src={cat.src}
+                    title={cat.title}
+                    setLoadingUser={setLoadingUser}
+                    setUsers={setUsers}
+                    setOpenServicesDrawer={setOpenServicesDrawer}
+                    setValue={setValue}
+                  />
+                ))}
+              </Box>
+              <Box mt={1}>
+                <SearchDrawer searchOption="Services" />
+              </Box>
             </Box>
-            <Box mt={1}>
-              <SearchDrawer searchOption="Services" />
-            </Box>
-          </Box>
-        </CardContent>
-        <CardActions
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            mb: 5,
-          }}
-        >
-          <Button
+          </CardContent>
+          <CardActions
             sx={{
-              bgcolor: "#7E1120",
-              borderRadius: "30px",
-              mr: 2,
-              color: "white",
-              minWidth: 150,
-            }}
-            onClick={() => {
-              router.push("/account/signup");
-            }}
-            size="small"
-          >
-            Hire an Artisan
-          </Button>
-          <Button
-            size="small"
-            sx={{
-              bgcolor: "#E08300",
-              borderRadius: "30px",
-              color: "white",
-              minWidth: 150,
-            }}
-            onClick={() => {
-              router.push("/account/signup");
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mb: 5,
             }}
           >
-            Earn as an Artisan
-          </Button>
-        </CardActions>
-      </Card>
-    </>
+            <Button
+              sx={{
+                bgcolor: "#7E1120",
+                borderRadius: "30px",
+                mr: 2,
+                color: "white",
+                minWidth: 150,
+              }}
+              onClick={() => {
+                router.push("/account/signup");
+              }}
+              size="small"
+            >
+              Hire an Artisan
+            </Button>
+            <Button
+              size="small"
+              sx={{
+                bgcolor: "#E08300",
+                borderRadius: "30px",
+                color: "white",
+                minWidth: 150,
+              }}
+              onClick={() => {
+                router.push("/account/signup");
+              }}
+            >
+              Earn as an Artisan
+            </Button>
+          </CardActions>
+        </Card>
+      </>
+    </SmnkErrorBoundary>
   );
 }
 
@@ -135,26 +138,28 @@ function Category({
   title: string;
 }) {
   return (
-    <Box
-      display={"flex"}
-      alignItems={"center"}
-      justifyContent={"center"}
-      flexDirection={"column"}
-      minWidth={150}
-      maxWidth={150}
-      onClick={async () => {
-        setLoadingUser(true);
-        setOpenServicesDrawer(true);
-        setValue(title);
-        const users = await fetchUsers(title);
-        setLoadingUser(false);
-        setUsers(users);
-      }}
-    >
-      <Image src={src} width={50} height={50} alt="" loading="lazy" />
-      <Typography variant="caption" m={1}>
-        {title}
-      </Typography>
-    </Box>
+    <SmnkErrorBoundary>
+      <Box
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        flexDirection={"column"}
+        minWidth={150}
+        maxWidth={150}
+        onClick={async () => {
+          setLoadingUser(true);
+          setOpenServicesDrawer(true);
+          setValue(title);
+          const users = await fetchUsers(title);
+          setLoadingUser(false);
+          setUsers(users);
+        }}
+      >
+        <Image src={src} width={50} height={50} alt="" loading="lazy" />
+        <Typography variant="caption" m={1}>
+          {title}
+        </Typography>
+      </Box>
+    </SmnkErrorBoundary>
   );
 }

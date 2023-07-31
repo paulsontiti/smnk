@@ -12,52 +12,56 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export default function ProposalDetailsAccordion({ jobId }: { jobId: string }) {
   const { _id } = useSelector((state: RootState) => state.users.user);
   const [proposal, setProposal] = useState<any | null>(null);
   useEffect(() => {
     (async () => {
-      try {
-        const res = await axios({
-          method: "POST",
-          url: `${process.env.SMNK_URL}api/users/proposal/proposal-by-userId-jobId`,
-          data: { jobId, userId: _id },
-        });
-        const data = await res.data;
-        setProposal(data);
-      } catch (err) {
-        console.log(err);
+      if (jobId && _id) {
+        try {
+          const res = await axios({
+            method: "POST",
+            url: `${process.env.SMNK_URL}api/users/proposal/proposal-by-userId-jobId`,
+            data: { jobId, userId: _id },
+          });
+          const data = await res.data;
+          setProposal(data);
+        } catch (err) {
+          console.log(err);
+        }
       }
     })();
   }, [jobId, _id]);
 
   if (!proposal) return <p></p>;
   return (
-    <Accordion sx={{ margin: "1rem 0.1rem" }}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel2a-content"
-        id="panel2a-header"
-      >
-        <Badge
-          badgeContent={
-            proposal && proposal.accepted ? (
-              <VerifiedIcon color="success" />
-            ) : proposal && proposal.rejected ? (
-              <GppBadIcon color="error" />
-            ) : (
-              <PendingIcon color="error" />
-            )
-          }
+    <SmnkErrorBoundary>
+      <Accordion sx={{ margin: "1rem 0.1rem" }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
         >
-          <Typography variant="caption">proposal</Typography>
-        </Badge>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box>{proposal.content}</Box>
+          <Badge
+            badgeContent={
+              proposal && proposal.accepted ? (
+                <VerifiedIcon color="success" />
+              ) : proposal && proposal.rejected ? (
+                <GppBadIcon color="error" />
+              ) : (
+                <PendingIcon color="error" />
+              )
+            }
+          >
+            <Typography variant="caption">proposal</Typography>
+          </Badge>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box>{proposal.content}</Box>
 
-        {/* <CardActions>
+          {/* <CardActions>
           {proposal && !proposal.rejected && !proposal.accepted && (
             <EditDeleteBottomNavigation
               editHandleClick={() => {}}
@@ -65,7 +69,8 @@ export default function ProposalDetailsAccordion({ jobId }: { jobId: string }) {
             />
           )}
         </CardActions> */}
-      </AccordionDetails>
-    </Accordion>
+        </AccordionDetails>
+      </Accordion>
+    </SmnkErrorBoundary>
   );
 }

@@ -12,6 +12,7 @@ import { FormParams, getOptions } from "@/lib/form";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 function FormikContainer({
   formParams,
@@ -24,90 +25,102 @@ function FormikContainer({
   //get the current url
   const path = router.pathname;
   return (
-    <Box
-      maxWidth={{ xs: "100%", md: "80%" }}
-      width={"100%"}
-      p={{ xs: 2, sm: 5, md: 10 }}
-    >
-      <Typography mb={2}>{formParams.headerTitle}</Typography>
-      <Formik
-        validationSchema={formParams.formObject.validationSchema}
-        initialValues={formParams.formObject.initialValues}
-        onSubmit={formParams.formObject.onSubmit}
-        enableReinitialize
+    <SmnkErrorBoundary>
+      <Box
+        maxWidth={{ xs: "100%", md: "80%" }}
+        width={"100%"}
+        p={{ xs: 2, sm: 5, md: 10 }}
       >
-        {({ values, touched, isSubmitting, isValid, isValidating, errors }) => (
-          <Form>
-            {formParams.formObject.formControls.map((field, i) => (
-              <FormControl
-                key={i}
-                emailVerificationCode={field.emailVerificationCode}
-                control={field.control}
-                name={field.name}
-                label={field.label}
-                type={field.type}
-                checked={field.checked}
-                checkedValue={field.checkedValue}
-                fieldToCheckAgainst={field.fieldToCheckAgainst}
-                values={values}
-                errors={errors}
-                touched={touched}
-                required={field.required}
-                helperText={field.helperText}
-                autoComplete={field.autoComplete}
-                url={field.url}
-                valueOfFieldToCheckAgainst={field.valueOfFieldToCheckAgainst}
-                options={getOptions(
-                  field.name,
-                  values[field.fieldToCheckAgainst as string],
-                  field.options as any[]
-                )}
-              />
-            ))}
+        <Typography mb={2}>{formParams.headerTitle}</Typography>
+        <Formik
+          validationSchema={formParams.formObject.validationSchema}
+          initialValues={formParams.formObject.initialValues}
+          onSubmit={formParams.formObject.onSubmit}
+          enableReinitialize
+        >
+          {({
+            values,
+            touched,
+            isSubmitting,
+            isValid,
+            isValidating,
+            errors,
+          }) => (
+            <Form>
+              {formParams.formObject.formControls.map((field, i) => (
+                <FormControl
+                  key={i}
+                  emailVerificationCode={field.emailVerificationCode}
+                  control={field.control}
+                  name={field.name}
+                  label={field.label}
+                  type={field.type}
+                  checked={field.checked}
+                  checkedValue={field.checkedValue}
+                  fieldToCheckAgainst={field.fieldToCheckAgainst}
+                  values={values}
+                  errors={errors}
+                  touched={touched}
+                  required={field.required}
+                  helperText={field.helperText}
+                  autoComplete={field.autoComplete}
+                  url={field.url}
+                  valueOfFieldToCheckAgainst={field.valueOfFieldToCheckAgainst}
+                  options={getOptions(
+                    field.name,
+                    values[field.fieldToCheckAgainst as string],
+                    field.options as any[]
+                  )}
+                />
+              ))}
 
-            <Box
-              mt={"1rem"}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-around",
-                width: "100%",
-              }}
-            >
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={loading || isSubmitting || isValidating}
-                endIcon={formParams.endIcon}
-                startIcon={formParams.startIcon}
-                size="small"
+              <Box
+                mt={"1rem"}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-around",
+                  width: "100%",
+                }}
               >
-                {formParams.buttonLabel}
-              </Button>
-              <Button
-                type="reset"
-                variant="outlined"
-                size="small"
-                startIcon={<RestartAltIcon />}
+                <Button
+                  type="submit"
+                  variant="contained"
+                  disabled={loading || isSubmitting || isValidating}
+                  endIcon={formParams.endIcon}
+                  startIcon={formParams.startIcon}
+                  size="small"
+                >
+                  {formParams.buttonLabel}
+                </Button>
+                <Button
+                  type="reset"
+                  variant="outlined"
+                  size="small"
+                  startIcon={<RestartAltIcon />}
+                >
+                  Reset
+                </Button>
+              </Box>
+              {path === "/account/login" && (
+                <Link href="/account/forgotpassword">forgot password?</Link>
+              )}
+              <Backdrop
+                sx={{
+                  color: "#fff",
+                  zIndex: (theme) => theme.zIndex.drawer + 1,
+                }}
+                open={loading || isSubmitting || isValidating}
               >
-                Reset
-              </Button>
-            </Box>
-            {path === "/account/login" && (
-              <Link href="/account/forgotpassword">forgot password?</Link>
-            )}
-            <Backdrop
-              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-              open={loading || isSubmitting || isValidating}
-            >
-              <CircularProgress color="inherit" />
-            </Backdrop>
-            {/* <pre>{JSON.stringify(values, null, 4)}</pre>
+                <CircularProgress color="inherit" />
+              </Backdrop>
+              {/* <pre>{JSON.stringify(values, null, 4)}</pre>
             <pre>{JSON.stringify(errors, null, 4)}</pre> */}
-          </Form>
-        )}
-      </Formik>
-    </Box>
+            </Form>
+          )}
+        </Formik>
+      </Box>
+    </SmnkErrorBoundary>
   );
 }
 

@@ -12,6 +12,7 @@ import "@fontsource/roboto/700.css";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme } from "@mui/material/styles";
 import ErrorAlert from "@/components/alerts/Error";
+import { Skeleton } from "@mui/material";
 declare module "@mui/material/styles" {
   interface Theme {
     smnk: {
@@ -94,7 +95,7 @@ const logError = (error: Error, info: { componentStack: string }) => {
 function fallbackRender({ error, resetErrorBoundary }: any) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
   //resetErrorBoundary();
-  return <ErrorAlert />;
+  return <Skeleton animation="wave" />;
 }
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -104,10 +105,16 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Providers>
-        <ErrorBoundary fallbackRender={fallbackRender} onError={logError}>
-          <Component {...pageProps} />
-        </ErrorBoundary>
+        <Component {...pageProps} />
       </Providers>
     </>
+  );
+}
+
+export function SmnkErrorBoundary({ children }: any) {
+  return (
+    <ErrorBoundary fallbackRender={fallbackRender} onError={logError}>
+      {children}
+    </ErrorBoundary>
   );
 }

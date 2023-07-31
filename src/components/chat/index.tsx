@@ -4,11 +4,9 @@ import {
   Typography,
   Button,
   TextField,
-  IconButton,
   Paper,
 } from "@mui/material";
 import { Field, Form, Formik } from "formik";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { Send } from "@mui/icons-material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import axios from "axios";
@@ -16,7 +14,7 @@ import { object, string } from "yup";
 import moment from "moment";
 import ChatHeader from "./ChatHeader";
 import { useEffect, useState } from "react";
-import LoadingAlert from "../alerts/Loading";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 const styles = {
   messageBlue: {
@@ -91,39 +89,45 @@ const styles = {
   },
 };
 function SenderBox({ chat }: { chat: any }) {
+  if (!chat) return <p></p>;
   return (
-    <Box
-      display={"flex"}
-      alignItems={"flex-end"}
-      justifyContent={"flex-end"}
-      flexDirection={"column"}
-    >
-      <Box sx={styles.messageOrange}>
-        <Typography>{chat.chat}</Typography>
-        <Typography
-          align="right"
-          sx={{ fontWeight: "bold", fontSize: ".7rem" }}
-        >
-          {moment(chat.time).format("DD/MM/YYYY hh:mm")}
-        </Typography>
+    <SmnkErrorBoundary>
+      <Box
+        display={"flex"}
+        alignItems={"flex-end"}
+        justifyContent={"flex-end"}
+        flexDirection={"column"}
+      >
+        <Box sx={styles.messageOrange}>
+          <Typography>{chat.chat}</Typography>
+          <Typography
+            align="right"
+            sx={{ fontWeight: "bold", fontSize: ".7rem" }}
+          >
+            {moment(chat.time).format("DD/MM/YYYY hh:mm")}
+          </Typography>
+        </Box>
       </Box>
-    </Box>
+    </SmnkErrorBoundary>
   );
 }
 
 function RecieverBox({ chat }: { chat: any }) {
+  if (!chat) return <p></p>;
   return (
-    <Box>
-      <Box sx={styles.messageBlue}>
-        <Typography>{chat.chat}</Typography>
-        <Typography
-          align="right"
-          sx={{ fontWeight: "bold", fontSize: ".7rem" }}
-        >
-          {moment(chat.time).format("DD/MM/YYYY hh:mm")}
-        </Typography>
+    <SmnkErrorBoundary>
+      <Box>
+        <Box sx={styles.messageBlue}>
+          <Typography>{chat.chat}</Typography>
+          <Typography
+            align="right"
+            sx={{ fontWeight: "bold", fontSize: ".7rem" }}
+          >
+            {moment(chat.time).format("DD/MM/YYYY hh:mm")}
+          </Typography>
+        </Box>
       </Box>
-    </Box>
+    </SmnkErrorBoundary>
   );
 }
 
@@ -163,67 +167,69 @@ function SendBox({
     });
   };
   return (
-    <Box width={"90vw"} position={"relative"}>
-      <Formik
-        validationSchema={object({ msg: string().required() })}
-        initialValues={{ msg: "" }}
-        onSubmit={formikSubmitHandler}
-        enableReinitialize
-      >
-        {({ values }) => (
-          <Form>
-            <Box
-              display={"flex"}
-              alignItems={"center"}
-              justifyContent={"center"}
-              borderRadius={20}
-              border={"1px solid blue"}
-              sx={{ backgroundColor: "whitesmoke" }}
-              mt={9}
-              minWidth={"100%"}
-              position={"absolute"}
-              top={"10"}
-              maxWidth={"100%"}
-              left={"1%"}
-              right={"1%"}
-              pl={3}
-              pr={3}
-            >
-              <Field
-                as={TextField}
-                autoFocus
-                fullWidth
-                name="msg"
-                variant="standard"
-                multiline
-                placeholder="type your message"
-              />
+    <SmnkErrorBoundary>
+      <Box width={"90vw"} position={"relative"}>
+        <Formik
+          validationSchema={object({ msg: string().required() })}
+          initialValues={{ msg: "" }}
+          onSubmit={formikSubmitHandler}
+          enableReinitialize
+        >
+          {({ values }) => (
+            <Form>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                borderRadius={20}
+                border={"1px solid blue"}
+                sx={{ backgroundColor: "whitesmoke" }}
+                mt={9}
+                minWidth={"100%"}
+                position={"absolute"}
+                top={"10"}
+                maxWidth={"100%"}
+                left={"1%"}
+                right={"1%"}
+                pl={3}
+                pr={3}
+              >
+                <Field
+                  as={TextField}
+                  autoFocus
+                  fullWidth
+                  name="msg"
+                  variant="standard"
+                  multiline
+                  placeholder="type your message"
+                />
 
-              {values.msg && (
-                <>
-                  <Button
-                    size="small"
-                    endIcon={<RestartAltIcon />}
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    type="reset"
-                  ></Button>
-                  <Button
-                    size="small"
-                    endIcon={<Send />}
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    type="submit"
-                  ></Button>
-                </>
-              )}
-            </Box>
-          </Form>
-        )}
-      </Formik>
-    </Box>
+                {values.msg && (
+                  <>
+                    <Button
+                      size="small"
+                      endIcon={<RestartAltIcon />}
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      type="reset"
+                    ></Button>
+                    <Button
+                      size="small"
+                      endIcon={<Send />}
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      type="submit"
+                    ></Button>
+                  </>
+                )}
+              </Box>
+            </Form>
+          )}
+        </Formik>
+      </Box>
+    </SmnkErrorBoundary>
   );
 }
 
@@ -314,34 +320,36 @@ export const ChatGround = ({
   }, [chats]);
 
   return (
-    <Paper sx={{ mt: "1rem", maxWidth: "100%" }}>
-      <ChatHeader receiverId={receiverId} isChatRoom={false} />
-      <Box
-        sx={{ backgroundColor: "whitesmoke", maxWidth: "100%" }}
-        pt={3}
-        pb={3}
-        mt={1}
-        mb={10}
-        mr={1}
-        ml={1}
-        position={"static"}
-        bottom={100}
-      >
-        {sortedChats &&
-          sortedChats.map((chat: any) => (
-            <Box key={chat._id}>
-              {chat.type === "sender" ? (
-                <SenderBox chat={chat} />
-              ) : (
-                <RecieverBox chat={chat} />
-              )}
-            </Box>
-          ))}
+    <SmnkErrorBoundary>
+      <Paper sx={{ mt: "1rem", maxWidth: "100%" }}>
+        <ChatHeader receiverId={receiverId} isChatRoom={false} />
+        <Box
+          sx={{ backgroundColor: "whitesmoke", maxWidth: "100%" }}
+          pt={3}
+          pb={3}
+          mt={1}
+          mb={10}
+          mr={1}
+          ml={1}
+          position={"static"}
+          bottom={100}
+        >
+          {sortedChats &&
+            sortedChats.map((chat: any) => (
+              <Box key={chat._id}>
+                {chat.type === "sender" ? (
+                  <SenderBox chat={chat} />
+                ) : (
+                  <RecieverBox chat={chat} />
+                )}
+              </Box>
+            ))}
 
-        <CardActions>
-          <SendBox senderId={senderId} receiverId={receiverId} />
-        </CardActions>
-      </Box>
-    </Paper>
+          <CardActions>
+            <SendBox senderId={senderId} receiverId={receiverId} />
+          </CardActions>
+        </Box>
+      </Paper>
+    </SmnkErrorBoundary>
   );
 };

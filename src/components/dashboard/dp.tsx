@@ -5,6 +5,7 @@ import { getUserProfile } from "@/lib/utils/user";
 import { useEffect, useState } from "react";
 import ProfilePic from "../avatar/ProfilePic";
 import { useTheme } from "@mui/material/styles";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export default function DP() {
   const {
@@ -20,57 +21,63 @@ export default function DP() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await getUserProfile(_id);
-      if (data) {
-        if (typeClass === "individual") {
-          setName(data.firstName + " " + data.lastName);
-        } else {
-          setName(data.name);
+      if (_id) {
+        const { data } = await getUserProfile(_id);
+        if (data) {
+          if (typeClass) {
+            if (typeClass === "individual") {
+              setName(data.firstName + " " + data.lastName);
+            } else {
+              setName(data.name);
+            }
+          }
         }
       }
     })();
   }, [_id, typeClass]);
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        width: 250,
-      }}
-    >
-      <ProfilePic />
-      <br />
+    <SmnkErrorBoundary>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          width: 250,
+        }}
+      >
+        <ProfilePic />
+        <br />
 
-      {type !== "admin" && (
-        <>
-          {name && (
-            <Box
-              display={"flex"}
-              alignItems={"center"}
-              justifyContent={"center"}
-              flexDirection={"column"}
-            >
-              <Typography
-                sx={{
-                  textTransform: "capitalize",
-                  color: theme.smnk[1000],
-                  fontWeight: "bold",
-                }}
-                variant="subtitle1"
+        {type !== "admin" && (
+          <>
+            {name && (
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
               >
-                {name}
-              </Typography>
-              <Typography variant="caption" color="primary">
-                {`${type}/${typeClass}`}
-              </Typography>
-            </Box>
-          )}
+                <Typography
+                  sx={{
+                    textTransform: "capitalize",
+                    color: theme.smnk[1000],
+                    fontWeight: "bold",
+                  }}
+                  variant="subtitle1"
+                >
+                  {name}
+                </Typography>
+                <Typography variant="caption" color="primary">
+                  {`${type}/${typeClass}`}
+                </Typography>
+              </Box>
+            )}
 
-          {/* <UserRating type={type} /> */}
-        </>
-      )}
-    </Box>
+            {/* <UserRating type={type} /> */}
+          </>
+        )}
+      </Box>
+    </SmnkErrorBoundary>
   );
 }

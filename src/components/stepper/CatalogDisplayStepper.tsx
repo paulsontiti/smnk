@@ -10,6 +10,7 @@ import { autoPlay } from "react-swipeable-views-utils";
 import { Typography, Card, CardContent } from "@mui/material";
 import ReactPlayer from "react-player";
 import { Document, Page, pdfjs } from "react-pdf";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -36,64 +37,70 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
   };
   if (!catalog) return <p></p>;
   return (
-    <Box minWidth={"100%"} maxWidth={{ xs: 300, md: "100%" }}>
-      <Typography color="primary" fontWeight={"bold"} mt={5}>
-        Catalog:
-      </Typography>
-      <MobileStepper
-        steps={maxSteps}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
-          >
-            Next
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-            Back
-          </Button>
-        }
-      />
-      <Typography variant="caption">
-        {catalog[activeStep].title ?? ""}
-      </Typography>
-      <AutoPlaySwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-        interval={100000}
-      >
-        {catalog &&
-          catalog.map((cat: any, index: number) => (
-            <Box key={cat.filename} minWidth={"100%"} maxWidth={"100%"}>
-              {Math.abs(activeStep - index) <= 2 ? (
-                <CatalogCard
-                  filename={cat.filename}
-                  title={cat.title}
-                  description={cat.description}
-                  contentType={cat.contentType ?? ""}
-                />
-              ) : null}
-            </Box>
-          ))}
-      </AutoPlaySwipeableViews>
-    </Box>
+    <SmnkErrorBoundary>
+      <Box minWidth={"100%"} maxWidth={{ xs: 300, md: "100%" }}>
+        <Typography color="primary" fontWeight={"bold"} mt={5}>
+          Catalog:
+        </Typography>
+        <MobileStepper
+          steps={maxSteps}
+          position="static"
+          activeStep={activeStep}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              Next
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+            >
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+              Back
+            </Button>
+          }
+        />
+        <Typography variant="caption">
+          {catalog[activeStep].title ?? ""}
+        </Typography>
+        <AutoPlaySwipeableViews
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          index={activeStep}
+          onChangeIndex={handleStepChange}
+          enableMouseEvents
+          interval={100000}
+        >
+          {catalog &&
+            catalog.map((cat: any, index: number) => (
+              <Box key={cat.filename} minWidth={"100%"} maxWidth={"100%"}>
+                {Math.abs(activeStep - index) <= 2 ? (
+                  <CatalogCard
+                    filename={cat.filename}
+                    title={cat.title}
+                    description={cat.description}
+                    contentType={cat.contentType ?? ""}
+                  />
+                ) : null}
+              </Box>
+            ))}
+        </AutoPlaySwipeableViews>
+      </Box>
+    </SmnkErrorBoundary>
   );
 }
 

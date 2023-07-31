@@ -10,6 +10,7 @@ import FormikContainer from "@/components/form/formikContainer";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { AlertColor, Container } from "@mui/material";
 import { getSWExtra } from "@/store/slices/swExtraSlice";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 const initialValues = {
   email: "",
@@ -111,9 +112,9 @@ export default function Login() {
   };
 
   return (
-    <>
+    <SmnkErrorBoundary>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <FormikContainer formParams={formParams} loading={loading} />
-    </>
+    </SmnkErrorBoundary>
   );
 }

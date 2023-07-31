@@ -15,6 +15,7 @@ import ClientDetailsBottomNavigation from "../bottomNavigation/ClientDetailsBott
 import ClientJobHistory from "../job/ClientJobHistory";
 import Comments from "../job/Comments";
 import LoadingAlert from "../alerts/Loading";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -73,91 +74,99 @@ export default function ClientDetailsDashboard({ userId }: { userId: string }) {
   if (userDetails === undefined || userProfile === undefined)
     return <LoadingAlert />;
   return (
-    <Box sx={{ mt: 1, width: "100%" }}>
-      <CardHeader
-        avatar={
-          <Avatar
-            sx={{ width: 70, height: 70 }}
-            aria-label="recipe"
-            src={`/api/multer/profile-pic/${dp}`}
-          ></Avatar>
-        }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
-        title={
-          <>
-            <Box
-              display={"flex"}
-              alignItems={"center"}
-              justifyContent={"flex-start"}
-            >
-              <Typography textTransform={"capitalize"}>{fullName()}</Typography>
-              {fullName() && (
-                <>
-                  {verified ? (
-                    <VerifiedIcon
-                      color="success"
-                      sx={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        width: 15,
-                      }}
-                    />
-                  ) : (
-                    <GppBadIcon
-                      color="error"
-                      sx={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        width: 15,
-                      }}
-                    />
-                  )}
-                </>
-              )}
-            </Box>
-          </>
-        }
-        subheader={<SubHeader userProfile={userProfile} />}
-      />
-
-      <Box>
-        <Typography variant="body2" color="text.secondary" mb={5} mt={5}>
-          {userProfile && userProfile.description}
-        </Typography>
-        <Divider />
-        <ClientDetailsBottomNavigation
-          rating={
-            userDetails && userDetails.userExtra && userDetails.userExtra.rating
-              ? userDetails.userExtra.rating
-              : 0
+    <SmnkErrorBoundary>
+      <Box sx={{ mt: 1, width: "100%" }}>
+        <CardHeader
+          avatar={
+            <Avatar
+              sx={{ width: 70, height: 70 }}
+              aria-label="recipe"
+              src={`/api/multer/profile-pic/${dp}`}
+            ></Avatar>
           }
-          completedJobs={completedJobs}
-          pendingJobs={pendingJobs}
-        />{" "}
-        <Divider />
-        <ClientJobHistory />
-        <Divider />
-        <Comments />
+          // action={
+          //   <IconButton aria-label="settings">
+          //     <MoreVertIcon />
+          //   </IconButton>
+          // }
+          title={
+            <>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"flex-start"}
+              >
+                <Typography textTransform={"capitalize"}>
+                  {fullName()}
+                </Typography>
+                {fullName() && (
+                  <>
+                    {verified ? (
+                      <VerifiedIcon
+                        color="success"
+                        sx={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          width: 15,
+                        }}
+                      />
+                    ) : (
+                      <GppBadIcon
+                        color="error"
+                        sx={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          width: 15,
+                        }}
+                      />
+                    )}
+                  </>
+                )}
+              </Box>
+            </>
+          }
+          subheader={<SubHeader userProfile={userProfile} />}
+        />
+
+        <Box>
+          <Typography variant="body2" color="text.secondary" mb={5} mt={5}>
+            {userProfile && userProfile.description}
+          </Typography>
+          <Divider />
+          <ClientDetailsBottomNavigation
+            rating={
+              userDetails &&
+              userDetails.userExtra &&
+              userDetails.userExtra.rating
+                ? userDetails.userExtra.rating
+                : 0
+            }
+            completedJobs={completedJobs}
+            pendingJobs={pendingJobs}
+          />{" "}
+          <Divider />
+          <ClientJobHistory />
+          <Divider />
+          <Comments />
+        </Box>
       </Box>
-    </Box>
+    </SmnkErrorBoundary>
   );
 }
 
 function SubHeader({ userProfile }: { userProfile: any }) {
   if (!userProfile) return <p></p>;
   return (
-    <Box
-      display={"flex"}
-      justifyContent={"flex-start"}
-      flexDirection={"column"}
-    >
-      <Typography variant="caption">
-        {userProfile && userProfile.lga + "," + userProfile.state}
-      </Typography>
-    </Box>
+    <SmnkErrorBoundary>
+      <Box
+        display={"flex"}
+        justifyContent={"flex-start"}
+        flexDirection={"column"}
+      >
+        <Typography variant="caption">
+          {userProfile && userProfile.lga + "," + userProfile.state}
+        </Typography>
+      </Box>
+    </SmnkErrorBoundary>
   );
 }

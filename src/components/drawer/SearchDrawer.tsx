@@ -23,9 +23,7 @@ import {
 import { styled } from "@mui/system";
 import SearchedJobDetailsAccordion from "../accordion/SearchedJobDetailsAccordion";
 import CancelFloatingActionButtons from "../fab/Cancel";
-import SWDetailsCard from "../card/SWDetailsCard";
-import { theme } from "@/pages/_app";
-import SearchBox from "../autoComplete/SearchBox";
+import { SmnkErrorBoundary, theme } from "@/pages/_app";
 import LoadingAlert from "../alerts/Loading";
 import SWDetailsDashboardCard from "../card/SWDetailsDashboardCard";
 export type SearchOption = { firstLetter: string; option: string };
@@ -244,44 +242,46 @@ export function ServicesDrawer({
   setOpenServicesDrawer: any;
 }) {
   return (
-    <Drawer
-      anchor="right"
-      open={openServicesDrawer}
-      onClose={() => {
-        setOpenServicesDrawer(false);
-      }}
-    >
-      {loadingUser ? (
-        <LoadingAlert />
-      ) : (
-        <Container sx={{ p: ".5rem", mt: "2rem" }}>
-          {users && users.length > 0 ? (
-            <>
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-              >
-                <Typography>
-                  All Services in <i>{searchedService}</i> Category
-                </Typography>
-                <CancelFloatingActionButtons
-                  handleClick={() => {
-                    setOpenServicesDrawer(false);
-                  }}
-                />
-              </Box>
-              {users.map((user, i) => (
-                <SWDetailsDashboardCard key={i} userId={user.userId} />
-              ))}
-            </>
-          ) : (
-            <Typography>
-              No Services in <i>{searchedService} category</i>
-            </Typography>
-          )}
-        </Container>
-      )}
-    </Drawer>
+    <SmnkErrorBoundary>
+      <Drawer
+        anchor="right"
+        open={openServicesDrawer}
+        onClose={() => {
+          setOpenServicesDrawer(false);
+        }}
+      >
+        {loadingUser ? (
+          <LoadingAlert />
+        ) : (
+          <Container sx={{ p: ".5rem", mt: "2rem" }}>
+            {users && users.length > 0 ? (
+              <>
+                <Box
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                >
+                  <Typography>
+                    All Services in <i>{searchedService}</i> Category
+                  </Typography>
+                  <CancelFloatingActionButtons
+                    handleClick={() => {
+                      setOpenServicesDrawer(false);
+                    }}
+                  />
+                </Box>
+                {users.map((user, i) => (
+                  <SWDetailsDashboardCard key={i} userId={user.userId} />
+                ))}
+              </>
+            ) : (
+              <Typography>
+                No Services in <i>{searchedService} category</i>
+              </Typography>
+            )}
+          </Container>
+        )}
+      </Drawer>
+    </SmnkErrorBoundary>
   );
 }

@@ -24,6 +24,7 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutSwitch from "@/components/switch/LogoutSwitch";
 import Divider from "@mui/material/Divider";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export default function CDashboardMenu() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -46,7 +47,7 @@ export default function CDashboardMenu() {
   };
 
   return (
-    <>
+    <SmnkErrorBoundary>
       <List
         sx={{ width: "100%", maxWidth: 360, pl: 0, overflowY: "auto" }}
         component="nav"
@@ -159,6 +160,6 @@ export default function CDashboardMenu() {
         {/* <LiveChat router={router} /> */}
         <Box ml={2}> {user._id && <LogoutSwitch />}</Box>
       </List>
-    </>
+    </SmnkErrorBoundary>
   );
 }

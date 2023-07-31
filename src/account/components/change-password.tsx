@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import axios from "axios";
 import { object, ref, string } from "yup";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { changePasswordWithPhone, updateState } from "@/store/slices/userSlice";
 import { getSWExtra } from "@/store/slices/swExtraSlice";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 const initialValues = {
   email: "",
@@ -127,9 +127,9 @@ export default function ChangePassword() {
   };
 
   return (
-    <>
+    <SmnkErrorBoundary>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <FormikContainer formParams={formParams} loading={loading} />;
-    </>
+    </SmnkErrorBoundary>
   );
 }

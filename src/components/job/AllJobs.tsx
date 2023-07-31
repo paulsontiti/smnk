@@ -4,6 +4,7 @@ import { Typography, Container } from "@mui/material";
 import JobsByCategory from "./JobsByCategory";
 import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 function AllJobs() {
   const [categories, setCategories] = useState<string[] | null | undefined>(
@@ -28,20 +29,22 @@ function AllJobs() {
   )
     return <InfoAlert message="No Jobs Available" />;
   return (
-    <Container>
-      <Typography
-        fontWeight={"bold"}
-        textTransform={"capitalize"}
-        mt={5}
-        mb={5}
-      >
-        All Jobs By Categories
-      </Typography>
+    <SmnkErrorBoundary>
+      <Container>
+        <Typography
+          fontWeight={"bold"}
+          textTransform={"capitalize"}
+          mt={5}
+          mb={5}
+        >
+          All Jobs By Categories
+        </Typography>
 
-      {categories.map((category, i) => (
-        <JobsByCategory category={category} key={i} />
-      ))}
-    </Container>
+        {categories.map((category, i) => (
+          <JobsByCategory category={category} key={i} />
+        ))}
+      </Container>
+    </SmnkErrorBoundary>
   );
 }
 

@@ -16,6 +16,7 @@ import CatalogCard from "../card/CatalogCard";
 import { Typography } from "@mui/material";
 import AddBottomNavigation from "../bottomNavigation/AddBottomNavigation";
 import LoadingAlert from "../alerts/Loading";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -45,22 +46,24 @@ function CatalogStepper() {
   if (cat === null) return <LoadingAlert />;
   if (cat === undefined || cat.length === 0)
     return (
-      <Box mt={5} ml={2}>
-        <InfoAlert message="No Catalog. Create one" />{" "}
-        <Button
-          size="small"
-          variant="outlined"
-          onClick={() => {
-            router.push("/dashboard/catalog/add");
-          }}
-          sx={{
-            textTransform: "capitalize",
-            m: 2,
-          }}
-        >
-          Create Catalog
-        </Button>
-      </Box>
+      <SmnkErrorBoundary>
+        <Box mt={5} ml={2}>
+          <InfoAlert message="No Catalog. Create one" />{" "}
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => {
+              router.push("/dashboard/catalog/add");
+            }}
+            sx={{
+              textTransform: "capitalize",
+              m: 2,
+            }}
+          >
+            Create Catalog
+          </Button>
+        </Box>
+      </SmnkErrorBoundary>
     );
 
   return (

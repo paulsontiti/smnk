@@ -9,7 +9,7 @@ import GenericDialog from "../dialog/GenericDialog";
 import LogoutActions from "../dialog/actions/LogoutActions";
 import { useRef } from "react";
 import LogoutContent from "../dialog/contents/LogoutContent";
-import { theme } from "@/pages/_app";
+import { SmnkErrorBoundary, theme } from "@/pages/_app";
 
 export default function LogoutSwitch() {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,24 +32,26 @@ export default function LogoutSwitch() {
   };
 
   return (
-    <>
-      <GenericDialog
-        content={<LogoutContent />}
-        actions={<LogoutActions confirmLogout={confirmLogout} />}
-        ref={dialogRef}
-      />
-      <FormGroup sx={{ ml: 0, mb: 1, color: theme.smnk[1000] }}>
-        <FormControlLabel
-          control={
-            <Switch
-              checked
-              onChange={logoutHandler}
-              aria-label="login switch"
-            />
-          }
-          label="Logout"
+    <SmnkErrorBoundary>
+      <>
+        <GenericDialog
+          content={<LogoutContent />}
+          actions={<LogoutActions confirmLogout={confirmLogout} />}
+          ref={dialogRef}
         />
-      </FormGroup>
-    </>
+        <FormGroup sx={{ ml: 0, mb: 1, color: theme.smnk[1000] }}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked
+                onChange={logoutHandler}
+                aria-label="login switch"
+              />
+            }
+            label="Logout"
+          />
+        </FormGroup>
+      </>
+    </SmnkErrorBoundary>
   );
 }

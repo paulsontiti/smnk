@@ -13,6 +13,7 @@ import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { getSWExtra } from "@/store/slices/swExtraSlice";
 import Link from "next/link";
 import Typography from "@mui/material/Typography";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 // program to generate random strings
 
@@ -151,9 +152,9 @@ export default function SignUp() {
     confirmPassword: string()
       .oneOf([ref("password"), ""], "Both Passwords must match")
       .required("Confirm Password is required"),
-    // tc: boolean()
-    //   .isTrue("Please agree to Terms & Conditions")
-    //   .required("Agreeing to terms and conditions is required"),
+    tc: boolean()
+      .isTrue("Please agree to Terms & Conditions")
+      .required("Agreeing to terms and conditions is required"),
   });
 
   const signUpFormControls: FormControls[] = [
@@ -228,9 +229,9 @@ export default function SignUp() {
   };
 
   return (
-    <>
+    <SmnkErrorBoundary>
       <FormikContainer formParams={formParams} loading={loading} />
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-    </>
+    </SmnkErrorBoundary>
   );
 }

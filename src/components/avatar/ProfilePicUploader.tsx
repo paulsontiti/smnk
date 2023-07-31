@@ -8,6 +8,7 @@ import { updateUser } from "@/store/slices/userSlice";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { LoadingButton } from "@mui/lab";
 import UploadBottomNavigation from "../bottomNavigation/UploadBottomNavigation";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 function ProfilePicUploader() {
   const { _id } = useSelector((state: RootState) => state.users.user);
@@ -60,43 +61,47 @@ function ProfilePicUploader() {
         dispatch(updateUser());
       }
     } catch (err: any) {
+      setUploading(false);
+      alert("An error occured, please try again");
       console.log(err);
       return false;
     }
   };
 
   return (
-    <form onSubmit={submitHandler} encType="multipart/form-data">
-      <IconButton type="submit">
-        {file && (
-          <>
-            <Avatar
-              src={displayFile}
-              alt="image to upload"
-              sx={{ width: 80, height: 80 }}
-            />
-            {uploading ? (
-              <LoadingButton
-                loading={uploading}
-                loadingPosition="start"
-              ></LoadingButton>
-            ) : (
-              <UploadBottomNavigation label="Upload" />
-            )}
-          </>
-        )}
-      </IconButton>
-      <IconButton aria-label="upload picture" component="label">
-        <input
-          name="profilePic"
-          onChange={handleChange}
-          hidden
-          accept="image"
-          type="file"
-        />
-        {!file && <AddAPhotoIcon sx={{ color: theme.smnk[1200] }} />}
-      </IconButton>
-    </form>
+    <SmnkErrorBoundary>
+      <form onSubmit={submitHandler} encType="multipart/form-data">
+        <IconButton type="submit">
+          {file && (
+            <>
+              <Avatar
+                src={displayFile}
+                alt="image to upload"
+                sx={{ width: 80, height: 80 }}
+              />
+              {uploading ? (
+                <LoadingButton
+                  loading={uploading}
+                  loadingPosition="start"
+                ></LoadingButton>
+              ) : (
+                <UploadBottomNavigation label="Upload" />
+              )}
+            </>
+          )}
+        </IconButton>
+        <IconButton aria-label="upload picture" component="label">
+          <input
+            name="profilePic"
+            onChange={handleChange}
+            hidden
+            accept="image"
+            type="file"
+          />
+          {!file && <AddAPhotoIcon sx={{ color: theme.smnk[1200] }} />}
+        </IconButton>
+      </form>
+    </SmnkErrorBoundary>
   );
 }
 

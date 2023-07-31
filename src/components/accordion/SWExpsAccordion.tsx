@@ -1,47 +1,39 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Typography,
-  } from "@mui/material";
-  import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-  import React from "react";
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React from "react";
 import { Badge } from "@mui/material";
 import SWExpAccordion from "./SWExpAccordion";
-  
-  function SWExpsAccordion({
-   exps
-  }: {
-   exps:any[]
-  }) {
+import { SmnkErrorBoundary } from "@/pages/_app";
 
-
-    return (
+function SWExpsAccordion({ exps }: { exps: any[] }) {
+  if (!exps) return <p></p>;
+  return (
+    <SmnkErrorBoundary>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-         <Badge
-                badgeContent={exps.length} color="primary"
-                  
-              >
-                <Typography variant="caption" sx={{fontWeight:'bold'}} >
-                  Experiences
-                </Typography>
-              </Badge>
+          <Badge badgeContent={exps.length} color="primary">
+            <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+              Experiences
+            </Typography>
+          </Badge>
         </AccordionSummary>
         <AccordionDetails>
-          {
-            exps.map((exp:any,i:number)=>(
-               <SWExpAccordion exp={exp} key={i}/>
-            ))
-          }
+          {exps.map((exp: any, i: number) => (
+            <SWExpAccordion exp={exp} key={i} />
+          ))}
         </AccordionDetails>
       </Accordion>
-    );
-  }
-  
-  export default SWExpsAccordion;
-  
+    </SmnkErrorBoundary>
+  );
+}
+
+export default SWExpsAccordion;

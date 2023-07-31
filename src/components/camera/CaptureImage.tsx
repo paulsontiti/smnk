@@ -14,6 +14,7 @@ import { updateUser } from "@/store/slices/userSlice";
 import SuccessAlert from "../alerts/Success";
 import InfoAlert from "../alerts/Info";
 import { BlackImage } from "../avatar/DashboardDp";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 const videoConstraints = {
   width: 250,
@@ -82,83 +83,91 @@ export default function CaptureCameraImage() {
         }
       }
     } catch (err: any) {
+      setUploading(false);
+      setMsg("An Error occured, please refresh the page and try again");
+      setColor("error");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
+
       console.log(err);
       return false;
     }
   };
 
   return (
-    <Box
-      flexDirection={"column"}
-      display={"flex"}
-      alignItems={"center"}
-      justifyContent={"center"}
-      mt={2}
-      mb={5}
-    >
-      {kycVerified ? (
-        <SuccessAlert message="Your Face verification is successfull" />
-      ) : (
-        <>
-          {capturedPhotoUrl && (
-            <Box
-              mb={2}
-              display={"flex"}
-              alignItems={"center"}
-              justifyContent={"center"}
-              flexDirection={"column"}
-            >
-              <BlackImage
-                src={capturedPhotoUrl}
-                width={250}
-                height={250}
-                alt="ID Card Upload"
-              />
-              <InfoAlert message="Face verification in progress...." />
-            </Box>
-          )}
-          <Webcam
-            audio={false}
-            height={250}
-            ref={webcamRef}
-            width={"98%"}
-            screenshotFormat="image/jpeg"
-            videoConstraints={videoConstraints}
-          />
-          <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-          <CaptureBottomNavigation
-            label={capturedPhotoUrl ? "Take a new shot" : "Capture"}
-            handleClick={capturePhoto}
-          />
-          {url && (
-            <Container
-              sx={{
-                mt: "1rem",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Typography mb={5}>Captured Photo Preview</Typography>
-              <BlackImage
-                src={url}
-                width={250}
-                height={250}
-                alt="verification capture"
-              />
-              <DeleteUploadImageBottomNavigation
-                deleteHandleClick={() => {
-                  setUrl("");
+    <SmnkErrorBoundary>
+      <Box
+        flexDirection={"column"}
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        mt={2}
+        mb={5}
+      >
+        {kycVerified ? (
+          <SuccessAlert message="Your Face verification is successfull" />
+        ) : (
+          <>
+            {capturedPhotoUrl && (
+              <Box
+                mb={2}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+              >
+                <BlackImage
+                  src={capturedPhotoUrl}
+                  width={250}
+                  height={250}
+                  alt="ID Card Upload"
+                />
+                <InfoAlert message="Face verification in progress...." />
+              </Box>
+            )}
+            <Webcam
+              audio={false}
+              height={250}
+              ref={webcamRef}
+              width={"98%"}
+              screenshotFormat="image/jpeg"
+              videoConstraints={videoConstraints}
+            />
+            <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
+            <CaptureBottomNavigation
+              label={capturedPhotoUrl ? "Take a new shot" : "Capture"}
+              handleClick={capturePhoto}
+            />
+            {url && (
+              <Container
+                sx={{
+                  mt: "1rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
                 }}
-                uploadHandleClick={uploadPhotoHandler}
-                uploading={uploading}
-              />
-            </Container>
-          )}
-        </>
-      )}
-      {}
-    </Box>
+              >
+                <Typography mb={5}>Captured Photo Preview</Typography>
+                <BlackImage
+                  src={url}
+                  width={250}
+                  height={250}
+                  alt="verification capture"
+                />
+                <DeleteUploadImageBottomNavigation
+                  deleteHandleClick={() => {
+                    setUrl("");
+                  }}
+                  uploadHandleClick={uploadPhotoHandler}
+                  uploading={uploading}
+                />
+              </Container>
+            )}
+          </>
+        )}
+        {}
+      </Box>
+    </SmnkErrorBoundary>
   );
 }
