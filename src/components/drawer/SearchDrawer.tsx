@@ -143,7 +143,7 @@ export default function SearchDrawer({
               }
             }
           }}
-          options={searchOptions.sort(
+          options={getSearchOptions(searchOptions).sort(
             (a: any, b: any) => -b.firstLetter.localeCompare(a.firstLetter)
           )}
           groupBy={(option: any) => option.firstLetter}
