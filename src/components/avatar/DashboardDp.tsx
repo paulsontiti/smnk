@@ -43,8 +43,8 @@ export function BlackImage({
   alt,
 }: {
   src: string;
-  width: any;
-  height: any;
+  width: number;
+  height: number;
   alt: string;
 }) {
   const [imgLoadComplete, setImgLoadComplete] = useState(false);

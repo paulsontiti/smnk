@@ -4,6 +4,7 @@ import { getUserDp, getUserInfo, getUserProfile } from "@/lib/utils/user";
 import { useRouter } from "next/router";
 import BackToChatRoomFloatingActionButtons from "../fab/BackToChatRoomFloatingActionButtons";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { BlackAvatar } from "../avatar/DashboardDp";
 
 function ChatHeader({
   receiverId,
@@ -54,12 +55,13 @@ function ChatHeader({
           p={2}
         >
           <Box display={"flex"} alignItems={"center"}>
-            {" "}
-            {senderDp ? (
-              <Avatar src={`/api/multer/profile-pic/${senderDp}`} />
-            ) : (
-              <Avatar />
-            )}
+            <BlackAvatar
+              src={`/api/multer/profile-pic/${senderDp}`}
+              alt="dp"
+              width={70}
+              height={70}
+            />
+
             {name && (
               <Typography sx={{ ml: "1rem", textTransform: "capitalize" }}>
                 {name}
