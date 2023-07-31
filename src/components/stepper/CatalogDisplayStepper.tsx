@@ -38,7 +38,7 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
   if (!catalog) return <p></p>;
   return (
     <SmnkErrorBoundary>
-      <Box minWidth={"100%"} maxWidth={{ xs: 300, md: "100%" }}>
+      <Box minWidth={"100%"} maxWidth={"100%"}>
         <Typography color="primary" fontWeight={"bold"} mt={5}>
           Catalog:
         </Typography>
