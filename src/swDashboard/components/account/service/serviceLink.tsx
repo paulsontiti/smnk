@@ -11,8 +11,7 @@ import { theme } from "@/pages/_app";
 export default function ServiceLink() {
   const router = useRouter();
   const { swExtra } = useSelector((state: RootState) => state.swExtra);
-  console.log(swExtra.services);
-  if (swExtra.services === undefined)
+  if (swExtra.services.length < 1)
     return (
       <ListItemButton
         sx={{ ml: 0 }}
