@@ -19,6 +19,8 @@ export default async function handler(req:any,res:any){
                         res.status(201).json(profile)
                     }
                     
+                 }else{
+                    res.status(201).json(null)
                  }
                 }catch(err:any){
                     res.status(400).json({message:err.message})
