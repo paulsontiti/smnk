@@ -10,6 +10,7 @@ export default async function handler(req:any,res:any){
         if(userId){
                 try{
                     const user = await User.findById(userId)
+                 if(user){
                     if(user.typeClass === 'individual'){
                         const profile = await IndividualPersonalInfo.findOne({userId})
                         res.status(201).json(profile)
@@ -18,6 +19,7 @@ export default async function handler(req:any,res:any){
                         res.status(201).json(profile)
                     }
                     
+                 }
                 }catch(err:any){
                     res.status(400).json({message:err.message})
                 }
