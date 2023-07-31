@@ -1,4 +1,4 @@
-import SWDetailsDashboardCard from "@/components/card/SWDetailsDashboardCard";
+import SWDetailsNoCollapse from "@/components/card/SWDetailsNoCollapse";
 import Layout from "@/components/dashboard/layout";
 import { RootState } from "@/store";
 import { useRouter } from "next/router";
@@ -16,7 +16,7 @@ export default function Dashboard() {
   return (
     <>
       <Layout>
-        <SWDetailsDashboardCard userId={_id} />
+        <SWDetailsNoCollapse userId={_id} />
       </Layout>
     </>
   );

@@ -111,6 +111,8 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
       : [];
   if (userDetails === undefined || userProfile === undefined)
     return <LoadingAlert />;
+  console.log(userDetails, "user Details");
+  console.log(userProfile, "user Profile");
   return (
     <SmnkErrorBoundary>
       <Box
