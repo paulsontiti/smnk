@@ -91,9 +91,9 @@ export default function SearchDrawer({
   React.useEffect(() => {
     (async () => {
       const data = await searchOptionsList(searchOption);
-      console.log(data, "data");
+      console.log(data.flat(), "data");
       if (data) {
-        setSearchoptions(createSetFromArray(data));
+        setSearchoptions(createSetFromArray(data.flat()));
       }
     })();
   }, [searchOption]);
@@ -143,7 +143,7 @@ export default function SearchDrawer({
               }
             }
           }}
-          options={getSearchOptions(searchOptions).sort(
+          options={searchOptions.sort(
             (a: any, b: any) => -b.firstLetter.localeCompare(a.firstLetter)
           )}
           groupBy={(option: any) => option.firstLetter}
