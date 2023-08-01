@@ -95,6 +95,7 @@ export const theme = createTheme({
 });
 const logError = async (error: Error, info: { componentStack: string }) => {
   // Do something with the error, e.g. log to an external API
+  console.log(error);
   try {
     const res = await axios({
       method: "POST",
