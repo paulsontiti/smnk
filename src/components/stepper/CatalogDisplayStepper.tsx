@@ -35,7 +35,8 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };
-  if (!catalog) return <p></p>;
+  if (!catalog || (Array.isArray(catalog) && catalog.length === 0))
+    return <p></p>;
   return (
     <SmnkErrorBoundary>
       <Box minWidth={"100%"} maxWidth={"100%"}>

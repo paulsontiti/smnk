@@ -255,7 +255,7 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
         <Divider />
         {userDetails &&
           userDetails.swExtras &&
-          userDetails.swExtras.catalog && (
+          Array.isArray(userDetails.swExtras.catalog) && (
             <Box p={2} bgcolor={"white"} maxWidth={{ xs: "100%", md: "100%" }}>
               <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
             </Box>
