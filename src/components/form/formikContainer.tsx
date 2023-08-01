@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Backdrop,
-  Button,
-  CircularProgress,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 import { Form, Formik } from "formik";
 import FormControl from "./formControl";
 import { FormParams, getOptions } from "@/lib/form";
@@ -105,15 +99,7 @@ function FormikContainer({
               {path === "/account/login" && (
                 <Link href="/account/forgotpassword">forgot password?</Link>
               )}
-              <Backdrop
-                sx={{
-                  color: "#fff",
-                  zIndex: (theme) => theme.zIndex.drawer + 1,
-                }}
-                open={loading || isSubmitting || isValidating}
-              >
-                <CircularProgress color="inherit" />
-              </Backdrop>
+
               {/* <pre>{JSON.stringify(values, null, 4)}</pre>
             <pre>{JSON.stringify(errors, null, 4)}</pre> */}
             </Form>

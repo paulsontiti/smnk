@@ -4,6 +4,7 @@ import ChatNotification from "../chat/ChatNotification";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import DashBoardNotification from "../dashboard/DashBoardNotification";
+import { AppBarLogo } from "./HomeLogoutAppBar";
 
 export default function DesktopDashboardAppBar() {
   const router = useRouter();
@@ -24,18 +25,7 @@ export default function DesktopDashboardAppBar() {
             alignItems={"center"}
             justifyContent={"flex-start"}
           >
-            <Box pt={2}>
-              <Image
-                alt="SMNK Nig Ltd"
-                src="/assets/smnk_logo.jpg"
-                width={70}
-                height={70}
-                style={{ marginRight: ".5rem" }}
-                onClick={() => {
-                  router.push("/");
-                }}
-              />
-            </Box>
+            <AppBarLogo />
           </Grid>
           <Grid
             item

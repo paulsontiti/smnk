@@ -1,5 +1,5 @@
 "use client";
-
+import { Backdrop, CircularProgress } from "@mui/material";
 import { ErrorBoundary } from "react-error-boundary";
 import Providers from "@/store/provider";
 import "@/styles/globals.css";
@@ -13,6 +13,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme } from "@mui/material/styles";
 import ErrorAlert from "@/components/alerts/Error";
 import { Skeleton } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useEffect } from "react";
+import { log } from "console";
+import axios from "axios";
 declare module "@mui/material/styles" {
   interface Theme {
     smnk: {
@@ -88,14 +93,21 @@ export const theme = createTheme({
     },
   },
 });
-const logError = (error: Error, info: { componentStack: string }) => {
+const logError = async (error: Error, info: { componentStack: string }) => {
   // Do something with the error, e.g. log to an external API
-  console.log(error);
+  try {
+    const res = await axios({
+      method: "POST",
+      url: `${process.env.SMNK_URL}/api/error`,
+      data: { msg: error.toString(), info },
+    });
+    const data = await res.data;
+  } catch (err) {}
 };
 function fallbackRender({ error, resetErrorBoundary }: any) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
   //resetErrorBoundary();
-  return <Skeleton animation="wave" />;
+  return <ErrorAlert message="An Error occured" />;
 }
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -105,6 +117,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Providers>
+        <SmnkBackDrop />
         <Component {...pageProps} />
       </Providers>
     </>
@@ -116,5 +129,20 @@ export function SmnkErrorBoundary({ children }: any) {
     <ErrorBoundary fallbackRender={fallbackRender} onError={logError}>
       {children}
     </ErrorBoundary>
+  );
+}
+
+function SmnkBackDrop() {
+  const { pageLoading } = useSelector((state: RootState) => state.users);
+  return (
+    <Backdrop
+      sx={{
+        color: "#fff",
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+      }}
+      open={pageLoading}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
   );
 }

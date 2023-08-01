@@ -1,11 +1,13 @@
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
-import LoginIcon from "@mui/icons-material/Login";
 import { theme } from "@/pages/_app";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { updatePageLoading } from "@/store/slices/userSlice";
 
 export default function LoginButton() {
   const router = useRouter();
-
+  const dispatch = useDispatch<AppDispatch>();
   return (
     <Button
       sx={{
@@ -16,6 +18,7 @@ export default function LoginButton() {
       variant="outlined"
       size="small"
       onClick={() => {
+        dispatch(updatePageLoading(true));
         router.push("/account/login");
       }}
     >

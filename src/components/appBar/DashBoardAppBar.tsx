@@ -7,13 +7,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import ChatNotification from "../chat/ChatNotification";
 import { useRouter } from "next/router";
-import Notification from "../dashboard/Notification";
 import DP from "../dashboard/dp";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
-import { MenuBarLogo } from "../home/navbar/navBarDrawer";
-import { AppBarLogo } from "./HomeLogoutAppBar";
 import DashBoardNotification from "../dashboard/DashBoardNotification";
+import { AppBarLogo } from "./HomeLogoutAppBar";
 
 export default function DashBoardAppBar() {
   //retrive user from redux state
@@ -56,18 +54,7 @@ export default function DashBoardAppBar() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Box pt={2}>
-              <Image
-                alt="SMNK Nig Ltd"
-                src="/assets/smnk_logo.jpg"
-                width={70}
-                height={70}
-                style={{ marginRight: ".5rem" }}
-                onClick={() => {
-                  router.push("/");
-                }}
-              />
-            </Box>
+            <AppBarLogo />
           </Grid>
           <Grid
             item

@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import SearchDrawer from "../drawer/SearchDrawer";
 import axios from "axios";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 export default function Footer() {
   const [color, setColor] = React.useState<ColorPaletteProp>("primary");
@@ -59,294 +60,297 @@ export default function Footer() {
     })();
   }, []);
   return (
-    <Sheet
-      variant="solid"
-      invertedColors
-      sx={{
-        bgcolor: "#E08300",
-        color: "black",
-        flexGrow: 1,
-        p: 2,
-        mx: -3,
-        my: -3,
-        borderRadius: { xs: 0, sm: "xs" },
-        margin: "3rem 0 0 0",
-      }}
-    >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 0 }}>
-        <Image
-          alt="SMNK Nig Ltd"
-          src="/assets/smnk.png"
-          width={50}
-          height={50}
-          style={{ marginRight: ".5rem" }}
-          onClick={() => {
-            router.push("/");
-          }}
-        />
+    <SmnkErrorBoundary>
+      <Sheet
+        variant="solid"
+        invertedColors
+        sx={{
+          bgcolor: "#E08300",
+          color: "black",
+          flexGrow: 1,
+          p: 2,
+          mx: -3,
+          my: -3,
+          borderRadius: { xs: 0, sm: "xs" },
+          margin: "3rem 0 0 0",
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0 }}>
+          <Image
+            alt="SMNK Nig Ltd"
+            src="/assets/smnk.png"
+            width={50}
+            height={50}
+            style={{ marginRight: ".5rem" }}
+            onClick={() => {
+              router.push("/");
+            }}
+          />
 
-        <Divider orientation="vertical" sx={{ bgcolor: "black" }} />
-        <IconButton
-          variant="plain"
-          sx={{ color: "black" }}
-          onClick={() => {
-            window.location.href = "https://www.facebook.com/smnkLTD";
-          }}
-        >
-          <FacebookRoundedIcon />
-        </IconButton>
-        <IconButton
-          variant="plain"
-          sx={{ color: "black" }}
-          onClick={() => {
-            window.location.href =
-              "https://twitter.com/SMNKservicehub?t=15Dcj5Anh9NyTQnAw8f6fA&s=08";
-          }}
-        >
-          <TwitterIcon />
-        </IconButton>
-        <IconButton
-          variant="plain"
-          sx={{ color: "black" }}
-          onClick={() => {
-            window.location.href = "https://www.instagram.com/smnkservicehub/";
-          }}
-        >
-          <InstagramIcon />
-        </IconButton>
-        {/* <IconButton variant="plain">
+          <Divider orientation="vertical" sx={{ bgcolor: "black" }} />
+          <IconButton
+            variant="plain"
+            sx={{ color: "black" }}
+            onClick={() => {
+              window.location.href = "https://www.facebook.com/smnkLTD";
+            }}
+          >
+            <FacebookRoundedIcon />
+          </IconButton>
+          <IconButton
+            variant="plain"
+            sx={{ color: "black" }}
+            onClick={() => {
+              window.location.href =
+                "https://twitter.com/SMNKservicehub?t=15Dcj5Anh9NyTQnAw8f6fA&s=08";
+            }}
+          >
+            <TwitterIcon />
+          </IconButton>
+          <IconButton
+            variant="plain"
+            sx={{ color: "black" }}
+            onClick={() => {
+              window.location.href =
+                "https://www.instagram.com/smnkservicehub/";
+            }}
+          >
+            <InstagramIcon />
+          </IconButton>
+          {/* <IconButton variant="plain">
           <WhatsAppIcon />
         </IconButton> */}
-        <IconButton
-          variant="plain"
-          sx={{ color: "black" }}
-          onClick={() => {
-            window.location.href =
-              "https://www.linkedin.com/company/smnk-limited-nigeria/";
-          }}
-        >
-          <LinkedInIcon />
-        </IconButton>
-      </Box>
-      <Divider sx={{ my: 2 }} />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          alignItems: { md: "flex-start" },
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 2,
-        }}
-      >
-        <Card
-          variant="soft"
-          size="sm"
-          sx={{
-            flexDirection: { xs: "row", md: "column" },
-            minWidth: { xs: "100%", md: "auto" },
-            gap: 1,
-          }}
-        >
-          <CardContent>
-            <Typography
-              level="body1"
-              sx={{
-                color: "black",
-                fontWeight: "bold",
-              }}
-            >
-              Contact Details:
-            </Typography>
-            <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
-              Office address: No 2 Lucky Nwagwu street, Lugbe, Abuja
-            </Typography>
-            <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
-              Email: info@smnklimited.com
-            </Typography>
-            <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
-              Phone: 09048164462
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <List
-          size="sm"
-          orientation="horizontal"
-          wrap
-          sx={{ flexGrow: 0, "--ListItem-radius": "8px" }}
-        >
-          <ListItem nested sx={{ width: { xs: "50%", md: 140 } }}>
-            {/* <ListSubheader sx={{ color: "black" }}>Quick Links</ListSubheader> */}
-            <List>
-              <ListItem>
-                <ListItemButton
-                  onClick={() => {
-                    router.push("/about-us");
-                  }}
-                >
-                  <Typography level="body2" sx={{ color: "black" }}>
-                    About SMNK
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton
-                  onClick={() => {
-                    router.push("/vision");
-                  }}
-                >
-                  <Typography level="body2" sx={{ color: "black" }}>
-                    Our Vision
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton
-                  onClick={() => {
-                    router.push("/mission");
-                  }}
-                >
-                  <Typography level="body2" sx={{ color: "black" }}>
-                    Our Mission
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton
-                  onClick={() => {
-                    router.push("/purpose");
-                  }}
-                >
-                  <Typography level="body2" sx={{ color: "black" }}>
-                    Our Purpose
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton
-                  onClick={() => {
-                    router.push("/team");
-                  }}
-                >
-                  <Typography level="body2" sx={{ color: "black" }}>
-                    Our Team
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </ListItem>
-          <ListItem nested sx={{ width: { xs: "50%", md: 140 } }}>
-            <ListSubheader
-              sx={{ color: "black", fontSize: "1rem", fontWeight: "bold" }}
-            >
-              Quick Links
-            </ListSubheader>
-            <List>
-              <ListItem>
-                <ListItemButton
-                  onClick={() => {
-                    router.push("/services");
-                  }}
-                >
-                  <Typography level="body2" sx={{ color: "black" }}>
-                    Services
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
-              {/* <ListItem>
-                <ListItemButton>Blog</ListItemButton>
-              </ListItem> */}
-              <ListItem>
-                <ListItemButton
-                  onClick={() => {
-                    router.push("/jobs");
-                  }}
-                >
-                  <Typography level="body2" sx={{ color: "black" }}>
-                    Jobs
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton
-                  onClick={() => {
-                    router.push("/we-are-the-best");
-                  }}
-                >
-                  <Typography level="body2" sx={{ color: "black" }}>
-                    Why you should choose SMNK
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton
-                  onClick={() => {
-                    router.push("/how-to-find-artisans");
-                  }}
-                >
-                  <Typography level="body2" sx={{ color: "black" }}>
-                    How to find Professionals/Artisans
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </ListItem>
-        </List>
-      </Box>
-      <Divider sx={{ my: 2, color: "black" }} />
-      <Box
-        sx={{
-          display: "flex",
-          //flexDirection: { xs: "column", md: "row" },
-          alignItems: "center",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          gap: 2,
-        }}
-      >
-        <Typography
-          level="body2"
-          sx={{ color: "black" }}
-        >{`Services(${totalNumberOfServices})`}</Typography>
-        <Typography
-          level="body2"
-          sx={{ color: "black" }}
-        >{`Jobs(${totalNumberOfJobs})`}</Typography>
-        <Typography
-          level="body2"
-          sx={{ color: "black" }}
-        >{`Professionals(${totalNumberOfProfessionals})`}</Typography>
-        <Typography
-          level="body2"
-          sx={{ color: "black" }}
-        >{`Clients(${totalNumberOfClients})`}</Typography>
-      </Box>
-      <Divider sx={{ my: 2 }} />
-      <Box>
-        <Typography
-          level="body2"
-          sx={{ color: "black" }}
-          startDecorator={
-            <Typography textColor="text.tertiary" sx={{ color: "black" }}>
-              Powered & Sponsored by
-            </Typography>
-          }
-        >
-          SMNK Nig Ltd
-        </Typography>
+          <IconButton
+            variant="plain"
+            sx={{ color: "black" }}
+            onClick={() => {
+              window.location.href =
+                "https://www.linkedin.com/company/smnk-limited-nigeria/";
+            }}
+          >
+            <LinkedInIcon />
+          </IconButton>
+        </Box>
         <Divider sx={{ my: 2 }} />
         <Box
-          display={"flex"}
-          alignItems={"center"}
-          justifyContent={"space-between"}
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: { md: "flex-start" },
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 2,
+          }}
         >
-          <Typography level="body3" sx={{ ml: "irem", color: "black" }}>
-            Copyright {new Date().getFullYear()}
-          </Typography>
-          {_id && <LogoutSwitch />}
+          <Card
+            variant="soft"
+            size="sm"
+            sx={{
+              flexDirection: { xs: "row", md: "column" },
+              minWidth: { xs: "100%", md: "auto" },
+              gap: 1,
+            }}
+          >
+            <CardContent>
+              <Typography
+                level="body1"
+                sx={{
+                  color: "black",
+                  fontWeight: "bold",
+                }}
+              >
+                Contact Details:
+              </Typography>
+              <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
+                Office address: No 2 Lucky Nwagwu street, Lugbe, Abuja
+              </Typography>
+              <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
+                Email: info@smnklimited.com
+              </Typography>
+              <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
+                Phone: 09048164462
+              </Typography>
+            </CardContent>
+          </Card>
+
+          <List
+            size="sm"
+            orientation="horizontal"
+            wrap
+            sx={{ flexGrow: 0, "--ListItem-radius": "8px" }}
+          >
+            <ListItem nested sx={{ width: { xs: "50%", md: 140 } }}>
+              {/* <ListSubheader sx={{ color: "black" }}>Quick Links</ListSubheader> */}
+              <List>
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/about-us");
+                    }}
+                  >
+                    <Typography level="body2" sx={{ color: "black" }}>
+                      About SMNK
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/vision");
+                    }}
+                  >
+                    <Typography level="body2" sx={{ color: "black" }}>
+                      Our Vision
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/mission");
+                    }}
+                  >
+                    <Typography level="body2" sx={{ color: "black" }}>
+                      Our Mission
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/purpose");
+                    }}
+                  >
+                    <Typography level="body2" sx={{ color: "black" }}>
+                      Our Purpose
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/team");
+                    }}
+                  >
+                    <Typography level="body2" sx={{ color: "black" }}>
+                      Our Team
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </ListItem>
+            <ListItem nested sx={{ width: { xs: "50%", md: 140 } }}>
+              <ListSubheader
+                sx={{ color: "black", fontSize: "1rem", fontWeight: "bold" }}
+              >
+                Quick Links
+              </ListSubheader>
+              <List>
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/services");
+                    }}
+                  >
+                    <Typography level="body2" sx={{ color: "black" }}>
+                      Services
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+                {/* <ListItem>
+                <ListItemButton>Blog</ListItemButton>
+              </ListItem> */}
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/jobs");
+                    }}
+                  >
+                    <Typography level="body2" sx={{ color: "black" }}>
+                      Jobs
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/we-are-the-best");
+                    }}
+                  >
+                    <Typography level="body2" sx={{ color: "black" }}>
+                      Why you should choose SMNK
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push("/how-to-find-artisans");
+                    }}
+                  >
+                    <Typography level="body2" sx={{ color: "black" }}>
+                      How to find Professionals/Artisans
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </ListItem>
+          </List>
         </Box>
-      </Box>
-    </Sheet>
+        <Divider sx={{ my: 2, color: "black" }} />
+        <Box
+          sx={{
+            display: "flex",
+            //flexDirection: { xs: "column", md: "row" },
+            alignItems: "center",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: 2,
+          }}
+        >
+          <Typography
+            level="body2"
+            sx={{ color: "black" }}
+          >{`Services(${totalNumberOfServices})`}</Typography>
+          <Typography
+            level="body2"
+            sx={{ color: "black" }}
+          >{`Jobs(${totalNumberOfJobs})`}</Typography>
+          <Typography
+            level="body2"
+            sx={{ color: "black" }}
+          >{`Professionals(${totalNumberOfProfessionals})`}</Typography>
+          <Typography
+            level="body2"
+            sx={{ color: "black" }}
+          >{`Clients(${totalNumberOfClients})`}</Typography>
+        </Box>
+        <Divider sx={{ my: 2 }} />
+        <Box>
+          <Typography
+            level="body2"
+            sx={{ color: "black" }}
+            startDecorator={
+              <Typography textColor="text.tertiary" sx={{ color: "black" }}>
+                Powered & Sponsored by
+              </Typography>
+            }
+          >
+            SMNK Nig Ltd
+          </Typography>
+          <Divider sx={{ my: 2 }} />
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+          >
+            <Typography level="body3" sx={{ ml: "irem", color: "black" }}>
+              Copyright {new Date().getFullYear()}
+            </Typography>
+            {_id && <LogoutSwitch />}
+          </Box>
+        </Box>
+      </Sheet>
+    </SmnkErrorBoundary>
   );
 }

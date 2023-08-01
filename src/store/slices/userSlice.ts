@@ -94,8 +94,9 @@ export const changePasswordWithPhone = createAsyncThunk(
 
 const initialState = {
   user: userJSON() ? userJSON() : ({} as User),
-  loading: false,
+  pageLoading: false,
   response: "",
+  loading:false,
   successful: false,
 };
 const userSlice = createSlice({
@@ -114,6 +115,9 @@ const userSlice = createSlice({
     updateState: (state) => {
       state.successful = false;
       state.response = "";
+    },
+    updatePageLoading: (state,action) => {
+      state.pageLoading = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -175,6 +179,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout, updateUser, updateState } = userSlice.actions;
+export const { logout, updateUser, updateState,updatePageLoading } = userSlice.actions;
 
 export default userSlice.reducer;

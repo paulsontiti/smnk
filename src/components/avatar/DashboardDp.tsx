@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
 import Skeleton from "@mui/material/Skeleton";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import ProfilePicUploader from "./ProfilePicUploader";
 import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -27,12 +24,16 @@ export default function DashboardDp() {
         }
       }}
     >
-      <BlackAvatar
-        src={`/api/multer/profile-pic/${dpFileName}`}
-        width={50}
-        height={50}
-        alt="profile pic"
-      />
+      {dpFileName ? (
+        <BlackAvatar
+          src={`/api/multer/profile-pic/${dpFileName}`}
+          width={50}
+          height={50}
+          alt="profile pic"
+        />
+      ) : (
+        <Avatar />
+      )}
     </IconButton>
   );
 }

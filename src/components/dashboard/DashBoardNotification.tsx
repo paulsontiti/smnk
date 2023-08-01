@@ -3,10 +3,6 @@ import React from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import InfoAlert from "../alerts/Info";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Typography from "@mui/material/Typography";
 import { theme } from "@/pages/_app";
 
 function DashBoardNotification() {

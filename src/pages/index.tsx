@@ -5,18 +5,26 @@ import Head from "next/head";
 import ServiceCategories from "@/components/card/ServiceCategories";
 import { Typography, Box, Card, CardContent, IconButton } from "@mui/material";
 import ReactPlayer from "react-player";
-import Image from "next/image";
 
 //import { toast } from 'react-toastify';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Cancel } from "@mui/icons-material";
 import HomePageStepper from "@/components/stepper/HomePageStepper";
 import BlogStepper from "@/components/stepper/BlogStepper";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { updatePageLoading } from "@/store/slices/userSlice";
 
 export default function Home() {
   const [showVideo, setShowVideo] = useState("block");
   const [muted, setMuted] = useState(false);
-
+  const dispatch = useDispatch<AppDispatch>();
+  const { pageLoading } = useSelector((state: RootState) => state.users);
+  useEffect(() => {
+    if (pageLoading) {
+      dispatch(updatePageLoading(false));
+    }
+  }, [dispatch, pageLoading]);
   return (
     <Layout>
       <Head>
@@ -62,7 +70,7 @@ export default function Home() {
             width="100%"
             height="100%"
             muted={muted}
-            autoPlay={true}
+            // autoPlay={true}
             loop
             controls
             style={{ objectFit: "fill" }}

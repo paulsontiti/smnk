@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Grid } from "@mui/material";
 import { useRouter } from "next/router";
 import SearchBox from "../autoComplete/SearchBox";
-import { DpAndAccounts } from "./HomeLogoutAppBar";
+import { AppBarLogo, DpAndAccounts } from "./HomeLogoutAppBar";
 
 export default function DesktopHomeAppBar() {
   const router = useRouter();
@@ -20,16 +20,7 @@ export default function DesktopHomeAppBar() {
           alignItems={"center"}
           justifyContent={"flex-start"}
         >
-          <Image
-            alt="SMNK Nig Ltd"
-            src="/assets/smnk_logo.jpg"
-            width={70}
-            height={70}
-            style={{ marginRight: ".5rem" }}
-            onClick={() => {
-              router.push("/");
-            }}
-          />
+          <AppBarLogo />
         </Grid>
         <Grid
           item

@@ -43,10 +43,10 @@ function RecommendedJobs() {
         return err;
       }
     })();
-  }, [_id]);
+  }, [_id, onAJob, router]);
   if (error) return <ErrorAlert />;
   if (jobs === null) return <LoadingAlert />;
-  if (jobs && jobs.length === 0)
+  if (Array.isArray(jobs) && jobs.length === 0)
     return (
       <InfoAlert
         message=" No Recommended Jobs. Please Upgrade to a higher package or add your

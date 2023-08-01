@@ -4,6 +4,7 @@ import { RootState } from "@/store";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { SmnkErrorBoundary } from "../_app";
 
 export default function Dashboard() {
   const { _id } = useSelector((state: RootState) => state.users.user);
@@ -14,10 +15,10 @@ export default function Dashboard() {
     }
   });
   return (
-    <>
+    <SmnkErrorBoundary>
       <Layout>
         <SWDetailsNoCollapse userId={_id} />
       </Layout>
-    </>
+    </SmnkErrorBoundary>
   );
 }

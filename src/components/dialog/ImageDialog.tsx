@@ -11,6 +11,7 @@ import Image from "next/image";
 import { LoadingButton } from "@mui/lab";
 import SnackbarComponent from "../snackbar/SnackBar";
 import AdminChatAction from "./actions/AdminChatAction";
+import { SmnkErrorBoundary } from "@/pages/_app";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -100,7 +101,8 @@ const ImageDialog = React.forwardRef(
     };
 
     return (
-      <>
+     <SmnkErrorBoundary>
+       <>
         <SnackbarComponent msg={msg} color={color} ref={snackbarRef} />
         <BootstrapDialog
           onClose={handleClose}
@@ -129,6 +131,7 @@ const ImageDialog = React.forwardRef(
           </DialogActions>
         </BootstrapDialog>
       </>
+     </SmnkErrorBoundary>
     );
   }
 );
