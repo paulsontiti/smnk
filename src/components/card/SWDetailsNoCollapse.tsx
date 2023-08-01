@@ -97,7 +97,7 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
       : [];
   const skills = () => {
     const skillsArray: string[] = [];
-    if (services.length > 0) {
+    if (services && services.length > 0) {
       services.map((service: any) => {
         service.skills.map((skill: string) => {
           skillsArray.push(skill);
