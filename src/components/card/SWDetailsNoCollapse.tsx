@@ -72,25 +72,25 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
     userDetails.user.verification &&
     userDetails.user.verification.kycVeried;
 
-  const serviceTitle = () => {
-    if (
-      userDetails &&
-      userDetails.swExtras &&
-      userDetails.swExtras.services &&
-      userDetails.swExtras.services[0]
-    ) {
-      if (userDetails.swExtras.services[1]) {
-        return (
-          userDetails.swExtras.services[0].title +
-          "," +
-          userDetails.swExtras.services[1].title
-        );
-      } else {
-        return userDetails.swExtras.services[0].title;
-      }
-    }
-    return "";
-  };
+  // const serviceTitle = () => {
+  //   if (
+  //     userDetails &&
+  //     userDetails.swExtras &&
+  //     userDetails.swExtras.services &&
+  //     userDetails.swExtras.services[0]
+  //   ) {
+  //     if (userDetails.swExtras.services[1]) {
+  //       return (
+  //         userDetails.swExtras.services[0].title +
+  //         "," +
+  //         userDetails.swExtras.services[1].title
+  //       );
+  //     } else {
+  //       return userDetails.swExtras.services[0].title;
+  //     }
+  //   }
+  //   return "";
+  // };
   const services =
     userDetails && userDetails.swExtras && userDetails.swExtras.services
       ? userDetails.swExtras.services
@@ -166,12 +166,12 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
               </Box>
             </>
           }
-          subheader={
-            <SubHeader
-              userProfile={userProfile}
-              serviceTitle={serviceTitle()}
-            />
-          }
+          // subheader={
+          //   <SubHeader
+          //     userProfile={userProfile}
+          //     serviceTitle={serviceTitle()}
+          //   />
+          // }
         />
 
         <UserDetailsBottomNavigation
@@ -206,13 +206,14 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
               Services:
             </Typography>
             <ul>
-              {services.map((service: any) => (
-                <li key={service.title}>
-                  <Typography textTransform={"capitalize"}>
-                    {service.category}
-                  </Typography>
-                </li>
-              ))}
+              {Array.isArray(services) &&
+                services.map((service: any) => (
+                  <li key={service && service.title}>
+                    <Typography textTransform={"capitalize"}>
+                      {service && service.category}
+                    </Typography>
+                  </li>
+                ))}
             </ul>
           </Box>
         )}
