@@ -23,9 +23,6 @@ function RecommendedJobs() {
   const [error, setError] = useState<any>(null);
   const router = useRouter();
   useEffect(() => {
-    if (onAJob) {
-      router.push("/dashboard/job/current");
-    }
     (async () => {
       try {
         if (_id) {
@@ -44,7 +41,7 @@ function RecommendedJobs() {
         return err;
       }
     })();
-  }, [_id, onAJob, router]);
+  }, [_id]);
   //if (error) return <ErrorAlert />;
   if (jobs === null) return <LoadingAlert />;
   if (Array.isArray(jobs) && jobs.length === 0)
