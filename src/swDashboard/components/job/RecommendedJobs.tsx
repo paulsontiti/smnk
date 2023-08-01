@@ -2,6 +2,7 @@ import SWJobDetailsAccordion from "@/components/accordion/SWJobDetailsAccordion"
 import ErrorAlert from "@/components/alerts/Error";
 import InfoAlert from "@/components/alerts/Info";
 import LoadingAlert from "@/components/alerts/Loading";
+import { SmnkErrorBoundary } from "@/pages/_app";
 import { RootState } from "@/store";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
@@ -55,16 +56,18 @@ function RecommendedJobs() {
     );
 
   return (
-    <Box>
-      <Typography
-        sx={{ margin: "1rem 1rem", fontWeight: "900" }}
-        variant="body2"
-      >
-        All Jobs
-      </Typography>
-      {Array.isArray(jobs) &&
-        jobs.map((job, i) => <SWJobDetailsAccordion key={i} job={job} />)}
-    </Box>
+    <SmnkErrorBoundary>
+      <Box>
+        <Typography
+          sx={{ margin: "1rem 1rem", fontWeight: "900" }}
+          variant="body2"
+        >
+          All Jobs
+        </Typography>
+        {Array.isArray(jobs) &&
+          jobs.map((job, i) => <SWJobDetailsAccordion key={i} job={job} />)}
+      </Box>
+    </SmnkErrorBoundary>
   );
 }
 
