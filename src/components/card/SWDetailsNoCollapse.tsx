@@ -72,25 +72,25 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
     userDetails.user.verification &&
     userDetails.user.verification.kycVeried;
 
-  // const serviceTitle = () => {
-  //   if (
-  //     userDetails &&
-  //     userDetails.swExtras &&
-  //     userDetails.swExtras.services &&
-  //     userDetails.swExtras.services[0]
-  //   ) {
-  //     if (userDetails.swExtras.services[1]) {
-  //       return (
-  //         userDetails.swExtras.services[0].title +
-  //         "," +
-  //         userDetails.swExtras.services[1].title
-  //       );
-  //     } else {
-  //       return userDetails.swExtras.services[0].title;
-  //     }
-  //   }
-  //   return "";
-  // };
+  const serviceTitle = () => {
+    if (
+      userDetails &&
+      userDetails.swExtras &&
+      userDetails.swExtras.services &&
+      userDetails.swExtras.services[0]
+    ) {
+      if (userDetails.swExtras.services[1]) {
+        return (
+          userDetails.swExtras.services[0].title +
+          "," +
+          userDetails.swExtras.services[1].title
+        );
+      } else {
+        return userDetails.swExtras.services[0].title;
+      }
+    }
+    return "";
+  };
   const services =
     userDetails && userDetails.swExtras && userDetails.swExtras.services
       ? userDetails.swExtras.services
