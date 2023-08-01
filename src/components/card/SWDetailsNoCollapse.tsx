@@ -199,7 +199,7 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
           </Box>
         )}
 
-        {services.length > 0 && (
+        {services && services.length > 0 && (
           <Box p={2}>
             {" "}
             <Typography color="primary" fontWeight={"bold"} mt={5}>
@@ -217,7 +217,7 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
           </Box>
         )}
         <Divider />
-        {skills().length > 0 && (
+        {skills() && skills().length > 0 && (
           <Box p={2}>
             {" "}
             <Typography color="primary" fontWeight={"bold"} mt={5}>
@@ -233,7 +233,7 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
           </Box>
         )}
         <Divider />
-        {experiences.length > 0 && (
+        {experiences && experiences.length > 0 && (
           <Box p={2}>
             <Typography color="primary" fontWeight={"bold"} mt={5}>
               Experiences:
