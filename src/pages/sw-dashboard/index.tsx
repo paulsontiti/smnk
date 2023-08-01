@@ -12,7 +12,9 @@ export default function Dashboard() {
 
   return (
     <SmnkErrorBoundary>
-      <Layout>{/* <SWDetailsNoCollapse userId={_id} /> */}</Layout>
+      <Layout>
+        <SWDetailsNoCollapse userId={_id} />
+      </Layout>
     </SmnkErrorBoundary>
   );
 }
