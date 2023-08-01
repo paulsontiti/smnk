@@ -17,7 +17,7 @@ export default function ExpLink() {
   useEffect(() => {
     setExp(swExtra.experience);
   }, [swExtra.experience]);
-  if (exp?.length === 0 || exp === undefined)
+  if ((exp && exp?.length === 0) || exp === undefined)
     return (
       <ListItemButton
         sx={{ ml: 0 }}
