@@ -23,9 +23,9 @@ function RecommendedJobs() {
   const [error, setError] = useState<any>(null);
   const router = useRouter();
   useEffect(() => {
-    // if (onAJob) {
-    //   router.push("/dashboard/job/current");
-    // }
+    if (onAJob) {
+      router.push("/dashboard/job/current");
+    }
     (async () => {
       try {
         if (_id) {
@@ -35,6 +35,9 @@ function RecommendedJobs() {
             data: { _id },
           });
           const data = await res.data;
+          if (data.message) {
+            setError(data.message);
+          }
           setJobs(data);
         } else {
           setError("invalid request");
@@ -44,8 +47,8 @@ function RecommendedJobs() {
         return err;
       }
     })();
-  }, [_id]);
-  if (error) return <ErrorAlert message={error.toString()} />;
+  }, [_id, onAJob, router]);
+  if (error) return <ErrorAlert message={error} />;
   if (jobs === null) return <LoadingAlert />;
   if (Array.isArray(jobs) && jobs.length === 0)
     return (
