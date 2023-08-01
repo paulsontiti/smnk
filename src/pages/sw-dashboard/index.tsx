@@ -9,11 +9,7 @@ import { SmnkErrorBoundary } from "../_app";
 export default function Dashboard() {
   const { _id } = useSelector((state: RootState) => state.users.user);
   const router = useRouter();
-  useEffect(() => {
-    if (!_id) {
-      router.push("/");
-    }
-  });
+
   return (
     <SmnkErrorBoundary>
       <Layout>
