@@ -43,8 +43,8 @@ export default function HowSMNKWorks() {
             >{`Let's Get You Started`}</Typography>
             <Typography>
               Start Your journey with SMNK by creating an account. You can
-              create an account as a Skilled Worker/Professional/Service
-              Provider Or as a Client/Employer/Customer
+              create an account as a Skilled Worker or Professional or Service
+              Provider Or as a Client or Employer or Customer
             </Typography>
             <CardActions
               sx={{
