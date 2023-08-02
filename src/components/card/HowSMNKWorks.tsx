@@ -11,6 +11,7 @@ export default function HowSMNKWorks() {
       {/*  */}
       <Box>
         <Box
+          p={1}
           mb={5}
           maxWidth={"100%"}
           minWidth={"100%"}
@@ -75,6 +76,7 @@ export default function HowSMNKWorks() {
       </Box>
       <Box>
         <Box
+          p={1}
           mb={5}
           maxWidth={"100%"}
           minWidth={"100%"}
@@ -99,7 +101,7 @@ export default function HowSMNKWorks() {
           </Box>
 
           <Box
-            p={2}
+            p={1}
             width={{ xs: "100%", sm: "50%" }}
             height={{ xs: "30%", sm: "100%" }}
           >
@@ -118,6 +120,7 @@ export default function HowSMNKWorks() {
 
       <Box>
         <Box
+          p={1}
           mb={5}
           maxWidth={"100%"}
           minWidth={"100%"}
@@ -163,6 +166,7 @@ export default function HowSMNKWorks() {
       </Box>
       <Box>
         <Box
+          p={1}
           mb={5}
           maxWidth={"100%"}
           minWidth={"100%"}
@@ -204,7 +208,7 @@ export default function HowSMNKWorks() {
       </Box>
       <Box>
         <Box
-          p={2}
+          p={1}
           mb={5}
           maxWidth={"100%"}
           minWidth={"100%"}
