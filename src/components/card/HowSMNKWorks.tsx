@@ -110,7 +110,7 @@ export default function HowSMNKWorks() {
             <Typography fontWeight={"bold"} mb={2}>{`Post A Job`}</Typography>
             <Typography>
               It is free and easy to post a job. You can simply choose your
-              identity,profile and budget and recommendations would come witing
+              identity, profile and budget and recommendations would come witing
               minutes.
             </Typography>
           </Box>
@@ -156,9 +156,10 @@ export default function HowSMNKWorks() {
               mb={2}
             >{`Choose A Professional`}</Typography>
             <Typography>
-              No discrimination on any job. We have got Professionals/Artisans
-              for jobs of any budget or size, across 1000+ skills. As long as
-              there is a job to be done, then there is an expert that can do it
+              No discrimination on any job. We have got Professionals or
+              Artisans for jobs of any budget or size, across 1000+ skills. As
+              long as there is a job to be done, then there is an expert that
+              can do it
             </Typography>
           </Box>
         </Box>
@@ -199,9 +200,9 @@ export default function HowSMNKWorks() {
             {" "}
             <Typography fontWeight={"bold"} mb={2}>{`Pay Safely`}</Typography>
             <Typography>
-              SMNK guarantees that only professionals/Skilled workers who have
-              completed their jobs satisfactorily will receive your money. Fell
-              free to pay through our milestone payment system.
+              SMNK guarantees that only professionals or Skilled workers who
+              have completed their jobs satisfactorily will receive your money.
+              Fell free to pay through our milestone payment system.
             </Typography>
           </Box>
         </Box>
