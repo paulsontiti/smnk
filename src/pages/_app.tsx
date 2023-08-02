@@ -12,11 +12,8 @@ import "@fontsource/roboto/700.css";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme } from "@mui/material/styles";
 import ErrorAlert from "@/components/alerts/Error";
-import { Skeleton } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { useEffect } from "react";
-import { log } from "console";
 import axios from "axios";
 declare module "@mui/material/styles" {
   interface Theme {
@@ -95,20 +92,18 @@ export const theme = createTheme({
 });
 const logError = async (error: Error, info: { componentStack: string }) => {
   // Do something with the error, e.g. log to an external API
-  console.log(error);
   try {
     const res = await axios({
       method: "POST",
       url: `${process.env.SMNK_URL}/api/error`,
       data: { msg: error.toString(), info },
     });
-    const data = await res.data;
   } catch (err) {}
 };
 function fallbackRender({ error, resetErrorBoundary }: any) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
   //resetErrorBoundary();
-  return <ErrorAlert message="An Error occured" />;
+  return <ErrorAlert message={error} />;
 }
 export default function App({ Component, pageProps }: AppProps) {
   return (
