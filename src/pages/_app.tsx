@@ -113,8 +113,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Providers>
-        <SmnkBackDrop />
-        <Component {...pageProps} />
+        <SmnkErrorBoundary>
+          <SmnkBackDrop />
+          <Component {...pageProps} />
+        </SmnkErrorBoundary>
       </Providers>
     </>
   );
