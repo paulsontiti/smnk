@@ -99,7 +99,7 @@ function AddFile() {
             }
           } catch (err: any) {
             setLoading(false);
-            setMsg("An error occurred ,please try again");
+            setMsg(err.message);
             setColor("error");
             const refState = snackBarRef.current as any;
             refState.handleClick();
