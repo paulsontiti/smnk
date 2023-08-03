@@ -14,21 +14,21 @@ const recommendedJobs = async (info: any, userId: string) => {
   const services = swExtra && swExtra.services;
  
   const servCat1 = services
-    ? (services[0].category
+    ? (services[0] && services[0].category
       ? services[0].category.toLowerCase()
       : "")
     : "";
   const servCat2 = services
-    ? services[1] &&
-      (services[1].category ? services[1].category.toLowerCase() : "")
+    ? (services[1] &&
+      services[1].category ? services[1].category.toLowerCase() : "")
     : "";
   const servTitle1 = services
-    ? (services[0].title
+    ? (services[0] && services[0].title
       ? services[0].title.toLowerCase()
       : "")
     : "";
   const servTitle2 = services
-    ? services[1] && (services[1].title ? services[1].title.toLowerCase() : "")
+    ? (services[1] && services[1].title ? services[1].title.toLowerCase() : "")
     : "";
 
   let jobs: any[] = [];
@@ -40,23 +40,25 @@ const recommendedJobs = async (info: any, userId: string) => {
       { jobDetails: true, proposals: true }
     );
 
+   if(jobDetails.length > 0){
     jobs = jobDetails.filter((d: any) => {
-      const jobCategory = d.jobDetails.category.toLowerCase();
-      const jobTitle = d.jobDetails.title.toLowerCase();
+      const jobCategory = d.jobDetails && d.jobDetails.category.toLowerCase();
+      const jobTitle = d.jobDetails && d.jobDetails.title.toLowerCase();
       const returnedCat =
         jobCategory === servCat1 ||
         jobCategory === servCat2 ||
         jobCategory === servTitle1 ||
         jobTitle === servTitle2;
       if (
-        d.jobDetails.type.toLowerCase() === "physical" &&
+        d.jobDetails && d.jobDetails.type.toLowerCase() === "physical" &&
         d.jobDetails.state.toLowerCase() === info.state.toLowerCase()
       ) {
         return returnedCat;
-      } else if (d.jobDetails.type.toLowerCase() === "online") {
+      } else if (d.jobDetails && d.jobDetails.type.toLowerCase() === "online") {
         return returnedCat;
       }
     });
+   }
   }
 
   const newJobs = jobs.map((job) => {
