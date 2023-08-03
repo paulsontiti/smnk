@@ -81,7 +81,7 @@ export default async function handler(req: any, res: any) {
         res.status(201).json(jobs);
       } catch (err: any) {
         console.log(err);
-        res.status(400).json({ message: "Server Error" });
+        res.status(400).json({ message: err.toString() });
       }
     } else {
       try {
@@ -90,7 +90,7 @@ export default async function handler(req: any, res: any) {
         res.status(201).json(jobs);
       } catch (err: any) {
         console.log(err);
-        res.status(400).json({ message: "Server Error" });
+        res.status(400).json({ message: err.toString() });
       }
     }
   } else {
