@@ -42,7 +42,7 @@ function RecommendedJobs() {
       }
     })();
   }, [_id]);
-  if (error) return <ErrorAlert message={error.toString()} />;
+  if (error) return <ErrorAlert message={error.response.data.message} />;
   if (jobs === null) return <LoadingAlert />;
   if (Array.isArray(jobs) && jobs.length === 0)
     return (
