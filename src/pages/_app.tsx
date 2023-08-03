@@ -103,7 +103,7 @@ const logError = async (error: Error, info: { componentStack: string }) => {
 function fallbackRender({ error, resetErrorBoundary }: any) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
   //resetErrorBoundary();
-  return <ErrorAlert message={error} />;
+  return <ErrorAlert message={error.toString()} />;
 }
 export default function App({ Component, pageProps }: AppProps) {
   return (
