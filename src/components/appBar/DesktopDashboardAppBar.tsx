@@ -34,7 +34,7 @@ export default function DesktopDashboardAppBar() {
             alignItems={"center"}
             justifyContent={"flex-end"}
           >
-            <ChatNotification /> <DashBoardNotification />
+            <ChatNotification url="/chat" /> <DashBoardNotification />
           </Grid>
         </Grid>
       </Toolbar>

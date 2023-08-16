@@ -51,7 +51,7 @@ function ApplyJobForm({ userId, jobId }: { userId: string; jobId: string }) {
       }
     } catch (err: any) {
       console.log(err);
-      setMsg("An error occurred,please try again");
+      setMsg(err.response.data.message);
       setColor("error");
       const refState = snackBarRef.current as any;
       refState.handleClick();

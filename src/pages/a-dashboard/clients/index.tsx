@@ -1,11 +1,11 @@
 import AdminLayout from "@/admin/components/adminLayout";
 import React from "react";
 import useSWR from "swr";
-import { Backdrop, CircularProgress,Alert,AlertTitle } from "@mui/material";
-import UsersDetailsTable from "@/admin/components/sw/UsersDetailsTable";
+import { Backdrop, CircularProgress } from "@mui/material";
 import { getAllClients } from "@/lib/clients";
 import ErrorAlert from "@/components/alerts/Error";
 import InfoAlert from "@/components/alerts/Info";
+import ClientDetailsTable from "@/admin/components/client/ClientDetailsTable";
 
 function SW() {
   const { data, error } = useSWR("getClients", getAllClients());
@@ -13,14 +13,12 @@ function SW() {
   if (error)
     return (
       <AdminLayout>
-        <ErrorAlert/>
-       
+        <ErrorAlert />
       </AdminLayout>
     );
   if (!data)
     return (
       <AdminLayout>
-        
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={!data}
@@ -32,13 +30,13 @@ function SW() {
   if (Array.isArray(data) && data.length < 1)
     return (
       <AdminLayout>
-       <InfoAlert message="No Clients details available"/>
+        <InfoAlert message="No Clients details available" />
       </AdminLayout>
     );
   //console.log(data)
   return (
     <AdminLayout>
-      <UsersDetailsTable users={data}/>
+      <ClientDetailsTable users={data} />
     </AdminLayout>
   );
 }

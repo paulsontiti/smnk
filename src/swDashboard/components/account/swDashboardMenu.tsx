@@ -111,11 +111,12 @@ export default function SWDashboardMenu() {
           <Divider />
           <Collapse in={openProfile} timeout="auto" unmountOnExit>
             <List component="div">
-              <Verification
-                idUrl="/sw-dashboard/verification/id-card"
-                captureUrl="/sw-dashboard/verification/capture"
-              />
-              <Divider />
+              {user && user.verification && !user.verification.kycVerified && (
+                <Verification
+                  idUrl="/sw-dashboard/verification/id-card"
+                  captureUrl="/sw-dashboard/verification/capture"
+                />
+              )}
               {user && user.typeClass === "individual" ? (
                 <UserInfoLink />
               ) : (
@@ -292,7 +293,8 @@ export function Verification({
             <ListItemText
               primary={<Typography variant="caption">Camera Photo</Typography>}
             />
-          </ListItemButton>
+          </ListItemButton>{" "}
+          <Divider />
         </List>
       </Collapse>
     </>

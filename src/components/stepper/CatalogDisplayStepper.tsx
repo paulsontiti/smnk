@@ -14,7 +14,7 @@ import { SmnkErrorBoundary } from "@/pages/_app";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-function CatalogDisplayStepper({ catalog }: { catalog: any }) {
+function CatalogDisplayStepper({ catalog }: { catalog: any[] }) {
   //configure react-pdf
   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.js",
@@ -35,7 +35,7 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };
-
+  if (!catalog) return <p></p>;
   return (
     <SmnkErrorBoundary>
       <Box minWidth={"100%"} maxWidth={"100%"}>
@@ -76,7 +76,7 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
           }
         />
         <Typography variant="caption">
-          {catalog[activeStep].title ?? ""}
+          {catalog[activeStep] && catalog[activeStep].title}
         </Typography>
         <AutoPlaySwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -86,15 +86,15 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
           interval={100000}
         >
           {catalog &&
-            catalog.map((cat: any, index: number) => (
-              <Box key={cat.filename} minWidth={"100%"} maxWidth={"100%"}>
+            catalog.length > 0 &&
+            catalog.map((cat: Cat, index: number) => (
+              <Box
+                key={cat && cat.filename}
+                minWidth={"100%"}
+                maxWidth={"100%"}
+              >
                 {Math.abs(activeStep - index) <= 2 ? (
-                  <CatalogCard
-                    filename={cat.filename}
-                    title={cat.title}
-                    description={cat.description}
-                    contentType={cat.contentType ?? ""}
-                  />
+                  <CatalogCard cat={cat} />
                 ) : null}
               </Box>
             ))}
@@ -103,19 +103,14 @@ function CatalogDisplayStepper({ catalog }: { catalog: any }) {
     </SmnkErrorBoundary>
   );
 }
-
-export default CatalogDisplayStepper;
-function CatalogCard({
-  title,
-  description,
-  filename,
-  contentType,
-}: {
+type Cat = {
   title: string;
   filename: string;
   description: string;
   contentType: string;
-}) {
+};
+export default CatalogDisplayStepper;
+function CatalogCard({ cat }: { cat: Cat }) {
   const [numPages, setNumPages] = React.useState(null);
   const [pageNumber, setPageNumber] = React.useState(1);
   function onDocumentLoadSuccess(numPages: any) {
@@ -124,6 +119,7 @@ function CatalogCard({
   const newTheme = useTheme();
   const xs = useMediaQuery(newTheme.breakpoints.down("sm"));
   const sm = useMediaQuery(newTheme.breakpoints.between(600, 900));
+  if (!cat) return <p></p>;
   return (
     <Box
       sx={{
@@ -136,18 +132,18 @@ function CatalogCard({
         minHeight: 300,
       }}
     >
-      {contentType.startsWith("video") && (
+      {cat.contentType && cat.contentType.startsWith("video") && (
         <ReactPlayer
-          url={`/api/multer/catalog/${filename}`}
+          url={`/api/multer/catalog/${cat.filename}`}
           controls={true}
           width={250}
           maxHeight={200}
           minHeight={200}
         />
       )}
-      {contentType.startsWith("audio") && (
+      {cat.contentType && cat.contentType.startsWith("audio") && (
         <ReactPlayer
-          url={`/api/multer/catalog/${filename}`}
+          url={`/api/multer/catalog/${cat.filename}`}
           controls={true}
           width={250}
           maxHeight={200}
@@ -155,21 +151,21 @@ function CatalogCard({
           height={200}
         />
       )}
-      {contentType.startsWith("image") && (
+      {cat.contentType && cat.contentType.startsWith("image") && (
         <CardMedia
           sx={{
             maxHeight: { xs: 300, sm: 400, md: 500 },
             minHeight: { xs: 300, sm: 400, md: 500 },
             width: "100%",
           }}
-          image={`/api/multer/catalog/${filename}`}
-          title={title}
+          image={`/api/multer/catalog/${cat.filename}`}
+          title={cat.title}
         />
       )}
-      {filename.endsWith(".pdf") && (
+      {cat.filename && cat.filename.endsWith(".pdf") && (
         <Box overflow={"scroll"} maxHeight={400} minHeight={400}>
           <Document
-            file={`/api/multer/catalog/${filename}`}
+            file={`/api/multer/catalog/${cat.filename}`}
             onLoadSuccess={onDocumentLoadSuccess}
           >
             <Page pageNumber={pageNumber} width={xs ? 350 : sm ? 600 : 900} />
@@ -181,7 +177,7 @@ function CatalogCard({
           Description:
         </Typography>
         <Typography textTransform={"capitalize"} variant="caption">
-          {description}
+          {cat.description}
         </Typography>
       </Box>
     </Box>

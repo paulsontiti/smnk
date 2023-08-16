@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import Logout from "./logout";
-import Notification from "./Notification";
+import ChatNotification from "../chat/ChatNotification";
 
 function DashboardHeader() {
   return (
@@ -9,11 +8,10 @@ function DashboardHeader() {
       sx={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
       }}
     >
-      <Notification />
-      <Logout />
+      <ChatNotification url="/a-dashboard/chat" />
     </Box>
   );
 }

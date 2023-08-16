@@ -12,6 +12,8 @@ import { LoadingButton } from "@mui/lab";
 import SnackbarComponent from "../snackbar/SnackBar";
 import AdminChatAction from "./actions/AdminChatAction";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { BlackImage } from "../avatar/DashboardDp";
+import { useRouter } from "next/router";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -60,17 +62,21 @@ const ImageDialog = React.forwardRef(
     //declare component's state
     const [open, setOpen] = useState(false);
     const [imgSrc, setImgSrc] = useState("");
+    const [imgSrc2, setImgSrc2] = useState("");
     const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState("");
     const [color, setColor] = useState<AlertColor>("error");
+
+    const router = useRouter();
 
     //useimperative
     useImperativeHandle(_ref, () => ({
       showDialog: () => {
         setOpen(true);
       },
-      updateSrc: (src: string) => {
+      updateSrc: (src: string, src2?: string) => {
         setImgSrc(src);
+        setImgSrc2(src2 ?? "");
       },
     }));
 
@@ -91,6 +97,7 @@ const ImageDialog = React.forwardRef(
         const refState = snackbarRef.current as any;
         refState.handleClick();
         handleClose();
+        router.reload();
       } else {
         setColor("error");
         setMsg("Action not Successful");
@@ -101,37 +108,42 @@ const ImageDialog = React.forwardRef(
     };
 
     return (
-     <SmnkErrorBoundary>
-       <>
-        <SnackbarComponent msg={msg} color={color} ref={snackbarRef} />
-        <BootstrapDialog
-          onClose={handleClose}
-          aria-labelledby="customized-dialog-title"
-          open={open}
-        >
-          <DialogContent dividers>
-            <Image src={imgSrc} alt="" width={400} height={400} />
-          </DialogContent>
-          <DialogActions>
-            <LoadingButton
-              autoFocus
-              onClick={() => {
-                setLoading(true);
-                handleConfirmButtonClick();
-                setLoading(false);
-              }}
-              size="small"
-              loading={loading}
-              variant="contained"
-              sx={{ textTransform: "capitalize" }}
-            >
-              Confirm
-            </LoadingButton>
-            <AdminChatAction receiverId="" />
-          </DialogActions>
-        </BootstrapDialog>
-      </>
-     </SmnkErrorBoundary>
+      <SmnkErrorBoundary>
+        <>
+          <SnackbarComponent msg={msg} color={color} ref={snackbarRef} />
+          <BootstrapDialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={open}
+          >
+            <DialogContent dividers>
+              <BlackImage src={imgSrc} alt="" width={400} height={400} />
+            </DialogContent>
+            {imgSrc2 && (
+              <DialogContent dividers>
+                <BlackImage src={imgSrc2} alt="" width={400} height={400} />
+              </DialogContent>
+            )}
+            <DialogActions>
+              <LoadingButton
+                autoFocus
+                onClick={() => {
+                  setLoading(true);
+                  handleConfirmButtonClick();
+                  setLoading(false);
+                }}
+                size="small"
+                loading={loading}
+                variant="contained"
+                sx={{ textTransform: "capitalize" }}
+              >
+                Confirm
+              </LoadingButton>
+              <AdminChatAction receiverId={receiverId} />
+            </DialogActions>
+          </BootstrapDialog>
+        </>
+      </SmnkErrorBoundary>
     );
   }
 );

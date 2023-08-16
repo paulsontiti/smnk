@@ -1,24 +1,18 @@
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { DataGrid, GridRowId } from "@mui/x-data-grid";
-import { Avatar, IconButton,Skeleton } from "@mui/material";
+import { Avatar, IconButton, Skeleton } from "@mui/material";
 import moment from "moment";
 import JobsDetailsTableAction from "./JobsDetailsTableAction";
 import ImageDialog from "@/components/dialog/ImageDialog";
 import { confirmPayment } from "@/lib/payment";
-import DoneIcon from '@mui/icons-material/Done';
-import ClearIcon from '@mui/icons-material/Clear';
+import DoneIcon from "@mui/icons-material/Done";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
-  
   const [rowId, setRowId] = useState<GridRowId>();
 
   //get reference to the image dialog box
   const imageDialogRef = useRef();
-  //confirm job pop
-  const action = async(jobId:string)=>{
-    const result = await confirmPayment(jobId);
-    return result
-  }
 
   const columns = useMemo(
     () => [
@@ -26,47 +20,32 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
         field: "pop",
         headerName: "P.O.P",
         renderCell: (param: any) => (
-          <>
-          <IconButton
-          onClick={async()=>{
-             //call image dialog ref to update image dialog
-             const refState = imageDialogRef.current as any
-            refState.updateSrc(`/api/multer/pop/${param.row.pop}`)
-            refState.showDialog() 
-             
-         }}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {
-              param.row.pop ? <Avatar src={`/api/multer/pop/${param.row.pop}`} /> : <Skeleton variant="circular" width={50} height={50}/>
-            }
-          </IconButton>
-            <ImageDialog receiverId={param.row.userId}  action={()=>{
-              return action(param.row._id)}}
-              ref={imageDialogRef} 
-            />
-          </>
+          <ProofOfPayment param={param} imageDialogRef={imageDialogRef} />
         ),
         sortable: false,
         width: 70,
       },
-      { field: "jobDetails.title", headerName: "Title", width: 150, renderCell: (param: any) =>
-      param.row.jobDetails.title },
-      { field: "category", headerName: "Category", width: 200 , renderCell: (param: any) =>
-      param.row.jobDetails.category},
+      {
+        field: "jobDetails.title",
+        headerName: "Title",
+        width: 150,
+        renderCell: (param: any) => param.row.jobDetails.title,
+      },
+      {
+        field: "category",
+        headerName: "Category",
+        width: 200,
+        renderCell: (param: any) => param.row.jobDetails.category,
+      },
       {
         field: "type",
-        headerName: "Type", renderCell: (param: any) =>
-        param.row.jobDetails.type
+        headerName: "Type",
+        renderCell: (param: any) => param.row.jobDetails.type,
       },
       {
         field: "budget",
-        headerName: "Budget", renderCell: (param: any) =>
-        param.row.jobDetails.budget
+        headerName: "Budget",
+        renderCell: (param: any) => param.row.jobDetails.budget,
       },
       // {
       //   field: "state",
@@ -97,29 +76,35 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
       {
         field: "proposalAccepted",
         headerName: "Proposal Accepted",
-        type: "boolean",width:150
+        type: "boolean",
+        width: 150,
       },
       {
         field: "popConfirmed",
         headerName: "POP Confirmed",
-        type: "boolean",width:150
+        type: "boolean",
+        width: 150,
       },
       {
         field: "swId",
         headerName: "Started",
         type: "boolean",
         renderCell: (param: any) =>
-       param.row.swId && param.row.popConfirmed ? <DoneIcon/> : <ClearIcon/>
+          param.row.swId && param.row.popConfirmed ? (
+            <DoneIcon />
+          ) : (
+            <ClearIcon />
+          ),
       },
       {
         field: "approved",
         headerName: "Approved",
-        type: "boolean", 
+        type: "boolean",
       },
       {
         field: "swPaid",
         headerName: "S.W Paid",
-        type: "boolean", 
+        type: "boolean",
       },
       {
         field: "actions",
@@ -135,7 +120,7 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
   );
 
   return (
-    <div style={{ height: '80%', width: "100%" }}>
+    <div style={{ height: "80%", width: "100%" }}>
       <DataGrid
         sx={{ margin: "1rem" }}
         getRowId={(row) => row._id}
@@ -151,5 +136,52 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
         }}
       />
     </div>
+  );
+}
+
+function ProofOfPayment({
+  imageDialogRef,
+  param,
+}: {
+  imageDialogRef: any;
+  param: any;
+}) {
+  if (!param) return <p></p>;
+
+  const action = async () => {
+    console.log(param.id);
+    const res = await confirmPayment(param.row._id);
+    return res;
+  };
+  return (
+    <>
+      {param.row.pop ? (
+        <>
+          <IconButton
+            onClick={async () => {
+              //call image dialog ref to update image dialog
+              const refState = imageDialogRef.current as any;
+              refState.updateSrc(`/api/multer/pop/${param.row.pop}`);
+              refState.showDialog();
+            }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {" "}
+            <Avatar src={`/api/multer/pop/${param.row.pop}`} />
+          </IconButton>{" "}
+          <ImageDialog
+            receiverId={param.row.userId}
+            action={action}
+            ref={imageDialogRef}
+          />
+        </>
+      ) : (
+        <p></p>
+      )}{" "}
+    </>
   );
 }

@@ -1,10 +1,11 @@
 import { Box, Typography, Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getUserDp, getUserInfo, getUserProfile } from "@/lib/utils/user";
+import { getUserDp, getUserProfile } from "@/lib/utils/user";
 import { useRouter } from "next/router";
-import BackToChatRoomFloatingActionButtons from "../fab/BackToChatRoomFloatingActionButtons";
 import { SmnkErrorBoundary } from "@/pages/_app";
 import { BlackAvatar } from "../avatar/DashboardDp";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 function ChatHeader({
   receiverId,
@@ -16,7 +17,7 @@ function ChatHeader({
   const [name, setName] = useState<string | null>(null);
   const [senderDp, setSenderDp] = useState("");
   const router = useRouter();
-
+  const { type } = useSelector((state: RootState) => state.users.user);
   useEffect(() => {
     (async () => {
       if (receiverId) {
@@ -43,7 +44,11 @@ function ChatHeader({
         onClick={() => {
           //clickable only in chatroom
           if (isChatRoom) {
-            router.push(`/chat/${receiverId}`);
+            if (type === "admin") {
+              router.push(`/a-dashboard/chat/${receiverId}`);
+            } else {
+              router.push(`/chat/${receiverId}`);
+            }
           }
         }}
         minWidth={"100%"}

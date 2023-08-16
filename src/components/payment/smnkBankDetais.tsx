@@ -1,14 +1,6 @@
 import { Grid, Typography, Card, CardContent, CardHeader } from "@mui/material";
 
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-
 export default function SMNKBankDetails() {
-  const router = useRouter();
-
-  const { user } = useSelector((state: RootState) => state.users);
-
   return (
     <Card sx={{ mb: 5 }}>
       <CardContent>

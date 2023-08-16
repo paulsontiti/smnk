@@ -145,6 +145,48 @@ export const confirmUpgradePayment = async(userId:string)=>{
     return err
   }
 }
+export const verifyUser = async(userId:string)=>{ 
+try{
+    if(userId){
+        const res = await axios({
+            method:'POST',
+            url:`${process.env.SMNK_URL}api/a-dashboard/verify-user`,
+            data:{userId}
+        })
+        const data = await res.data
+    
+  return data
+  }else{
+    console.log('Invalid request')
+  }
+    
+    
+}catch(err:any){
+  console.log(err)
+  return err
+}
+}
+export const getUserSub = async(userId:string)=>{
+try{
+    if(userId){
+        const res = await axios({
+            method:'POST',
+            url:`${process.env.SMNK_URL}api/sw/sub`,
+            data:{userId}
+        })
+        const data = await res.data
+    
+  return data
+  }else{
+    console.log('Invalid request')
+  }
+    
+    
+}catch(err:any){
+  console.log(err)
+  return err
+}
+}
 export const paymentFormControls:FormControls[]  = [
   {name:'bankName',label:'Bank Name',control:'input'},
   {name:'accountName',label:'Bank Account Name',control:'input'},
@@ -154,7 +196,6 @@ export const paymentFormControls:FormControls[]  = [
 ]
 
 export const confirmPayment = async(jobId:string)=>{
-    
   try{
         if(jobId){
                 const res = await axios({

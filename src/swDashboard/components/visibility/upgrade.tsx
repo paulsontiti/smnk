@@ -19,6 +19,7 @@ export const Upgrade = ({ visibility }: { visibility: string }) => {
       swExtra: { subscription },
     },
   } = useSelector((state: RootState) => state);
+
   const [subscribed, setSubscribed] = useState(false);
   const [pending, setPending] = useState(false);
 

@@ -35,7 +35,7 @@ export default function CommentsCard({ comment }: any) {
               src={`/api/multer/profile-pic/${dp}`}
             />
           }
-          title={rater && rater}
+          title={rater}
           subheader={
             comment.date
               ? new Date(comment.date).toDateString().slice(0, 10)

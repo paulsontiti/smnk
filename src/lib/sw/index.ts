@@ -17,3 +17,26 @@ export const getAllSkilledWorkers = ()=>{
        }
     return res
   }
+  export const getSWSub = (userId:string)=>{
+    const res = async ()=>{
+        try{
+          if(userId){
+            const res = await axios({
+                method:'POST',
+                url:`${process.env.SMNK_URL}api/sw/sub`,
+                data:{userId}
+            })
+            const data = await res.data
+        
+      return data
+      }else{
+        console.log('Invalid request')
+      }
+            
+        }catch(err:any){
+          console.log(err)
+          return err
+        }
+       }
+    return res
+  }

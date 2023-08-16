@@ -8,7 +8,6 @@ import { RootState } from "@/store";
 import ProfilePicUploader from "./ProfilePicUploader";
 import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
-import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import { SmnkErrorBoundary } from "@/pages/_app";
 
@@ -17,7 +16,6 @@ export default function ProfilePic() {
     (state: RootState) => state.users.user
   );
   const router = useRouter();
-  const theme = useTheme();
 
   const [imgLoadComplete, setImgLoadComplete] = useState(false);
   return (
@@ -34,8 +32,10 @@ export default function ProfilePic() {
               onClick={() => {
                 if (type === "skilled worker") {
                   router.push("/sw-dashboard");
-                } else {
+                } else if (type === "client") {
                   router.push("/c-dashboard");
+                } else {
+                  router.push("/a-dashboard");
                 }
               }}
             >

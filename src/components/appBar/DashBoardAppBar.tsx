@@ -63,7 +63,7 @@ export default function DashBoardAppBar() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <ChatNotification />
+            <ChatNotification url="/chat" />
           </Grid>
           <Grid
             item

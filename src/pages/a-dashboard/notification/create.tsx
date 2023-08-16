@@ -1,10 +1,10 @@
 import AdminLayout from "@/admin/components/adminLayout";
-import AdsForm from "@/admin/components/ads/AdsForm";
+import NotificationForm from "@/admin/components/notification/NotificationForm";
 
 import { Container } from "@mui/material";
 import React from "react";
 
-function CreateAdsPage() {
+function CreateNotificationPage() {
   return (
     <AdminLayout>
       <Container
@@ -15,10 +15,10 @@ function CreateAdsPage() {
           justifyContent: "center",
         }}
       >
-        <AdsForm />
+        <NotificationForm />
       </Container>
     </AdminLayout>
   );
 }
 
-export default CreateAdsPage;
+export default CreateNotificationPage;

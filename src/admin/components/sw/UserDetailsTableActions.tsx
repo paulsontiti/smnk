@@ -18,9 +18,10 @@ import ActionsMenuComponent, {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import GenericDialog from "@/components/dialog/GenericDialog";
 import UserProfileContent from "@/components/dialog/contents/UserProfileContent";
-import { getUserProfile } from "@/lib/utils/user";
+import { getSWExtraDetails, getUserProfile } from "@/lib/utils/user";
 import UserExpContent from "@/components/dialog/contents/UserExpContent";
 import UserServicesContent from "@/components/dialog/contents/UserServicesContent";
+import { SWExtra } from "@/lib/types/userInfo";
 
 export interface State extends SnackbarOrigin {
   open: boolean;
@@ -30,6 +31,7 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
   //declare component states
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [swExtra, setSwExtra] = useState<SWExtra>({} as SWExtra);
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
   //state of profile action link. Disable if user has no profile
@@ -47,7 +49,10 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
       //get user profile and disable the profile link if profile is null
       const { data } = await getUserProfile(params.row._id);
       data ? setProfileDisabled(false) : setProfileDisabled(true);
-     
+
+      //get sw extra
+      const result = await getSWExtraDetails(params.row._id);
+      setSwExtra(result.data);
     })();
   }, [params.row._id]);
 
@@ -67,7 +72,8 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
         const refState = userExpRef.current as any;
         refState.showDialog();
       },
-      disabled: params.row.experience.length < 1,
+      disabled:
+        !swExtra || !swExtra.experience || swExtra.experience.length < 1,
     },
     {
       label: "Services",
@@ -75,18 +81,20 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
         const refState = userServRef.current as any;
         refState.showDialog();
       },
-      disabled: params.row.services.length < 1,
+      disabled: !swExtra || !swExtra.services || swExtra.services.length < 1,
     },
-    
   ];
 
   //actions menu for clients
   const ClientActionMenu: MenuAction[] = [
-    { label: "Profile",  handleClick: () => {
-      const refState = userProfileRef.current as any;
-      refState.showDialog();
+    {
+      label: "Profile",
+      handleClick: () => {
+        const refState = userProfileRef.current as any;
+        refState.showDialog();
+      },
+      disabled: profileDisabled,
     },
-    disabled: profileDisabled, },
   ];
 
   //submit handler for suspending or restoring user's account
@@ -106,7 +114,7 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
     if (rowId === params.row._id && success) {
       setSuccess(false);
     }
-  }, [rowId,params.row._id,success]);
+  }, [rowId, params.row._id, success]);
 
   return (
     <Box
@@ -175,16 +183,20 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
       <GenericDialog
         ref={userProfileRef}
         content={<UserProfileContent userId={params.row._id} />}
-        title={params.row.type === "skilled worker" ? "Skilled Worker Profile" : "Client Profile"}
+        title={
+          params.row.type === "skilled worker"
+            ? "Skilled Worker Profile"
+            : "Client Profile"
+        }
       />
       <GenericDialog
         ref={userExpRef}
-        content={<UserExpContent userId={params.row._id} />}
+        content={<UserExpContent exps={swExtra && swExtra.experience} />}
         title="SKilled Worker Experiences"
       />
       <GenericDialog
         ref={userServRef}
-        content={<UserServicesContent userId={params.row._id} />}
+        content={<UserServicesContent services={swExtra && swExtra.services} />}
         title="SKilled Worker Services"
       />
     </Box>

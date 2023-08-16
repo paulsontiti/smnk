@@ -1,7 +1,4 @@
-import { Box, Grid } from "@mui/material";
-import DP from "../../components/dashboard/dp";
-import MenuDrawer from "../../swDashboard/components/account/menuDrawer";
-import DashboardBreadcrumb from "../../swDashboard/components/breadcrumbs/dashboard";
+import { Grid } from "@mui/material";
 import ADashboardMenu from "./ADashboard";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { ThemeProvider } from "@mui/material/styles";
@@ -11,31 +8,13 @@ export default function AdminLayout(props: { children: any }) {
   //console.log(info)
   return (
     <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <MenuDrawer>
-          <>
-            <DashboardHeader />
-            <ADashboardMenu />
-          </>
-        </MenuDrawer>
-        <DashboardBreadcrumb />
-      </Box>
       <Grid container>
-        <Grid item xs={12} sx={{ marginTop: "1rem" }}>
-          <Grid container>
-            <Grid item xs={12}>
-              <Box>
-                <DP />
-                {props.children}
-              </Box>
-            </Grid>
-          </Grid>
+        <Grid item md={2} sx={{ flexGrow: 1 }}>
+          <ADashboardMenu />
+        </Grid>
+        <Grid item xs={10} sx={{ marginTop: "1rem", flexGrow: 1 }}>
+          <DashboardHeader />
+          {props.children}
         </Grid>
       </Grid>
     </ThemeProvider>

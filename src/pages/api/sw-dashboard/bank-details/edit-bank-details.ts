@@ -14,7 +14,6 @@ export const UpdateSWExtra = async(userId:string,key:string,updateParam:any,res:
           } else {
             newSWExtra = await SWExtra.create({ userId, updateParam });
           }
-    
           if (newSWExtra) {
             res
               .status(201)

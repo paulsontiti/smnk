@@ -21,8 +21,6 @@ import AdminChatAction from "@/components/dialog/actions/AdminChatAction";
 import UserDetailsContent from "@/components/dialog/contents/UserDetailsContent";
 import JobDetailsContent from "@/components/dialog/contents/JobDetailsContent";
 
-
-
 function JobsDetailsTableAction({ params, rowId, setRowId }: any) {
   //declare component's state
   const [success, setSuccess] = useState(false);
@@ -48,7 +46,7 @@ function JobsDetailsTableAction({ params, rowId, setRowId }: any) {
     },
     {
       label: "Complaints",
-      disabled:params.row.complaints.length < 1,
+      disabled: params.row.complaints.length < 1,
       handleClick: () => {
         const refState = jobComplaintRef.current as any;
         refState.showDialog();
@@ -75,7 +73,7 @@ function JobsDetailsTableAction({ params, rowId, setRowId }: any) {
     if (rowId === params.row._id && success) {
       setSuccess(false);
     }
-  }, [rowId,params.row._id,success]);
+  }, [rowId, params.row._id, success]);
 
   return (
     <Box
@@ -85,47 +83,7 @@ function JobsDetailsTableAction({ params, rowId, setRowId }: any) {
       }}
     >
       <SnackbarComponent color={color} msg={msg} ref={snackBarRef} />
-      {success ? (
-        <Fab
-          color="primary"
-          sx={{
-            width: 30,
-            height: 30,
-            bgcolor: green[500],
-            "&:hover": { bgcolor: green[700] },
-          }}
-        >
-          <Check />
-        </Fab>
-      ) : (
-        <Fab
-          color="success"
-          sx={{
-            width: 30,
-            height: 30,
-            bgcolor: green[500],
-            "&:hover": { bgcolor: green[700] },
-          }}
-          disabled={params.id !== rowId || loading}
-          //onClick={handleSubmit}
-        >
-          <Tooltip title="Save changes">
-            <Save />
-          </Tooltip>
-        </Fab>
-      )}
-      {loading && (
-        <CircularProgress
-          size={40}
-          sx={{
-            color: green[500],
-            position: "absolute",
-            top: -1,
-            left: -6,
-            zIndex: 1,
-          }}
-        />
-      )}
+
       <IconButton
         sx={{ marginRight: "1rem" }}
         onClick={(e) => {
@@ -144,19 +102,19 @@ function JobsDetailsTableAction({ params, rowId, setRowId }: any) {
       <GenericDialog
         title={params.row.jobDetails.title}
         content={<JobComplaintsContent jobId={params.row._id} />}
-        actions={<AdminChatAction receiverId={params.row.userId}/>}
+        actions={<AdminChatAction receiverId={params.row.userId} />}
         ref={jobComplaintRef}
       />
       <GenericDialog
         title="Client Details"
         content={<UserDetailsContent userId={params.row.userId} />}
-        actions={<AdminChatAction  receiverId={params.row.userId}/>}
+        actions={<AdminChatAction receiverId={params.row.userId} />}
         ref={clientDetaisRef}
       />
       <GenericDialog
         title="SW Details"
         content={<UserDetailsContent userId={params.row.swId} />}
-        actions={<AdminChatAction  receiverId={params.row.swId}/>}
+        actions={<AdminChatAction receiverId={params.row.swId} />}
         ref={swDetaisRef}
       />
     </Box>

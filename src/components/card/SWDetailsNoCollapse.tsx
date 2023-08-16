@@ -1,8 +1,5 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import CardHeader from "@mui/material/CardHeader";
-import Avatar from "@mui/material/Avatar";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import { Divider, Typography } from "@mui/material";
 import { fetchProfessionalsDetails } from "@/lib/search";
 import { getJobsDoneByUser, getUserProfile } from "@/lib/utils/user";
@@ -16,30 +13,14 @@ import CatalogDisplayStepper from "../stepper/CatalogDisplayStepper";
 import LoadingAlert from "../alerts/Loading";
 import { SmnkErrorBoundary } from "@/pages/_app";
 import { BlackAvatar } from "../avatar/DashboardDp";
-
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+import ErrorAlert from "../alerts/Error";
 
 export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
   const [userDetails, setUserDetails] = React.useState<any | null>(undefined);
   const [userProfile, setUserProfile] = React.useState<any | null>(undefined);
   const [jobsDone, setJobsDone] = React.useState<number>(0);
-  const [expanded, setExpanded] = React.useState(false);
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const [error, setError] = React.useState<any>(null);
+
   React.useEffect(() => {
     (async () => {
       if (userId) {
@@ -48,8 +29,10 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
         setUserDetails(data);
         const profile = await getUserProfile(userId);
         setUserProfile(profile.data);
+        setError(profile.error);
         const doneJobs = await getJobsDoneByUser(userId);
         setJobsDone(doneJobs.data && doneJobs.data.length);
+        setError(doneJobs.error);
       }
     })();
   }, [userId]);
@@ -99,9 +82,10 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
     const skillsArray: string[] = [];
     if (services && services.length > 0) {
       services.map((service: any) => {
-        service.skills.map((skill: string) => {
-          skillsArray.push(skill);
-        });
+        Array.isArray(service.skills) &&
+          service.skills.map((skill: string) => {
+            skillsArray.push(skill);
+          });
       });
     }
     return skillsArray;
@@ -112,6 +96,7 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
       : [];
   if (userDetails === undefined || userProfile === undefined)
     return <LoadingAlert />;
+  if (error) return <ErrorAlert message={error.toString()} />;
   return (
     <SmnkErrorBoundary>
       <Box
@@ -199,7 +184,7 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
           </Box>
         )}
 
-        {services && services.length > 0 && (
+        {Array.isArray(services) && services.length > 0 && (
           <Box p={2}>
             {" "}
             <Typography color="primary" fontWeight={"bold"} mt={5}>
@@ -218,7 +203,7 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
           </Box>
         )}
         <Divider />
-        {skills() && skills().length > 0 && (
+        {Array.isArray(skills()) && skills().length > 0 && (
           <Box p={2}>
             {" "}
             <Typography color="primary" fontWeight={"bold"} mt={5}>
@@ -241,8 +226,8 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
             </Typography>
             <ul>
               {experiences.map((exp: any) => (
-                <li key={exp._id}>
-                  {exp.onRole ? (
+                <li key={exp && exp._id}>
+                  {exp && exp.onRole ? (
                     <OnRoleExperience exp={exp} />
                   ) : (
                     <Experience exp={exp} />

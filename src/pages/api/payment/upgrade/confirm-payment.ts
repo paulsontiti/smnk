@@ -1,4 +1,4 @@
-import User from "@/lib/model/userModel"
+import SWExtra from "@/lib/model/swExtra"
 import dbConnect from "@/lib/mongoose"
 
 
@@ -10,7 +10,7 @@ export default async function handler(req:any,res:any){
     if(userId && subscribedDate && expiringDate){
         
         try{
-            const user = await User.findOne({_id:userId})
+            const user = await SWExtra.findOne({userId})
            
             if(user){
                 const subscription = user.subscription
@@ -20,6 +20,8 @@ export default async function handler(req:any,res:any){
                
                 res.status(201).json(newUser.subscription.popConfirmed)
 
+            }else{
+                res.status(201).json(false)
             }
             
         }catch(err){

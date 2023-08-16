@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { seeAllChats, unSeenChats } from "@/lib/chat";
 import { SmnkErrorBoundary, theme } from "@/pages/_app";
 
-function ChatNotification() {
+function ChatNotification({ url }: { url: string }) {
   const { _id } = useSelector((state: RootState) => state.users.user);
 
   const [count, setCount] = useState(0);
@@ -16,10 +16,10 @@ function ChatNotification() {
 
   useEffect(() => {
     if (_id) {
-      setInterval(async () => {
+      async () => {
         const data = await unSeenChats(_id);
         setCount(data);
-      }, 1000);
+      };
     }
   }, [_id]);
 
@@ -28,7 +28,7 @@ function ChatNotification() {
       <IconButton
         onClick={async () => {
           await seeAllChats(_id);
-          router.push("/chat");
+          router.push(url);
         }}
         size="large"
         edge="end"

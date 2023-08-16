@@ -12,13 +12,13 @@ import { SmnkErrorBoundary } from "@/pages/_app";
 function Comments() {
   const { _id } = useSelector((state: RootState) => state.users.user);
   const [comments, setComments] = useState<any[] | null>(null);
-  const [error, setError] = useState();
+  const [error, setError] = useState<any>(null);
 
   useEffect(() => {
     getJobComments(setComments, setError, _id);
   }, [_id]);
 
-  if (error) return <ErrorAlert />;
+  if (error) return <ErrorAlert message={error.toString()} />;
   if (!comments) return <LoadingAlert />;
   if (Array.isArray(comments) && comments.length === 0) return <p></p>;
   return (
@@ -29,9 +29,11 @@ function Comments() {
         </Typography>
         {comments.map((comment: any) => (
           <>
-            {comment.comments.map((comm: any) => (
-              <CommentsCard key={comm._id} comment={comm} />
-            ))}
+            {comment &&
+              Array.isArray(comment.comments) &&
+              comment.comments.map((comm: any) => (
+                <CommentsCard key={comm && comm._id} comment={comm} />
+              ))}
           </>
         ))}
       </Box>
