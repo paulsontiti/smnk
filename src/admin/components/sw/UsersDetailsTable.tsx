@@ -177,7 +177,7 @@ function SubStatus({
       const data = await getUserSub(param.row._id);
       setSubscription(data);
     })();
-  }, [param]);
+  }, [param.row._id]);
   const [subscription, setSubscription] = useState<any>(undefined);
 
   if (subscription && subscription.expiringDate)
