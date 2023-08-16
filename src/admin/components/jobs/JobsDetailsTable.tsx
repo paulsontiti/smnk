@@ -120,7 +120,7 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
   );
 
   return (
-    <div style={{ height: "80%", width: "100%" }}>
+    <div style={{ height: 400, maxHeight: "80vh", width: "100%" }}>
       <DataGrid
         sx={{ margin: "1rem" }}
         getRowId={(row) => row._id}
