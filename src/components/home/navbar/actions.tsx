@@ -1,12 +1,19 @@
 import { Box } from "@mui/material";
-import LoginButton from "./loginButton";
-import SignUpButton from "./signUpButton";
+import BlackLoadingButton from "./loginButton";
 
 export default function AccountActions() {
   return (
     <Box>
-      <LoginButton />
-      <SignUpButton />
+      <BlackLoadingButton
+        label="Login"
+        url="/account/login"
+        variant="outlined"
+      />
+      <BlackLoadingButton
+        label="Sign Up"
+        url="/account/signup"
+        variant="contained"
+      />
     </Box>
   );
 }

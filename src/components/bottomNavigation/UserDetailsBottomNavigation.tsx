@@ -2,13 +2,17 @@ import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import { Rating, Typography } from "@mui/material";
+import { UserRating } from "../card/SWJobDetailsCard";
+import { Wallet } from "../card/ClientDetailsDashboard";
 export default function UserDetailsBottomNavigation({
   jobsDone,
-  rating,
+  userId,
   level,
+  forClient,
 }: {
   jobsDone: number;
-  rating: number;
+  forClient: boolean;
+  userId: string;
   level: string;
 }) {
   return (
@@ -18,37 +22,23 @@ export default function UserDetailsBottomNavigation({
       alignItems={"center"}
       justifyContent={"flex-start"}
       p={2}
+      gap={2}
     >
       <Box
         display={"flex"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        flexDirection={"column"}
-        mr={2}
+        alignItems={"flex-end"}
+        justifyContent={"center"}
+        gap={1}
       >
         <WorkHistoryIcon color="primary" />
         <Typography variant="caption">{jobsDone}</Typography>
       </Box>
-      <Box
-        display={"flex"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        flexDirection={"column"}
-        mr={2}
-      >
-        <Rating value={rating} size="small" />
-        <Typography variant="caption">Rating</Typography>
-      </Box>
-      <Box
-        display={"flex"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        flexDirection={"column"}
-        mr={2}
-      >
+      <UserRating userId={userId} />
+      <Box display={"flex"} alignItems={"flex-end"} justifyContent={"center"}>
         <StarIcon color="primary" />
         <Typography variant="caption">{level ?? "Beginner"}</Typography>
       </Box>
+      {!forClient && <Wallet userId={userId} />}
     </Box>
   );
 }

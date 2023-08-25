@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { IconButton, Box, Typography, Container } from "@mui/material";
 import Image from "next/image";
 import UploadIcon from "@mui/icons-material/Upload";
@@ -16,6 +16,7 @@ import SuccessAlert from "../alerts/Success";
 import { useRouter } from "next/router";
 import { BlackImage } from "./DashboardDp";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { isUserVerified } from "@/lib/utils/user";
 
 function IDCardUploader() {
   const { _id, verification } = useSelector(
@@ -27,9 +28,18 @@ function IDCardUploader() {
   const dispatch = useDispatch<AppDispatch>();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
+  const [verified, setVerified] = useState(false);
   //declare refs
   const snackBarRef = useRef();
   const router = useRouter();
+
+  useEffect(() => {
+    (async () => {
+      const res = await isUserVerified(_id);
+      setVerified(res.data);
+    })();
+  });
+
   let idCardUrl, kycVerified;
   if (verification) {
     idCardUrl = verification.idCardUrl;
@@ -105,10 +115,10 @@ function IDCardUploader() {
 
   return (
     <SmnkErrorBoundary>
-      <Container sx={{ mt: "2rem" }}>
+      <Container sx={{ mt: 10 }}>
         <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
 
-        {kycVerified ? (
+        {verified ? (
           <SuccessAlert message="Your ID Card is verified" />
         ) : (
           <>

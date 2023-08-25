@@ -4,8 +4,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useRouter } from "next/router";
 import LogoutSwitch from "@/components/switch/LogoutSwitch";
-import { Box, Divider } from "@mui/material";
+import { Badge, Box, Divider } from "@mui/material";
 import DP from "@/components/dashboard/dp";
+import { getCountOfPendingRequest } from "@/lib/types/job";
+import useSWR from "swr";
 
 export default function ADashboardMenu() {
   const router = useRouter();
@@ -69,10 +71,46 @@ export default function ADashboardMenu() {
           <ListItemText primary="Chats" />
         </ListItemButton>{" "}
         <Divider />
+        <WithdrawalRequest /> <Divider />
         <Box ml={3}>
           <LogoutSwitch />
         </Box>
       </List>
+    </Box>
+  );
+}
+
+function WithdrawalRequest() {
+  const { data, error } = useSWR(
+    "getCountOfPendingRequest",
+    getCountOfPendingRequest()
+  );
+  const router = useRouter();
+
+  if (error)
+    return (
+      <ListItemButton
+        sx={{ ml: 1 }}
+        onClick={() => {
+          router.push(`/a-dashboard/withdrawal/request`);
+        }}
+      >
+        <ListItemText primary="Withdrawal Request" />
+      </ListItemButton>
+    );
+
+  return (
+    <Box mt={2}>
+      <Badge badgeContent={data} color="error">
+        <ListItemButton
+          sx={{ ml: 1 }}
+          onClick={() => {
+            router.push(`/a-dashboard/withdrawal/request`);
+          }}
+        >
+          <ListItemText primary="Withdrawal Request" />
+        </ListItemButton>{" "}
+      </Badge>
     </Box>
   );
 }

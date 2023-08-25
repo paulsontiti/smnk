@@ -1,8 +1,6 @@
 import React, { useImperativeHandle, useRef, useState } from "react";
-import { AlertColor, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { LoadingButton } from "@mui/lab";
@@ -24,7 +22,7 @@ export interface DialogTitleProps {
   onClose: () => void;
 }
 
-const ProofOfPaymentImageDialog = React.forwardRef(({}, _ref) => {
+const ViewOnlyImageDialog = React.forwardRef(({}, _ref) => {
   //declare component's state
   const [open, setOpen] = useState(false);
   const [imgSrc, setImgSrc] = useState("");
@@ -56,7 +54,7 @@ const ProofOfPaymentImageDialog = React.forwardRef(({}, _ref) => {
           open={open}
         >
           <DialogContent dividers>
-            <BlackImage src={imgSrc} alt="" width={400} height={400} />
+            <BlackImage src={imgSrc} alt="" width={300} height={300} />
           </DialogContent>
 
           <DialogActions>
@@ -76,5 +74,5 @@ const ProofOfPaymentImageDialog = React.forwardRef(({}, _ref) => {
   );
 });
 
-ProofOfPaymentImageDialog.displayName = "ProofOfPaymentImageDialog";
-export default ProofOfPaymentImageDialog;
+ViewOnlyImageDialog.displayName = "ViewOnlyImageDialog";
+export default ViewOnlyImageDialog;

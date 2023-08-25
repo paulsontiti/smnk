@@ -1,13 +1,9 @@
 import React, { useImperativeHandle, useRef, useState } from "react";
-import { AlertColor, Button } from "@mui/material";
+import { AlertColor } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Image from "next/image";
 import { LoadingButton } from "@mui/lab";
 import SnackbarComponent from "../snackbar/SnackBar";
 import AdminChatAction from "./actions/AdminChatAction";
@@ -23,36 +19,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
-
-export interface DialogTitleProps {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
-}
-
-function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-}
 
 const ImageDialog = React.forwardRef(
   (
@@ -117,11 +83,11 @@ const ImageDialog = React.forwardRef(
             open={open}
           >
             <DialogContent dividers>
-              <BlackImage src={imgSrc} alt="" width={400} height={400} />
+              <BlackImage src={imgSrc} alt="" width={600} height={600} />
             </DialogContent>
             {imgSrc2 && (
               <DialogContent dividers>
-                <BlackImage src={imgSrc2} alt="" width={400} height={400} />
+                <BlackImage src={imgSrc2} alt="" width={600} height={600} />
               </DialogContent>
             )}
             <DialogActions>

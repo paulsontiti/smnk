@@ -1,28 +1,40 @@
-import { Button } from "@mui/material";
 import { useRouter } from "next/router";
-import { theme } from "@/pages/_app";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store";
-import { updatePageLoading } from "@/store/slices/userSlice";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useState } from "react";
 
-export default function LoginButton() {
+export default function BlackLoadingButton({
+  label,
+  variant,
+  url,
+  handleClick,
+}: {
+  label: string;
+  variant: "text" | "outlined" | "contained";
+  url?: string;
+  handleClick?: () => void;
+}) {
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = useState(false);
+
+  const shouldLoad = router.pathname === url;
   return (
-    <Button
+    <LoadingButton
+      loading={loading}
+      loadingPosition="start"
+      color="primary"
       sx={{
         textTransform: "capitalize",
         margin: "1rem .5rem",
-        color: theme.smnk[1000],
       }}
-      variant="outlined"
+      variant={variant}
       size="small"
       onClick={() => {
-        dispatch(updatePageLoading(true));
-        router.push("/account/login");
+        setLoading(!shouldLoad);
+        url && router.push(url);
+        handleClick && handleClick();
       }}
     >
-      Login
-    </Button>
+      {label}
+    </LoadingButton>
   );
 }

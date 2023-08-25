@@ -33,20 +33,6 @@ export default function Home() {
       </Head>
       <main>
         <HomePageStepper />
-        {/* <Box m={2} height={{ xs: 300, sm: 400, md: 500 }}>
-          <video
-            width="100%"
-            height="100%"
-            autoPlay
-            loop
-            controls
-            style={{ objectFit: "fill" }}
-          >
-            <source src="/assets/SMNK front page video.mp4" type="video/mp4" />
-            <source src="/assets/SMNK front page video.ogg" type="video/ogg" />
-            Your browser does not support the video tag.
-          </video>
-        </Box> */}
         <Box
           bgcolor={"black"}
           height={{ xs: 200, md: 300 }}
@@ -79,25 +65,6 @@ export default function Home() {
             <source src="/assets/video.mp4" type="video/ogg" />
             Your browser does not support the video tag.
           </video>
-          {/* <ReactPlayer
-            url="/assets/video.mp4"
-            volume={volume}
-            playing={playing}
-            controls
-            width={200}
-            height={200}
-          /> */}
-          {/* <video
-            width="100%"
-            height="100%"
-            loop
-            controls
-            style={{ objectFit: "fill" }}
-          >
-            <source src="/assets/video.mp4" type="video/mp4" />
-            <source src="/assets/video.ogg" type="video/ogg" />
-            Your browser does not support the video tag.
-          </video> */}
         </Box>
 
         {/* <*/}

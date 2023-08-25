@@ -14,19 +14,14 @@ import { RootState } from "@/store";
 import SnackbarComponent from "../snackbar/SnackBar";
 import GenericContent from "../dialog/contents/GenericContent";
 import GenericActions from "../dialog/actions/GenericActions";
+import RateFloatingActionButtons from "../fab/Rate";
+import ClientServiceRatingContent from "../dialog/contents/ClientServiceRatingContent";
 
 export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
   const { _id } = useSelector((state: RootState) => state.users.user);
   const [value, setValue] = useState(0);
   const router = useRouter();
-  const [jobStatus, setJobStatus] = useState<JobStatus>({
-    hasUserApplied: false,
-    isJobApproved: false,
-    isProposalAccepted: false,
-    isJobPaidFor: false,
-    isJobRated: false,
-    isPaymentApproved: false,
-  });
+  const [jobStatus, setJobStatus] = useState<JobStatus | null>(null);
   const [error, setError] = useState();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
@@ -34,6 +29,7 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
   //declare refs
   const snackBarRef = useRef();
   const dialogRef = useRef();
+  const ratingRef = useRef();
 
   const confirmAction = async (confirm: boolean) => {
     if (!confirm) {
@@ -42,9 +38,15 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
     } else {
       const refState = dialogRef.current as any;
       refState.closeDialog();
-      const confirmed = await confirmSWPaid(jobId);
-      if (confirmed) {
-        setMsg("Payment confirmed");
+      const { result, error } = await confirmSWPaid(jobId);
+      if (error) {
+        setMsg(error.message);
+        setColor("error");
+        const refState = snackBarRef.current as any;
+        refState.handleClick();
+      }
+      if (result.successful) {
+        setMsg(result.message);
         setColor("success");
         const refState = snackBarRef.current as any;
         refState.handleClick();
@@ -52,7 +54,7 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
           router.reload();
         }, 3000);
       } else {
-        setMsg("An error occurred,try again");
+        setMsg(result.message);
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
@@ -70,13 +72,12 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
 
   if (error) return <p></p>;
   if (!jobStatus) return <p></p>;
-
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", mb: 5 }}>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <GenericDialog
         content={
-          <GenericContent message="Are sure you want to confirm payment" />
+          <GenericContent message="Are sure you want to withdraw payment" />
         }
         actions={<GenericActions confirmAction={confirmAction} />}
         ref={dialogRef}
@@ -93,7 +94,7 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
         )}
         {!jobStatus.isProposalAccepted && !jobStatus.hasThisUserApplied && (
           <BottomNavigationAction
-            label="Apply"
+            label="Send Proposal"
             icon={
               <ApplyFloatingActionButtons
                 handleClick={async () => {
@@ -103,24 +104,43 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
             }
           />
         )}
-
-        {jobStatus.isJobApproved && !jobStatus.swPaid && (
+        {jobStatus.isJobApproved && !jobStatus.swRated && (
           <BottomNavigationAction
-            label="Confirm Payment"
-            icon={<AcceptFloatingActionButtons handleClick={dialogHandler} />}
-          />
-        )}
-        {jobStatus.isJobApproved && !jobStatus.swPaid && (
-          <BottomNavigationAction
-            label="Chat Admin"
+            label="Rate Our Service"
             icon={
-              <ChatFloatingActionButtons
-                receiverId={process.env.CUSTOMER_SERVICE_ID as string}
+              <RateFloatingActionButtons
+                handleClick={() => {
+                  const refState = ratingRef.current as any;
+                  refState.showDialog();
+                }}
               />
             }
           />
         )}
-      </BottomNavigation>
+
+        {jobStatus.isJobApproved && !jobStatus.swPaid && (
+          <BottomNavigationAction
+            label="Withdraw Payment"
+            icon={<AcceptFloatingActionButtons handleClick={dialogHandler} />}
+          />
+        )}
+
+        <BottomNavigationAction
+          label="Chat Admin"
+          icon={
+            <ChatFloatingActionButtons
+              receiverId={process.env.CUSTOMER_SERVICE_ID as string}
+            />
+          }
+        />
+      </BottomNavigation>{" "}
+      {jobStatus.isJobApproved && !jobStatus.swRated && (
+        <GenericDialog
+          ref={ratingRef}
+          content={<ClientServiceRatingContent jobId={jobId} />}
+          title="Rate Our Service"
+        />
+      )}
     </Box>
   );
 }

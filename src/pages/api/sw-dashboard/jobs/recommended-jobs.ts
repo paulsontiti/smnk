@@ -37,7 +37,7 @@ const recommendedJobs = async (info: any, userId: string) => {
   if (info) {
     jobDetails = await Job.find(
       { approved: false, proposalAccepted: false },
-      { jobDetails: true, proposals: true }
+      { jobDetails: true, proposals: true,userId:true }
     );
 
    if(jobDetails.length > 0){
@@ -62,8 +62,7 @@ const recommendedJobs = async (info: any, userId: string) => {
   }
 
   const newJobs = jobs.map((job) => {
-
-      const newJob = { _id: job._id, details: job.jobDetails};
+      const newJob = { _id: job._id, jobDetails: job.jobDetails,userId:job.userId};
       return newJob;
     });
     return newJobs;

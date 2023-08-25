@@ -10,7 +10,7 @@ export default function Dashboard() {
   return (
     <SmnkErrorBoundary>
       <Layout>
-        <SWDetailsNoCollapse userId={_id} />
+        <SWDetailsNoCollapse userId={_id} forClient={false} />
       </Layout>
     </SmnkErrorBoundary>
   );

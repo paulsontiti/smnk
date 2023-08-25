@@ -10,7 +10,7 @@ const nextConfig = {
     //''http://localhost:3000/',
     CUSTOMER_SERVICE_ID:'64dd04c6025bda51e3231cef'
     //64dd04c6025bda51e3231cef online
-    //64db666ab8ec312117fb1baf local
+    //64e35d468b2fcd7a6d3a7df6 local
   },modularizeImports:{
     '@mui/icons-material':{
       transform:'@mui/icons-material/{{member}}'

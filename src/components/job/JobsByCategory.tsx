@@ -6,6 +6,7 @@ import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
 import ErrorAlert from "../alerts/Error";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import SWJobDetailsCard from "../card/SWJobDetailsCard";
 
 function JobsByCategory({ category }: { category: string }) {
   const [jobs, setJobs] = useState<any[] | null>(null);
@@ -27,7 +28,7 @@ function JobsByCategory({ category }: { category: string }) {
     return <InfoAlert message={`No jobs available in ${category} category`} />;
   return (
     <SmnkErrorBoundary>
-      <Box>
+      <Box minWidth={"100%"}>
         <Typography
           fontWeight={"bold"}
           textTransform={"capitalize"}
@@ -44,7 +45,12 @@ function JobsByCategory({ category }: { category: string }) {
           flexWrap={"wrap"}
         >
           {jobs.map((job, i) => (
-            <SearchedJobDetailsAccordion job={job} key={i} />
+            <SWJobDetailsCard
+              userId={job.userId}
+              jobId={job._id}
+              key={i}
+              forSw={false}
+            />
           ))}
         </Box>
       </Box>

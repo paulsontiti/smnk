@@ -322,7 +322,7 @@ export const ChatGround = ({
   return (
     <SmnkErrorBoundary>
       <Paper sx={{ mt: "1rem", maxWidth: "100%" }}>
-        <ChatHeader receiverId={receiverId} isChatRoom={false} />
+        <ChatHeader senderId={receiverId} isChatRoom={false} />
         <Box
           sx={{ backgroundColor: "whitesmoke", maxWidth: "100%" }}
           pt={3}

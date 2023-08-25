@@ -11,8 +11,12 @@ export default async function handler(req:any,res:any){
         
         try{
             const job = await Job.findById(jobId,{_id:false,jobDetails:true})
-         
-                    res.status(201).json(job.jobDetails)
+         if(job){
+            res.status(201).json(job.jobDetails)
+         }else{
+            res.status(201).json(null)
+         }
+                    
             
         }catch(err){
             console.log(err)

@@ -6,13 +6,14 @@ import AcceptFloatingActionButtons from "../fab/Accept";
 import ChatFloatingActionButtons from "../fab/Chat";
 import RejectFloatingActionButtons from "../fab/Reject";
 
-
 export default function ProposalActionsBottomNavigation({
-  receiverId,handleApproveClick,handleRejectClick
+  receiverId,
+  handleApproveClick,
+  handleRejectClick,
 }: {
   receiverId: string;
-    handleApproveClick: () => void;
-    handleRejectClick: () => void;
+  handleApproveClick: () => void;
+  handleRejectClick: () => void;
 }) {
   const [value, setValue] = React.useState(0);
 
@@ -25,12 +26,9 @@ export default function ProposalActionsBottomNavigation({
           setValue(newValue);
         }}
       >
-       
         <BottomNavigationAction
           label="Chat"
-          icon={
-            <ChatFloatingActionButtons receiverId={receiverId}/>
-          }
+          icon={<ChatFloatingActionButtons receiverId={receiverId} />}
         />
         <BottomNavigationAction
           label="Accept"
@@ -38,15 +36,13 @@ export default function ProposalActionsBottomNavigation({
             <AcceptFloatingActionButtons handleClick={handleApproveClick} />
           }
         />
-        <BottomNavigationAction
+        {/* <BottomNavigationAction
           label="Reject"
           icon={
             <RejectFloatingActionButtons handleClick={handleRejectClick} />
           }
-        />
+        /> */}
       </BottomNavigation>
     </Box>
   );
 }
-
-         

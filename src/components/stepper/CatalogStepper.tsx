@@ -17,6 +17,7 @@ import { Typography } from "@mui/material";
 import AddBottomNavigation from "../bottomNavigation/AddBottomNavigation";
 import LoadingAlert from "../alerts/Loading";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import CatalogDisplayStepper from "./CatalogDisplayStepper";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -67,84 +68,17 @@ function CatalogStepper() {
     );
 
   return (
-    <>
-      <Box maxWidth={{ xs: "100%", md: "100%" }} mt={2}>
-        <AddBottomNavigation
-          handleClick={() => {
-            router.push("/dashboard/catalog/add");
-          }}
-          label="Add To Catalog"
-        />
-        <MobileStepper
-          steps={maxSteps}
-          position="static"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              Next
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowLeft />
-              ) : (
-                <KeyboardArrowRight />
-              )}
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowRight />
-              ) : (
-                <KeyboardArrowLeft />
-              )}
-              Back
-            </Button>
-          }
-        />{" "}
-        <Paper
-          square
-          elevation={0}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: 50,
-            pl: 2,
-            bgcolor: "background.default",
-          }}
-        >
-          <Typography>{cat[activeStep].title ?? ""}</Typography>
-        </Paper>
-        <AutoPlaySwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={activeStep}
-          onChangeIndex={handleStepChange}
-          enableMouseEvents
-          interval={10000}
-        >
-          {cat.map((cat: any, index: number) => (
-            <Box key={cat.filename} minWidth={"100%"} maxWidth={"100%"}>
-              {Math.abs(activeStep - index) <= 2 ? (
-                <CatalogCard
-                  filename={cat.filename}
-                  title={cat.title}
-                  description={cat.description}
-                  index={index}
-                  contentType={cat.contentType ?? ""}
-                />
-              ) : null}
-            </Box>
-          ))}
-        </AutoPlaySwipeableViews>
-      </Box>
-    </>
+    <Box
+      mt={5}
+      display={"flex"}
+      flexDirection={"column"}
+      justifyContent={"flex-start"}
+      width={"100%"}
+      p={2}
+    >
+      <Typography variant="h6">Catalogue</Typography>
+      <CatalogDisplayStepper catalog={catalog} forClient={true} />
+    </Box>
   );
 }
 

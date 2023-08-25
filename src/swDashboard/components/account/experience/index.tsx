@@ -16,6 +16,7 @@ import InfoAlert from "@/components/alerts/Info";
 import { useEffect, useState } from "react";
 import LoadingAlert from "@/components/alerts/Loading";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { ExperienceDetailsCard } from "@/components/tabs/UserDetailsTab";
 
 export default function ExperienceComponent() {
   const { experience } = useSelector(
@@ -33,100 +34,29 @@ export default function ExperienceComponent() {
     );
   return (
     <SmnkErrorBoundary>
-      <Box>
-        {exp.map((exp, i) => {
-          return (
-            <>
-              <Card
-                key={i}
-                sx={{
-                  m: {
-                    xs: "1rem",
-                    sm: "2rem 5rem",
-                    md: "2rem 10rem",
-                    lg: "2rem 15rem",
-                    xl: "2rem 20rem",
-                  },
-                }}
-              >
-                <CardContent>
-                  <Grid container rowSpacing={2}>
-                    <Grid item xs={6}>
-                      <Typography variant="subtitle2">Role Title</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="caption">{exp.title}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="subtitle2">Employer</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="caption">{exp.company}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="subtitle2">State</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="caption">{exp.state}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="subtitle2">LGA</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="caption">{exp.lga}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="subtitle2">Address</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="caption">{exp.address}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="subtitle2">Start Date</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="caption">
-                        {moment(exp.startDate).format("DD/MM/YY")}
-                      </Typography>
-                    </Grid>
-                    {!exp.onRole ? (
-                      <>
-                        <Grid item xs={6}>
-                          <Typography variant="subtitle2">End Date</Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <Typography variant="caption">
-                            {moment(exp.endDate).format("DD/MM/YY")}
-                          </Typography>
-                        </Grid>
-                      </>
-                    ) : (
-                      <Typography color={"green"}>
-                        Currently on this role
-                      </Typography>
-                    )}
-                  </Grid>
-                </CardContent>
-                <CardActions>
-                  <EditFloatingActionButtons
-                    handleClick={() => {
-                      router.push(
-                        `/sw-dashboard/experience/${experience.findIndex(
-                          (e) => e.startDate === exp.startDate
-                        )}`
-                      );
-                    }}
-                  />
-                  <AddFloatingActionButtons
-                    handleClick={() => {
-                      router.push("/sw-dashboard/experience/add-experience");
-                    }}
-                  />
-                </CardActions>
-              </Card>
-            </>
-          );
-        })}
+      <Box minWidth={"100%"} mt={5} p={1}>
+        <Typography variant="h6">Experiences:</Typography>
+        {exp.map((exp, i) => (
+          <Card key={exp._id}>
+            <ExperienceDetailsCard exp={exp} />
+            <EditFloatingActionButtons
+              handleClick={() => {
+                router.push(
+                  `/sw-dashboard/experience/${experience.findIndex(
+                    (e) => e.startDate === exp.startDate
+                  )}`
+                );
+              }}
+            />
+          </Card>
+        ))}{" "}
+        <CardActions>
+          <AddFloatingActionButtons
+            handleClick={() => {
+              router.push("/sw-dashboard/experience/add-experience");
+            }}
+          />
+        </CardActions>
       </Box>
     </SmnkErrorBoundary>
   );

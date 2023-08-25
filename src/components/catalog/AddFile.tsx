@@ -35,7 +35,7 @@ function AddFile() {
         .then(async (data: any) => {
           try {
             //checkif the file is valid
-            const isFileValid = validFile(values.catalog);
+            const isFileValid = validImageFile(values.catalog);
             if (isFileValid === "valid") {
               const formData = new FormData();
               formData.append("userId", _id);
@@ -179,6 +179,21 @@ export function validFile(catalog: any) {
       catalog.name.endsWith(".pdf")
     ): {
       return "Invalid file!!! Only Images,audio,videos and pdf are allowed";
+    }
+    default:
+      return "valid";
+  }
+}
+export function validImageFile(catalog: any) {
+  switch (true) {
+    case !catalog: {
+      return "Invalid request,select a file";
+    }
+    case catalog.size > 10000000: {
+      return "File can not be more than 10mb";
+    }
+    case !catalog.type.startsWith("image"): {
+      return "Invalid File!!! Only Images are allowed";
     }
     default:
       return "valid";

@@ -11,24 +11,24 @@ const averageRating = (user: any, swRating: number) => {
 };
 export default async function handler(req: any, res: any) {
   await dbConnect();
-  const { aboutSMNK, aboutSW, jobId, raterId, smnkRating, swRating } = req.body;
+  const { values:{aboutSMNK, aboutSW, jobId, raterId, smnkRating, swRating},type } = req.body;
 
   if (aboutSMNK && aboutSW && jobId && raterId) {
     try {
       const rating = await Rating.create({ aboutSMNK, smnkRating, raterId });
       //update job
       const job = await Job.findById(jobId);
-      job.rated = true;
+      type === 'skilled worker' ? job.swRated = true : job.clientRated = true;
       await job.save();
       //update user Extra
-      const user = await UserExtra.findOne({ userId: job.swId });
+      const userId = type === 'skilled worker' ? job.userId : job.swId
+      const user = await UserExtra.findOne({ userId });
       if (user) {
-        user.rating = averageRating(user, swRating);
         user.comments.push({ comment: aboutSW,raterId,date:new Date(),rating:swRating });
         await user.save();
       } else {
         await UserExtra.create({
-          userId: job.swId,
+          userId,
           rating: swRating,
           comments: [{ comment: aboutSW,raterId,date:new Date(),rating:swRating  }],
         });

@@ -75,36 +75,10 @@ export default function HowSMNKWorks() {
         <Divider sx={{ mt: 3, mb: 3 }} />
       </Box>
       <Box>
-        <Box
-          p={1}
-          mb={5}
-          maxWidth={"100%"}
-          minWidth={"100%"}
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          flexDirection="column"
-          height={"auto"}
-        >
-          <Box
-            position={"relative"}
-            width={{ xs: "100%", sm: "50%", md: "20%" }}
-          >
-            <Image
-              src="/assets/post-a-job.png"
-              style={{ height: "auto", width: "100%" }}
-              width={100}
-              height={100}
-              sizes="100vw"
-              alt=""
-            />
-          </Box>
+        <Box p={1} mb={5} display={"flex"} alignItems={"flex-start"}>
+          <Image src="/assets/post-a-job.png" width={100} height={100} alt="" />
 
-          <Box
-            p={1}
-            width={{ xs: "100%", sm: "50%" }}
-            height={{ xs: "30%", sm: "100%" }}
-          >
+          <Box p={1}>
             {" "}
             <Typography fontWeight={"bold"} mb={2}>{`Post A Job`}</Typography>
             <Typography>
@@ -122,32 +96,13 @@ export default function HowSMNKWorks() {
         <Box
           p={1}
           mb={5}
-          maxWidth={"100%"}
-          minWidth={"100%"}
           display={"flex"}
+          alignItems={"flex-start"}
           justifyContent={"center"}
-          alignItems={"center"}
-          flexDirection="column"
-          height={"auto"}
         >
-          <Box
-            position={"relative"}
-            width={{ xs: "100%", sm: "50%", md: "20%" }}
-          >
-            <Image
-              src="/assets/hire-smnk.png"
-              style={{ height: "100%", width: "100%" }}
-              width={100}
-              height={100}
-              sizes="100vw"
-              alt=""
-            />
-          </Box>
+          <Image src="/assets/hire-smnk.png" width={100} height={100} alt="" />
 
-          <Box
-            width={{ xs: "100%", sm: "50%" }}
-            height={{ xs: "30%", sm: "100%" }}
-          >
+          <Box p={1}>
             {" "}
             <Typography
               fontWeight={"bold"}
@@ -161,45 +116,25 @@ export default function HowSMNKWorks() {
             </Typography>
           </Box>
         </Box>
-
         <Divider sx={{ mt: 3, mb: 3 }} />
       </Box>
       <Box>
         <Box
-          p={1}
           mb={5}
-          maxWidth={"100%"}
-          minWidth={"100%"}
+          p={1}
           display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          flexDirection="column"
-          height={"auto"}
+          alignItems={"flex-start"}
+          justifyContent={"flex-start"}
         >
-          <Box
-            position={"relative"}
-            width={{ xs: "100%", sm: "50%", md: "20%" }}
-          >
-            <Image
-              src="/assets/pay.png"
-              style={{ height: "100%", width: "100%" }}
-              width={100}
-              height={100}
-              sizes="100vw"
-              alt=""
-            />
-          </Box>
+          <Image src="/assets/pay.png" width={100} height={100} alt="" />
 
-          <Box
-            width={{ xs: "100%", sm: "50%" }}
-            height={{ xs: "30%", sm: "100%" }}
-          >
+          <Box>
             {" "}
-            <Typography fontWeight={"bold"} mb={2}>{`Pay Safely`}</Typography>
+            <Typography fontWeight={"bold"}>{`Pay Safely`}</Typography>
             <Typography>
               SMNK guarantees that only professionals or Skilled workers who
               have completed their jobs satisfactorily will receive your money.
-              Fell free to pay through our milestone payment system.
+              Feel free to pay through our milestone payment system.
             </Typography>
           </Box>
         </Box>

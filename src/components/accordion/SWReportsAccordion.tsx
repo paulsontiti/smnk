@@ -10,20 +10,18 @@ import SWReportDetailsAccordion from "./SWReportDetails";
 import AddFloatingActionButtons from "../fab/Add";
 import { useRouter } from "next/router";
 import { SmnkErrorBoundary } from "@/pages/_app";
-
-function SWReportsAccordion({
-  reports,
-  jobId,
-}: {
-  reports: any[];
-  jobId: string;
-}) {
+import useSWR from "swr";
+import { getUserReportsForJob } from "@/lib/types/job";
+function SWReportsAccordion({ jobId }: { jobId: string }) {
   const router = useRouter();
-  if (!reports || !jobId) return <p></p>;
-  const unreadReports = reports.filter((r) => r.read === false);
+
+  const { data, error } = useSWR("getReports", getUserReportsForJob(jobId));
+
+  if (!data || !jobId) return <p></p>;
+  const unreadReports = data.filter((r: any) => r.read === false);
   return (
     <SmnkErrorBoundary>
-      <Accordion sx={{ maxWidth: "100%" }}>
+      <Accordion sx={{ maxWidth: "100%", minWidth: "100%" }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
@@ -36,8 +34,8 @@ function SWReportsAccordion({
           </Badge>
         </AccordionSummary>
         <AccordionDetails>
-          {reports.length > 0 &&
-            reports.map((report: any, i: number) => (
+          {data.length > 0 &&
+            data.map((report: any, i: number) => (
               <SWReportDetailsAccordion key={i} report={report} jobId={jobId} />
             ))}
           <AddFloatingActionButtons

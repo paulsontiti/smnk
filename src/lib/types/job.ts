@@ -34,11 +34,27 @@ export const jobSchema = object({
     budget: number().min(1).required('Budget is required'),
     startDate: date().required('Start Date is required'),
     endDate: date().required('End date is required'),
-    agreeToTerms: boolean().isTrue("Please agree to Terms & Conditions").required('Agreeing to Terms and Conditions is required'),
 })
 
 
-
+export const getUserReportsForJob = (jobId:string)=>{
+  const res = async ()=>{
+      try{
+          const res = await axios({
+                method:'POST',
+                url:`${process.env.SMNK_URL}api/c-dashboard/job/report`,
+                data:{jobId}
+            })
+          const data = await res.data
+         return data
+          
+      }catch(err:any){
+        console.log(err)
+        return err
+      }
+     }
+  return res
+}
 
 export const getPendingJobsByClientId = (userId:string)=>{
   const res = async ()=>{
@@ -117,7 +133,40 @@ export const getAllJobs = ()=>{
      }
   return res
 }
-
+export const getAllpendingWithrawalRequests = ()=>{
+  const res = async ()=>{
+      try{
+          const res = await axios({
+                method:'GET',
+                url:`${process.env.SMNK_URL}api/a-dashboard/withdrawal/pending`
+            })
+          const data = await res.data
+         return data
+          
+      }catch(err:any){
+        console.log(err)
+        return err
+      }
+     }
+  return res
+}
+export const getCountOfPendingRequest = ()=>{
+  const res = async ()=>{
+      try{
+          const res = await axios({
+                method:'GET',
+                url:`${process.env.SMNK_URL}api/a-dashboard/withdrawal/count`
+            })
+          const data = await res.data
+         return data
+          
+      }catch(err:any){
+        console.log(err)
+        return err
+      }
+     }
+  return res
+}
 export const getRecommendedSkilledWorkersInfo = (id:string)=>{
   const res = async ()=>{
       try{

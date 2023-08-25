@@ -12,8 +12,10 @@ function RatingForm({
   jobId,
   raterId,
   url,
+  type,
 }: {
   jobId: string;
+  type: string;
   raterId: string;
   url: string;
 }) {
@@ -28,14 +30,14 @@ function RatingForm({
   const ratingSubmitHandler = async (
     values: Rating,
     router: any,
-    url: string
+    type: string
   ) => {
     try {
       if (values.raterId && values.jobId) {
         const res = await axios({
           method: "POST",
           url: `${process.env.SMNK_URL}api/rating/rate`,
-          data: values,
+          data: { values, type },
         });
         const data = await res.data;
         if (data.successful) {
@@ -74,7 +76,7 @@ function RatingForm({
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
-          ratingSubmitHandler(values, router, url);
+          ratingSubmitHandler(values, router, type);
           res(data);
         })
         .catch((err: any) => {
@@ -110,10 +112,16 @@ function RatingForm({
     { name: "smnkRating", label: "Rate SMNK", control: "rating" },
     {
       name: "aboutSW",
-      label: "Say Something About Skilled Worker",
+      label: `Say Something About  ${
+        type === "client" ? "Professional" : "Client"
+      }`,
       control: "textarea",
     },
-    { name: "swRating", label: "Rate Skilled Worker", control: "rating" },
+    {
+      name: "swRating",
+      label: `Rate ${type === "client" ? "Professional" : "Client"}`,
+      control: "rating",
+    },
   ];
 
   const formParams: FormParams = {

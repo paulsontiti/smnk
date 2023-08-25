@@ -1,8 +1,10 @@
+import SWReportsAccordion from "@/components/accordion/SWReportsAccordion";
 import ErrorAlert from "@/components/alerts/Error";
 import InfoAlert from "@/components/alerts/Info";
 import LoadingAlert from "@/components/alerts/Loading";
+import ClientJobDetailsCard from "@/components/card/ClientJobDetailsCard";
 import Layout from "@/components/dashboard/layout";
-import JobDetailsComponent from "@/components/job/JobDetails";
+import ApplyForJobButton from "@/components/job/ApplyForJobButton";
 import { Job } from "@/lib/types/job";
 import { RootState } from "@/store";
 import axios from "axios";
@@ -41,7 +43,11 @@ function CurrentJobPage() {
 
   return (
     <Layout>
-      <JobDetailsComponent job={job as Job} />
+      <ClientJobDetailsCard job={job as Job} />
+
+      <SWReportsAccordion jobId={job._id} />
+
+      <ApplyForJobButton job={job} />
     </Layout>
   );
 }

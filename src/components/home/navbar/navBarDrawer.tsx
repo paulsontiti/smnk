@@ -40,7 +40,7 @@ export default function NavbarDrawer() {
             alignItems={"center"}
             justifyContent={"space-between"}
           >
-            {!_id && <LoginButton />}
+            {!_id && <LoginButton label="Login" variant="contained" />}
 
             <IconButton
               onClick={() => {

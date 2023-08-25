@@ -35,7 +35,8 @@ const jobSchema = new Schema(
     approved: { type: Boolean, default: false },
     proposalAccepted: { type: Boolean, default: false },
     swPaid: { type: Boolean, default: false },
-    rated: { type: Boolean, default: false },
+    clientRated: { type: Boolean, default: false },
+    swRated: { type: Boolean, default: false },
     popConfirmed: { type: Boolean, default: false },
     
     swId: {

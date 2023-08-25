@@ -1,27 +1,39 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import CardHeader from "@mui/material/CardHeader";
-import { Divider, Typography } from "@mui/material";
+import { Divider, Typography, Badge } from "@mui/material";
 import { fetchProfessionalsDetails } from "@/lib/search";
-import { getJobsDoneByUser, getUserProfile } from "@/lib/utils/user";
-import { Box } from "@mui/material";
+import {
+  getJobsDoneByUser,
+  getUserProfile,
+  isUserVerified,
+} from "@/lib/utils/user";
+import { Box, Avatar } from "@mui/material";
 import UserDetailsBottomNavigation from "../bottomNavigation/UserDetailsBottomNavigation";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import GppBadIcon from "@mui/icons-material/GppBad";
-import Comments from "../job/Comments";
-import moment from "moment";
-import CatalogDisplayStepper from "../stepper/CatalogDisplayStepper";
 import LoadingAlert from "../alerts/Loading";
-import { SmnkErrorBoundary } from "@/pages/_app";
+import { SmnkErrorBoundary, theme } from "@/pages/_app";
 import { BlackAvatar } from "../avatar/DashboardDp";
 import ErrorAlert from "../alerts/Error";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import UserDetailsTab from "../tabs/UserDetailsTab";
+import { User } from "@/lib/types/userInfo";
+import InfoAlert from "../alerts/Info";
+import ClientDetailsBottomNavigation from "../bottomNavigation/ClientDetailsBottomNavigation";
 
-export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
-  const [userDetails, setUserDetails] = React.useState<any | null>(undefined);
-  const [userProfile, setUserProfile] = React.useState<any | null>(undefined);
-  const [jobsDone, setJobsDone] = React.useState<number>(0);
-  const [error, setError] = React.useState<any>(null);
+export default function SWDetailsNoCollapse({
+  userId,
+  forClient,
+}: {
+  forClient: boolean;
+  userId: string;
+}) {
+  const [userDetails, setUserDetails] = useState<any | null>(undefined);
+  const [userProfile, setUserProfile] = useState<any | null>(undefined);
+  const [jobsDone, setJobsDone] = useState<number>(0);
+  const [error, setError] = useState<any>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       if (userId) {
         const data = await fetchProfessionalsDetails(userId);
@@ -38,23 +50,11 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
   }, [userId]);
 
   //check for data before using them
-  const dp =
-    userDetails && userDetails.user && userDetails.user.dpFileName
-      ? userDetails.user.dpFileName
-      : "";
-  const fullName = () => {
-    if (userProfile) {
-      if (userProfile.name) return userProfile.name;
-      return userProfile.firstName + " " + userProfile.lastName;
-    }
-    return "";
-  };
-  const verified =
-    userDetails &&
-    userDetails.user &&
-    userDetails.user.verification &&
-    userDetails.user.verification.kycVeried;
 
+  const catalogue: any[] =
+    userDetails && userDetails.swExtras && userDetails.swExtras.catalog;
+  const level =
+    userDetails && userDetails.swExtras && userDetails.swExtras.level;
   const serviceTitle = () => {
     if (
       userDetails &&
@@ -101,187 +101,139 @@ export default function SWDetailsNoCollapse({ userId }: { userId: string }) {
     <SmnkErrorBoundary>
       <Box
         sx={{
-          mt: 1,
-          minWidth: "100%",
-          maxWidth: "100%",
+          mt: 5,
+          minWidth: { xs: "100%", md: "100%" },
+          maxWidth: { xs: 350, sm: 500, md: "100%" },
         }}
       >
+        <UserProfileDetails
+          userInfo={userDetails.user}
+          profile={userProfile}
+          forClient={forClient}
+          swExtraDetails={{
+            serviceTitle: serviceTitle(),
+            jobsDone: jobsDone,
+            level: level,
+          }}
+        />
+        <UserDetailsTab
+          services={services}
+          experiences={experiences}
+          skills={skills()}
+          catalogue={catalogue}
+          forClient={forClient}
+          userId={userDetails && userDetails.user && userDetails.user._id}
+        />
+      </Box>
+    </SmnkErrorBoundary>
+  );
+}
+
+export function UserProfileDetails({
+  userInfo,
+  profile,
+  swExtraDetails,
+  clientExtraDetails,
+  forClient,
+}: {
+  swExtraDetails?: { serviceTitle: string; jobsDone: number; level: string };
+  clientExtraDetails?: { completedJobs: number; pendingJobs: number };
+  userInfo: User;
+  profile: any;
+  forClient: boolean;
+}) {
+  const fullName = () => {
+    if (profile) {
+      if (profile.name) return profile.name;
+      return profile.firstName + " " + profile.lastName;
+    }
+    return "";
+  };
+  if (!profile) return <InfoAlert message="Please add your personal info" />;
+  return (
+    <SmnkErrorBoundary>
+      <Box>
         <CardHeader
+          sx={{ minWidth: "100%" }}
           avatar={
-            <BlackAvatar
-              src={`/api/multer/profile-pic/${dp}`}
-              alt="Dp"
-              width={70}
-              height={70}
+            <Badge
+              color={userInfo.active ? "success" : "error"}
+              overlap="circular"
+              badgeContent=""
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+            >
+              {userInfo.dpFileName ? (
+                <BlackAvatar
+                  src={`/api/multer/profile-pic/${userInfo.dpFileName}`}
+                  alt="Dp"
+                  width={100}
+                  height={100}
+                />
+              ) : (
+                <Avatar sx={{ width: 100, height: 100 }} />
+              )}
+            </Badge>
+          }
+          title={<VerifiedUserName name={fullName()} userId={userInfo._id} />}
+          subheader={
+            <SubHeader
+              userProfile={profile}
+              serviceTitle={
+                clientExtraDetails
+                  ? ""
+                  : (swExtraDetails?.serviceTitle as string)
+              }
             />
           }
-          title={
-            <>
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"flex-start"}
-              >
-                <Typography textTransform={"capitalize"}>
-                  {fullName()}
-                </Typography>
-                {fullName() && (
-                  <>
-                    {verified ? (
-                      <VerifiedIcon
-                        color="success"
-                        sx={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          width: 15,
-                        }}
-                      />
-                    ) : (
-                      <GppBadIcon
-                        color="error"
-                        sx={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          width: 15,
-                        }}
-                      />
-                    )}
-                  </>
-                )}
-              </Box>
-            </>
-          }
-          // subheader={
-          //   <SubHeader
-          //     userProfile={userProfile}
-          //     serviceTitle={serviceTitle()}
-          //   />
-          // }
         />
+        <Typography
+          p={2}
+          mt={0}
+          component={"span"}
+        >{`${userInfo.type}/${userInfo.typeClass}`}</Typography>
+        {swExtraDetails && (
+          <UserDetailsBottomNavigation
+            forClient={forClient}
+            userId={userInfo._id}
+            jobsDone={swExtraDetails?.jobsDone as number}
+            level={swExtraDetails?.level as string}
+          />
+        )}
 
-        <UserDetailsBottomNavigation
-          rating={
-            userDetails && userDetails.userExtra && userDetails.userExtra.rating
-              ? userDetails.userExtra.rating
-              : 0
-          }
-          jobsDone={jobsDone}
-          level={
-            userDetails && userDetails.swExtras && userDetails.swExtras.level
-          }
-        />
-
-        {userProfile && userProfile.description && (
-          <Box p={2}>
+        {clientExtraDetails && (
+          <ClientDetailsBottomNavigation
+            forClient={forClient}
+            userId={userInfo._id}
+            completedJobs={clientExtraDetails.completedJobs}
+            pendingJobs={clientExtraDetails.pendingJobs}
+          />
+        )}
+        <Divider />
+        {profile && profile.description && (
+          <Box
+            p={2}
+            display={"flex"}
+            alignItems={"flex-start"}
+            justifyContent={"flex-start"}
+          >
             {" "}
-            <Typography color="primary" fontWeight={"bold"} mt={5}>
+            <Typography color="primary" fontWeight={"bold"}>
               Bio:
             </Typography>
-            <Typography variant="body2" color="text.secondary" mb={5}>
-              {userProfile.description}
+            <Typography variant="body2" color="text.secondary" ml={3}>
+              {profile.description}
             </Typography>
-            <Divider />
-          </Box>
-        )}
-
-        {Array.isArray(services) && services.length > 0 && (
-          <Box p={2}>
-            {" "}
-            <Typography color="primary" fontWeight={"bold"} mt={5}>
-              Services:
-            </Typography>
-            <ul>
-              {Array.isArray(services) &&
-                services.map((service: any) => (
-                  <li key={service && service.title}>
-                    <Typography textTransform={"capitalize"}>
-                      {service && service.category}
-                    </Typography>
-                  </li>
-                ))}
-            </ul>
           </Box>
         )}
         <Divider />
-        {Array.isArray(skills()) && skills().length > 0 && (
-          <Box p={2}>
-            {" "}
-            <Typography color="primary" fontWeight={"bold"} mt={5}>
-              Skills:
-            </Typography>
-            <ul>
-              {skills().map((skill: any) => (
-                <li key={skill}>
-                  <Typography textTransform={"capitalize"}>{skill}</Typography>
-                </li>
-              ))}
-            </ul>
-          </Box>
-        )}
-        <Divider />
-        {experiences && experiences.length > 0 && (
-          <Box p={2}>
-            <Typography color="primary" fontWeight={"bold"} mt={5}>
-              Experiences:
-            </Typography>
-            <ul>
-              {experiences.map((exp: any) => (
-                <li key={exp && exp._id}>
-                  {exp && exp.onRole ? (
-                    <OnRoleExperience exp={exp} />
-                  ) : (
-                    <Experience exp={exp} />
-                  )}
-                </li>
-              ))}
-            </ul>
-          </Box>
-        )}
-        <Divider />
-        {userDetails &&
-          userDetails.swExtras &&
-          Array.isArray(userDetails.swExtras.catalog) && (
-            <Box p={2} bgcolor={"white"} maxWidth={{ xs: "100%", md: "100%" }}>
-              <CatalogDisplayStepper catalog={userDetails.swExtras.catalog} />
-            </Box>
-          )}
-        <Divider />
-        <Comments />
       </Box>
     </SmnkErrorBoundary>
   );
 }
 
-function Experience({ exp }: { exp: any }) {
-  if (!exp) return <p></p>;
-  return (
-    <SmnkErrorBoundary>
-      <Box mb={2}>
-        <Typography maxWidth={300}>
-          {`I worked as a ${exp.title} for ${exp.company}, ${exp.address}, ${
-            exp.lga
-          }, ${exp.state} from ${moment(exp.startDate).format(
-            "DD-MM-YY"
-          )} to ${moment(exp.endDate).format("DD-MM-YY")}.`}
-        </Typography>
-        <Typography>{exp.description}</Typography>
-      </Box>
-    </SmnkErrorBoundary>
-  );
-}
-function OnRoleExperience({ exp }: { exp: any }) {
-  if (!exp) return <p></p>;
-  return (
-    <SmnkErrorBoundary>
-      <Box mb={2}>
-        <Typography maxWidth={300} mb={1}>
-          {`I am currently working as a ${exp.title} for ${exp.company}, ${exp.address}, ${exp.lga}, ${exp.state}.`}
-        </Typography>
-        <Typography>{exp.description}</Typography>
-      </Box>
-    </SmnkErrorBoundary>
-  );
-}
 function SubHeader({
   userProfile,
   serviceTitle,
@@ -289,6 +241,7 @@ function SubHeader({
   userProfile: any;
   serviceTitle: string;
 }) {
+  if (!userProfile) return <p></p>;
   return (
     <SmnkErrorBoundary>
       <Box
@@ -296,13 +249,66 @@ function SubHeader({
         justifyContent={"flex-start"}
         flexDirection={"column"}
       >
-        <Typography variant="caption" textTransform={"capitalize"}>
+        <Box display={"flex"} alignItems={"flex-end"}>
+          <LocationOnIcon sx={{ color: "red" }} />
+          <Typography variant="caption">
+            {userProfile && userProfile.lga + "," + userProfile.state}
+          </Typography>
+        </Box>
+        <Typography ml={3} variant="caption" textTransform={"capitalize"}>
           {serviceTitle}
-        </Typography>
-        <Typography variant="caption">
-          {userProfile && userProfile.lga + "," + userProfile.state}
         </Typography>
       </Box>
     </SmnkErrorBoundary>
+  );
+}
+export function VerifiedUserName({
+  name,
+  userId,
+}: {
+  userId: string;
+  name: string;
+}) {
+  const [verified, setVerified] = useState(false);
+  useEffect(() => {
+    (async () => {
+      const res = await isUserVerified(userId);
+      setVerified(res.data);
+    })();
+  }, [userId]);
+  if (!name) return <p></p>;
+  return (
+    <Box display={"flex"} alignItems={"center"} justifyContent={"flex-start"}>
+      <Typography
+        sx={{
+          textTransform: "capitalize",
+          color: theme.smnk[1000],
+          fontWeight: "bold",
+        }}
+        variant="subtitle1"
+      >
+        {name}
+      </Typography>
+
+      {verified ? (
+        <VerifiedIcon
+          color="success"
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            width: 15,
+          }}
+        />
+      ) : (
+        <GppBadIcon
+          color="error"
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            width: 15,
+          }}
+        />
+      )}
+    </Box>
   );
 }

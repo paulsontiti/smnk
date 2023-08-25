@@ -1,12 +1,14 @@
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import InfoAlert from "../alerts/Info";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ErrorAlert from "../alerts/Error";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import LoadingAlert from "../alerts/Loading";
+import { BlackTypography } from "../card/ClientJobDetailsCard";
 
 function UserBankDetails({ userId }: { userId: string }) {
-  const [bankDetails, setBankDetails] = useState<any | null>(null);
+  const [bankDetails, setBankDetails] = useState<any>(undefined);
   const [error, setError] = useState<any | null>(null);
 
   useEffect(() => {
@@ -25,24 +27,19 @@ function UserBankDetails({ userId }: { userId: string }) {
       }
     })();
   }, [userId]);
-
   if (error) return <ErrorAlert />;
-
-  if (!bankDetails) return <InfoAlert message="No Bank details" />;
-
+  if (bankDetails === undefined) return <LoadingAlert />;
+  if (bankDetails === null) return <InfoAlert message="No Bank details" />;
   return (
     <SmnkErrorBoundary>
-      <Grid container>
-        <Grid item xs={12}>
-          <Typography variant="caption">{bankDetails.bankName}</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="caption">{bankDetails.accountName}</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="caption">{bankDetails.accountNumber}</Typography>
-        </Grid>
-      </Grid>
+      <Box width={"100%"}>
+        <BlackTypography label="Bank Name" value={bankDetails.bankName} />
+        <BlackTypography label="Account Name" value={bankDetails.accountName} />
+        <BlackTypography
+          label="Account Number"
+          value={bankDetails.accountNumber}
+        />
+      </Box>
     </SmnkErrorBoundary>
   );
 }

@@ -81,6 +81,19 @@ export const fetchProfessionalsDetails = async (userId:string) => {
     return err;
   }
 };
+export const getWallet = async (userId:string) => {
+  try {
+    const res = await axios({
+      method: "GET",
+      url: `${process.env.SMNK_URL}api/wallet/${userId}`,
+    });
+    const data = await res.data;
+    return data;
+  } catch (err: any) {
+    console.log(err);
+    return err;
+  }
+};
 export const fetchSearchJobs = async (searchParam:string) => {
   let data,error
   try {

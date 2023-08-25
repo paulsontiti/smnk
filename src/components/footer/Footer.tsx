@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ColorPaletteProp } from "@mui/joy/styles";
+
 import Box from "@mui/joy/Box";
 import IconButton from "@mui/joy/IconButton";
 import Card from "@mui/joy/Card";
@@ -20,12 +20,10 @@ import { RootState } from "@/store";
 import LogoutSwitch from "../switch/LogoutSwitch";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import SearchDrawer from "../drawer/SearchDrawer";
 import axios from "axios";
 import { SmnkErrorBoundary } from "@/pages/_app";
 
 export default function Footer() {
-  const [color, setColor] = React.useState<ColorPaletteProp>("primary");
   const { _id } = useSelector((state: RootState) => state.users.user);
   const [totalNumberOfProfessionals, setTotalNumberOfProfessionals] =
     React.useState<number | string>("");

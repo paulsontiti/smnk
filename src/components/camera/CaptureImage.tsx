@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import { AlertColor, Box, Container, Typography } from "@mui/material";
 import CaptureBottomNavigation from "../bottomNavigation/CaptureBottomNavigation";
@@ -13,6 +13,7 @@ import SuccessAlert from "../alerts/Success";
 import InfoAlert from "../alerts/Info";
 import { BlackImage } from "../avatar/DashboardDp";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { isUserVerified } from "@/lib/utils/user";
 
 const videoConstraints = {
   width: 250,
@@ -23,10 +24,18 @@ export default function CaptureCameraImage() {
   const webcamRef = useRef<Webcam | null>(null);
   const [url, setUrl] = useState("");
   const [uploading, setUploading] = useState(false);
+
+  const [verified, setVerified] = useState(false);
   const { _id, verification } = useSelector(
     (state: RootState) => state.users.user
   );
 
+  useEffect(() => {
+    (async () => {
+      const res = await isUserVerified(_id);
+      setVerified(res.data);
+    })();
+  });
   let capturedPhotoUrl, kycVerified;
   if (verification) {
     capturedPhotoUrl = verification.capturedPhotoUrl;
@@ -102,7 +111,7 @@ export default function CaptureCameraImage() {
         mt={2}
         mb={5}
       >
-        {kycVerified ? (
+        {verified ? (
           <SuccessAlert message="Your Face verification is successfull" />
         ) : (
           <>

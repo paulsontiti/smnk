@@ -43,7 +43,7 @@ export default function JobForm({
 
       setJobCategoryOption(createSetFromArray(data.concat(categories)));
     })();
-  }, []);
+  }, [categories]);
 
   const createJobSubmitHandler = async (values: any) => {
     //return console.log(values)
@@ -217,20 +217,6 @@ export default function JobForm({
     },
     { name: "startDate", label: "Start Date", control: "date" },
     { name: "endDate", label: "End Date", control: "date" },
-    {
-      name: "agreeToTerms",
-      label: (
-        <>
-          <Typography component={"span"}>
-            By signing up, you agree to our{" "}
-          </Typography>
-          <Link href="/t&c">terms and conditions</Link>{" "}
-          <Typography component={"span"}>and </Typography>{" "}
-          <Link href="/privacy-policy">privacy policy</Link>
-        </>
-      ),
-      control: "switch",
-    },
   ];
 
   const formParams: FormParams = {

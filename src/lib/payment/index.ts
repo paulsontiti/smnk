@@ -218,7 +218,8 @@ export const confirmPayment = async(jobId:string)=>{
 }
 
 export const confirmSWPaid = async(jobId:string)=>{
-    
+    let result = {successful:false,message:''} 
+    let error:any = null
   try{
         if(jobId){
                 const res = await axios({
@@ -228,7 +229,7 @@ export const confirmSWPaid = async(jobId:string)=>{
                 })
                 const data = await res.data
                 
-          return data
+          result = data
           }else{
             console.log('Invalid request')
           }
@@ -236,6 +237,7 @@ export const confirmSWPaid = async(jobId:string)=>{
         
   }catch(err:any){
     console.log(err)
-    return err
+   error = err
   }
+  return {result,error}
 }

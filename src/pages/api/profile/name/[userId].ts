@@ -12,7 +12,7 @@ export default async function handler(req:any,res:any){
                     const user = await User.findById(userId)
                     if(user.typeClass === 'individual'){
                         const profile = await IndividualPersonalInfo.findOne({userId})
-                        res.status(201).json(profile.firstName + profile.lastName)
+                        res.status(201).json(profile.firstName + ' ' + profile.lastName)
                     }else{
                         const profile = await CompanyProfile.findOne({userId})
                         res.status(201).json(profile.name)

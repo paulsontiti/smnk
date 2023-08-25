@@ -1,15 +1,12 @@
 import * as React from "react";
 import {
-  IconButton,
   Drawer,
   Box,
-  Menu,
-  MenuItem,
   TextField,
   Autocomplete,
   Container,
   Typography,
-  Button,
+  Divider,
 } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
@@ -23,9 +20,9 @@ import {
 import { styled } from "@mui/system";
 import SearchedJobDetailsAccordion from "../accordion/SearchedJobDetailsAccordion";
 import CancelFloatingActionButtons from "../fab/Cancel";
-import { SmnkErrorBoundary, theme } from "@/pages/_app";
+import { SmnkErrorBoundary } from "@/pages/_app";
 import LoadingAlert from "../alerts/Loading";
-import SWDetailsDashboardCard from "../card/SWDetailsDashboardCard";
+import SWDetailsNoCollapse from "../card/SWDetailsNoCollapse";
 export type SearchOption = { firstLetter: string; option: string };
 
 const searchOptionsList = async (searchOption: string) => {
@@ -89,20 +86,11 @@ export default function SearchDrawer({
   React.useEffect(() => {
     (async () => {
       const data = await searchOptionsList(searchOption);
-      if (data) {
+      if (Array.isArray(data)) {
         setSearchoptions(createSetFromArray(data.flat()));
       }
     })();
   }, [searchOption]);
-
-  // const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = (label: string) => {
-  //   setSearchoption(label);
-  //   setAnchorEl(null);
-  // };
   return (
     <Box mt={3} mb={3}>
       <Box
@@ -254,7 +242,7 @@ export function ServicesDrawer({
         {loadingUser ? (
           <LoadingAlert />
         ) : (
-          <Container sx={{ p: ".5rem", mt: "2rem" }}>
+          <Container sx={{ p: ".5rem", mt: "2rem", maxWidth: "100%" }}>
             {users && users.length > 0 ? (
               <>
                 <Box
@@ -272,7 +260,14 @@ export function ServicesDrawer({
                   />
                 </Box>
                 {users.map((user, i) => (
-                  <SWDetailsDashboardCard key={i} userId={user.userId} />
+                  <>
+                    <SWDetailsNoCollapse
+                      userId={user.userId}
+                      forClient={true}
+                      key={i}
+                    />
+                    <Divider />
+                  </>
                 ))}
               </>
             ) : (

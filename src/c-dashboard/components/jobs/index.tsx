@@ -19,16 +19,13 @@ export default function ClientJobsComponent() {
   );
   const router = useRouter();
 
-  const getDate = (date: Date | null) => {
-    return date && date.toString().slice(0, 10);
-  };
   if (error) return <ErrorAlert />;
   if (!data) return <LoadingAlert />;
 
   return (
     <>
       <ClientSearchBox />
-      <Box maxWidth={{ xs: "100%", md: "80%" }}>
+      <Box minWidth={"100%"}>
         {Array.isArray(data) && data.length === 0 ? (
           <>
             <InfoAlert message="No Pending Job Available. Please Create A Job" />

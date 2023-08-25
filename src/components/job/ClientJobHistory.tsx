@@ -16,9 +16,6 @@ export default function ClientJobHistory() {
   const { data, error } = useSWR("getjobs", getJobsByClientId(_id));
   const router = useRouter();
 
-  const getDate = (date: Date | null) => {
-    return date && date.toString().slice(0, 10);
-  };
   if (error) return <ErrorAlert />;
   if (!data) return <LoadingAlert />;
   if (!Array.isArray(data) || data.length < 1)
@@ -36,7 +33,7 @@ export default function ClientJobHistory() {
 
   return (
     <SmnkErrorBoundary>
-      <Box maxWidth={"100%"} mt={5}>
+      <Box minWidth={"100%"} mt={5}>
         <Typography sx={{ margin: "1rem 1rem", fontWeight: "bold" }}>
           Pending Jobs
         </Typography>

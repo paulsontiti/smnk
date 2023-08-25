@@ -3,8 +3,8 @@ import { Typography, Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
-import SWDetailsDashboardCard from "../card/SWDetailsDashboardCard";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import SWDetailsNoCollapse from "../card/SWDetailsNoCollapse";
 
 function ServicesByCategory({ category }: { category: string }) {
   const [talents, setTalent] = useState<any[] | null>(null);
@@ -37,7 +37,8 @@ function ServicesByCategory({ category }: { category: string }) {
           flexWrap={"wrap"}
         >
           {talents.map((talent, i) => (
-            <SWDetailsDashboardCard
+            <SWDetailsNoCollapse
+              forClient={true}
               userId={talent.userId}
               key={talent.userId}
             />

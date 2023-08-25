@@ -23,14 +23,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
   const router = useRouter();
-  const [jobStatus, setJobStatus] = useState<JobStatus>({
-    hasUserApplied: false,
-    isJobApproved: false,
-    isProposalAccepted: false,
-    isJobPaidFor: false,
-    isJobRated: false,
-    isPaymentApproved: false,
-  });
+  const [jobStatus, setJobStatus] = useState<JobStatus | null>(null);
   const [error, setError] = useState();
 
   //ref for rating dialog
@@ -75,7 +68,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
   };
 
   return (
-    <Box sx={{ width: "100%" }} m={2}>
+    <Box sx={{ width: "100%" }} m={2} p={2}>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <GenericDialog
         ref={dialogRef}
@@ -87,6 +80,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
       <BottomNavigation
         showLabels
         value={value}
+        sx={{ bgcolor: "whitesmoke" }}
         onChange={(event, newValue) => {
           setValue(newValue);
         }}
@@ -129,7 +123,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
             }
           />
         )}
-        {jobStatus.isJobApproved && !jobStatus.isJobRated && (
+        {jobStatus.isJobApproved && !jobStatus.clientRated && (
           <BottomNavigationAction
             label="Rate Our Service"
             icon={
@@ -142,14 +136,8 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
             }
           />
         )}
-        {jobStatus.isJobApproved && !jobStatus.isJobRated && (
-          <GenericDialog
-            ref={ratingRef}
-            content={<ClientServiceRatingContent jobId={jobId} />}
-            title="Rate Our Service"
-          />
-        )}
-        {jobStatus.isJobRated && (
+
+        {jobStatus.clientRated && (
           <BottomNavigationAction
             label="Tip Professional"
             icon={
@@ -162,7 +150,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
             }
           />
         )}
-        {jobStatus.isJobRated && (
+        {jobStatus.clientRated && (
           <GenericDialog
             ref={tippingRef}
             content={
@@ -177,6 +165,11 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
         )}
       </BottomNavigation>
       {/* <pre>{JSON.stringify(jobStatus,null,4)}</pre> */}
+      <GenericDialog
+        ref={ratingRef}
+        content={<ClientServiceRatingContent jobId={jobId} />}
+        title="Rate Our Service"
+      />
     </Box>
   );
 }

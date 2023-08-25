@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
-import { AlertColor, Container } from "@mui/material";
+import { AlertColor } from "@mui/material";
 import { getSWExtra } from "@/store/slices/swExtraSlice";
 import { SmnkErrorBoundary } from "@/pages/_app";
 
@@ -68,6 +68,8 @@ export default function Login() {
         case user.type === "admin":
           router.push("/a-dashboard");
           break;
+        default: {
+        }
       }
     }
   }, [user, router, successful, response, dispatch]);

@@ -1,6 +1,6 @@
 import { createSetFromArray, fetchJobs } from "@/lib/search";
 import React, { useEffect, useState } from "react";
-import { Typography, Container } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import JobsByCategory from "./JobsByCategory";
 import LoadingAlert from "../alerts/Loading";
 import InfoAlert from "../alerts/Info";
@@ -30,7 +30,7 @@ function AllJobs() {
     return <InfoAlert message="No Jobs Available" />;
   return (
     <SmnkErrorBoundary>
-      <Container>
+      <Box p={1}>
         <Typography
           fontWeight={"bold"}
           textTransform={"capitalize"}
@@ -43,7 +43,7 @@ function AllJobs() {
         {categories.map((category, i) => (
           <JobsByCategory category={category} key={i} />
         ))}
-      </Container>
+      </Box>
     </SmnkErrorBoundary>
   );
 }

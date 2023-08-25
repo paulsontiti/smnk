@@ -15,7 +15,7 @@ import GenericActions from "../dialog/actions/GenericActions";
 import GenericContent from "../dialog/contents/GenericContent";
 import FileReaderCard from "../card/FileReaderCard";
 import { SmnkErrorBoundary } from "@/pages/_app";
-import SWDetailsDashboardCard from "../card/SWDetailsDashboardCard";
+import SWDetailsNoCollapse from "../card/SWDetailsNoCollapse";
 
 export default function ClientProposalDetailsAccordion({
   proposal,
@@ -117,7 +117,7 @@ export default function ClientProposalDetailsAccordion({
 
   return (
     <SmnkErrorBoundary>
-      <SWDetailsDashboardCard userId={proposal.userId} />
+      <SWDetailsNoCollapse forClient={true} userId={proposal.userId} />
       <AccordionDetails>
         {/* <SWFullDetailsAccordion userId={proposal.userId} /> */}
         <GenericDialog
@@ -135,13 +135,18 @@ export default function ClientProposalDetailsAccordion({
           actions={<GenericActions confirmAction={confirmRejectAction} />}
         />
         <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-        <Box>{proposal.content}</Box>
+        <Box bgcolor={"whitesmoke"} p={1}>
+          <Typography variant="h6">Proposal:</Typography>
+          {proposal.content}
+        </Box>
         {proposal.file.name && (
           <Box
             display={"flex"}
             alignItems={"center"}
             justifyContent={"flex-start"}
             mb={5}
+            mt={5}
+            minWidth={"100%"}
           >
             <Typography sx={{ fontWeight: "bold" }}>Attached file:</Typography>
             <DownloadFileBottomNavigation

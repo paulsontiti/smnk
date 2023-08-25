@@ -1,9 +1,9 @@
 import { getUserProfile } from "@/lib/utils/user";
 import React, { useEffect, useState } from "react";
-import UserIndividualProfileDetails from "./UserIndividualProfileDetails";
-import UserCompanyProfileDetails from "./UserCompanyProfileDetails";
 import ErrorAlert from "@/components/alerts/Error";
 import LoadingAlert from "@/components/alerts/Loading";
+import SWDetailsNoCollapse from "@/components/card/SWDetailsNoCollapse";
+import { ClientProfile } from "@/components/card/ClientDetailsDashboard";
 
 function UserProfileContent({ userId }: { userId: string }) {
   const [profile, setProfile] = useState<any | null>(null);
@@ -21,9 +21,9 @@ function UserProfileContent({ userId }: { userId: string }) {
   return (
     <>
       {profile.firstName ? (
-        <UserIndividualProfileDetails profile={profile} />
+        <SWDetailsNoCollapse forClient={true} userId={userId} />
       ) : (
-        <UserCompanyProfileDetails profile={profile} />
+        <ClientProfile clientId={userId} forSw={false} />
       )}
     </>
   );

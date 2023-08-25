@@ -20,7 +20,46 @@ export const getUserInfo = async (userId: string) => {
   }
   return { data, error };
 };
-
+export const isUserVerified = async (userId: string) => {
+  let data;
+  let error;
+  if (userId) {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `${process.env.SMNK_URL}api/personal-info/verified`,
+        data:{userId}
+      });
+      data = await res.data;
+    } catch (err: any) {
+      console.log(err);
+      error = err;
+    }
+  } else {
+    return { data, error };
+  }
+  return { data, error };
+};
+export const getUserverification = async (userId: string) => {
+  let data;
+  let error;
+  if (userId) {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `${process.env.SMNK_URL}api/personal-info/verification`,
+        data:{userId}
+      });
+      data = await res.data;
+    } catch (err: any) {
+      console.log(err);
+      error = err;
+    }
+  } else {
+    return { data, error };
+  }
+  return { data, error };
+};
 export const getSWExtraDetails = async (userId: string) => {
   let data;
   let error;
@@ -80,6 +119,26 @@ export const getUserProfile = async (userId: string) => {
       const res = await axios({
         method: "GET",
         url: `${process.env.SMNK_URL}api/profile/${userId}`,
+      });
+      data = await res.data;
+    } catch (err: any) {
+      console.log(err);
+      error = err;
+    }
+  } else {
+    return { data, error };
+  }
+  return { data, error };
+};
+export const getUserRating = async (userId: string) => {
+  let data;
+  let error;
+  if (userId) {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `${process.env.SMNK_URL}api/users/rating`,
+        data:{userId}
       });
       data = await res.data;
     } catch (err: any) {

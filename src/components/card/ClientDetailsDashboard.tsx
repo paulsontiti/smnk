@@ -1,172 +1,98 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import Avatar from "@mui/material/Avatar";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import { Divider, Typography } from "@mui/material";
-import { fetchProfessionalsDetails } from "@/lib/search";
+import { fetchProfessionalsDetails, getWallet } from "@/lib/search";
 import { getClientJobHistory, getUserProfile } from "@/lib/utils/user";
 import { Box } from "@mui/material";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import GppBadIcon from "@mui/icons-material/GppBad";
-import ClientDetailsBottomNavigation from "../bottomNavigation/ClientDetailsBottomNavigation";
-import ClientJobHistory from "../job/ClientJobHistory";
+import { SmnkErrorBoundary, theme } from "@/pages/_app";
+import { UserProfileDetails } from "./SWDetailsNoCollapse";
 import Comments from "../job/Comments";
-import LoadingAlert from "../alerts/Loading";
-import { SmnkErrorBoundary } from "@/pages/_app";
+import WalletIcon from "@mui/icons-material/Wallet";
 
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
+export default function ClientDetailsDashboard({
+  userId,
+  forSw,
+}: {
+  forSw: boolean;
+  userId: string;
+}) {
+  return (
+    <SmnkErrorBoundary>
+      <Box sx={{ mt: 1, width: "100%" }} p={1}>
+        <ClientProfile clientId={userId} forSw={forSw} />
+
+        <Divider />
+      </Box>
+    </SmnkErrorBoundary>
+  );
 }
 
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+export function Wallet({ userId }: { userId: string }) {
+  const [wallet, setWallet] = React.useState<any>(null);
+  React.useEffect(() => {
+    (async () => {
+      if (userId) {
+        const data = await getWallet(userId);
 
-export default function ClientDetailsDashboard({ userId }: { userId: string }) {
+        setWallet(data);
+      }
+    })();
+  }, [userId]);
+  if (!wallet)
+    return (
+      <Box display={"flex"} alignItems={"flex-start"}>
+        <WalletIcon />
+        <Typography variant="caption">{0}</Typography>
+      </Box>
+    );
+  return (
+    <Box display={"flex"} alignItems={"flex-start"}>
+      <WalletIcon />
+      <Typography variant="caption">{wallet.balance}</Typography>
+    </Box>
+  );
+}
+export function ClientProfile({
+  clientId,
+  forSw,
+}: {
+  forSw: boolean;
+  clientId: string;
+}) {
   const [userDetails, setUserDetails] = React.useState<any | null>(undefined);
   const [userProfile, setUserProfile] = React.useState<any | null>(undefined);
   const [completedJobs, setCompletedJobs] = React.useState<number>(0);
   const [pendingJobs, setPendingJobs] = React.useState<number>(0);
   React.useEffect(() => {
     (async () => {
-      if (userId) {
-        const data = await fetchProfessionalsDetails(userId);
+      if (clientId) {
+        const data = await fetchProfessionalsDetails(clientId);
         //data comes with {swExtras,user,userExtra}
         setUserDetails(data);
-        const profile = await getUserProfile(userId);
+        const profile = await getUserProfile(clientId);
         setUserProfile(profile.data);
         const {
           data: { completedJobs, pendingJobs },
-        } = await getClientJobHistory(userId);
+        } = await getClientJobHistory(clientId);
 
         setCompletedJobs(completedJobs && completedJobs.length);
         setPendingJobs(pendingJobs && pendingJobs.length);
       }
     })();
-  }, [userId]);
-  //check for data before using them
-  const dp =
-    userDetails && userDetails.user && userDetails.user.dpFileName
-      ? userDetails.user.dpFileName
-      : "";
-  const fullName = () => {
-    if (userProfile) {
-      if (userProfile.name) return userProfile.name;
-      return userProfile.firstName + " " + userProfile.lastName;
-    }
-    return "";
-  };
-  const verified =
-    userDetails &&
-    userDetails.user &&
-    userDetails.user.verification &&
-    userDetails.user.verification.kycVeried;
-  if (userDetails === undefined || userProfile === undefined)
-    return <LoadingAlert />;
-  return (
-    <SmnkErrorBoundary>
-      <Box sx={{ mt: 1, width: "100%" }}>
-        <CardHeader
-          avatar={
-            <Avatar
-              sx={{ width: 70, height: 70 }}
-              aria-label="recipe"
-              src={`/api/multer/profile-pic/${dp}`}
-            ></Avatar>
-          }
-          // action={
-          //   <IconButton aria-label="settings">
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
-          title={
-            <>
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"flex-start"}
-              >
-                <Typography textTransform={"capitalize"}>
-                  {fullName()}
-                </Typography>
-                {fullName() && (
-                  <>
-                    {verified ? (
-                      <VerifiedIcon
-                        color="success"
-                        sx={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          width: 15,
-                        }}
-                      />
-                    ) : (
-                      <GppBadIcon
-                        color="error"
-                        sx={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          width: 15,
-                        }}
-                      />
-                    )}
-                  </>
-                )}
-              </Box>
-            </>
-          }
-          subheader={<SubHeader userProfile={userProfile} />}
-        />
+  }, [clientId]);
 
-        <Box>
-          <Typography variant="body2" color="text.secondary" mb={5} mt={5}>
-            {userProfile && userProfile.description}
-          </Typography>
-          <Divider />
-          <ClientDetailsBottomNavigation
-            rating={
-              userDetails &&
-              userDetails.userExtra &&
-              userDetails.userExtra.rating
-                ? userDetails.userExtra.rating
-                : 0
-            }
-            completedJobs={completedJobs}
-            pendingJobs={pendingJobs}
-          />{" "}
-          <Divider />
-          <ClientJobHistory />
-          <Divider />
-          <Comments />
-        </Box>
-      </Box>
-    </SmnkErrorBoundary>
-  );
-}
-
-function SubHeader({ userProfile }: { userProfile: any }) {
-  if (!userProfile) return <p></p>;
+  if (userDetails === undefined || userProfile === undefined) return <p></p>;
   return (
-    <SmnkErrorBoundary>
-      <Box
-        display={"flex"}
-        justifyContent={"flex-start"}
-        flexDirection={"column"}
-      >
-        <Typography variant="caption">
-          {userProfile && userProfile.lga + "," + userProfile.state}
-        </Typography>
-      </Box>
-    </SmnkErrorBoundary>
+    <>
+      <UserProfileDetails
+        userInfo={userDetails.user}
+        forClient={forSw}
+        profile={userProfile}
+        clientExtraDetails={{
+          completedJobs,
+          pendingJobs,
+        }}
+      />{" "}
+      <Comments userId={clientId} />
+    </>
   );
 }

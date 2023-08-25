@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import ProfilePic from "../avatar/ProfilePic";
 import { useTheme } from "@mui/material/styles";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { VerifiedUserName } from "../card/SWDetailsNoCollapse";
 
 export default function DP() {
   const {
@@ -58,16 +59,7 @@ export default function DP() {
                 justifyContent={"center"}
                 flexDirection={"column"}
               >
-                <Typography
-                  sx={{
-                    textTransform: "capitalize",
-                    color: theme.smnk[1000],
-                    fontWeight: "bold",
-                  }}
-                  variant="subtitle1"
-                >
-                  {name}
-                </Typography>
+                <VerifiedUserName name={name} userId={_id} />
                 <Typography variant="caption" color="primary">
                   {`${type}/${typeClass}`}
                 </Typography>

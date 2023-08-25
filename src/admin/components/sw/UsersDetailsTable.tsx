@@ -10,18 +10,18 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import GppBadIcon from "@mui/icons-material/GppBad";
 import { BlackAvatar } from "@/components/avatar/DashboardDp";
-import ProofOfPaymentImageDialog from "@/components/dialog/ProofOfPaymentImageDialog";
 import { theme } from "@/pages/_app";
 import GenericDialog from "@/components/dialog/GenericDialog";
 import GenericContent from "@/components/dialog/contents/GenericContent";
 import GenericActions from "@/components/dialog/actions/GenericActions";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { useRouter } from "next/router";
+import ViewOnlyImageDialog from "@/components/dialog/ViewOnlyImageDialog";
+import { getWallet } from "@/lib/search";
+import AddMoneyImageDialog from "@/components/dialog/AddMoneyImageDialog";
 
 export default function UsersDetailsTable({ users }: { users: any[] }) {
   const [rowId, setRowId] = useState<GridRowId>();
-  //get reference to the image dialog box
-  const imageDialogRef = useRef();
 
   const columns = useMemo(
     () => [
@@ -56,9 +56,17 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
         headerName: "Veri. Status",
         renderCell: (param: any) => (
           <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
-            <VerificationStatus imageDialogRef={imageDialogRef} param={param} />
+            <VerificationStatus
+              userId={param.row._id}
+              verification={param.row.verification}
+            />
           </Box>
         ),
+      },
+      {
+        field: "wallet",
+        headerName: "Wallet POP",
+        renderCell: (param: any) => <WalletStatus userId={param.row._id} />,
       },
       {
         field: "subscription.type",
@@ -72,7 +80,7 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
         width: 120,
         renderCell: (param: any) => (
           <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
-            <SubStatus imageDialogRef={imageDialogRef} param={param} />
+            <SubStatus param={param} />
           </Box>
         ),
       },
@@ -99,7 +107,7 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
   );
 
   return (
-    <div style={{ height: 400, maxHeight: "80vh", width: "100%" }}>
+    <div style={{ height: 600, maxHeight: "auto", width: "100%" }}>
       <DataGrid
         sx={{ margin: "1rem" }}
         getRowId={(row) => row._id}
@@ -165,13 +173,8 @@ function SubExpiringDate({ userId }: { userId: string }) {
     </Typography>
   );
 }
-function SubStatus({
-  imageDialogRef,
-  param,
-}: {
-  imageDialogRef: any;
-  param: any;
-}) {
+function SubStatus({ param }: { param: any }) {
+  const imageDialogRef = useRef();
   useEffect(() => {
     (async () => {
       const data = await getUserSub(param.row._id);
@@ -216,7 +219,7 @@ function SubStatus({
         )}
       </IconButton>
       <ApproveSubscription param={param} />
-      <ProofOfPaymentImageDialog ref={imageDialogRef} />
+      <ViewOnlyImageDialog ref={imageDialogRef} />
     </>
   );
 }
@@ -298,25 +301,26 @@ export function UserDp({ param }: { param: any }) {
   );
 }
 export function VerificationStatus({
-  imageDialogRef,
-  param,
+  verification,
+  userId,
 }: {
-  imageDialogRef: any;
-  param: any;
+  userId: string;
+  verification: any;
 }) {
+  const imageDialogRef = useRef();
   //confirm verification action
   const action = async () => {
-    const result = await verifyUser(param.row._id);
+    const result = await verifyUser(userId);
     return result;
   };
   if (
-    param &&
-    !param.row.verification.kycVerified &&
-    !param.row.verification.idCardUrl
+    verification &&
+    (!verification.kycVerified ||
+      !verification.idCardUrl ||
+      !verification.capturedPhotoUrl)
   )
     return <GppBadIcon sx={{ color: "red" }} />;
-  if (param.row.verification.kycVerified)
-    return <VerifiedIcon sx={{ color: "green" }} />;
+  if (verification.kycVerified) return <VerifiedIcon sx={{ color: "green" }} />;
   return (
     <>
       <IconButton
@@ -325,8 +329,8 @@ export function VerificationStatus({
           const refState = imageDialogRef.current as any;
 
           refState.updateSrc(
-            `/api/multer/id-card/${param.row.verification.idCardUrl}`,
-            param.row.verification.capturedPhotoUrl
+            `/api/multer/id-card/${verification.idCardUrl}`,
+            verification.capturedPhotoUrl
           );
           refState.showDialog();
         }}
@@ -340,16 +344,55 @@ export function VerificationStatus({
           width={50}
           alt=""
           height={50}
-          src={`/api/multer/id-card/${
-            param.row.verification && param.row.verification.idCardUrl
-          }`}
+          src={`/api/multer/id-card/${verification && verification.idCardUrl}`}
         />
       </IconButton>
-      <ImageDialog
-        receiverId={param.row._id}
-        action={action}
-        ref={imageDialogRef}
-      />
+      <ImageDialog receiverId={userId} action={action} ref={imageDialogRef} />
+    </>
+  );
+}
+export function WalletStatus({ userId }: { userId: string }) {
+  const imageDialogRef = useRef();
+  //confirm verification action
+  const action = async () => {
+    const result = await verifyUser(userId);
+    return result;
+  };
+  const [walletPop, setWalletPop] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      if (userId) {
+        const data = await getWallet(userId);
+        setWalletPop(data && data.pop);
+      }
+    })();
+  });
+  if (!walletPop) return <p></p>;
+  return (
+    <>
+      <IconButton
+        onClick={async () => {
+          //call image dialog ref to update image dialog
+          const refState = imageDialogRef.current as any;
+
+          refState.updateSrc(`/api/multer/wallet/${walletPop}`);
+          refState.showDialog();
+        }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <BlackAvatar
+          width={50}
+          alt=""
+          height={50}
+          src={`/api/multer/wallet/${walletPop}`}
+        />
+      </IconButton>
+      <AddMoneyImageDialog userId={userId} ref={imageDialogRef} />
     </>
   );
 }

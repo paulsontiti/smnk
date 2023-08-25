@@ -20,7 +20,7 @@ export default function SearchBox() {
   return (
     <SmnkErrorBoundary>
       <Box
-        sx={{ minWidth: 500 }}
+        sx={{ minWidth: 500, maxWidth: "100%" }}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"center"}

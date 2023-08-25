@@ -5,6 +5,7 @@ import {
   CardActions,
   Grid,
   Divider,
+  CardHeader,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -14,6 +15,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import InfoAlert from "@/components/alerts/Info";
 import LoadingAlert from "@/components/alerts/Loading";
+import {
+  BlackDescription,
+  BlackTypography,
+} from "@/components/card/ClientJobDetailsCard";
 
 export default function IndividualPersonalInfo() {
   const router = useRouter();
@@ -30,93 +35,36 @@ export default function IndividualPersonalInfo() {
   if (!data) return <LoadingAlert />;
   if (!data.firstName) return <InfoAlert message="No personal Info" />;
   return (
-    <Box>
-      <Card>
-        <CardContent>
-          <h4>Personal Info</h4>
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <span>First Name: </span>
-              <Divider />
-            </Grid>
-            <Grid item xs={6}>
-              <span>{data.firstName}</span>
-              <Divider />
-            </Grid>
-            <Grid item xs={6}>
-              <span>Last Name: </span>
-              <Divider />
-            </Grid>
-            <Grid item xs={6}>
-              <span>{data.lastName}</span>
-              <Divider />
-            </Grid>
-            <Grid item xs={6}>
-              <span>UserName: </span>
-              <Divider />
-            </Grid>
-            <Grid item xs={6}>
-              <span>{data.userName}</span>
-              <Divider />
-            </Grid>
-            <Divider />
-            <Grid item xs={6}>
-              <span>State: </span>
-              <Divider />
-            </Grid>
-            <Grid item xs={6}>
-              <span>{data.state}</span>
-              <Divider />
-            </Grid>
-            <Divider />
-            <Grid item xs={6}>
-              <span>L.G.A: </span>
-              <Divider />
-            </Grid>
-            <Grid item xs={6}>
-              <span>{data.lga}</span>
-              <Divider />
-            </Grid>
-            <Divider />
-            <Grid item xs={6}>
-              <span>Address: </span>
-              <Divider />
-            </Grid>
-            <Grid item xs={6}>
-              <span>{data.address}</span>
-              <Divider />
-            </Grid>
-            <Divider />
-            <Grid item xs={6}>
-              <span>Description: </span>
-            </Grid>
-            <Grid item xs={6}>
-              <p>{data.description}</p>
-            </Grid>
-          </Grid>
-        </CardContent>
-        <CardActions
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+    <Card sx={{ mt: 5, width: "100%" }}>
+      <CardHeader title="Personal Info" />
+      <CardContent>
+        <BlackTypography label="First Name" value={data.firstName} />
+        <BlackTypography label="Last Name" value={data.lastName} />
+        <BlackTypography label="Username" value={data.userName} />
+        <BlackTypography label="State" value={data.state} />
+        <BlackTypography label="LGA" value={data.lga} />
+        <BlackDescription label="Address" description={data.address} />
+        <BlackDescription label="Bio" description={data.description} />
+      </CardContent>
+      <CardActions
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Button
+          fullWidth
+          sx={{ maxWidth: 300 }}
+          size="small"
+          onClick={() => {
+            router.push("/dashboard/individual/edit-personal-individual-info");
           }}
+          variant="contained"
         >
-          <Button
-            fullWidth
-            sx={{ maxWidth: 300 }}
-            size="small"
-            onClick={() => {
-              router.push(
-                "/dashboard/individual/edit-personal-individual-info"
-              );
-            }}
-            variant="contained"
-          >
-            Edit Info
-          </Button>
-        </CardActions>
-      </Card>
-    </Box>
+          Edit Info
+        </Button>
+      </CardActions>
+    </Card>
   );
 }

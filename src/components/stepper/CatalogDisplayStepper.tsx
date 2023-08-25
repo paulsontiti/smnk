@@ -1,105 +1,72 @@
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
-import { Box, CardMedia, useMediaQuery } from "@mui/material";
-import MobileStepper from "@mui/material/MobileStepper";
-import Button from "@mui/material/Button";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
-import { Typography, Card, CardContent } from "@mui/material";
+import { Box, CardMedia, useMediaQuery, Typography } from "@mui/material";
 import ReactPlayer from "react-player";
 import { Document, Page, pdfjs } from "react-pdf";
-import { SmnkErrorBoundary } from "@/pages/_app";
-
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
-function CatalogDisplayStepper({ catalog }: { catalog: any[] }) {
+import { SmnkErrorBoundary, theme } from "@/pages/_app";
+import { BlackImageFrame } from "../avatar/DashboardDp";
+import AddFloatingActionButtons from "../fab/Add";
+import { useRouter } from "next/router";
+import ViewOnlyImageDialog from "../dialog/ViewOnlyImageDialog";
+function CatalogDisplayStepper({
+  catalog,
+  forClient,
+}: {
+  forClient: boolean;
+  catalog: any[];
+}) {
   //configure react-pdf
   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.js",
     import.meta.url
   ).toString();
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = catalog && catalog.length;
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStepChange = (step: number) => {
-    setActiveStep(step);
-  };
-  if (!catalog) return <p></p>;
+  //get reference to the image dialog box
+  const imageDialogRef = React.useRef();
+  const router = useRouter();
   return (
     <SmnkErrorBoundary>
-      <Box minWidth={"100%"} maxWidth={"100%"}>
-        <Typography color="primary" fontWeight={"bold"} mt={5}>
-          Catalog:
-        </Typography>
-        <MobileStepper
-          steps={maxSteps}
-          position="static"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
+      <Box
+        p={1}
+        bgcolor={"whitesmoke"}
+        maxWidth={"100%"}
+        minWidth={"100%"}
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"flex-start"}
+        gap={1}
+        flexWrap={"wrap"}
+      >
+        {!forClient && (
+          <AddFloatingActionButtons
+            handleClick={() => {
+              router.push("/dashboard/catalog/add");
+            }}
+          />
+        )}
+        {catalog &&
+          catalog.length > 0 &&
+          catalog.map((cat: Cat) => (
+            <Box
+              key={cat.filename}
+              onClick={() => {
+                //call image dialog ref to update image dialog
+                const refState = imageDialogRef.current as any;
+
+                refState.updateSrc(`/api/multer/catalog/${cat.filename}`);
+                refState.showDialog();
+              }}
             >
-              Next
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowLeft />
-              ) : (
-                <KeyboardArrowRight />
-              )}
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowRight />
-              ) : (
-                <KeyboardArrowLeft />
-              )}
-              Back
-            </Button>
-          }
-        />
-        <Typography variant="caption">
-          {catalog[activeStep] && catalog[activeStep].title}
-        </Typography>
-        <AutoPlaySwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={activeStep}
-          onChangeIndex={handleStepChange}
-          enableMouseEvents
-          interval={100000}
-        >
-          {catalog &&
-            catalog.length > 0 &&
-            catalog.map((cat: Cat, index: number) => (
-              <Box
-                key={cat && cat.filename}
-                minWidth={"100%"}
-                maxWidth={"100%"}
-              >
-                {Math.abs(activeStep - index) <= 2 ? (
-                  <CatalogCard cat={cat} />
-                ) : null}
-              </Box>
-            ))}
-        </AutoPlaySwipeableViews>
+              <BlackImageFrame
+                borderColor={theme.smnk[1200]}
+                width={70}
+                height={70}
+                alt={cat.title}
+                src={`/api/multer/catalog/${cat.filename}`}
+              />
+            </Box>
+          ))}
       </Box>
+      <ViewOnlyImageDialog ref={imageDialogRef} />
     </SmnkErrorBoundary>
   );
 }

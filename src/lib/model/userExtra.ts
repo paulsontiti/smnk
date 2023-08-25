@@ -8,7 +8,6 @@ const userExtraSchema = new Schema({
         ref: 'User',
         required:true
      },
-    rating:{type:Number,default:1},
     comments:[
         {
             comment:{type:String}, rating:{type:Number},

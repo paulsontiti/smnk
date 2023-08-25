@@ -1,4 +1,4 @@
-import { Box, Typography, Avatar } from "@mui/material";
+import { Box, Typography, Badge } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getUserDp, getUserProfile } from "@/lib/utils/user";
 import { useRouter } from "next/router";
@@ -6,22 +6,33 @@ import { SmnkErrorBoundary } from "@/pages/_app";
 import { BlackAvatar } from "../avatar/DashboardDp";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { unReadChats } from "@/lib/chat";
 
 function ChatHeader({
-  receiverId,
+  senderId,
   isChatRoom,
 }: {
   isChatRoom: boolean;
-  receiverId: string;
+  senderId: string;
 }) {
   const [name, setName] = useState<string | null>(null);
   const [senderDp, setSenderDp] = useState("");
   const router = useRouter();
   const { type } = useSelector((state: RootState) => state.users.user);
+  const { _id } = useSelector((state: RootState) => state.users.user);
+
+  const [count, setCount] = useState(0);
+
   useEffect(() => {
     (async () => {
-      if (receiverId) {
-        const { data } = await getUserProfile(receiverId);
+      const data = await unReadChats(senderId, _id);
+      setCount(data);
+    })();
+  });
+  useEffect(() => {
+    (async () => {
+      if (senderId) {
+        const { data } = await getUserProfile(senderId);
         if (data) {
           if (data.firstName) {
             setName(data.firstName + " " + data.lastName);
@@ -31,13 +42,14 @@ function ChatHeader({
         }
 
         //get sender dp
-        const res = await getUserDp(receiverId);
+        const res = await getUserDp(senderId);
         if (res) {
           setSenderDp(res);
         }
       }
     })();
-  }, [receiverId]);
+  }, [senderId]);
+  if (!senderDp) return <p></p>;
   return (
     <SmnkErrorBoundary>
       <Box
@@ -45,9 +57,9 @@ function ChatHeader({
           //clickable only in chatroom
           if (isChatRoom) {
             if (type === "admin") {
-              router.push(`/a-dashboard/chat/${receiverId}`);
+              router.push(`/a-dashboard/chat/${senderId}`);
             } else {
-              router.push(`/chat/${receiverId}`);
+              router.push(`/chat/${senderId}`);
             }
           }
         }}
@@ -57,21 +69,21 @@ function ChatHeader({
           display={"flex"}
           alignItems={"center"}
           justifyContent={"space-between"}
-          p={2}
+          p={1}
         >
           <Box display={"flex"} alignItems={"center"}>
             <BlackAvatar
               src={`/api/multer/profile-pic/${senderDp}`}
               alt="dp"
-              width={70}
-              height={70}
+              width={50}
+              height={50}
             />
 
-            {name && (
+            <Badge badgeContent={count} color="error">
               <Typography sx={{ ml: "1rem", textTransform: "capitalize" }}>
-                {name}
+                {name ?? "Admin"}
               </Typography>
-            )}
+            </Badge>
           </Box>
         </Box>
       </Box>

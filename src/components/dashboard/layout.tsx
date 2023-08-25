@@ -1,7 +1,6 @@
 import { Box, Grid, ThemeProvider } from "@mui/material";
 import DashBoardAppBar from "../appBar/DashBoardAppBar";
 import AdsStepper from "../stepper/AdsStepper";
-import DashBoardSpeedDial from "../speedDial/DashBoardSpeedDial";
 import { theme } from "@/pages/_app";
 import Head from "next/head";
 import DP from "./dp";

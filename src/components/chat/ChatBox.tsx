@@ -64,7 +64,7 @@ const ChatBox = () => {
         {Array.isArray(chats) &&
           chats.map((chat) => (
             <ChatHeader
-              receiverId={chat.userId}
+              senderId={chat.userId}
               isChatRoom={true}
               key={chat.userId}
             />

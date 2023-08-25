@@ -20,7 +20,8 @@ export default async function handler(req:any,res:any){
                 isJobApproved : job.approved,
                 isProposalAccepted : job.proposalAccepted,
                 isJobPaidFor : job.pop ? true : false,
-                isJobRated : job.rated,
+                clientRated : job.clientRated,
+                swRated:job.swRated,
                 approvedUserId:'',
                 hasThisUserApplied:false,
                 swPaid:job.swPaid,isPaymentApproved:job.popConfirmed

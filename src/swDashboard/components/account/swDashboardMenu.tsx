@@ -25,8 +25,6 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import { Typography } from "@mui/material";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import PendingIcon from "@mui/icons-material/Pending";
 import HomeIcon from "@mui/icons-material/Home";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
@@ -35,15 +33,13 @@ import CollectionsIcon from "@mui/icons-material/Collections";
 import LogoutSwitch from "@/components/switch/LogoutSwitch";
 import { theme } from "@/pages/_app";
 import Divider from "@mui/material/Divider";
+import { isUserVerified } from "@/lib/utils/user";
+import { WalletLink } from "@/c-dashboard/components/account/cDashboardMenu";
 
 export default function SWDashboardMenu() {
   const { _id } = useSelector((state: RootState) => state.users.user);
   const theme = useTheme();
-  const primary = theme.smnk[300];
-  const {
-    users: { user },
-    swExtra: { swExtra },
-  } = useSelector((state: RootState) => state);
+  const { user } = useSelector((state: RootState) => state.users);
   const router = useRouter();
 
   const [openAccount, setOpenAccount] = React.useState(true);
@@ -111,12 +107,10 @@ export default function SWDashboardMenu() {
           <Divider />
           <Collapse in={openProfile} timeout="auto" unmountOnExit>
             <List component="div">
-              {user && user.verification && !user.verification.kycVerified && (
-                <Verification
-                  idUrl="/sw-dashboard/verification/id-card"
-                  captureUrl="/sw-dashboard/verification/capture"
-                />
-              )}
+              <Verification
+                idUrl="/sw-dashboard/verification/id-card"
+                captureUrl="/sw-dashboard/verification/capture"
+              />
               {user && user.typeClass === "individual" ? (
                 <UserInfoLink />
               ) : (
@@ -182,7 +176,8 @@ export default function SWDashboardMenu() {
         </List>
         <Divider />
       </Collapse>
-      {/* <LiveChat router={router} /> */}
+      <WalletLink />
+      <LiveChat /> <Divider />
       <Box ml={2}> {_id && <LogoutSwitch />}</Box>
     </List>
   );
@@ -206,7 +201,8 @@ export function ChangePassword({ router }: any) {
   );
 }
 
-export function LiveChat({ router }: any) {
+export function LiveChat() {
+  const router = useRouter();
   return (
     <ListItemButton
       sx={{ ml: 0 }}
@@ -247,11 +243,20 @@ export function Verification({
   idUrl: string;
   captureUrl: string;
 }) {
+  const { _id } = useSelector((state: RootState) => state.users.user);
+  const [verified, setVerified] = React.useState(false);
   const [openVerification, setOpenVerification] = React.useState(true);
   const openVerificationHandleClick = () => {
     setOpenVerification(!openVerification);
   };
   const router = useRouter();
+  React.useEffect(() => {
+    (async () => {
+      const res = await isUserVerified(_id);
+      setVerified(res.data);
+    })();
+  });
+  if (verified) return null;
   return (
     <>
       <ListItemButton sx={{ ml: 0 }} onClick={openVerificationHandleClick}>

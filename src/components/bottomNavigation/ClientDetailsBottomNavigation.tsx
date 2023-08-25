@@ -1,13 +1,19 @@
 import Box from "@mui/material/Box";
-import { Rating, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import { UserRating } from "../card/SWJobDetailsCard";
+import { Wallet } from "../card/ClientDetailsDashboard";
 export default function ClientDetailsBottomNavigation({
   completedJobs,
   pendingJobs,
-  rating,
+  userId,
+  forClient,
 }: {
   completedJobs: number;
+  forClient: boolean;
   pendingJobs: number;
-  rating: number;
+  userId: string;
 }) {
   return (
     <Box
@@ -15,39 +21,29 @@ export default function ClientDetailsBottomNavigation({
       display={"flex"}
       alignItems={"center"}
       justifyContent={"flex-start"}
+      gap={2}
       mt={5}
       mb={5}
     >
       <Box
         display={"flex"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        flexDirection={"column"}
-        mr={1}
+        alignItems={"flex-start"}
+        justifyContent={"flex-start"}
       >
-        <Typography variant="caption">Completed Jobs</Typography>
+        <AssignmentTurnedInIcon />
         <Typography variant="caption">{completedJobs}</Typography>
       </Box>
       <Box
         display={"flex"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        flexDirection={"column"}
-        mr={1}
+        alignItems={"flex-start"}
+        justifyContent={"flex-start"}
       >
-        <Typography variant="caption">Pending Jobs</Typography>
+        <PendingActionsIcon />
         <Typography variant="caption">{pendingJobs}</Typography>
       </Box>
-      <Box
-        display={"flex"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        flexDirection={"column"}
-        mr={1}
-      >
-        <Rating value={rating} size="small" readOnly />
-        <Typography variant="caption">Rating</Typography>
-      </Box>
+
+      <UserRating userId={userId} />
+      {!forClient && <Wallet userId={userId} />}
     </Box>
   );
 }

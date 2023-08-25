@@ -1,6 +1,7 @@
 import Job from "@/lib/model/job"
 import SWExtra from "@/lib/model/swExtra"
 import dbConnect from "@/lib/mongoose"
+import { CreditWallet } from "../../wallet/credit-account"
 
 
 export default async function handler(req:any,res:any){
@@ -14,6 +15,8 @@ export default async function handler(req:any,res:any){
             const job = await Job.findOneAndUpdate({_id:jobId},{approved:true},{new:true})
             await SWExtra.findOneAndUpdate({userId:job.swId},{onAJob:false})
             if(job.approved){
+              const amount = AmountPaidForJob(job.jobDetails.budget)
+                 await CreditWallet(amount,job.swId,res)
                 res.status(201).json({message:'Job approved',successful:job.approved})
             }else{
                 res.status(201).json({message:'Job not approved',successful:job.approved})
@@ -28,4 +31,7 @@ export default async function handler(req:any,res:any){
     }
     
     
+}
+export function AmountPaidForJob(budget:number){
+    return budget - ((12 * budget)/100)
 }

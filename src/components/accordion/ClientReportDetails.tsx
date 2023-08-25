@@ -71,6 +71,7 @@ export default function ClientReportDetailsAccordion({
           setColor("success");
           const refState = snackBarRef.current as any;
           refState.handleClick();
+
           setTimeout(() => {
             router.reload();
           }, 6000);
@@ -181,6 +182,7 @@ export default function ClientReportDetailsAccordion({
                   justifyContent: "center",
                   marginBottom: "2rem",
                 }}
+                p={1}
               >
                 <Typography sx={{ marginBottom: "1rem" }}>
                   {report.file.name}
@@ -191,18 +193,18 @@ export default function ClientReportDetailsAccordion({
                   }
                 />{" "}
                 <Button onClick={readFileDialogHandler}>View File</Button>
-                <GenericDialog
-                  title=""
-                  content={
-                    <FileReaderCard
-                      filename={report.file.name}
-                      contentType={report.file.contentType ?? ""}
-                    />
-                  }
-                  actions={<p></p>}
-                  ref={readFileDialogRef}
-                />
               </Box>
+              <GenericDialog
+                title=""
+                content={
+                  <FileReaderCard
+                    filename={report.file.name}
+                    contentType={report.file.contentType ?? ""}
+                  />
+                }
+                actions={<p></p>}
+                ref={readFileDialogRef}
+              />
             </>
           )}
           {report.correction.subject && (

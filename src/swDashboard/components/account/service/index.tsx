@@ -22,7 +22,7 @@ export default function Service() {
     return <InfoAlert message="No services. Please create one" />;
   return (
     <SmnkErrorBoundary>
-      <Box width={"100%"}>
+      <Box width={"100%"} p={2} mt={5}>
         <Typography sx={{ fontWeight: "bold" }}>Your Services</Typography>
         {services.map((serv: any, i: number) => (
           <ServiceAccordion serv={serv} key={i} index={i} services={services} />

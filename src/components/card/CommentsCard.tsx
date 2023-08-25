@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Rating from "@mui/material/Rating";
+import { Box, Typography, Rating } from "@mui/material";
 import { getUserDp, getUserName } from "@/lib/utils/user";
 import { BlackAvatar } from "../avatar/DashboardDp";
 import { SmnkErrorBoundary } from "@/pages/_app";
@@ -25,8 +23,9 @@ export default function CommentsCard({ comment }: any) {
   if (!comment) return <p></p>;
   return (
     <SmnkErrorBoundary>
-      <Card sx={{ maxWidth: "100%", mb: 2 }}>
+      <Card sx={{ minWidth: "100%", maxWidth: "100%", mb: 1 }}>
         <CardHeader
+          sx={{ alignItems: "flex-start" }}
           avatar={
             <BlackAvatar
               width={50}
@@ -35,20 +34,19 @@ export default function CommentsCard({ comment }: any) {
               src={`/api/multer/profile-pic/${dp}`}
             />
           }
-          title={rater}
+          title={<Typography textTransform={"capitalize"}>{rater}</Typography>}
           subheader={
-            comment.date
-              ? new Date(comment.date).toDateString().slice(0, 10)
-              : ""
+            <Box>
+              <Rating readOnly value={comment.rating} size="small" />
+              <Typography variant="body2" color="text.secondary">
+                {comment.comment}
+              </Typography>
+            </Box>
+            // comment.date
+            //   ? new Date(comment.date).toDateString().slice(0, 10)
+            //   : ""
           }
         />
-
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {comment.comment}
-          </Typography>
-          <Rating value={comment.rating} readOnly />
-        </CardContent>
       </Card>
     </SmnkErrorBoundary>
   );

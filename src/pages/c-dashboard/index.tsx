@@ -8,7 +8,7 @@ export default function Dashboard() {
   return (
     <>
       <Layout>
-        <ClientDetailsDashboard userId={_id} />
+        <ClientDetailsDashboard userId={_id} forSw={false} />
       </Layout>
     </>
   );

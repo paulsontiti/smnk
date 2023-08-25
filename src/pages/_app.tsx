@@ -114,7 +114,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <Providers>
         <SmnkErrorBoundary>
-          <SmnkBackDrop />
+          {/* <SmnkBackDrop /> */}
           <Component {...pageProps} />
         </SmnkErrorBoundary>
       </Providers>
@@ -130,7 +130,7 @@ export function SmnkErrorBoundary({ children }: any) {
   );
 }
 
-function SmnkBackDrop() {
+export function SmnkBackDrop() {
   const { pageLoading } = useSelector((state: RootState) => state.users);
   return (
     <Backdrop

@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
-import Skeleton from "@mui/material/Skeleton";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { IconButton } from "@mui/material";
@@ -19,8 +17,10 @@ export default function DashboardDp() {
       onClick={() => {
         if (type === "skilled worker") {
           router.push("/sw-dashboard");
-        } else {
+        } else if (type === "client") {
           router.push("/c-dashboard");
+        } else {
+          router.push("/a-dashboard");
         }
       }}
     >
@@ -48,29 +48,9 @@ export function BlackImage({
   height: number;
   alt: string;
 }) {
-  const [imgLoadComplete, setImgLoadComplete] = useState(false);
   return (
     <SmnkErrorBoundary>
-      <Image
-        onLoadingComplete={() => {
-          setImgLoadComplete(true);
-        }}
-        style={{
-          display: imgLoadComplete ? "flex" : "none",
-        }}
-        width={width}
-        height={height}
-        alt={alt}
-        src={src}
-      />
-      {!imgLoadComplete && (
-        <Skeleton
-          variant="rectangular"
-          width={width}
-          height={height}
-          animation="wave"
-        />
-      )}
+      <Image width={width} height={height} alt={alt} src={src} />
     </SmnkErrorBoundary>
   );
 }
@@ -85,25 +65,43 @@ export function BlackAvatar({
   height: number;
   alt: string;
 }) {
-  const [imgLoadComplete, setImgLoadComplete] = useState(false);
   return (
     <SmnkErrorBoundary>
       <Image
-        onLoadingComplete={() => {
-          setImgLoadComplete(true);
-        }}
+        width={width}
+        height={height}
+        alt={alt}
+        src={src}
+        style={{ borderRadius: "50%" }}
+      />
+    </SmnkErrorBoundary>
+  );
+}
+export function BlackImageFrame({
+  src,
+  width,
+  height,
+  borderColor,
+  alt,
+}: {
+  src: string;
+  borderColor: string;
+  width: number;
+  height: number;
+  alt: string;
+}) {
+  return (
+    <SmnkErrorBoundary>
+      <Image
         style={{
-          borderRadius: "50%",
-          display: imgLoadComplete ? "flex" : "none",
+          borderRadius: "10%",
+          border: `1px solid ${borderColor}`,
         }}
         width={width}
         height={height}
         alt={alt}
         src={src}
       />
-      {!imgLoadComplete && (
-        <Skeleton variant="circular" width={50} height={50} animation="wave" />
-      )}
     </SmnkErrorBoundary>
   );
 }

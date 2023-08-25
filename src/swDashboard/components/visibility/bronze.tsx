@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardActions, CardContent, Typography } from "@mui/material";
 import React from "react";
 import { Upgrade } from "./upgrade";
 import { useTheme } from "@mui/material/styles";
@@ -23,7 +15,14 @@ const bronze = {
 export const Bronze = () => {
   const theme = useTheme();
   return (
-    <Card sx={{ bgcolor: theme.smnk[200], minHeight: 500 }}>
+    <Card
+      sx={{
+        bgcolor: theme.smnk[200],
+        maxHeight: 500,
+        minHeight: 500,
+        position: "relative",
+      }}
+    >
       <CardContent>
         <Typography sx={{ fontSize: "1.5rem", fontWeight: "bold", mb: "1rem" }}>
           {bronze.name}

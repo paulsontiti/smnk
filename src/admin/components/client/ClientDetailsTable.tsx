@@ -7,7 +7,11 @@ import { confirmUpgradePayment, getUserSub } from "@/lib/payment";
 import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
 import { BlackAvatar } from "@/components/avatar/DashboardDp";
-import { UserDp, VerificationStatus } from "../sw/UsersDetailsTable";
+import {
+  UserDp,
+  VerificationStatus,
+  WalletStatus,
+} from "../sw/UsersDetailsTable";
 import UserDetailsTableActions from "../sw/UserDetailsTableActions";
 
 export default function ClientDetailsTable({ users }: { users: any[] }) {
@@ -52,8 +56,16 @@ export default function ClientDetailsTable({ users }: { users: any[] }) {
         field: "verification",
         headerName: "Veri. Status",
         renderCell: (param: any) => (
-          <VerificationStatus param={param} imageDialogRef={imageDialogRef} />
+          <VerificationStatus
+            verification={param.row.verification}
+            userId={param.row._id}
+          />
         ),
+      },
+      {
+        field: "wallet",
+        headerName: "Wallet POP",
+        renderCell: (param: any) => <WalletStatus userId={param.row._id} />,
       },
       {
         field: "actions",

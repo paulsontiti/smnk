@@ -15,14 +15,12 @@ function ChatNotification({ url }: { url: string }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (_id) {
-      async () => {
-        const data = await unSeenChats(_id);
-        setCount(data);
-      };
-    }
-  }, [_id]);
-
+    (async () => {
+      const data = await unSeenChats(_id);
+      setCount(data);
+    })();
+  });
+  //console.log(count);
   return (
     <SmnkErrorBoundary>
       <IconButton

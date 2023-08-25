@@ -25,7 +25,15 @@ const platinium = {
 export const Platinium = () => {
   const theme = useTheme();
   return (
-    <Card sx={{ bgcolor: theme.smnk[1000], color: "white", minHeight: 500 }}>
+    <Card
+      sx={{
+        bgcolor: theme.smnk[1000],
+        color: "white",
+        maxHeight: 500,
+        minHeight: 500,
+        position: "relative",
+      }}
+    >
       <CardContent>
         <ListItemButton
           sx={{ fontSize: "1.5rem", fontWeight: "bold", mb: "1rem" }}
@@ -59,9 +67,7 @@ export const Platinium = () => {
           </ul>
         </Box>
       </CardContent>
-      <CardActions>
-        <Upgrade visibility="Platinium" />
-      </CardActions>
+      <Upgrade visibility="Platinium" />
     </Card>
   );
 };

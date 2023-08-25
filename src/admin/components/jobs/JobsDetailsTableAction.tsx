@@ -1,35 +1,22 @@
-import {
-  Box,
-  CircularProgress,
-  Fab,
-  Tooltip,
-  SnackbarOrigin,
-  AlertColor,
-  IconButton,
-} from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import { Check, Save } from "@mui/icons-material";
-import { green } from "@mui/material/colors";
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ActionsMenuComponent, {
   MenuAction,
 } from "@/components/menu/ActionsMenuComponent";
-import SnackbarComponent from "@/components/snackbar/SnackBar";
 import GenericDialog from "@/components/dialog/GenericDialog";
 import JobComplaintsContent from "@/components/dialog/contents/JobComplaintsContent";
 import AdminChatAction from "@/components/dialog/actions/AdminChatAction";
-import UserDetailsContent from "@/components/dialog/contents/UserDetailsContent";
 import JobDetailsContent from "@/components/dialog/contents/JobDetailsContent";
+import SWDetailsNoCollapse from "@/components/card/SWDetailsNoCollapse";
+import { ClientProfile } from "@/components/card/ClientDetailsDashboard";
 
 function JobsDetailsTableAction({ params, rowId, setRowId }: any) {
   //declare component's state
   const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState("");
-  const [color, setColor] = useState<AlertColor>("error");
 
   //declare refs
-  const snackBarRef = useRef();
   const actionMenuRef = useRef();
   const jobDetailsRef = useRef();
   const jobComplaintRef = useRef();
@@ -82,8 +69,6 @@ function JobsDetailsTableAction({ params, rowId, setRowId }: any) {
         position: "relative",
       }}
     >
-      <SnackbarComponent color={color} msg={msg} ref={snackBarRef} />
-
       <IconButton
         sx={{ marginRight: "1rem" }}
         onClick={(e) => {
@@ -107,13 +92,15 @@ function JobsDetailsTableAction({ params, rowId, setRowId }: any) {
       />
       <GenericDialog
         title="Client Details"
-        content={<UserDetailsContent userId={params.row.userId} />}
+        content={<ClientProfile clientId={params.row.userId} forSw={true} />}
         actions={<AdminChatAction receiverId={params.row.userId} />}
         ref={clientDetaisRef}
       />
       <GenericDialog
         title="SW Details"
-        content={<UserDetailsContent userId={params.row.swId} />}
+        content={
+          <SWDetailsNoCollapse forClient={true} userId={params.row.swId} />
+        }
         actions={<AdminChatAction receiverId={params.row.swId} />}
         ref={swDetaisRef}
       />

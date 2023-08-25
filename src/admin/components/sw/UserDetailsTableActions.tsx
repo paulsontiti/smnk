@@ -66,23 +66,6 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
       },
       disabled: profileDisabled,
     },
-    {
-      label: "Experiences",
-      handleClick: () => {
-        const refState = userExpRef.current as any;
-        refState.showDialog();
-      },
-      disabled:
-        !swExtra || !swExtra.experience || swExtra.experience.length < 1,
-    },
-    {
-      label: "Services",
-      handleClick: () => {
-        const refState = userServRef.current as any;
-        refState.showDialog();
-      },
-      disabled: !swExtra || !swExtra.services || swExtra.services.length < 1,
-    },
   ];
 
   //actions menu for clients
@@ -188,16 +171,6 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
             ? "Skilled Worker Profile"
             : "Client Profile"
         }
-      />
-      <GenericDialog
-        ref={userExpRef}
-        content={<UserExpContent exps={swExtra && swExtra.experience} />}
-        title="SKilled Worker Experiences"
-      />
-      <GenericDialog
-        ref={userServRef}
-        content={<UserServicesContent services={swExtra && swExtra.services} />}
-        title="SKilled Worker Services"
       />
     </Box>
   );

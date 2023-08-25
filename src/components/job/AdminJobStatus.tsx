@@ -12,7 +12,8 @@ export type JobStatus = {
   isProposalAccepted: boolean;
   isJobPaidFor: boolean;
   isPaymentApproved: boolean;
-  isJobRated?: boolean;
+  clientRated?: boolean;
+  swRated?: boolean;
   approvedUserId?: string;
   hasThisUserApplied?: boolean;
   swPaid?: boolean;
@@ -20,7 +21,7 @@ export type JobStatus = {
 
 export const getJobStatus = async (
   jobId: string,
-  setStatus: React.Dispatch<React.SetStateAction<JobStatus>>,
+  setStatus: React.Dispatch<React.SetStateAction<JobStatus | null>>,
   setError: React.Dispatch<React.SetStateAction<any>>,
   userId?: string
 ) => {

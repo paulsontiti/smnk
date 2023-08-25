@@ -11,6 +11,7 @@ export default async function handler(req:any,res:any){
     
  try{
      const swExtra = await SWExtra.findOne({userId},{bankDetails:true,_id:false})
+     console.log(swExtra)
      if(swExtra){
         res.status(201).json(swExtra.bankDetails)
      }else{

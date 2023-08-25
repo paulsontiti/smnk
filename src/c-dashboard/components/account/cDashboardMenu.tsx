@@ -25,6 +25,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import LogoutSwitch from "@/components/switch/LogoutSwitch";
 import Divider from "@mui/material/Divider";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import WalletIcon from "@mui/icons-material/Wallet";
+import AddCardIcon from "@mui/icons-material/AddCard";
+import UnsubscribeIcon from "@mui/icons-material/Unsubscribe";
 
 export default function CDashboardMenu() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -32,7 +35,6 @@ export default function CDashboardMenu() {
 
   const [openAccount, setOpenAccount] = React.useState(true);
   const [openJob, setOpenJob] = React.useState(true);
-  const [openCustomer, setOpenCustomer] = React.useState(true);
 
   const accountHandleClick = () => {
     setOpenAccount(!openAccount);
@@ -40,10 +42,6 @@ export default function CDashboardMenu() {
 
   const jobHandleClick = () => {
     setOpenJob(!openJob);
-  };
-
-  const customerHandleClick = () => {
-    setOpenCustomer(!openCustomer);
   };
 
   return (
@@ -77,7 +75,6 @@ export default function CDashboardMenu() {
           />
           {openAccount ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Divider />
         <Collapse in={openAccount} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {user && user.typeClass === "individual" ? (
@@ -104,7 +101,6 @@ export default function CDashboardMenu() {
           />
           {openJob ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Divider />
         <Collapse in={openJob} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton
@@ -157,9 +153,66 @@ export default function CDashboardMenu() {
           </List>
         </Collapse>
         <Divider />
-        {/* <LiveChat router={router} /> */}
+        <WalletLink />
+        <LiveChat /> <Divider />
         <Box ml={2}> {user._id && <LogoutSwitch />}</Box>
       </List>
     </SmnkErrorBoundary>
+  );
+}
+
+export function WalletLink() {
+  const router = useRouter();
+  const [openWallet, setOpenWallet] = React.useState(true);
+
+  const walletHandleClick = () => {
+    setOpenWallet(!openWallet);
+  };
+  return (
+    <>
+      <ListItemButton sx={{ ml: 0 }} onClick={walletHandleClick}>
+        <ListItemIcon>
+          <WalletIcon color="primary" />
+        </ListItemIcon>
+        <ListItemText
+          primary={<Typography variant="body1">Wallet</Typography>}
+        />
+        {openWallet ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={openWallet} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton
+            sx={{ ml: 0 }}
+            onClick={() => {
+              router.push("/dashboard/wallet/add-money");
+            }}
+          >
+            <ListItemIcon>
+              <AddCardIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText
+              primary={<Typography variant="caption">Add Money</Typography>}
+            />
+          </ListItemButton>
+          <Divider />
+          <ListItemButton
+            sx={{ ml: 0 }}
+            onClick={() => {
+              router.push("/dashboard/wallet/withdraw-money");
+            }}
+          >
+            <ListItemIcon>
+              <UnsubscribeIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <Typography variant="caption">Withdraw Money</Typography>
+              }
+            />
+          </ListItemButton>
+        </List>
+      </Collapse>
+      <Divider />
+    </>
   );
 }

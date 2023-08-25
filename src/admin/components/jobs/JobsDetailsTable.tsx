@@ -47,26 +47,6 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
         headerName: "Budget",
         renderCell: (param: any) => param.row.jobDetails.budget,
       },
-      // {
-      //   field: "state",
-      //   headerName: "State", renderCell: (param: any) =>
-      //   param.row.jobDetails.state
-      // },
-      // {
-      //   field: "lga",
-      //   headerName: "LGA", renderCell: (param: any) =>
-      //   param.row.jobDetails.lga
-      // },
-      // {
-      //   field: "address",
-      //   headerName: "Address", renderCell: (param: any) =>
-      //   param.row.jobDetails.address
-      // },
-      // {
-      //   field: "description",
-      //   headerName: "Descripton", renderCell: (param: any) =>
-      //   param.row.jobDetails.description,width:300
-      // },
       {
         field: "createdAt",
         headerName: "Created Date",

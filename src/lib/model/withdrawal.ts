@@ -1,0 +1,25 @@
+import { Schema, model, models } from "mongoose";
+
+const withdrawalSchema = new Schema(
+  {
+
+    amount: { type: Number, required:true },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      jobId: {
+        type: Schema.Types.ObjectId,
+        ref: "Job",
+      },
+    done: {type:Boolean,default:false},
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
+
+const Withdrawal = models.Withdrawal || model("Withdrawal", withdrawalSchema);
+export default Withdrawal;
