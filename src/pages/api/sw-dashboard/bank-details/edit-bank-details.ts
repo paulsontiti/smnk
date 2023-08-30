@@ -2,18 +2,21 @@ import dbConnect from "../../../../lib/mongoose";
 import SWExtra from "@/lib/model/swExtra";
 
 export const UpdateSWExtra = async(userId:string,key:string,updateParam:any,res:any,nameOfParam:string,resData?:any)=>{
-
     if (userId) {
         try {
           let newSWExtra;
           const swExtra = await SWExtra.findOne({ userId});
+         
           if (swExtra) {
             swExtra[key] = updateParam
            newSWExtra =  await swExtra.save()
             
           } else {
-            newSWExtra = await SWExtra.create({ userId, updateParam });
+            newSWExtra = await SWExtra.create({ userId});
+            newSWExtra[key] = updateParam
+            newSWExtra =  await newSWExtra.save()
           }
+          
           if (newSWExtra) {
             res
               .status(201)

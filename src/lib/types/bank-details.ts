@@ -59,7 +59,7 @@ export const bankDetailsSubmitHandler = async (
      refState.handleClick()
   }
 };
-const banks = [
+export const banks = [
   "Access Bank",
   "Citibank Nigeria",
   "Coronation Merchant Bank",

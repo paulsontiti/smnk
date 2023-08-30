@@ -100,7 +100,7 @@ function DesktopJobProgress({ jobStatus }: { jobStatus: any }) {
         <JobProgressLabel
           label="Job commenced"
           jobStatus={jobStatus}
-          status="isPaymentApproved"
+          status="jobCommenced"
         />
         <JobProgressLabel
           label="Job Completed"

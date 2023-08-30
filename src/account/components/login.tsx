@@ -11,6 +11,7 @@ import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { AlertColor } from "@mui/material";
 import { getSWExtra } from "@/store/slices/swExtraSlice";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { LoginHeaderTitle } from "./signup";
 
 const initialValues = {
   email: "",
@@ -109,7 +110,7 @@ export default function Login() {
       loginFormControls
     ),
     buttonLabel: "Login",
-    headerTitle: "Login To Your SMNK Account",
+    headerTitle: <LoginHeaderTitle />,
     endIcon: <LoginIcon />,
   };
 

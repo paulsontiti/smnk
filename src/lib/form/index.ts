@@ -1123,7 +1123,7 @@ export const getOptions = (cat: string, value?: string, options?: any[]) => {
 export type FormParams = {
   formObject: FormControlObject;
   buttonLabel: string;
-  headerTitle: string;
+  headerTitle: any;
   startIcon?: any;
   endIcon?: any;
   router?:any

@@ -11,7 +11,6 @@ import RateFloatingActionButtons from "../fab/Rate";
 import TipFloatingActionButtons from "../fab/Tip";
 import { deleteJob } from "@/lib/job";
 import GenericDialog from "../dialog/GenericDialog";
-import ClientServiceRatingContent from "../dialog/contents/ClientServiceRatingContent";
 import ClientTippingContent from "../dialog/contents/ClientTippingContent";
 import GenericContent from "../dialog/contents/GenericContent";
 import GenericActions from "../dialog/actions/GenericActions";
@@ -129,8 +128,7 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
             icon={
               <RateFloatingActionButtons
                 handleClick={() => {
-                  const refState = ratingRef.current as any;
-                  refState.showDialog();
+                  router.push(`/rating/${jobId}`);
                 }}
               />
             }
@@ -165,11 +163,6 @@ export default function ClientJobDetailsAction({ jobId }: { jobId: string }) {
         )}
       </BottomNavigation>
       {/* <pre>{JSON.stringify(jobStatus,null,4)}</pre> */}
-      <GenericDialog
-        ref={ratingRef}
-        content={<ClientServiceRatingContent jobId={jobId} />}
-        title="Rate Our Service"
-      />
     </Box>
   );
 }

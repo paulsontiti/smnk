@@ -8,51 +8,66 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { SmnkErrorBoundary, theme } from "@/pages/_app";
 import { BlackImage } from "../avatar/DashboardDp";
+import InfoAlert from "../alerts/Info";
 
 function FormikContainer({
   formParams,
   loading,
+  note,
 }: {
   formParams: FormParams;
   loading: boolean;
+  note?: string;
 }) {
   const router = useRouter();
   //get the current url
   const path = router.pathname;
+  const loginDesign =
+    formParams.buttonLabel.toLowerCase() === "signup" ||
+    formParams.buttonLabel.toLowerCase() === "login";
   return (
     <SmnkErrorBoundary>
-      {(formParams.buttonLabel.toLowerCase() === "signup" ||
-        formParams.buttonLabel.toLowerCase() === "login") && (
+      {loginDesign && (
         <Box
           minHeight={
-            formParams.buttonLabel.toLowerCase() === "signup" ? 800 : 400
+            formParams.buttonLabel.toLowerCase() === "signup" ? 800 : 600
           }
           minWidth={"100%"}
           p={2}
           sx={{
-            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 35%)",
-            bgcolor: "#85A5EA",
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 70%)",
+            background:
+              "linear-gradient(90deg, rgba(48,191,220,1) 30%,  rgba(27,82,153,1) 100%)",
           }}
         ></Box>
       )}
 
       <Box
-        minWidth={"100%"}
-        mt={5}
+        maxWidth={"90%"}
+        minWidth={{ xs: "90%", md: "50%" }}
         p={1}
         position={"absolute"}
-        top={200}
+        left={
+          loginDesign
+            ? { xs: 1, md: 100, lg: 200 }
+            : { xs: 10, md: 300, lg: 400 }
+        }
+        top={loginDesign ? 250 : 150}
         color={theme.smnk[1200]}
         display={"flex"}
         justifyContent={"center"}
-        gap={{ xs: 1, sm: 5, md: 10, lg: 20 }}
+        gap={{ xs: 1, sm: 5, md: 10 }}
       >
-        {(formParams.buttonLabel.toLowerCase() === "signup" ||
-          formParams.buttonLabel.toLowerCase() === "login") && (
+        {loginDesign && (
           <BlackImage width={100} height={100} src="/assets/smnk.png" alt="" />
         )}
 
-        <Box minWidth={"70%"}>
+        <Box
+          minWidth={loginDesign ? "70%" : "100%"}
+          display={"flex"}
+          flexDirection={"column"}
+          justifyContent={"flex-start"}
+        >
           <Typography mb={2}>{formParams.headerTitle}</Typography>
           <Formik
             validationSchema={formParams.formObject.validationSchema}
@@ -113,14 +128,12 @@ function FormikContainer({
                     disabled={loading || isSubmitting || isValidating}
                     endIcon={formParams.endIcon}
                     startIcon={formParams.startIcon}
-                    size="small"
                   >
                     {formParams.buttonLabel}
                   </Button>
                   <Button
                     type="reset"
-                    variant="outlined"
-                    size="small"
+                    variant="contained"
                     startIcon={<RestartAltIcon />}
                   >
                     Reset
@@ -131,10 +144,11 @@ function FormikContainer({
                 )}
 
                 {/* <pre>{JSON.stringify(values, null, 4)}</pre>
-            <pre>{JSON.stringify(errors, null, 4)}</pre> */}
+                <pre>{JSON.stringify(errors, null, 4)}</pre> */}
               </Form>
             )}
           </Formik>
+          {note && <InfoAlert message={note} />}
         </Box>
       </Box>
     </SmnkErrorBoundary>

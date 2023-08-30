@@ -81,7 +81,10 @@ const jobSchema = new Schema(
         },
         date: { type: Date, default: new Date() },
       },
-    ],
+    ], started: {
+      type: Boolean,
+      default: false,
+    },
     reports: [
       {
         report: { type: String, required: true },

@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import UserInfoLink from "../individual/info";
 import CompanyProfileLink from "../company/profileLink";
-import ExpLink from "./experience/expLink";
+import ExpLink, { MenuLink } from "./experience/expLink";
 import ServiceLink from "./service/serviceLink";
 import BankDetailsLink from "./bank-details/bankDetailsLink";
 import { useRouter } from "next/router";
@@ -282,7 +282,7 @@ export function Verification({
               <PermIdentityIcon sx={{ color: theme.smnk[1000] }} />
             </ListItemIcon>
             <ListItemText
-              primary={<Typography variant="caption">ID Photo</Typography>}
+              primary={<MenuLink label="ID Photo" pending={true} />}
             />
           </ListItemButton>
           <Divider />
@@ -296,7 +296,7 @@ export function Verification({
               <AdminPanelSettingsIcon sx={{ color: theme.smnk[1000] }} />
             </ListItemIcon>
             <ListItemText
-              primary={<Typography variant="caption">Camera Photo</Typography>}
+              primary={<MenuLink label="Camera Photo" pending={true} />}
             />
           </ListItemButton>{" "}
           <Divider />

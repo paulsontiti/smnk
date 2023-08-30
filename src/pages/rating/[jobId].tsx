@@ -2,15 +2,16 @@ import Layout from "@/components/dashboard/layout";
 import RatingForm from "@/components/rating/RatingForm";
 import { useRouter } from "next/router";
 import React from "react";
+import Box from "@mui/material/Box";
 
-function RatingPage() {
+const RatingPage = () => {
   const router = useRouter();
-  const id = router.query.jobId as string;
+  const jobId = router.query.jobId as string;
   return (
     <Layout>
-      <RatingForm jobId={id} />
+      <RatingForm jobId={jobId} />
     </Layout>
   );
-}
+};
 
 export default RatingPage;

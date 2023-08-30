@@ -7,6 +7,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import { ListItemIcon, Typography } from "@mui/material";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { theme } from "@/pages/_app";
+import { MenuLink } from "../experience/expLink";
 
 export default function ServiceLink() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function ServiceLink() {
           <AddBusinessIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
         <ListItemText
-          primary={<Typography variant="caption">Add Services</Typography>}
+          primary={<MenuLink label="Add Service" pending={true} />}
         />
       </ListItemButton>
     );
@@ -39,9 +40,7 @@ export default function ServiceLink() {
       <ListItemIcon>
         <BusinessIcon sx={{ color: theme.smnk[1000] }} />
       </ListItemIcon>
-      <ListItemText
-        primary={<Typography variant="caption">Services</Typography>}
-      />
+      <ListItemText primary={<MenuLink label="Services" pending={false} />} />
     </ListItemButton>
   );
 }

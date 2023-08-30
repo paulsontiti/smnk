@@ -8,7 +8,7 @@ import { signUp, updateState } from "@/store/slices/userSlice";
 import { useEffect, useRef, useState } from "react";
 import FormikContainer from "@/components/form/formikContainer";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
-import { AlertColor } from "@mui/material";
+import { AlertColor, Box } from "@mui/material";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { getSWExtra } from "@/store/slices/swExtraSlice";
 import Link from "next/link";
@@ -224,7 +224,7 @@ export default function SignUp() {
       signUpFormControls
     ),
     buttonLabel: "SignUp",
-    headerTitle: "Create Your SMNK Account",
+    headerTitle: <LoginHeaderTitle />,
     endIcon: <AccountBoxIcon />,
   };
 
@@ -233,5 +233,21 @@ export default function SignUp() {
       <FormikContainer formParams={formParams} loading={loading} />
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
     </SmnkErrorBoundary>
+  );
+}
+export function LoginHeaderTitle() {
+  return (
+    <Box ml={3}>
+      <Typography color={"white"} fontSize={{ xs: 20, sm: 30, md: 50 }}>
+        Everything you need
+      </Typography>
+      <Typography
+        color={"white"}
+        fontSize={{ xs: 20, sm: 30, md: 50 }}
+        fontWeight={"bold"}
+      >
+        at your doorstep
+      </Typography>
+    </Box>
   );
 }

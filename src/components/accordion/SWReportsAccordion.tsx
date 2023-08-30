@@ -12,12 +12,23 @@ import { useRouter } from "next/router";
 import { SmnkErrorBoundary } from "@/pages/_app";
 import useSWR from "swr";
 import { getUserReportsForJob } from "@/lib/types/job";
+import { JobStatus, getJobStatus } from "../job/AdminJobStatus";
+import React from "react";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
+
 function SWReportsAccordion({ jobId }: { jobId: string }) {
   const router = useRouter();
-
+  const [jobStatus, setJobStatus] = React.useState<JobStatus | null>(null);
+  const [errors, setError] = React.useState();
   const { data, error } = useSWR("getReports", getUserReportsForJob(jobId));
+  const { _id } = useSelector((state: RootState) => state.users.user);
 
+  React.useEffect(() => {
+    getJobStatus(jobId, setJobStatus, setError, _id);
+  }, [jobId, _id]);
   if (!data || !jobId) return <p></p>;
+  if (jobStatus && !jobStatus.jobCommenced) return <p></p>;
   const unreadReports = data.filter((r: any) => r.read === false);
   return (
     <SmnkErrorBoundary>
@@ -29,7 +40,7 @@ function SWReportsAccordion({ jobId }: { jobId: string }) {
         >
           <Badge badgeContent={unreadReports.length} color="primary">
             <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-              Reports
+              Job Evidence
             </Typography>
           </Badge>
         </AccordionSummary>

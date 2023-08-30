@@ -1,4 +1,4 @@
-import { AlertColor, Box } from "@mui/material";
+import { AlertColor, Box, Button } from "@mui/material";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { useRouter } from "next/router";
@@ -15,7 +15,8 @@ import SnackbarComponent from "../snackbar/SnackBar";
 import GenericContent from "../dialog/contents/GenericContent";
 import GenericActions from "../dialog/actions/GenericActions";
 import RateFloatingActionButtons from "../fab/Rate";
-import ClientServiceRatingContent from "../dialog/contents/ClientServiceRatingContent";
+import StartFloatingButton from "../fab/StartFloatingButton";
+import axios from "axios";
 
 export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
   const { _id } = useSelector((state: RootState) => state.users.user);
@@ -29,7 +30,6 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
   //declare refs
   const snackBarRef = useRef();
   const dialogRef = useRef();
-  const ratingRef = useRef();
 
   const confirmAction = async (confirm: boolean) => {
     if (!confirm) {
@@ -104,14 +104,38 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
             }
           />
         )}
+        {jobStatus.isProposalAccepted &&
+          jobStatus.hasThisUserApplied &&
+          !jobStatus.jobCommenced && (
+            <BottomNavigationAction
+              label="Start Job"
+              icon={
+                <StartFloatingButton
+                  handleClick={async () => {
+                    try {
+                      await axios({
+                        method: "POST",
+                        url: `${process.env.SMNK_URL}api/job/commence`,
+                        data: { jobId },
+                      });
+                      router.reload();
+                    } catch (err: any) {
+                      console.log(err);
+                    }
+                  }}
+                />
+              }
+            />
+          )}
         {jobStatus.isJobApproved && !jobStatus.swRated && (
           <BottomNavigationAction
             label="Rate Our Service"
             icon={
               <RateFloatingActionButtons
                 handleClick={() => {
-                  const refState = ratingRef.current as any;
-                  refState.showDialog();
+                  router.push(`/rating/${jobId}`);
+                  // const refState = ratingRef.current as any;
+                  // refState.showDialog();
                 }}
               />
             }
@@ -121,7 +145,33 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
         {jobStatus.isJobApproved && !jobStatus.swPaid && (
           <BottomNavigationAction
             label="Withdraw Payment"
-            icon={<AcceptFloatingActionButtons handleClick={dialogHandler} />}
+            icon={
+              <AcceptFloatingActionButtons
+                handleClick={async () => {
+                  const { result, error } = await confirmSWPaid(jobId);
+                  if (error) {
+                    setMsg(error.message);
+                    setColor("error");
+                    const refState = snackBarRef.current as any;
+                    refState.handleClick();
+                  }
+                  if (result.successful) {
+                    setMsg(result.message);
+                    setColor("success");
+                    const refState = snackBarRef.current as any;
+                    refState.handleClick();
+                    setTimeout(() => {
+                      router.reload();
+                    }, 3000);
+                  } else {
+                    setMsg(result.message);
+                    setColor("error");
+                    const refState = snackBarRef.current as any;
+                    refState.handleClick();
+                  }
+                }}
+              />
+            }
           />
         )}
 
@@ -134,13 +184,6 @@ export default function SWJobDetailsActions({ jobId }: { jobId: string }) {
           }
         />
       </BottomNavigation>{" "}
-      {jobStatus.isJobApproved && !jobStatus.swRated && (
-        <GenericDialog
-          ref={ratingRef}
-          content={<ClientServiceRatingContent jobId={jobId} />}
-          title="Rate Our Service"
-        />
-      )}
     </Box>
   );
 }

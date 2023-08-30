@@ -4,6 +4,12 @@ const withdrawalSchema = new Schema(
   {
 
     amount: { type: Number, required:true },
+    
+    accountName: { type: String, required:true },
+    
+    accountNumber: { type: String, required:true },
+    
+    bankName: { type: String, required:true },
     userId: {
         type: Schema.Types.ObjectId,
         ref: "User",

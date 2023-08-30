@@ -1,5 +1,4 @@
 import Layout from "@/components/dashboard/layout";
-import { Card, CardHeader, CardContent } from "@mui/material";
 import { useRouter } from "next/router";
 import IndividualForm from "@/components/dashboard/individualForm";
 
@@ -8,12 +7,7 @@ export default function AddPersonalInfoForm() {
 
   return (
     <Layout>
-      <Card sx={{ minWidth: "100%" }}>
-        <CardHeader title="Add Personal Info" />
-        <CardContent>
-          <IndividualForm router={router} />
-        </CardContent>
-      </Card>
+      <IndividualForm router={router} />
     </Layout>
   );
 }

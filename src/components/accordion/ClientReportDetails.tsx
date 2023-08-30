@@ -167,7 +167,7 @@ export default function ClientReportDetailsAccordion({
           />
           <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
           <Typography sx={{ fontWeight: "bold", margin: "1rem 0" }}>
-            Report:
+            Job Evidence:
           </Typography>
           <Box sx={{ marginBottom: "1rem" }}>{report.report}</Box>
           {report.file.name && (

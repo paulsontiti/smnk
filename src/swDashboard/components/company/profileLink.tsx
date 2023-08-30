@@ -6,11 +6,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { getCompanyProfile } from "@/lib/utils/user";
 import { ListItemIcon } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { Typography } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { theme } from "@/pages/_app";
+import { MenuLink } from "../account/experience/expLink";
 
 export default function CompanyProfileLink() {
   const router = useRouter();
@@ -29,9 +28,7 @@ export default function CompanyProfileLink() {
         <ListItemIcon>
           <InfoIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
-        <ListItemText
-          primary={<Typography variant="caption">Add Info</Typography>}
-        />
+        <ListItemText primary={<MenuLink label="Add Info" pending={true} />} />
       </ListItemButton>
     );
   return (
@@ -44,7 +41,7 @@ export default function CompanyProfileLink() {
       <ListItemIcon>
         <InfoIcon sx={{ color: theme.smnk[1000] }} />
       </ListItemIcon>
-      <ListItemText primary={<Typography variant="caption">Info</Typography>} />
+      <ListItemText primary={<MenuLink label="Info" pending={false} />} />
     </ListItemButton>
   );
 }

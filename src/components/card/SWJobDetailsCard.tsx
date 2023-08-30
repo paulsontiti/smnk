@@ -17,6 +17,7 @@ export default function SWJobDetailsCard({
   forSw: boolean;
 }) {
   const router = useRouter();
+  if (!jobId) return <p></p>;
   return (
     <SmnkErrorBoundary>
       <Card sx={{ minWidth: "100%", maxWidth: "100%" }}>

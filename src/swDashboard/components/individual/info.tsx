@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { ListItemIcon, Typography } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { theme } from "@/pages/_app";
+import { MenuLink } from "../account/experience/expLink";
 
 export default function UserInfoLink() {
   const router = useRouter();
@@ -32,9 +33,7 @@ export default function UserInfoLink() {
         <ListItemIcon>
           <InfoIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
-        <ListItemText
-          primary={<Typography variant="caption">Add Info</Typography>}
-        />
+        <ListItemText primary={<MenuLink label="Add Info" pending={true} />} />
       </ListItemButton>
     );
   return (
@@ -47,7 +46,7 @@ export default function UserInfoLink() {
       <ListItemIcon>
         <InfoIcon sx={{ color: theme.smnk[1000] }} />
       </ListItemIcon>
-      <ListItemText primary={<Typography variant="caption">Info</Typography>} />
+      <ListItemText primary={<MenuLink label="Info" pending={false} />} />
     </ListItemButton>
   );
 }

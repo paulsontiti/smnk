@@ -24,7 +24,8 @@ export default async function handler(req:any,res:any){
                 swRated:job.swRated,
                 approvedUserId:'',
                 hasThisUserApplied:false,
-                swPaid:job.swPaid,isPaymentApproved:job.popConfirmed
+                swPaid:job.swPaid,isPaymentApproved:job.popConfirmed,
+                jobCommenced:job.started
             }
             
            if(job.proposals){

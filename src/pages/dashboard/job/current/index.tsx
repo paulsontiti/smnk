@@ -44,10 +44,8 @@ function CurrentJobPage() {
   return (
     <Layout>
       <ClientJobDetailsCard job={job as Job} />
-
-      <SWReportsAccordion jobId={job._id} />
-
       <ApplyForJobButton job={job} />
+      <SWReportsAccordion jobId={job._id} />
     </Layout>
   );
 }

@@ -103,7 +103,7 @@ function JobReportForm({ jobId, url }: { jobId: string; url: string }) {
       reportFormControls
     ),
     buttonLabel: "Send",
-    headerTitle: `What's Your Report`,
+    headerTitle: `What's Your Job Evidence`,
   };
   return (
     <>

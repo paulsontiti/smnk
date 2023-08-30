@@ -17,6 +17,7 @@ export type JobStatus = {
   approvedUserId?: string;
   hasThisUserApplied?: boolean;
   swPaid?: boolean;
+  jobCommenced?: boolean;
 };
 
 export const getJobStatus = async (

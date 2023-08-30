@@ -29,7 +29,7 @@ function ClientReportsAccordion({
         >
           <Badge badgeContent={unreadReports.length} color="primary">
             <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-              Reports
+              Job Evidences
             </Typography>
           </Badge>
         </AccordionSummary>

@@ -5,9 +5,9 @@ export default async function handler(req: any, res: any) {
   //get database connection
   await dbConnect();
   const { amount, userId } = req.body;
-  const result = await CreditWallet(amount, userId, res);
+  const result = await CreditWallet(amount, userId);
   if(result.successful){
-    res.status(201).json({message:`${amount} successfully added this wallet`,successful:true });
+    res.status(201).json({message:`${amount} successfully added to this wallet`,successful:true });
   }else{
     res.status(201).json({message:`something went wrong, please try again`,successful:false });
   }
@@ -16,19 +16,24 @@ export default async function handler(req: any, res: any) {
   }
 }
 
-export async function CreditWallet(amount: number, userId: string, res: any) {
+export async function CreditWallet(amount: number, userId: string) {
   let successful:boolean = false,
   err:any = null
+ 
   if (amount > 0 && userId) {
     try {
       const wallet = await Wallet.findOne({ userId });
       if (wallet) {
-        const res = await AddMoney(wallet, amount);
-        successful = res
+        wallet.balance += amount;
+        wallet.pop = "";
+        const newWallet = await wallet.save();
+        successful = newWallet ? true : false;
       } else {
-        const wallet = Wallet.create({ userId });
-        const res = await AddMoney(wallet, amount);
-        successful = res
+        const wallet = await Wallet.create({ userId });
+        wallet.balance += amount;
+  wallet.pop = "";
+  const newWallet = await wallet.save();
+  successful = newWallet ? true : false;
       }
     } catch (err) {
      err = err
@@ -41,5 +46,6 @@ async function AddMoney(wallet: any, amount: number) {
   wallet.balance += amount;
   wallet.pop = "";
   const newWallet = await wallet.save();
+  console.log(newWallet)
   return newWallet ? true : false;
 }

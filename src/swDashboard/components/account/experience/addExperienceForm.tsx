@@ -45,46 +45,49 @@ export default function AddExperienceForm({ router }: { router: NextRouter }) {
       JSON.parse(JSON.stringify(localStorage.getItem("swExtra")))
     );
 
-    //if index that means we are editing experience else we are adding an experience
+    if (swExtra) {
+      //if index that means we are editing experience else we are adding an experience
 
-    if (!swExtra.experience) {
-      swExtra.experience = [];
-      swExtra.experience.push(values);
-    } else {
-      swExtra.experience.push(values);
-    }
-
-    //save to the database
-    try {
-      const res = await axios({
-        method: "POST",
-        url: `${process.env.SMNK_URL}api/sw-dashboard/experience/edit-experience`,
-        data: { experience: swExtra.experience, userId: _id },
-      });
-      const data = await res.data;
-
-      if (data.successful) {
-        //save the new user details in the localstorage
-        localStorage.setItem("swExtra", JSON.stringify(swExtra));
-        dispatch(updateSWExtra());
-        setMsg(data.message);
-        setColor("success");
-        const refState = snackBarRef.current as any;
-        refState.handleClick();
-        router.push("/sw-dashboard/experience");
+      if (!swExtra.experience) {
+        swExtra.experience = [];
+        swExtra.experience.push(values);
       } else {
-        setMsg(data.message);
+        swExtra.experience.push(values);
+      }
+      //save to the database
+      try {
+        const res = await axios({
+          method: "POST",
+          url: `${process.env.SMNK_URL}api/sw-dashboard/experience/edit-experience`,
+          data: { experience: swExtra.experience, userId: _id },
+        });
+        const data = await res.data;
+
+        if (data.successful) {
+          //save the new user details in the localstorage
+          localStorage.setItem("swExtra", JSON.stringify(swExtra));
+          dispatch(updateSWExtra());
+          setMsg(data.message);
+          setColor("success");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
+          setTimeout(() => {
+            router.push("/sw-dashboard/experience");
+          }, 3000);
+        } else {
+          setMsg(data.message);
+          setColor("error");
+          const refState = snackBarRef.current as any;
+          refState.handleClick();
+        }
+      } catch (err: any) {
+        console.log(err);
+        setMsg(err.response.data.message);
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
+        return;
       }
-    } catch (err: any) {
-      console.log(err);
-      setMsg(err.response.data.message);
-      setColor("error");
-      const refState = snackBarRef.current as any;
-      refState.handleClick();
-      return;
     }
   };
 

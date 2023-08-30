@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { ListItemIcon, Typography } from "@mui/material";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import { theme } from "@/pages/_app";
+import { MenuLink } from "../experience/expLink";
 
 export default function BankDetailsLink() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function BankDetailsLink() {
           <AddCardIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
         <ListItemText
-          primary={<Typography variant="caption">Add Bank Details</Typography>}
+          primary={<MenuLink label="Add Bank Details" pending={true} />}
         />
       </ListItemButton>
     );
@@ -42,7 +43,7 @@ export default function BankDetailsLink() {
         <PaymentIcon sx={{ color: theme.smnk[1000] }} />
       </ListItemIcon>
       <ListItemText
-        primary={<Typography variant="caption">Bank Details</Typography>}
+        primary={<MenuLink label="Bank Details" pending={false} />}
       />
     </ListItemButton>
   );

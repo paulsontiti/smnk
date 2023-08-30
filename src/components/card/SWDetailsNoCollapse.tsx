@@ -149,7 +149,7 @@ export function UserProfileDetails({
     }
     return "";
   };
-  if (!profile) return <InfoAlert message="Please add your personal info" />;
+  if (!profile) return <p></p>;
   return (
     <SmnkErrorBoundary>
       <Box>
@@ -157,7 +157,7 @@ export function UserProfileDetails({
           sx={{ minWidth: "100%" }}
           avatar={
             <Badge
-              color={userInfo.active ? "success" : "error"}
+              color={userInfo && userInfo.active ? "success" : "error"}
               overlap="circular"
               badgeContent=""
               anchorOrigin={{
