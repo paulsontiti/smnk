@@ -30,7 +30,7 @@ function FormikContainer({
       {loginDesign && (
         <Box
           minHeight={
-            formParams.buttonLabel.toLowerCase() === "signup" ? 800 : 600
+            formParams.buttonLabel.toLowerCase() === "signup" ? 1200 : 600
           }
           minWidth={"100%"}
           p={2}
