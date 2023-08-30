@@ -97,9 +97,15 @@ function RequestComponent({ request }: { request: Request }) {
       <CardContent>
         <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
         <BlackTypography label="Amount" value={request.amount.toString()} />
-        <BlackTypography label="Amount" value={request.bankName ?? ""} />
-        <BlackTypography label="Amount" value={request.accountName ?? ""} />
-        <BlackTypography label="Amount" value={request.accountNumber ?? ""} />
+        <BlackTypography label="Bank Name" value={request.bankName ?? ""} />
+        <BlackTypography
+          label="Account Name"
+          value={request.accountName ?? ""}
+        />
+        <BlackTypography
+          label="Account Number"
+          value={request.accountNumber ?? ""}
+        />
       </CardContent>
       <BlackLoadingButton
         variant="contained"
