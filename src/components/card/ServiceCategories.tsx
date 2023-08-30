@@ -99,7 +99,7 @@ export default function ServiceCategories() {
               }}
               size="small"
             >
-              Hire an Artisan
+              Hire a Professional
             </Button>
             <Button
               size="small"
@@ -113,7 +113,7 @@ export default function ServiceCategories() {
                 router.push("/account/signup");
               }}
             >
-              Earn as an Artisan
+              Earn as a Professional
             </Button>
           </CardActions>
         </Card>
