@@ -107,7 +107,7 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
   );
 
   return (
-    <div style={{ height: 600, maxHeight: "auto", width: "100%" }}>
+    <div style={{ height: 800, maxHeight: "auto", width: "100%" }}>
       <DataGrid
         sx={{ margin: "1rem" }}
         getRowId={(row) => row._id}
