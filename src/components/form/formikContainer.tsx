@@ -30,12 +30,12 @@ function FormikContainer({
       {loginDesign && (
         <Box
           minHeight={
-            formParams.buttonLabel.toLowerCase() === "signup" ? 1200 : 600
+            formParams.buttonLabel.toLowerCase() === "signup" ? 1000 : 600
           }
           minWidth={"100%"}
           p={2}
           sx={{
-            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 70%)",
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 50%)",
             background:
               "linear-gradient(90deg, rgba(48,191,220,1) 30%,  rgba(27,82,153,1) 100%)",
           }}
