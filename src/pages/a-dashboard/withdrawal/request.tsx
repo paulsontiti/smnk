@@ -7,7 +7,7 @@ import BlackLoadingButton from "@/components/home/navbar/loginButton";
 import UserBankDetails from "@/components/pay-sw";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
 import { getAllpendingWithrawalRequests } from "@/lib/types/job";
-import { AlertColor, Box, Card, CardActions, CardContent } from "@mui/material";
+import { AlertColor, Box, Card, CardContent } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React from "react";
@@ -17,6 +17,9 @@ type Request = {
   userId: string;
   amount: number;
   _id?: string;
+  bankName: string;
+  accountNumber: string;
+  accountName: string;
 };
 
 function WithdrawalPage() {
@@ -88,12 +91,15 @@ function RequestComponent({ request }: { request: Request }) {
       refState.handleClick();
     }
   };
+  if (!request) return <p></p>;
   return (
     <Card sx={{ m: 2 }}>
       <CardContent>
         <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
         <BlackTypography label="Amount" value={request.amount.toString()} />
-        <UserBankDetails userId={request.userId} />
+        <BlackTypography label="Amount" value={request.bankName ?? ""} />
+        <BlackTypography label="Amount" value={request.accountName ?? ""} />
+        <BlackTypography label="Amount" value={request.accountNumber ?? ""} />
       </CardContent>
       <BlackLoadingButton
         variant="contained"
