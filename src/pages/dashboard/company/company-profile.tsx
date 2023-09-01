@@ -38,15 +38,13 @@ export default function CompanyProfile() {
         p: {
           sm: "3rem 5rem",
           md: "3rem 10rem",
-          lg: "3rem 20rem",
-          xl: "3rem 20rem",
         },
       }}
     >
       <CardHeader title={`Company's Profile`} />
       <BlackTypography label="Name" value={data.name} />
-      <BlackTypography label="State" value={data.name} />
-      <BlackTypography label="LGA" value={data.name} />
+      <BlackTypography label="State" value={data.state} />
+      <BlackTypography label="LGA" value={data.lga} />
       <BlackDescription label="Address" description={data.officeAddress} />
       <BlackDescription label="Bio" description={data.description} />
 
