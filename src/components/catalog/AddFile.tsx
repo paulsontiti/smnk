@@ -27,96 +27,103 @@ function AddFile() {
 
   //formik submit handler
   const formikSubmitHandler = (values: any, formikHelpers: any) => {
-    setLoading(true);
-    setInitiaValues(values);
-    return new Promise((res) => {
-      formikHelpers
-        .validateForm()
-        .then(async (data: any) => {
-          try {
-            //checkif the file is valid
-            const isFileValid = validImageFile(values.catalog);
-            if (isFileValid === "valid") {
-              const formData = new FormData();
-              formData.append("userId", _id);
-              formData.append("cat", values.catalog);
-              formData.append("title", values.title);
-              formData.append("description", values.description);
+    if (_id) {
+      setLoading(true);
+      setInitiaValues(values);
+      return new Promise((res) => {
+        formikHelpers
+          .validateForm()
+          .then(async (data: any) => {
+            try {
+              //checkif the file is valid
+              const isFileValid = validImageFile(values.catalog);
+              if (isFileValid === "valid") {
+                const formData = new FormData();
+                formData.append("userId", _id);
+                formData.append("cat", values.catalog);
+                formData.append("title", values.title);
+                formData.append("description", values.description);
 
-              const res = await axios({
-                method: "POST",
-                url: `${process.env.SMNK_URL}/api/multer/catalog`,
-                data: formData,
-              });
-              const data = await res.data;
+                const res = await axios({
+                  method: "POST",
+                  url: `${process.env.SMNK_URL}/api/multer/catalog`,
+                  data: formData,
+                });
+                const data = await res.data;
 
-              if (data.successful) {
-                //get swExtra from local storage
-                let swExtra = JSON.parse(
-                  JSON.parse(JSON.stringify(localStorage.getItem("swExtra")))
-                );
-                if (swExtra.catalog) {
-                  swExtra.catalog.push({
-                    filename: data.resData.filename,
-                    title: values.title,
-                    description: values.description,
-                    contentType: data.resData.contentType,
-                  });
+                if (data.successful) {
+                  //get swExtra from local storage
+                  let swExtra = JSON.parse(
+                    JSON.parse(JSON.stringify(localStorage.getItem("swExtra")))
+                  );
+                  if (swExtra.catalog) {
+                    swExtra.catalog.push({
+                      filename: data.resData.filename,
+                      title: values.title,
+                      description: values.description,
+                      contentType: data.resData.contentType,
+                    });
+                  } else {
+                    swExtra.catalog = [];
+                    swExtra.catalog.push({
+                      filename: data.resData.filename,
+                      title: values.title,
+                      description: values.description,
+                      contentType: data.resData.contentType,
+                    });
+                  }
+                  //save the new user details in the localstorage
+                  localStorage.setItem("swExtra", JSON.stringify(swExtra));
+                  dispatch(updateSWExtra());
+                  setLoading(false);
+                  setMsg(data.message);
+                  setColor("success");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
+                  setTimeout(() => {
+                    router.push("/dashboard/catalog");
+                  }, 6000);
                 } else {
-                  swExtra.catalog = [];
-                  swExtra.catalog.push({
-                    filename: data.resData.filename,
-                    title: values.title,
-                    description: values.description,
-                    contentType: data.resData.contentType,
-                  });
+                  setLoading(false);
+                  setMsg(data.message);
+                  setColor("error");
+                  const refState = snackBarRef.current as any;
+                  refState.handleClick();
                 }
-                //save the new user details in the localstorage
-                localStorage.setItem("swExtra", JSON.stringify(swExtra));
-                dispatch(updateSWExtra());
-                setLoading(false);
-                setMsg(data.message);
-                setColor("success");
-                const refState = snackBarRef.current as any;
-                refState.handleClick();
-                setTimeout(() => {
-                  router.push("/dashboard/catalog");
-                }, 6000);
               } else {
                 setLoading(false);
-                setMsg(data.message);
+                setMsg(isFileValid);
                 setColor("error");
                 const refState = snackBarRef.current as any;
                 refState.handleClick();
+                res(data);
               }
-            } else {
+            } catch (err: any) {
               setLoading(false);
-              setMsg(isFileValid);
+              setMsg(err.message);
               setColor("error");
               const refState = snackBarRef.current as any;
               refState.handleClick();
-              res(data);
+              console.log(err);
+              res(err);
             }
-          } catch (err: any) {
+          })
+          .catch((err: any) => {
             setLoading(false);
             setMsg(err.message);
             setColor("error");
             const refState = snackBarRef.current as any;
             refState.handleClick();
-            console.log(err);
+            console.log("Error from formik ", err);
             res(err);
-          }
-        })
-        .catch((err: any) => {
-          setLoading(false);
-          setMsg(err.message);
-          setColor("error");
-          const refState = snackBarRef.current as any;
-          refState.handleClick();
-          console.log("Error from formik ", err);
-          res(err);
-        });
-    });
+          });
+      });
+    } else {
+      setMsg("Invalid request. Please logout and login again");
+      setColor("error");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
+    }
   };
 
   const validationSchema = object({

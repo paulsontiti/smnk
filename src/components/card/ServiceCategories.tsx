@@ -12,7 +12,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import SearchDrawer, { ServicesDrawer } from "../drawer/SearchDrawer";
 import { fetchUsers } from "@/lib/search";
-import { SmnkErrorBoundary } from "@/pages/_app";
+import { SmnkErrorBoundary, theme } from "@/pages/_app";
 
 export const serviceCategories = [
   { id: 1, src: "/assets/graphics.png", title: "Graphics & Design" },
@@ -83,16 +83,46 @@ export default function ServiceCategories() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: 1,
               mb: 5,
+              minWidth: "100%",
             }}
           >
             <Button
               sx={{
+                bgcolor: theme.smnk[1200],
+                borderRadius: "30px",
+                color: "white",
+                minWidth: 200,
+              }}
+              onClick={() => {
+                router.push("/account/signup");
+              }}
+              size="small"
+            >
+              Hire an Artisan
+            </Button>
+            <Button
+              sx={{
+                bgcolor: theme.smnk[1200],
+                borderRadius: "30px",
+                color: "white",
+                minWidth: 200,
+              }}
+              onClick={() => {
+                router.push("/account/signup");
+              }}
+              size="small"
+            >
+              Earn as an Artisan
+            </Button>
+            <Button
+              sx={{
                 bgcolor: "#7E1120",
                 borderRadius: "30px",
-                mr: 2,
                 color: "white",
-                minWidth: 150,
+                minWidth: 200,
               }}
               onClick={() => {
                 router.push("/account/signup");
@@ -107,7 +137,7 @@ export default function ServiceCategories() {
                 bgcolor: "#E08300",
                 borderRadius: "30px",
                 color: "white",
-                minWidth: 150,
+                minWidth: 200,
               }}
               onClick={() => {
                 router.push("/account/signup");

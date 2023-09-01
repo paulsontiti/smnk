@@ -39,6 +39,8 @@ export default function HowSMNKWorks() {
             {" "}
             <Typography
               fontWeight={"bold"}
+              textAlign={"center"}
+              mt={2}
             >{`Let's Get You Started`}</Typography>
             <Typography>
               Start Your journey with SMNK by creating an account. You can
@@ -103,7 +105,11 @@ export default function HowSMNKWorks() {
 
           <Box p={1}>
             {" "}
-            <Typography fontWeight={"bold"} mb={2}>{`Post A Job`}</Typography>
+            <Typography
+              fontWeight={"bold"}
+              textAlign={"center"}
+              mb={2}
+            >{`Post A Job`}</Typography>
             <Typography>
               It is free and easy to post a job. You can simply choose your
               identity, profile and budget and recommendations would come witing
@@ -146,6 +152,7 @@ export default function HowSMNKWorks() {
             <Typography
               fontWeight={"bold"}
               mb={2}
+              textAlign={"center"}
             >{`Choose A Professional`}</Typography>
             <Typography>
               No discrimination on any job. We have got Professionals or
@@ -186,7 +193,10 @@ export default function HowSMNKWorks() {
 
           <Box>
             {" "}
-            <Typography fontWeight={"bold"}>{`Pay Safely`}</Typography>
+            <Typography
+              fontWeight={"bold"}
+              textAlign={"center"}
+            >{`Pay Safely`}</Typography>
             <Typography>
               SMNK guarantees that only professionals or Skilled workers who
               have completed their jobs satisfactorily will receive your money.
@@ -231,6 +241,7 @@ export default function HowSMNKWorks() {
             <Typography
               fontWeight={"bold"}
               mb={2}
+              textAlign={"center"}
             >{`We Are Here To Help`}</Typography>
             <Typography>
               Our talented team of recruiters are always available to find you

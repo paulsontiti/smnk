@@ -13,11 +13,11 @@ import InfoAlert from "../alerts/Info";
 function FormikContainer({
   formParams,
   loading,
-  note,
+  notes,
 }: {
   formParams: FormParams;
   loading: boolean;
-  note?: string;
+  notes?: string[];
 }) {
   const router = useRouter();
   //get the current url
@@ -56,10 +56,11 @@ function FormikContainer({
         color={theme.smnk[1200]}
         display={"flex"}
         justifyContent={"center"}
+        alignItems={"flex-start"}
         gap={{ xs: 1, sm: 5, md: 10 }}
       >
         {loginDesign && (
-          <BlackImage width={100} height={100} src="/assets/smnk.png" alt="" />
+          <BlackImage width={50} height={50} src="/assets/smnk.png" alt="" />
         )}
 
         <Box
@@ -68,7 +69,17 @@ function FormikContainer({
           flexDirection={"column"}
           justifyContent={"flex-start"}
         >
-          <Typography mb={2}>{formParams.headerTitle}</Typography>
+          {Array.isArray(notes) && (
+            <Box mb={5}>
+              {notes.map((note) => (
+                <InfoAlert message={note} key={note} />
+              ))}
+            </Box>
+          )}
+
+          <Typography mb={2} variant="h6">
+            {formParams.headerTitle}
+          </Typography>
           <Formik
             validationSchema={formParams.formObject.validationSchema}
             initialValues={formParams.formObject.initialValues}
@@ -148,7 +159,6 @@ function FormikContainer({
               </Form>
             )}
           </Formik>
-          {note && <InfoAlert message={note} />}
         </Box>
       </Box>
     </SmnkErrorBoundary>

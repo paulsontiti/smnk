@@ -2,33 +2,54 @@ import { useRouter } from "next/router";
 import { number, object, string } from "yup";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import FormikContainer from "@/components/form/formikContainer";
 import SnackbarComponent from "@/components/snackbar/SnackBar";
-import { AlertColor } from "@mui/material";
+import { AlertColor, Typography } from "@mui/material";
 import { SmnkErrorBoundary } from "@/pages/_app";
 import axios from "axios";
 import Layout from "@/components/dashboard/layout";
 import { banks } from "@/lib/types/bank-details";
+import { getWallet } from "@/lib/search";
 
 export default function WithdrawalPage() {
   const router = useRouter();
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
-  const { _id } = useSelector((state: RootState) => state.users.user);
+  const {
+    users: {
+      user: { _id },
+    },
+    swExtra: {
+      swExtra: { bankDetails },
+    },
+  } = useSelector((state: RootState) => state);
 
   const [loading, setLoading] = useState(false);
+  const [wallet, setWallet] = useState<any>(null);
+  useEffect(() => {
+    (async () => {
+      if (_id) {
+        const data = await getWallet(_id);
+
+        setWallet(data);
+      }
+    })();
+  }, [_id]);
 
   //declare refs
   const snackBarRef = useRef();
 
+  const accountName = bankDetails && bankDetails.accountName;
+  const accountNumber = bankDetails && bankDetails.accountNumber;
+  const bankName = bankDetails && bankDetails.bankName;
   const initialValues = {
     amount: 0,
     userId: _id,
-    accountName: "",
-    accountNumber: "",
-    bankName: "",
+    accountName,
+    accountNumber,
+    bankName,
     email: "",
     password: "",
   };
@@ -141,7 +162,10 @@ export default function WithdrawalPage() {
         <FormikContainer
           formParams={formParams}
           loading={loading}
-          note=" Note: Money will be disbursed to your account in 3-5 working days"
+          notes={[
+            `Your Wallet balance is ₦${wallet && wallet.balance}`,
+            "Note: Money will be disbursed to your account in 3-5 working days",
+          ]}
         />
       </SmnkErrorBoundary>
     </Layout>

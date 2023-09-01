@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
-import { Rating, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { UserRating } from "../card/SWJobDetailsCard";
 import { Wallet } from "../card/ClientDetailsDashboard";
 export default function UserDetailsBottomNavigation({

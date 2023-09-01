@@ -17,7 +17,6 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { RootState } from "@/store";
-import LogoutSwitch from "../switch/LogoutSwitch";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -160,7 +159,7 @@ export default function Footer() {
                 Contact Details:
               </Typography>
               <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
-                Office address: No 2 Lucky Nwagwu street, Lugbe, Abuja
+                Office address: Lucky Nwagwu street.
               </Typography>
               <Typography level="body1" sx={{ color: "black", mb: 0.5 }}>
                 Email: info@smnklimited.com
@@ -337,15 +336,10 @@ export default function Footer() {
             SMNK Nig Ltd
           </Typography>
           <Divider sx={{ my: 2 }} />
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
+          <Box display={"flex"} alignItems={"center"} maxWidth={"100%"}>
             <Typography level="body3" sx={{ ml: "irem", color: "black" }}>
               Copyright {new Date().getFullYear()}
             </Typography>
-            {_id && <LogoutSwitch />}
           </Box>
         </Box>
       </Sheet>

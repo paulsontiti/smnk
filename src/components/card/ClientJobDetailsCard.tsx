@@ -110,8 +110,8 @@ export function BlackTypography({
           color={theme.smnk[1200]}
           p={0.5}
           m={1}
-          maxWidth={"30%"}
-          minWidth={"30%"}
+          maxWidth={"40%"}
+          minWidth={"40%"}
           borderRadius={"10%"}
         >
           {label}:
@@ -122,8 +122,8 @@ export function BlackTypography({
           bgcolor={"whitesmoke"}
           p={0.5}
           m={1}
-          maxWidth={"67%"}
-          minWidth={"67%"}
+          maxWidth={"50%"}
+          minWidth={"50%"}
           borderRadius={"10%"}
           textTransform={"capitalize"}
         >

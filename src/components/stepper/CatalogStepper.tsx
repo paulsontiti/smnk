@@ -77,7 +77,7 @@ function CatalogStepper() {
       p={2}
     >
       <Typography variant="h6">Catalogue</Typography>
-      <CatalogDisplayStepper catalog={catalog} forClient={true} />
+      <CatalogDisplayStepper catalog={catalog} forClient={false} />
     </Box>
   );
 }
