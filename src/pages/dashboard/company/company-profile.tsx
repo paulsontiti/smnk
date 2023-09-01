@@ -35,6 +35,10 @@ export default function CompanyProfile() {
       sx={{
         maxWidth: "100%",
         minWidth: "100%",
+        p: {
+          xs: "1rem 1rem",
+          sm: "3rem 5rem",
+        },
       }}
     >
       <CardHeader title={`Company's Profile`} />
