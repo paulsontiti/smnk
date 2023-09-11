@@ -116,6 +116,7 @@ function IDCardUploader() {
   return (
     <SmnkErrorBoundary>
       <Container sx={{ mt: 10 }}>
+        <InfoAlert message="Only government issued IDENTIFICATIONS would be accepted eg: Drivers license, Voters card, NIMC and National passport" />
         <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
 
         {verified ? (
