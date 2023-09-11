@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import ViewOnlyImageDialog from "@/components/dialog/ViewOnlyImageDialog";
 import { getWallet } from "@/lib/search";
 import AddMoneyImageDialog from "@/components/dialog/AddMoneyImageDialog";
+import InfoAlert from "@/components/alerts/Info";
 
 export default function UsersDetailsTable({ users }: { users: any[] }) {
   const [rowId, setRowId] = useState<GridRowId>();
@@ -105,7 +106,10 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
     ],
     [rowId]
   );
-
+  if (!users)
+    return (
+      <InfoAlert message="No data. Please refresh the page to start data fetching" />
+    );
   return (
     <div style={{ maxHeight: "auto", width: "100%" }}>
       <DataGrid

@@ -7,6 +7,7 @@ import ImageDialog from "@/components/dialog/ImageDialog";
 import { confirmPayment } from "@/lib/payment";
 import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
+import InfoAlert from "@/components/alerts/Info";
 
 export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
   const [rowId, setRowId] = useState<GridRowId>();
@@ -98,7 +99,10 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
     ],
     [rowId]
   );
-
+  if (!jobs)
+    return (
+      <InfoAlert message="No data. Please refresh the page to start data fetching" />
+    );
   return (
     <div style={{ height: 800, maxHeight: "80vh", width: "100%" }}>
       <DataGrid

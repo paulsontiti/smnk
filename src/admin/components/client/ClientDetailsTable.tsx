@@ -1,18 +1,14 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import { DataGrid, GridRowId } from "@mui/x-data-grid";
-import { Avatar, IconButton, Typography, Skeleton, Box } from "@mui/material";
 import moment from "moment";
-import ImageDialog from "@/components/dialog/ImageDialog";
 import { confirmUpgradePayment, getUserSub } from "@/lib/payment";
-import DoneIcon from "@mui/icons-material/Done";
-import ClearIcon from "@mui/icons-material/Clear";
-import { BlackAvatar } from "@/components/avatar/DashboardDp";
 import {
   UserDp,
   VerificationStatus,
   WalletStatus,
 } from "../sw/UsersDetailsTable";
 import UserDetailsTableActions from "../sw/UserDetailsTableActions";
+import InfoAlert from "@/components/alerts/Info";
 
 export default function ClientDetailsTable({ users }: { users: any[] }) {
   const [rowId, setRowId] = useState<GridRowId>();
@@ -78,7 +74,10 @@ export default function ClientDetailsTable({ users }: { users: any[] }) {
     ],
     [rowId]
   );
-
+  if (!users)
+    return (
+      <InfoAlert message="No data. Please refresh the page to start data fetching" />
+    );
   return (
     <div style={{ height: 800, maxHeight: "80vh", width: "100%" }}>
       <DataGrid
