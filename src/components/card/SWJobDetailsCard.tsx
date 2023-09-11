@@ -3,7 +3,6 @@ import { Box, Card, Divider, Rating } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { SmnkErrorBoundary, theme } from "@/pages/_app";
 import { getUserRating } from "@/lib/utils/user";
-import { useRouter } from "next/router";
 import { JobDetails } from "./ClientJobDetailsCard";
 import { ClientProfile } from "./ClientDetailsDashboard";
 
@@ -16,7 +15,6 @@ export default function SWJobDetailsCard({
   userId: string;
   forSw: boolean;
 }) {
-  const router = useRouter();
   if (!jobId) return <p></p>;
   return (
     <SmnkErrorBoundary>
@@ -26,15 +24,6 @@ export default function SWJobDetailsCard({
         </Box>
         <Divider />
         <JobDetails jobId={jobId} />
-        <Typography
-          color={theme.smnk[1200]}
-          variant="caption"
-          fontWeight={"bold"}
-        >
-          {" "}
-          Dispatched payments are made after a deduction of 12% administrative
-          fee.{" "}
-        </Typography>
       </Card>{" "}
     </SmnkErrorBoundary>
   );
@@ -56,7 +45,7 @@ export function UserRating({ userId }: { userId: string }) {
         alignItems={"flex-start"}
         justifyContent={"flex-start"}
       >
-        <Rating value={0} readOnly size="small" />
+        <Rating value={0} readOnly size="small" precision={0.5} />
         <Typography variant="caption">{0}</Typography>
       </Box>
     );
@@ -72,7 +61,7 @@ export function UserRating({ userId }: { userId: string }) {
       alignItems={"flex-start"}
       justifyContent={"flex-start"}
     >
-      <Rating value={ratingAverage} readOnly size="small" />
+      <Rating value={ratingAverage} readOnly size="small" precision={0.5} />
       <Typography variant="caption">{rating.length}</Typography>
     </Box>
   );

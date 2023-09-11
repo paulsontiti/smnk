@@ -119,18 +119,27 @@ export default function SignUp() {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
-          //if (values.emailVerificationCode === verificationCode) {
-          const msg = await submitHandler(values);
+          if (values.tc) {
+            //if (values.emailVerificationCode === verificationCode) {
+            const msg = await submitHandler(values);
 
-          setLoading(false);
-          res(msg);
-          // } else {
-          //   setMsg("Invalid email verification code");
-          //   setColor("error");
-          //   const refState = snackBarRef.current as any;
-          //   refState.handleClick();
-          //   res("");
-          //}
+            setLoading(false);
+            res(msg);
+            // } else {
+            //   setMsg("Invalid email verification code");
+            //   setColor("error");
+            //   const refState = snackBarRef.current as any;
+            //   refState.handleClick();
+            //   res("");
+            //}
+          } else {
+            setMsg("Please agree to terms and conditions");
+            setColor("error");
+            const refState = snackBarRef.current as any;
+            refState.handleClick();
+            dispatch(updateState());
+            setLoading(false);
+          }
         })
         .catch((err: any) => {
           setLoading(false);
@@ -152,9 +161,6 @@ export default function SignUp() {
     confirmPassword: string()
       .oneOf([ref("password"), ""], "Both Passwords must match")
       .required("Confirm Password is required"),
-    tc: boolean()
-      .isTrue("Please agree to Terms & Conditions")
-      .required("Agreeing to terms and conditions is required"),
   });
 
   const signUpFormControls: FormControls[] = [

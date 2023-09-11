@@ -35,7 +35,7 @@ function DashBoardNotification() {
         return false;
       }
     })();
-  }, [_id]);
+  });
   return (
     <>
       <IconButton

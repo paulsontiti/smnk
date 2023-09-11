@@ -1,11 +1,9 @@
 import React, { useImperativeHandle, useRef, useState } from "react";
-import { AlertColor } from "@mui/material";
+import { AlertColor, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import { LoadingButton } from "@mui/lab";
-import SnackbarComponent from "../snackbar/SnackBar";
 import AdminChatAction from "./actions/AdminChatAction";
 import { SmnkErrorBoundary } from "@/pages/_app";
 import { BlackImage } from "../avatar/DashboardDp";
@@ -14,6 +12,7 @@ import FormikContainer from "../form/formikContainer";
 import { FormControls, FormParams, createFormObject } from "@/lib/form";
 import { number, object, string } from "yup";
 import axios from "axios";
+import SnackbarComponent from "../snackbar/SnackBar";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -133,7 +132,11 @@ const AddMoneyImageDialog = React.forwardRef(
             <DialogActions>
               <AdminChatAction receiverId={userId} />
             </DialogActions>
-            <FormikContainer formParams={formParams} loading={loading} />
+            <FormikContainer
+              formParams={formParams}
+              loading={loading}
+              forAdminAddMoney={true}
+            />
           </BootstrapDialog>
         </>
       </SmnkErrorBoundary>

@@ -45,7 +45,8 @@ const swExtraSchema = new Schema({
         subscribedDate:{type:Date},
         expiringDate:{type:Date},
         pop:{type:String},
-        popConfirmed:{type:Boolean,default:false}
+        popConfirmed:{type:Boolean,default:false},
+        locations:[{type:String}]
     },
    
     bankDetails:{

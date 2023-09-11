@@ -1,23 +1,15 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import React from "react";
 import { Upgrade } from "./upgrade";
-import { Chip, ListItemButton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 const platinium = {
-  name: "Platinium",
+  name: "Silver",
   price: 5000,
   benefits: [
     "Own cover page",
-    "Access to more locations(states)",
-    "Top priority access to clients",
+    "Access to two extra locations(states)",
+    "Second priority access to clients",
     "Free ads on all our social media handles",
   ],
 };
@@ -29,28 +21,15 @@ export const Platinium = () => {
       sx={{
         bgcolor: theme.smnk[1000],
         color: "white",
-        maxHeight: 500,
-        minHeight: 500,
+        maxHeight: 600,
+        minHeight: 600,
         position: "relative",
       }}
     >
       <CardContent>
-        <ListItemButton
-          sx={{ fontSize: "1.5rem", fontWeight: "bold", mb: "1rem" }}
-        >
+        <Typography sx={{ fontSize: "1.5rem", fontWeight: "bold", mb: "1rem" }}>
           {platinium.name}
-          <Chip
-            color="success"
-            sx={{
-              minHeight: 20,
-              fontSize: "xs2",
-              position: "absolute",
-              top: -5,
-              ml: 13,
-            }}
-            label="Recommended"
-          />
-        </ListItemButton>
+        </Typography>
         <Box>
           <Typography
             sx={{ fontWeight: "bold" }}
@@ -67,7 +46,7 @@ export const Platinium = () => {
           </ul>
         </Box>
       </CardContent>
-      <Upgrade visibility="Platinium" />
+      <Upgrade visibility="Silver" />
     </Card>
   );
 };

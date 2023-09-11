@@ -6,7 +6,6 @@ import { SmnkErrorBoundary, theme } from "@/pages/_app";
 import { RootState } from "@/store";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -21,7 +20,6 @@ function RecommendedJobs() {
   } = useSelector((state: RootState) => state);
   const [jobs, setJobs] = useState<any[] | null>(null);
   const [error, setError] = useState<any>(null);
-  const router = useRouter();
   useEffect(() => {
     (async () => {
       try {

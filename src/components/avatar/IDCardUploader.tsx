@@ -92,7 +92,7 @@ function IDCardUploader() {
           setFile("");
           dispatch(updateUser());
           setTimeout(() => {
-            router.reload();
+            router.push("/sw-dashboard/verification/capture");
           }, 6000);
         } else {
           setUploading(false);

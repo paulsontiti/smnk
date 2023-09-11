@@ -9,6 +9,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { Box } from "@mui/material";
 
 function CompletedJobsPage() {
   const { _id, type } = useSelector((state: RootState) => state.users.user);
@@ -54,10 +55,12 @@ function CompletedJobsPage() {
     );
   return (
     <Layout>
-      {Array.isArray(completedJobs) &&
-        completedJobs.map((job, i) => (
-          <ClientJobDetailsAccordion key={i} job={job} />
-        ))}
+      <Box minWidth={"100%"}>
+        {Array.isArray(completedJobs) &&
+          completedJobs.map((job, i) => (
+            <ClientJobDetailsAccordion key={i} job={job} />
+          ))}
+      </Box>
     </Layout>
   );
 }

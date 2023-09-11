@@ -107,7 +107,7 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
   );
 
   return (
-    <div style={{ height: 800, maxHeight: "auto", width: "100%" }}>
+    <div style={{ maxHeight: "auto", width: "100%" }}>
       <DataGrid
         sx={{ margin: "1rem" }}
         getRowId={(row) => row._id}
@@ -313,13 +313,13 @@ export function VerificationStatus({
     const result = await verifyUser(userId);
     return result;
   };
-  if (
-    verification &&
-    (!verification.kycVerified ||
-      !verification.idCardUrl ||
-      !verification.capturedPhotoUrl)
-  )
-    return <GppBadIcon sx={{ color: "red" }} />;
+  // if (
+  //   verification &&
+  //   (!verification.kycVerified ||
+  //     !verification.idCardUrl ||
+  //     !verification.capturedPhotoUrl)
+  // )
+  // return <GppBadIcon sx={{ color: "red" }} />;
   if (verification.kycVerified) return <VerifiedIcon sx={{ color: "green" }} />;
   return (
     <>

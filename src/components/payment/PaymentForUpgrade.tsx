@@ -9,6 +9,7 @@ export default function PaymentForUpgrade({
   return (
     <Container
       sx={{
+        minWidth: "100%",
         p: { xs: "1rem", md: "2rem 15rem", lg: "2rem 20rem", xl: "2rem 25rem" },
       }}
     >

@@ -1,4 +1,4 @@
-import { Box, Typography, Badge } from "@mui/material";
+import { Box, Typography, Badge, Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getUserDp, getUserProfile } from "@/lib/utils/user";
 import { useRouter } from "next/router";
@@ -49,7 +49,6 @@ function ChatHeader({
       }
     })();
   }, [senderId]);
-  if (!senderDp) return <p></p>;
   return (
     <SmnkErrorBoundary>
       <Box
@@ -72,12 +71,16 @@ function ChatHeader({
           p={1}
         >
           <Box display={"flex"} alignItems={"center"}>
-            <BlackAvatar
-              src={`/api/multer/profile-pic/${senderDp}`}
-              alt="dp"
-              width={50}
-              height={50}
-            />
+            {senderDp ? (
+              <BlackAvatar
+                src={`/api/multer/profile-pic/${senderDp}`}
+                alt="dp"
+                width={50}
+                height={50}
+              />
+            ) : (
+              <Avatar sx={{ width: 50, height: 50 }} />
+            )}
 
             <Badge badgeContent={count} color="error">
               <Typography sx={{ ml: "1rem", textTransform: "capitalize" }}>

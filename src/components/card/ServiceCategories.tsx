@@ -91,7 +91,7 @@ export default function ServiceCategories() {
           >
             <Button
               sx={{
-                bgcolor: theme.smnk[1200],
+                bgcolor: theme.smnk[1000],
                 borderRadius: "30px",
                 color: "white",
                 minWidth: 200,

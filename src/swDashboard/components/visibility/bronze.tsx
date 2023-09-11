@@ -18,8 +18,8 @@ export const Bronze = () => {
     <Card
       sx={{
         bgcolor: theme.smnk[200],
-        maxHeight: 500,
-        minHeight: 500,
+        maxHeight: 600,
+        minHeight: 600,
         position: "relative",
       }}
     >

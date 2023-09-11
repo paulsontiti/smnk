@@ -28,6 +28,7 @@ import { SmnkErrorBoundary } from "@/pages/_app";
 import WalletIcon from "@mui/icons-material/Wallet";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import UnsubscribeIcon from "@mui/icons-material/Unsubscribe";
+import { isUserVerified } from "@/lib/utils/user";
 
 export default function CDashboardMenu() {
   const { user } = useSelector((state: RootState) => state.users);
@@ -122,18 +123,20 @@ export default function CDashboardMenu() {
             <ListItemButton
               sx={{ ml: 0 }}
               onClick={() => {
-                router.push("/c-dashboard/job/create-job");
+                router.push("/c-dashboard/job/jobs-in-progress");
               }}
             >
               <ListItemIcon>
-                <CreateIcon color="primary" />
+                <PendingIcon color="primary" />
               </ListItemIcon>
               <ListItemText
                 primary={
-                  <Typography variant="caption">Create New Job</Typography>
+                  <Typography variant="caption">Jobs In Progress</Typography>
                 }
               />
             </ListItemButton>
+            <Divider />
+            <CreateJobLink />
             <Divider />
             <ListItemButton
               sx={{ ml: 0 }}
@@ -161,6 +164,34 @@ export default function CDashboardMenu() {
   );
 }
 
+function CreateJobLink() {
+  const [verified, setVerified] = React.useState(false);
+  const router = useRouter();
+  const { _id } = useSelector((state: RootState) => state.users.user);
+
+  React.useEffect(() => {
+    (async () => {
+      const res = await isUserVerified(_id);
+      setVerified(res.data);
+    })();
+  }, [_id]);
+  return (
+    <ListItemButton
+      sx={{ ml: 0 }}
+      disabled={!verified}
+      onClick={() => {
+        router.push("/c-dashboard/job/create-job");
+      }}
+    >
+      <ListItemIcon>
+        <CreateIcon color="primary" />
+      </ListItemIcon>
+      <ListItemText
+        primary={<Typography variant="caption">Create New Job</Typography>}
+      />
+    </ListItemButton>
+  );
+}
 export function WalletLink() {
   const router = useRouter();
   const [openWallet, setOpenWallet] = React.useState(true);

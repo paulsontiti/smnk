@@ -134,7 +134,13 @@ function ApplyJobForm({ userId, jobId }: { userId: string; jobId: string }) {
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} loading={loading} />
+      <FormikContainer
+        formParams={formParams}
+        loading={loading}
+        notes={[
+          "Only images,audio,videos and pdf files that are less than 10mb are allowed",
+        ]}
+      />
     </>
   );
 }

@@ -7,6 +7,11 @@ const notificationSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
      }],
+     toUserId:{ 
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+     },
+     readByUser:{type:Boolean,default:false},
 },
 {
     timestamps:true,

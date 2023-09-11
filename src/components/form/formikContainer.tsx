@@ -14,9 +14,11 @@ function FormikContainer({
   formParams,
   loading,
   notes,
+  forAdminAddMoney,
 }: {
   formParams: FormParams;
   loading: boolean;
+  forAdminAddMoney?: boolean;
   notes?: string[];
 }) {
   const router = useRouter();
@@ -24,7 +26,8 @@ function FormikContainer({
   const path = router.pathname;
   const loginDesign =
     formParams.buttonLabel.toLowerCase() === "signup" ||
-    formParams.buttonLabel.toLowerCase() === "login";
+    formParams.buttonLabel.toLowerCase() === "login" ||
+    formParams.buttonLabel.toLowerCase() === "change password";
   return (
     <SmnkErrorBoundary>
       {loginDesign && (
@@ -46,7 +49,7 @@ function FormikContainer({
         maxWidth={"90%"}
         minWidth={{ xs: "90%", md: "50%" }}
         p={1}
-        position={"absolute"}
+        position={forAdminAddMoney ? "static" : "absolute"}
         left={
           loginDesign
             ? { xs: 1, md: 100, lg: 200 }

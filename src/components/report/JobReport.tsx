@@ -7,6 +7,7 @@ import { ReportDetails } from "@/lib/report";
 import axios from "axios";
 import SnackbarComponent from "../snackbar/SnackBar";
 import { AlertColor } from "@mui/material";
+import { validFile } from "../catalog/AddFile";
 
 function JobReportForm({ jobId, url }: { jobId: string; url: string }) {
   const router = useRouter();
@@ -16,7 +17,7 @@ function JobReportForm({ jobId, url }: { jobId: string; url: string }) {
   //declare refs
   const snackBarRef = useRef();
   //report submit handler
-  const reportSubmitHandler = async (values: any, router: any, url: string) => {
+  const reportSubmitHandler = async (values: any, router: any) => {
     try {
       const res = await axios({
         method: "POST",
@@ -59,8 +60,20 @@ function JobReportForm({ jobId, url }: { jobId: string; url: string }) {
       formikHelpers
         .validateForm()
         .then(async (data: any) => {
-          reportSubmitHandler(formData, router, url);
-          res(data);
+          if (values.reportFile) {
+            const isFileValid = validFile(values.reportFile);
+            if (isFileValid === "valid") {
+            } else {
+              setMsg(isFileValid);
+              setColor("error");
+              const refState = snackBarRef.current as any;
+              refState.handleClick();
+              res(isFileValid);
+            }
+          } else {
+            reportSubmitHandler(formData, router);
+            res(data);
+          }
         })
         .catch((err: any) => {
           setMsg(err.message);
@@ -103,12 +116,16 @@ function JobReportForm({ jobId, url }: { jobId: string; url: string }) {
       reportFormControls
     ),
     buttonLabel: "Send",
-    headerTitle: `What's Your Job Evidence`,
+    headerTitle: `Send Job Evidence`,
   };
   return (
     <>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} loading={loading} />
+      <FormikContainer
+        formParams={formParams}
+        loading={loading}
+        notes={["Only Images,audio,videos and pdf are allowed for file upload"]}
+      />
     </>
   );
 }

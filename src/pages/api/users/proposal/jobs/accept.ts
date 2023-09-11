@@ -1,4 +1,5 @@
 import Job from "@/lib/model/job";
+import Notification from "@/lib/model/notification";
 import SWExtra from "@/lib/model/swExtra";
 import User from "@/lib/model/userModel";
 import dbConnect from "@/lib/mongoose";
@@ -29,6 +30,12 @@ export default async function handler(req: any, res: any) {
       //update the job proposals
       job.proposals[index] = pro;
       await job.save();
+
+      //send notification to skilled worker
+       await Notification.create({
+        message:'Your proposal has been accepted. Check your current job page',
+        title:'Proposal accepted',toUserId:swId
+      })
       res
         .status(201)
         .json({

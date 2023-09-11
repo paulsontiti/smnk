@@ -19,11 +19,14 @@ function Comments({ userId }: { userId: string }) {
 
   if (error) return <ErrorAlert message={error.toString()} />;
   if (!comments) return <LoadingAlert />;
-  // if (Array.isArray(comments) && comments.length === 0)
-  //   return <InfoAlert message="No Reviews" />;
+  if (Array.isArray(comments) && comments.length === 0)
+    return <InfoAlert message="No Reviews" />;
   return (
     <SmnkErrorBoundary>
       <Box p={2} width={"100%"}>
+        <Typography variant="h6" mb={2}>
+          Reviews
+        </Typography>
         {comments.map((comment: any) => (
           <>
             {comment &&

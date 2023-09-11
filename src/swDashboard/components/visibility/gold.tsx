@@ -1,14 +1,22 @@
-import { Box, Card, CardActions, CardContent, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  Chip,
+  ListItemButton,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { Upgrade } from "./upgrade";
 import { useTheme } from "@mui/material/styles";
 
 const gold = {
   name: "Gold",
-  price: 2000,
+  price: 20000,
   benefits: [
-    "Access to one extra location",
-    "Second priority access to clients",
+    "Access to three extra location",
+    "Top priority access to clients",
     "Free adds on Facebook and Instagram",
   ],
 };
@@ -19,15 +27,28 @@ export const Gold = () => {
       sx={{
         bgcolor: theme.smnk[500],
         color: "white",
-        maxHeight: 500,
-        minHeight: 500,
+        maxHeight: 600,
+        minHeight: 600,
         position: "relative",
       }}
     >
       <CardContent>
-        <Typography sx={{ fontSize: "1.5rem", fontWeight: "bold", mb: "1rem" }}>
+        <ListItemButton
+          sx={{ fontSize: "1.5rem", fontWeight: "bold", mb: "1rem" }}
+        >
           {gold.name}
-        </Typography>
+          <Chip
+            color="success"
+            sx={{
+              minHeight: 20,
+              fontSize: "xs2",
+              position: "absolute",
+              top: -5,
+              ml: 7,
+            }}
+            label="Recommended"
+          />
+        </ListItemButton>
         <Box>
           <Typography
             sx={{ fontWeight: "bold" }}

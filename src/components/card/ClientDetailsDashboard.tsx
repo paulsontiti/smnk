@@ -92,7 +92,7 @@ export function ClientProfile({
           pendingJobs,
         }}
       />{" "}
-      <Comments userId={clientId} />
+      {!forSw && <Comments userId={clientId} />}
     </>
   );
 }

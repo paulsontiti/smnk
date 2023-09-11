@@ -199,7 +199,6 @@ export function UserProfileDetails({
             forClient={forClient}
             userId={userInfo._id}
             jobsDone={swExtraDetails?.jobsDone as number}
-            level={swExtraDetails?.level as string}
           />
         )}
 

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { AlertColor } from "@mui/material";
+import { AlertColor, Box } from "@mui/material";
 import axios from "axios";
 import SMNKBankDetails from "./smnkBankDetais";
 import { useRouter } from "next/router";
@@ -81,7 +81,7 @@ function TransferForJobPaymentForm({ jobId }: { jobId: string }) {
   };
 
   return (
-    <>
+    <Box minWidth={"100%"}>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
       <SMNKBankDetails />
       <PaymentForm
@@ -92,7 +92,7 @@ function TransferForJobPaymentForm({ jobId }: { jobId: string }) {
         file={file}
         displayFile={displayFile}
       />
-    </>
+    </Box>
   );
 }
 

@@ -14,6 +14,8 @@ import InfoAlert from "../alerts/Info";
 import { SmnkErrorBoundary, theme } from "@/pages/_app";
 import JobDetailsCard from "../card/ClientJobDetailsCard";
 import SWDetailsNoCollapse from "../card/SWDetailsNoCollapse";
+import axios from "axios";
+import RecommendedProfAccordion from "./RecommendedProfAccordion";
 
 export default function ClientJobDetailsAccordion({ job }: { job: any }) {
   const { user } = useSelector((state: RootState) => state.users);
@@ -35,10 +37,7 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
         <CardContent>
           <JobDetailsCard job={job} />
           {!jobStatus.isProposalAccepted && (
-            <Box sx={{ mt: 5, mb: 5 }}>
-              <Typography>Recommended Professionals</Typography>
-              <RecommendedProfessional jobCategory={job.jobDetails.category} />
-            </Box>
+            <RecommendedProfAccordion jobId={job._id} />
           )}
           {!job.proposalAccepted && (
             <ProposalsAccordion
@@ -83,15 +82,31 @@ export default function ClientJobDetailsAccordion({ job }: { job: any }) {
     </SmnkErrorBoundary>
   );
 }
-function RecommendedProfessional({ jobCategory }: { jobCategory: string }) {
+
+const getRecommendedProfessionals = async (jobId: string) => {
+  try {
+    const res = await axios({
+      method: "POST",
+      url: `${process.env.SMNK_URL}api/job/recommended-professionals`,
+      data: { jobId },
+    });
+    const data = await res.data;
+    return data;
+  } catch (err: any) {
+    console.log(err);
+    return err;
+  }
+};
+export function RecommendedProfessional({ jobId }: { jobId: string }) {
   const [users, setUsers] = useState<any[] | null>(null);
   useEffect(() => {
     (async () => {
-      const data = await fetchUsers(jobCategory);
+      const data = await getRecommendedProfessionals(jobId);
       setUsers(data);
     })();
-  });
-  if (!jobCategory || !users) return <p></p>;
+  }, [jobId]);
+  if (!Array.isArray(users)) return <p></p>;
+
   if (users.length === 0)
     return <InfoAlert message="No recommended professionals" />;
   return (
@@ -103,12 +118,8 @@ function RecommendedProfessional({ jobCategory }: { jobCategory: string }) {
         flexWrap={"wrap"}
         gap={5}
       >
-        {users?.map((user: any) => (
-          <SWDetailsNoCollapse
-            forClient={true}
-            key={user.userId}
-            userId={user.userId}
-          />
+        {users.map((user: any) => (
+          <SWDetailsNoCollapse forClient={true} key={user} userId={user} />
         ))}
       </Box>
     </SmnkErrorBoundary>

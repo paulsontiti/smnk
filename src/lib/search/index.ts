@@ -67,6 +67,20 @@ export const fetchUsers = async (service:string) => {
     return err;
   }
 };
+export const fetchRecommendedSW = async (jobId:string) => {
+  try {
+    const res = await axios({
+      method: "POST",
+      url: `${process.env.SMNK_URL}api/talents/recommended-sw`,
+      data:{jobId}
+    });
+    const data = await res.data;
+    return data;
+  } catch (err: any) {
+    console.log(err);
+    return err;
+  }
+};
 export const fetchProfessionalsDetails = async (userId:string) => {
   try {
     const res = await axios({

@@ -74,6 +74,24 @@ export const getPendingJobsByClientId = (userId:string)=>{
      }
   return res
 }
+export const getJobsInProgressByClientId = (userId:string)=>{
+  const res = async ()=>{
+      try{
+          const res = await axios({
+                method:'POST',
+                url:`${process.env.SMNK_URL}api/c-dashboard/job/jobs-in-progress`,
+                data:{userId}
+            })
+          const data = await res.data
+         return data
+          
+      }catch(err:any){
+        console.log(err)
+        return err
+      }
+     }
+  return res
+}
 export const getJobsByClientId = (userId:string)=>{
   const res = async ()=>{
       try{

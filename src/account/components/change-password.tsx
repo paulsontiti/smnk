@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "@/store";
 import { changePasswordWithPhone, updateState } from "@/store/slices/userSlice";
 import { getSWExtra } from "@/store/slices/swExtraSlice";
 import { SmnkErrorBoundary } from "@/pages/_app";
+import { LoginHeaderTitle } from "./signup";
 
 const initialValues = {
   email: "",
@@ -123,13 +124,13 @@ export default function ChangePassword() {
       forgotPasswordFormControls
     ),
     buttonLabel: "Change Password",
-    headerTitle: "Change Your Password",
+    headerTitle: <LoginHeaderTitle />,
   };
 
   return (
     <SmnkErrorBoundary>
       <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
-      <FormikContainer formParams={formParams} loading={loading} />;
+      <FormikContainer formParams={formParams} loading={loading} />
     </SmnkErrorBoundary>
   );
 }

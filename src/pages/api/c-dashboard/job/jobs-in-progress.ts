@@ -8,7 +8,7 @@ export default async function handler(req: any, res: any) {
   } = req;
   if (userId) {
     try {
-      const jobs = await Job.find({ userId, approved: false,started:false });
+      const jobs = await Job.find({userId,started:true,approved:false});
       res.status(201).json(jobs);
     } catch (err: any) {
       console.log(err);

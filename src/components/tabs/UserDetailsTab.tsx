@@ -160,7 +160,9 @@ export function BlackListDisplay({
         bgcolor={theme.smnk[1200]}
         borderRadius={"50%"}
       ></Box>
-      <Typography textTransform={"capitalize"}>{label}</Typography>
+      <Typography color={theme.smnk[1200]} textTransform={"capitalize"}>
+        {label}
+      </Typography>
     </Box>
   );
 }

@@ -37,7 +37,12 @@ export default function CommentsCard({ comment }: any) {
           title={<Typography textTransform={"capitalize"}>{rater}</Typography>}
           subheader={
             <Box>
-              <Rating readOnly value={comment.rating} size="small" />
+              <Rating
+                readOnly
+                value={comment.rating}
+                size="small"
+                precision={0.5}
+              />
               <Typography variant="body2" color="text.secondary">
                 {comment.comment}
               </Typography>
