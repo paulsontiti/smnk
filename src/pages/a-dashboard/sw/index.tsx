@@ -10,7 +10,6 @@ import { SmnkErrorBoundary } from "@/pages/_app";
 
 function SW() {
   const { data, error } = useSWR("getSW", getAllSkilledWorkers());
-  console.log(data);
   if (error)
     return (
       <AdminLayout>

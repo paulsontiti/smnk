@@ -11,8 +11,8 @@ export const getAllSkilledWorkers = ()=>{
            return data
             
         }catch(err:any){
-          console.log(err)
-          return err
+          getAllSkilledWorkers()
+          //return err
         }
        }
     return res
