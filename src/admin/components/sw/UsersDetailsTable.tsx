@@ -8,7 +8,6 @@ import { confirmUpgradePayment, getUserSub, verifyUser } from "@/lib/payment";
 import ClearIcon from "@mui/icons-material/Clear";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import GppBadIcon from "@mui/icons-material/GppBad";
 import { BlackAvatar } from "@/components/avatar/DashboardDp";
 import { theme } from "@/pages/_app";
 import GenericDialog from "@/components/dialog/GenericDialog";
@@ -106,7 +105,6 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
     ],
     [rowId]
   );
-  console.log(users);
   if (!users)
     return (
       <InfoAlert message="No data. Please refresh the page to start data fetching" />

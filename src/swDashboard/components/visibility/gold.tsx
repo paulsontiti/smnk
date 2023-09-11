@@ -15,6 +15,7 @@ const gold = {
   name: "Gold",
   price: 20000,
   benefits: [
+    "Own cover page",
     "Access to three extra location",
     "Top priority access to clients",
     "Free adds on Facebook and Instagram",
