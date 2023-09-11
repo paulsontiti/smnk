@@ -106,6 +106,7 @@ export default function UsersDetailsTable({ users }: { users: any[] }) {
     ],
     [rowId]
   );
+  console.log(users);
   if (!users)
     return (
       <InfoAlert message="No data. Please refresh the page to start data fetching" />
