@@ -67,6 +67,7 @@ export function SMNKRating({ userId }: { userId: string }) {
       setSubType(sub.type);
     })();
   }, [userId]);
+  if (subType.toLowerCase() === "free") return <p></p>;
   return (
     <Box position={"relative"}>
       <ListItemText
