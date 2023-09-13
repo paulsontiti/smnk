@@ -44,8 +44,9 @@ export default function HowSMNKWorks() {
             >{`Let's Get You Started`}</Typography>
             <Typography>
               Start Your journey with SMNK by creating an account. You can
-              create an account as a Skilled Worker or Professional or Service
-              Provider Or as a Client or Employer or Customer
+              create an account as a Skilled worker, Professional, Business
+              owner, Service provider or as a Client, Employer or Customer in
+              need of a service provider
             </Typography>
             <CardActions
               sx={{
@@ -112,7 +113,7 @@ export default function HowSMNKWorks() {
             >{`Post A Job`}</Typography>
             <Typography>
               It is free and easy to post a job. You can simply choose your
-              identity, profile and budget and recommendations would come witing
+              identity, profile and budget. Recommendations would come within
               minutes.
             </Typography>
           </Box>

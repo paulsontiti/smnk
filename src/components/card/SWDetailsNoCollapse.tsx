@@ -16,10 +16,10 @@ import { SmnkErrorBoundary, theme } from "@/pages/_app";
 import { BlackAvatar } from "../avatar/DashboardDp";
 import ErrorAlert from "../alerts/Error";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import UserDetailsTab from "../tabs/UserDetailsTab";
+import UserDetailsTab, { BlackListDisplay } from "../tabs/UserDetailsTab";
 import { User } from "@/lib/types/userInfo";
-import InfoAlert from "../alerts/Info";
 import ClientDetailsBottomNavigation from "../bottomNavigation/ClientDetailsBottomNavigation";
+import { BlackTypography } from "./ClientJobDetailsCard";
 
 export default function SWDetailsNoCollapse({
   userId,
@@ -48,9 +48,9 @@ export default function SWDetailsNoCollapse({
       }
     })();
   }, [userId]);
-
   //check for data before using them
-
+  const userSub =
+    userDetails && userDetails.swExtras && userDetails.swExtras.subscription;
   const catalogue: any[] =
     userDetails && userDetails.swExtras && userDetails.swExtras.catalog;
   const level =
@@ -108,6 +108,7 @@ export default function SWDetailsNoCollapse({
       >
         <UserProfileDetails
           userInfo={userDetails.user}
+          userSub={userSub}
           profile={userProfile}
           forClient={forClient}
           swExtraDetails={{
@@ -135,10 +136,12 @@ export function UserProfileDetails({
   swExtraDetails,
   clientExtraDetails,
   forClient,
+  userSub,
 }: {
   swExtraDetails?: { serviceTitle: string; jobsDone: number; level: string };
   clientExtraDetails?: { completedJobs: number; pendingJobs: number };
   userInfo: User;
+  userSub?: any;
   profile: any;
   forClient: boolean;
 }) {
@@ -195,13 +198,31 @@ export function UserProfileDetails({
           component={"span"}
         >{`${userInfo.type}/${userInfo.typeClass}`}</Typography>
         {swExtraDetails && (
-          <UserDetailsBottomNavigation
-            forClient={forClient}
-            userId={userInfo._id}
-            jobsDone={swExtraDetails?.jobsDone as number}
-          />
+          <>
+            <UserDetailsBottomNavigation
+              forClient={forClient}
+              userId={userInfo._id}
+              jobsDone={swExtraDetails?.jobsDone as number}
+            />
+          </>
         )}
-
+        {!forClient && (
+          <Box>
+            <Typography variant="caption" fontWeight={"bold"}>
+              Subscription Details
+            </Typography>
+            <BlackTypography label="Type" value={userSub && userSub.type} />
+            <Typography variant="caption" fontWeight={"bold"}>
+              Extra locations
+            </Typography>
+            {userSub &&
+              Array.isArray(userSub.locations) &&
+              userSub &&
+              userSub.locations.map((loc: string) => (
+                <BlackListDisplay key={loc} label={loc} />
+              ))}
+          </Box>
+        )}
         {clientExtraDetails && (
           <ClientDetailsBottomNavigation
             forClient={forClient}
@@ -211,6 +232,7 @@ export function UserProfileDetails({
           />
         )}
         <Divider />
+
         {profile && profile.description && (
           <Box
             p={2}

@@ -8,6 +8,8 @@ import { confirmPayment } from "@/lib/payment";
 import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
 import InfoAlert from "@/components/alerts/Info";
+import { ApproveSubscription } from "../sw/UsersDetailsTable";
+import ViewOnlyImageDialog from "@/components/dialog/ViewOnlyImageDialog";
 
 export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
   const [rowId, setRowId] = useState<GridRowId>();
@@ -24,7 +26,7 @@ export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
           <ProofOfPayment param={param} imageDialogRef={imageDialogRef} />
         ),
         sortable: false,
-        width: 70,
+        width: 150,
       },
       {
         field: "jobDetails.title",
@@ -133,7 +135,6 @@ function ProofOfPayment({
   if (!param) return <p></p>;
 
   const action = async () => {
-    console.log(param.id);
     const res = await confirmPayment(param.row._id);
     return res;
   };
@@ -157,11 +158,8 @@ function ProofOfPayment({
             {" "}
             <Avatar src={`/api/multer/pop/${param.row.pop}`} />
           </IconButton>{" "}
-          <ImageDialog
-            receiverId={param.row.userId}
-            action={action}
-            ref={imageDialogRef}
-          />
+          <ApproveSubscription param={param} action={confirmPayment} />
+          <ViewOnlyImageDialog ref={imageDialogRef} />
         </>
       ) : (
         <p></p>

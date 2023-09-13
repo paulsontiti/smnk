@@ -66,10 +66,9 @@ export default function Login() {
         case user.type === "client":
           router.push("/c-dashboard");
           break;
-        case user.type === "admin":
-          router.push("/a-dashboard");
-          break;
+
         default: {
+          router.push("/a-dashboard");
         }
       }
     }

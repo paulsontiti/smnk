@@ -7,7 +7,6 @@ import { JobStatus, getJobStatus } from "../job/AdminJobStatus";
 import ErrorAlert from "../alerts/Error";
 import JobProgress from "../job/JobProgress";
 import { SmnkErrorBoundary, theme } from "@/pages/_app";
-import axios from "axios";
 import { Job } from "@/lib/types/job";
 import { getJobDetails } from "@/lib/job";
 

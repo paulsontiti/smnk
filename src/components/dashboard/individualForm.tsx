@@ -115,7 +115,12 @@ export default function IndividualForm({ router }: { router: any }) {
       valueOfFieldToCheckAgainst: "",
     },
     { name: "address", label: "Address", control: "input" },
-    { name: "description", label: "Description", control: "textarea" },
+    {
+      name: "description",
+      label: "Description",
+      control: "textarea",
+      helperText: "Describe what you do for clients to see.",
+    },
   ];
 
   const formParams: FormParams = {

@@ -72,6 +72,24 @@ export default function ADashboardMenu() {
         </ListItemButton>{" "}
         <Divider />
         <WithdrawalRequest /> <Divider />
+        <ListItemButton
+          sx={{ ml: 1 }}
+          onClick={() => {
+            router.push(`/a-dashboard/add-a-user`);
+          }}
+        >
+          <ListItemText primary="Add A User" />
+        </ListItemButton>{" "}
+        <Divider />
+        <ListItemButton
+          sx={{ ml: 1 }}
+          onClick={() => {
+            router.push(`/a-dashboard/admins`);
+          }}
+        >
+          <ListItemText primary="Admins" />
+        </ListItemButton>{" "}
+        <Divider />
         <Box ml={3}>
           <LogoutSwitch />
         </Box>

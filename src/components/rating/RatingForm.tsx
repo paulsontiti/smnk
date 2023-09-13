@@ -22,6 +22,7 @@ function RatingForm({ jobId }: { jobId: string }) {
 
   //rating submit handler
   const ratingSubmitHandler = async (values: Rating) => {
+    setLoading(true);
     try {
       if (values.raterId && values.jobId) {
         const res = await axios({
@@ -30,14 +31,19 @@ function RatingForm({ jobId }: { jobId: string }) {
           data: { values, type: user.type },
         });
         const data = await res.data;
+        setLoading(false);
         if (data.successful) {
           setMsg(data.message);
           setColor("success");
           const refState = snackBarRef.current as any;
           refState.handleClick();
           setTimeout(() => {
-            router.reload();
-          }, 6000);
+            if (user.type === "skilled worker") {
+              router.push("/dashboard/wallet/withdraw-money");
+            } else {
+              router.push("/c-dashboard");
+            }
+          }, 3000);
         } else {
           setMsg(data.message);
           setColor("error");
@@ -45,12 +51,14 @@ function RatingForm({ jobId }: { jobId: string }) {
           refState.handleClick();
         }
       } else {
+        setLoading(false);
         setMsg("Invalid request");
         setColor("error");
         const refState = snackBarRef.current as any;
         refState.handleClick();
       }
     } catch (err: any) {
+      setLoading(false);
       setMsg(err.response.data.message);
       setColor("error");
       const refState = snackBarRef.current as any;

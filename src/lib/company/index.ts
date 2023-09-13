@@ -23,5 +23,5 @@ export const profileFormControls: FormControls[] = [
     helperText: "L.G.A of residence",
   },
   { name: "officeAddress", label: "Office Address", control: "input",helperText:`Company's office address` },
-  { name: "description", label: "Company Description", control: "textarea",helperText:'What does your company do?' },
+  { name: "description", label: "Company Description", control: "textarea",helperText:'Describe what you do for clients to see.' },
 ];

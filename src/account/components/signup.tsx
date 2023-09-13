@@ -139,6 +139,7 @@ export default function SignUp() {
             refState.handleClick();
             dispatch(updateState());
             setLoading(false);
+            res(msg);
           }
         })
         .catch((err: any) => {

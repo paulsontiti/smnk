@@ -17,6 +17,23 @@ export const getAllSkilledWorkers = ()=>{
        }
     return res
   }
+  export const getAdmins = ()=>{
+    const res = async ()=>{
+        try{
+            const res = await axios({
+                  method:'GET',
+                  url:`${process.env.SMNK_URL}api/a-dashboard/admins`
+              })
+            const data = await res.data
+           return data
+            
+        }catch(err:any){
+          getAllSkilledWorkers()
+          //return err
+        }
+       }
+    return res
+  }
   export const getSWSub = (userId:string)=>{
     const res = async ()=>{
         try{

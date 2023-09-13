@@ -116,9 +116,9 @@ export default function Home() {
                 How your ranking impacts your success of landing jobs
               </Typography>
               <Typography>
-                After completing them, your review gauges how happy your clients
-                are with your job. Your work rating affects how well-liked and
-                trusted you are among clients.
+                After completing each job, your review gauges how happy your
+                clients are with your job. Your work rating affects how
+                well-liked and trusted you are among clients.
               </Typography>
             </CardContent>
           </Card>

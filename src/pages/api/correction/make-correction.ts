@@ -1,5 +1,6 @@
 
 import Job from "@/lib/model/job"
+import Notification from "@/lib/model/notification"
 import dbConnect from "@/lib/mongoose"
 
 
@@ -21,6 +22,11 @@ export default async function handler(req:any,res:any){
                   job.reports[indexOfReportToUpdate] = reportToUpdate
                   const newJob = await job.save()
                   if(newJob){
+                     //send notification to skilled worker
+       await Notification.create({
+        message:'You have a correction on your current job. Please check your current job for more details',
+        title:'Correction from client',toUserId:job.swId
+      })
                     res.status(201).json({message:"Your Correction was successfully sent",successful:true})
                   }else{
                     res.status(201).json({message:"Sorry an error occurred,please try again",successful:false})

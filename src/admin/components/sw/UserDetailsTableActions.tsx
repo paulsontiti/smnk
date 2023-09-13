@@ -19,15 +19,18 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import GenericDialog from "@/components/dialog/GenericDialog";
 import UserProfileContent from "@/components/dialog/contents/UserProfileContent";
 import { getSWExtraDetails, getUserProfile } from "@/lib/utils/user";
-import UserExpContent from "@/components/dialog/contents/UserExpContent";
-import UserServicesContent from "@/components/dialog/contents/UserServicesContent";
 import { SWExtra } from "@/lib/types/userInfo";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useRouter } from "next/router";
 
 export interface State extends SnackbarOrigin {
   open: boolean;
 }
 
-function UserDetailsTableActions({ params, rowId, setRowId }: any) {
+function UserDetailsTableActions({ params, rowId, admin }: any) {
+  const { user } = useSelector((state: RootState) => state.users);
+  const router = useRouter();
   //declare component states
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,8 +44,6 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
   const snackBarRef = useRef();
   const actionMenuRef = useRef();
   const userProfileRef = useRef();
-  const userExpRef = useRef();
-  const userServRef = useRef();
 
   useEffect(() => {
     (async () => {
@@ -82,15 +83,24 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
 
   //submit handler for suspending or restoring user's account
   const handleSubmit = async () => {
-    setLoading(true);
-    const data = await suspendRestoreUser(params.row._id, params.row.active);
+    if (user.type === "super admin") {
+      setLoading(true);
+      const data = await suspendRestoreUser(params.row._id, params.row.active);
 
-    setColor(data.successful ? "success" : "error");
-    setMsg(data.message);
-    const refState = snackBarRef.current as any;
-    refState.handleClick();
-    setLoading(false);
-    setSuccess(data.successful);
+      setColor(data.successful ? "success" : "error");
+      setMsg(data.message);
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
+      setLoading(false);
+      setSuccess(data.successful);
+    } else {
+      setColor("error");
+      setMsg("You do not have the right to perform this action");
+      const refState = snackBarRef.current as any;
+      refState.handleClick();
+      setLoading(false);
+    }
+    router.reload();
   };
 
   useEffect(() => {
@@ -148,15 +158,17 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
           }}
         />
       )}
-      <IconButton
-        sx={{ marginRight: "1rem" }}
-        onClick={(e) => {
-          const refState = actionMenuRef.current as any;
-          refState.handleClick(e);
-        }}
-      >
-        <MoreVertIcon />
-      </IconButton>
+      {!admin && (
+        <IconButton
+          sx={{ marginRight: "1rem" }}
+          onClick={(e) => {
+            const refState = actionMenuRef.current as any;
+            refState.handleClick(e);
+          }}
+        >
+          <MoreVertIcon />
+        </IconButton>
+      )}
       <ActionsMenuComponent
         menuActions={
           params.row.type === "skilled worker" ? SWActionMenu : ClientActionMenu
@@ -165,7 +177,9 @@ function UserDetailsTableActions({ params, rowId, setRowId }: any) {
       />
       <GenericDialog
         ref={userProfileRef}
-        content={<UserProfileContent userId={params.row._id} />}
+        content={
+          <UserProfileContent userId={params.row._id} type={params.row.type} />
+        }
         title={
           params.row.type === "skilled worker"
             ? "Skilled Worker Profile"

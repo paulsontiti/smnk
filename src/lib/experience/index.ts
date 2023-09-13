@@ -37,16 +37,16 @@ export type Experience = {
 
 export const expFormControls: FormControls[] = [
   { name: "title", label: "Role Title", control: "input",helperText:'What did you do for your employer' },
-  { name: "company", label: "Company Name", control: "input",helperText:'What is the name of your employer' },
-  { name: "state", label: "State", control: "auto", options: states,helperText:'What state is your employer'},
+  { name: "company", label: "Company Name", control: "input",helperText:'What was the name of your employer' },
+  { name: "state", label: "State", control: "auto", options: states,helperText:'What state was your employer'},
   {
     name: "lga",
     label: "LGA",
     control: "auto",
     options: states,
-    fieldToCheckAgainst: "state",valueOfFieldToCheckAgainst:'',helperText:'What Local Government Area is your employer'
+    fieldToCheckAgainst: "state",valueOfFieldToCheckAgainst:'',helperText:'What Local Government Area was your employer'
   },
-  { name: "address", label: "Company Address", control: "input",helperText:'What is the office address of your employer'},
+  { name: "address", label: "Company Address", control: "input",helperText:'What was the office address of your employer'},
   { name: "description", label: "Role Description", control: "textarea",helperText:'Give a short description of your role/job/duty' },
   { name: "startDate", label: "Start Date", control: "date",helperText:'When did you start this job' },
   { name: "onRole", label: "Turn the switch on if you are still on this role", control: "switch" },

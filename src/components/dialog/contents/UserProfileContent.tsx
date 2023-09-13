@@ -5,7 +5,13 @@ import LoadingAlert from "@/components/alerts/Loading";
 import SWDetailsNoCollapse from "@/components/card/SWDetailsNoCollapse";
 import { ClientProfile } from "@/components/card/ClientDetailsDashboard";
 
-function UserProfileContent({ userId }: { userId: string }) {
+function UserProfileContent({
+  userId,
+  type,
+}: {
+  userId: string;
+  type: string;
+}) {
   const [profile, setProfile] = useState<any | null>(null);
   const [error, setError] = useState<any>();
   useEffect(() => {
@@ -20,8 +26,8 @@ function UserProfileContent({ userId }: { userId: string }) {
 
   return (
     <>
-      {profile.firstName ? (
-        <SWDetailsNoCollapse forClient={true} userId={userId} />
+      {type === "skilled worker" ? (
+        <SWDetailsNoCollapse forClient={false} userId={userId} />
       ) : (
         <ClientProfile clientId={userId} forSw={false} />
       )}

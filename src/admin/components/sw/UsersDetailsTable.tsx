@@ -221,13 +221,19 @@ function SubStatus({ param }: { param: any }) {
           />
         )}
       </IconButton>
-      <ApproveSubscription param={param} />
+      <ApproveSubscription param={param} action={confirmUpgradePayment} />
       <ViewOnlyImageDialog ref={imageDialogRef} />
     </>
   );
 }
 
-function ApproveSubscription({ param }: { param: any }) {
+export function ApproveSubscription({
+  action,
+  param,
+}: {
+  param: any;
+  action: (id: string) => Promise<any>;
+}) {
   const [msg, setMsg] = useState("");
   const [color, setColor] = useState<AlertColor>("error");
   const router = useRouter();
@@ -239,18 +245,18 @@ function ApproveSubscription({ param }: { param: any }) {
     const refState = dialogRef.current as any;
     refState.showDialog();
   };
-  //confirm sub pop action
-  const confirmUpgradePaymentAction = async (confirm: boolean) => {
+  //confirm  action
+  const confirmAction = async (confirm: boolean) => {
     if (!confirm) {
       const refState = dialogRef.current as any;
       refState.closeDialog();
     } else {
-      const result = await confirmUpgradePayment(param.row._id);
+      const result = await action(param.row._id);
       const refState = dialogRef.current as any;
       refState.closeDialog();
       if (result) {
         setColor("success");
-        setMsg("Subscription approved");
+        setMsg("Action successful");
         const refState = snackbarRef.current as any;
         refState.handleClick();
         setTimeout(() => {
@@ -264,17 +270,16 @@ function ApproveSubscription({ param }: { param: any }) {
       }
     }
   };
+
   return (
     <>
       {" "}
       <Box display={"none"}>
         <GenericDialog
           content={
-            <GenericContent message="Are you sure you want to approve subscription?" />
+            <GenericContent message="Are you sure you want to confirm?" />
           }
-          actions={
-            <GenericActions confirmAction={confirmUpgradePaymentAction} />
-          }
+          actions={<GenericActions confirmAction={confirmAction} />}
           ref={dialogRef}
         />
       </Box>{" "}

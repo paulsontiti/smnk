@@ -63,6 +63,8 @@ function JobReportForm({ jobId, url }: { jobId: string; url: string }) {
           if (values.reportFile) {
             const isFileValid = validFile(values.reportFile);
             if (isFileValid === "valid") {
+              await reportSubmitHandler(formData, router);
+              res(data);
             } else {
               setMsg(isFileValid);
               setColor("error");
@@ -71,7 +73,7 @@ function JobReportForm({ jobId, url }: { jobId: string; url: string }) {
               res(isFileValid);
             }
           } else {
-            reportSubmitHandler(formData, router);
+            await reportSubmitHandler(formData, router);
             res(data);
           }
         })

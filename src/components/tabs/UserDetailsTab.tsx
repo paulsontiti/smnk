@@ -153,6 +153,7 @@ export function BlackListDisplay({
       gap={2}
       mb={1}
       p={1}
+      maxWidth={"90%"}
     >
       <Box
         width={10}

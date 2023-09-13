@@ -8,7 +8,6 @@ import { Typography } from "@mui/material";
 
 export default function Jobs() {
   const { data, error } = useSWR("getjobs", getAllJobs());
-
   if (error)
     return (
       <ErrorAlert message="An Error occurred fetching data. Please ensure you are connected to the internet and try again or refresh te page" />

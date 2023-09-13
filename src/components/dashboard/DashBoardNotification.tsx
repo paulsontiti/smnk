@@ -35,7 +35,7 @@ function DashBoardNotification() {
         return false;
       }
     })();
-  });
+  }, [_id]);
   return (
     <>
       <IconButton
@@ -72,7 +72,7 @@ function DashBoardNotification() {
       </IconButton>
 
       <Drawer
-        anchor="top"
+        anchor="right"
         open={openDrawer}
         onClose={() => {
           setOpenDrawer(false);
@@ -107,7 +107,6 @@ function Notification({ notifications }: { notifications: any[] }) {
       display={"flex"}
       flexDirection={"column"}
       width={{ xs: 300, sm: 400, md: 600 }}
-      mt={20}
     >
       {notifications.map((notification) => (
         <Box key={notification._id} mb={2} bgcolor={"whitesmoke"}>

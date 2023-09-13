@@ -9,7 +9,7 @@ export default async function handler(req: any, res: any) {
   const {
     body: { userId },
   } = req;
-
+console.log(userId)
   try {
     const swExtras = await SWExtra.findOne(
     {userId},      {
@@ -17,7 +17,7 @@ export default async function handler(req: any, res: any) {
         services: true,
         catalog: true,
         onAJob:true,
-        level:true,
+        level:true,subscription:true
       }
     );
     const user = await User.findOne({_id:userId})
