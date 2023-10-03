@@ -57,7 +57,7 @@ export default function Login() {
         dispatch(updateState());
       }
     }
-    if (user) {
+    if (user._id) {
       switch (true) {
         case user.type === "skilled worker":
           dispatch(getSWExtra(user._id));
