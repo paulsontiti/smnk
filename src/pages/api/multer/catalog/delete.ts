@@ -1,6 +1,5 @@
-import Job from "@/lib/model/job"
+
 import dbConnect from "@/lib/mongoose"
-import { UpdateSWExtra } from "../../sw-dashboard/bank-details/edit-bank-details"
 import SWExtra from "@/lib/model/swExtra"
 
 

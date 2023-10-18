@@ -147,6 +147,7 @@ function ProofOfPayment({
               //call image dialog ref to update image dialog
               const refState = imageDialogRef.current as any;
               refState.updateSrc(`/api/multer/pop/${param.row.pop}`);
+              refState.updateForClient(true);
               refState.showDialog();
             }}
             sx={{

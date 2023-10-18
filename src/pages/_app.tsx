@@ -96,14 +96,20 @@ const logError = async (error: Error, info: { componentStack: string }) => {
     const res = await axios({
       method: "POST",
       url: `${process.env.SMNK_URL}/api/error`,
-      data: { msg: error.toString(), info },
+      data: { msg: error.stack, info },
     });
   } catch (err) {}
 };
 function fallbackRender({ error, resetErrorBoundary }: any) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
   //resetErrorBoundary();
-  return <ErrorAlert message={error.toString()} />;
+  return (
+    <ErrorAlert
+      message={
+        "An unknown error occurred. Please try again or refresh the page"
+      }
+    />
+  );
 }
 export default function App({ Component, pageProps }: AppProps) {
   return (

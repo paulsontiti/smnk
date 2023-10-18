@@ -17,7 +17,13 @@ import React from "react";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 
-function SWReportsAccordion({ jobId }: { jobId: string }) {
+function SWReportsAccordion({
+  jobId,
+  clientId,
+}: {
+  jobId: string;
+  clientId?: string;
+}) {
   const router = useRouter();
   const [jobStatus, setJobStatus] = React.useState<JobStatus | null>(null);
   const [errors, setError] = React.useState();
@@ -47,7 +53,12 @@ function SWReportsAccordion({ jobId }: { jobId: string }) {
         <AccordionDetails>
           {data.length > 0 &&
             data.map((report: any, i: number) => (
-              <SWReportDetailsAccordion key={i} report={report} jobId={jobId} />
+              <SWReportDetailsAccordion
+                key={i}
+                report={report}
+                jobId={jobId}
+                clientId={clientId}
+              />
             ))}
           <AddFloatingActionButtons
             handleClick={() => {

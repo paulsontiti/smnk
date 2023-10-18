@@ -54,12 +54,12 @@ export default function UserDetailsBottomNavigation({
         <Typography variant="caption">{level()}</Typography>
       </Box>
       {!forClient && <Wallet userId={userId} />}
-      <SMNKRating userId={userId} />
+      <SubRating userId={userId} />
     </Box>
   );
 }
 
-export function SMNKRating({ userId }: { userId: string }) {
+export function SubRating({ userId }: { userId: string }) {
   const [subType, setSubType] = useState("Free");
   useEffect(() => {
     (async () => {
@@ -71,7 +71,7 @@ export function SMNKRating({ userId }: { userId: string }) {
   return (
     <Box position={"relative"}>
       <ListItemText
-        primary={<Typography variant="caption">SMNK Rating</Typography>}
+        primary={<Typography variant="caption">Sub. Rating</Typography>}
       />
       <Chip
         color="primary"

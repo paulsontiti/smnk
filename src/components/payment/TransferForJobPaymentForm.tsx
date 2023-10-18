@@ -56,7 +56,7 @@ function TransferForJobPaymentForm({ jobId }: { jobId: string }) {
             router.back();
           }, 6000);
         } else {
-          setMsg(data.message);
+          setMsg(`${data.message}. Please try again`);
           setColor("error");
           const refState = snackBarRef.current as any;
           refState.handleClick();

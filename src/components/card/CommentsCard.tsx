@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import { Box, Typography, Rating } from "@mui/material";
+import { Box, Typography, Rating, Avatar } from "@mui/material";
 import { getUserDp, getUserName } from "@/lib/utils/user";
 import { BlackAvatar } from "../avatar/DashboardDp";
 import { SmnkErrorBoundary } from "@/pages/_app";
@@ -27,24 +27,34 @@ export default function CommentsCard({ comment }: any) {
         <CardHeader
           sx={{ alignItems: "flex-start" }}
           avatar={
-            <BlackAvatar
-              width={50}
-              height={50}
-              alt="Profice pic"
-              src={`/api/multer/profile-pic/${dp}`}
-            />
+            <>
+              {dp ? (
+                <BlackAvatar
+                  width={50}
+                  height={50}
+                  alt="Profice pic"
+                  src={`/api/multer/profile-pic/${dp}`}
+                />
+              ) : (
+                <Avatar />
+              )}
+            </>
           }
-          title={<Typography textTransform={"capitalize"}>{rater}</Typography>}
+          title={
+            <Typography textTransform={"capitalize"}>
+              {rater ? rater : "No Name"}
+            </Typography>
+          }
           subheader={
             <Box>
               <Rating
                 readOnly
-                value={comment.rating}
+                value={comment.rating ?? ""}
                 size="small"
                 precision={0.5}
               />
               <Typography variant="body2" color="text.secondary">
-                {comment.comment}
+                {comment.comment ?? ""}
               </Typography>
             </Box>
             // comment.date

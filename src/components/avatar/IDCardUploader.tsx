@@ -116,13 +116,14 @@ function IDCardUploader() {
   return (
     <SmnkErrorBoundary>
       <Container sx={{ mt: 10 }}>
+        <InfoAlert message="If you are a company UPLOAD CAC CERTIFICATE" />
         <InfoAlert message="Only government issued IDENTIFICATIONS would be accepted eg: Drivers license, Voters card, NIMC and National passport" />
         <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
 
         {verified ? (
           <SuccessAlert message="Your ID Card is verified" />
         ) : (
-          <>
+          <Box mt={2}>
             {idCardUrl && (
               <Box
                 mb={2}
@@ -141,7 +142,7 @@ function IDCardUploader() {
                 <InfoAlert message="ID Card is being verified...." />
               </Box>
             )}
-          </>
+          </Box>
         )}
         <form onSubmit={submitHandler} encType="multipart/form-data">
           <IconButton type="submit" color="primary">
@@ -198,7 +199,7 @@ function IDCardUploader() {
             >
               <AddAPhotoIcon />
               <Typography variant="caption">
-                {idCardUrl ? "Change ID Card" : "Select Your ID card"}
+                {idCardUrl ? "Change Image" : "Select Your Image"}
               </Typography>
             </Box>
           </IconButton>

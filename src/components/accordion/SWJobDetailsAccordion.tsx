@@ -1,14 +1,4 @@
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Badge, Box, Card, CardActions, Divider, Grid } from "@mui/material";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-import PendingIcon from "@mui/icons-material/Pending";
+import { Card, CardActions } from "@mui/material";
 
 import ApplyForJobButton from "../job/ApplyForJobButton";
 import ProposalDetailsAccordion from "./ProposalDetailsAccordion";

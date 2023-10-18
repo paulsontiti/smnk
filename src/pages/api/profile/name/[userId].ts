@@ -10,13 +10,18 @@ export default async function handler(req:any,res:any){
         if(userId){
                 try{
                     const user = await User.findById(userId)
-                    if(user.typeClass === 'individual'){
-                        const profile = await IndividualPersonalInfo.findOne({userId})
-                        res.status(201).json(profile.firstName + ' ' + profile.lastName)
+                    if(user){
+                        if(user.typeClass === 'individual'){
+                            const profile = await IndividualPersonalInfo.findOne({userId})
+                            res.status(201).json(profile.firstName + ' ' + profile.lastName)
+                        }else{
+                            const profile = await CompanyProfile.findOne({userId})
+                            res.status(201).json(profile.name)
+                        }
                     }else{
-                        const profile = await CompanyProfile.findOne({userId})
-                        res.status(201).json(profile.name)
+                        res.status(201).json('')
                     }
+                   
                     
                 }catch(err:any){
                     res.status(400).json({message:err.message})

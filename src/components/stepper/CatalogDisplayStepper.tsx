@@ -51,7 +51,8 @@ function CatalogDisplayStepper({
               onClick={() => {
                 //call image dialog ref to update image dialog
                 const refState = imageDialogRef.current as any;
-
+                refState.updateCatalogId(cat._id as string);
+                refState.updateForClient(forClient);
                 refState.updateSrc(`/api/multer/catalog/${cat.filename}`);
                 refState.showDialog();
               }}
@@ -75,6 +76,7 @@ type Cat = {
   filename: string;
   description: string;
   contentType: string;
+  _id?: string;
 };
 export default CatalogDisplayStepper;
 function CatalogCard({ cat }: { cat: Cat }) {

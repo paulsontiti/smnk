@@ -42,7 +42,7 @@ multerHandler
             resData: {filename,contentType},
           });
       } else {
-        const extra = await SWExtra.create({
+        const extra = await SWExtra.create({userId,
           catalog: [{ filename, title, description,contentType }],
         });
         if (extra) {

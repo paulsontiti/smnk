@@ -2,14 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   env:{
-    MONGODB_URI : 'mongodb+srv://titidprogrammer:30041987Titile@cluster0.69e5w7x.mongodb.net/?retryWrites=true&w=majority',
-    //'mongodb+srv://titidprogrammer:30041987Titile@cluster0.69e5w7x.mongodb.net/?retryWrites=true&w=majority',
+    MONGODB_URI : 'mongodb+srv://smnkservicehub:smnkservicehub@cluster0.c0auc.mongodb.net/',
+    //'mongodb+srv://smnkservicehub:smnkservicehub@cluster0.c0auc.mongodb.net/',
     //'mongodb://127.0.0.1:27017/smnk',
     SMNK_URL: 'https://www.smnklimited.com/',
     //https://www.smnklimited.com/',
     //''http://localhost:3000/',
-    CUSTOMER_SERVICE_ID:'64ff2ee5ecfc57d21e80d3d2'
-    //64ff2ee5ecfc57d21e80d3d2 online
+    CUSTOMER_SERVICE_ID:'652a5789110b9fae034e9652'
+    //652a5789110b9fae034e9652 online
     //64e35d468b2fcd7a6d3a7df6 local
   },modularizeImports:{
     '@mui/icons-material':{

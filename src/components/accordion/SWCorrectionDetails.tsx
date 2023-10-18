@@ -9,14 +9,18 @@ import { Badge } from "@mui/material";
 import { readCorrection } from "@/lib/report";
 import { SmnkErrorBoundary } from "@/pages/_app";
 
+import ChatBottomNavigation from "../bottomNavigation/ChatBottomNavigation";
+
 export default function SWCorrectionDetailsAccordion({
   correction,
   reportId,
   jobId,
+  clientId,
 }: {
   correction: any;
   reportId: string;
   jobId: string;
+  clientId?: string;
 }) {
   if (!jobId || !correction || !reportId) return <p></p>;
   return (
@@ -54,6 +58,7 @@ export default function SWCorrectionDetailsAccordion({
         </AccordionSummary>
         <AccordionDetails>
           <Box>{correction.correction}</Box>
+          {clientId && <ChatBottomNavigation receiverId={clientId} />}
         </AccordionDetails>
       </Accordion>
     </SmnkErrorBoundary>

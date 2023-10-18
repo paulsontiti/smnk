@@ -16,33 +16,35 @@ const ChatBox = () => {
   const [error, setError] = useState<any | null>(null);
 
   useEffect(() => {
-    (async () => {
+    (() => {
       if (_id) {
-        try {
-          const res = await axios({
-            method: "GET",
-            url: `${process.env.SMNK_URL}/api/chat/${_id}`,
-          });
-          const data = res.data;
-          if (Array.isArray(data)) {
-            setChats(
-              data.sort(function (a: any, b: any) {
-                let x = a.date.toLowerCase();
-                let y = b.date.toLowerCase();
-                if (x < y) {
-                  return 1;
-                }
-                if (x > y) {
-                  return -1;
-                }
-                return 0;
-              })
-            );
+        setTimeout(async () => {
+          try {
+            const res = await axios({
+              method: "GET",
+              url: `${process.env.SMNK_URL}/api/chat/${_id}`,
+            });
+            const data = res.data;
+            if (Array.isArray(data)) {
+              setChats(
+                data.sort(function (a: any, b: any) {
+                  let x = a.date.toLowerCase();
+                  let y = b.date.toLowerCase();
+                  if (x < y) {
+                    return 1;
+                  }
+                  if (x > y) {
+                    return -1;
+                  }
+                  return 0;
+                })
+              );
+            }
+          } catch (err) {
+            console.log(err);
+            setError(err);
           }
-        } catch (err) {
-          console.log(err);
-          setError(err);
-        }
+        }, 100);
       }
     })();
   }, [_id]);

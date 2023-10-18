@@ -39,7 +39,7 @@ export default async function handler(req: any, res: any) {
         const { info } = await getUserInfo(userId);
         const param: PrefferredLocParam = {
           jobType: type,
-          swState: info.state,
+          swState: info ? info.state: '',
           jobLocation: state,
           jobCategory: category,
           jobTitle: title,

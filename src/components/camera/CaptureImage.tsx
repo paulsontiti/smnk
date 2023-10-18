@@ -111,10 +111,11 @@ export default function CaptureCameraImage() {
         mt={2}
         mb={5}
       >
+        <InfoAlert message="If yu are a company,upload a live picture with the CAC held to your cheek" />
         {verified ? (
           <SuccessAlert message="Your Face verification is successfull" />
         ) : (
-          <>
+          <Box mt={2}>
             {capturedPhotoUrl && (
               <Box
                 mb={2}
@@ -171,7 +172,7 @@ export default function CaptureCameraImage() {
                 />
               </Container>
             )}
-          </>
+          </Box>
         )}
         {}
       </Box>
