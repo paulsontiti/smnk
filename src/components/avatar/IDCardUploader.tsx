@@ -19,7 +19,7 @@ import { SmnkErrorBoundary } from "@/pages/_app";
 import { isUserVerified } from "@/lib/utils/user";
 
 function IDCardUploader() {
-  const { _id, verification } = useSelector(
+  const { _id, verification, typeClass } = useSelector(
     (state: RootState) => state.users.user
   );
   const [file, setFile] = useState<any>();
@@ -116,8 +116,11 @@ function IDCardUploader() {
   return (
     <SmnkErrorBoundary>
       <Container sx={{ mt: 10 }}>
-        <InfoAlert message="If you are a company UPLOAD CAC CERTIFICATE" />
-        <InfoAlert message="Only government issued IDENTIFICATIONS would be accepted eg: Drivers license, Voters card, NIMC and National passport" />
+        {typeClass === "company" ? (
+          <InfoAlert message="UPLOAD YOUR CAC CERTIFICATE HERE" />
+        ) : (
+          <InfoAlert message="Only government issued IDENTIFICATIONS would be accepted eg: Drivers license, Voters card, NIMC and National passport" />
+        )}
         <SnackbarComponent msg={msg} color={color} ref={snackBarRef} />
 
         {verified ? (

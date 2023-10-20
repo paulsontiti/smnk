@@ -10,6 +10,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import InfoAlert from "@/components/alerts/Info";
 import { ApproveSubscription } from "../sw/UsersDetailsTable";
 import ViewOnlyImageDialog from "@/components/dialog/ViewOnlyImageDialog";
+import Verified from "@mui/icons-material/Verified";
+import Pending from "@mui/icons-material/Pending";
 
 export default function JobsDetailsTable({ jobs }: { jobs: any[] }) {
   const [rowId, setRowId] = useState<GridRowId>();
@@ -140,31 +142,37 @@ function ProofOfPayment({
   };
   return (
     <>
-      {param.row.pop ? (
-        <>
-          <IconButton
-            onClick={async () => {
-              //call image dialog ref to update image dialog
-              const refState = imageDialogRef.current as any;
-              refState.updateSrc(`/api/multer/pop/${param.row.pop}`);
-              refState.updateForClient(true);
-              refState.showDialog();
-            }}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {" "}
-            <Avatar src={`/api/multer/pop/${param.row.pop}`} />
-          </IconButton>{" "}
-          <ApproveSubscription param={param} action={confirmPayment} />
-          <ViewOnlyImageDialog ref={imageDialogRef} />
-        </>
+      {param.row.popConfirmed ? (
+        <Verified color="success" />
       ) : (
-        <p></p>
-      )}{" "}
+        <>
+          {param.row.pop ? (
+            <>
+              <IconButton
+                onClick={async () => {
+                  //call image dialog ref to update image dialog
+                  const refState = imageDialogRef.current as any;
+                  refState.updateSrc(`/api/multer/pop/${param.row.pop}`);
+                  refState.updateForClient(true);
+                  refState.showDialog();
+                }}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {" "}
+                <Avatar src={`/api/multer/pop/${param.row.pop}`} />
+              </IconButton>{" "}
+              <ApproveSubscription param={param} action={confirmPayment} />
+              <ViewOnlyImageDialog ref={imageDialogRef} />
+            </>
+          ) : (
+            <Pending color="error" />
+          )}
+        </>
+      )}
     </>
   );
 }

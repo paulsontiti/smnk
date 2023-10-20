@@ -71,7 +71,7 @@ export function SubRating({ userId }: { userId: string }) {
   return (
     <Box position={"relative"}>
       <ListItemText
-        primary={<Typography variant="caption">Sub. Rating</Typography>}
+        primary={<Typography variant="caption">Sub. Ranking</Typography>}
       />
       <Chip
         color="primary"

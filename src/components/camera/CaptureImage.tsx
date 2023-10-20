@@ -26,7 +26,7 @@ export default function CaptureCameraImage() {
   const [uploading, setUploading] = useState(false);
 
   const [verified, setVerified] = useState(false);
-  const { _id, verification } = useSelector(
+  const { _id, verification, typeClass } = useSelector(
     (state: RootState) => state.users.user
   );
 
@@ -111,7 +111,9 @@ export default function CaptureCameraImage() {
         mt={2}
         mb={5}
       >
-        <InfoAlert message="If yu are a company,upload a live picture with the CAC held to your cheek" />
+        {typeClass === "company" && (
+          <InfoAlert message="Upload a picture of yourself with the CAC held to your cheek" />
+        )}
         {verified ? (
           <SuccessAlert message="Your Face verification is successfull" />
         ) : (

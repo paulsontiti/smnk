@@ -21,7 +21,7 @@ export default function ChatBottomNavigation({
         }}
       >
         <BottomNavigationAction
-          label="Chat"
+          label="Chat Client"
           icon={<ChatFloatingActionButtons receiverId={receiverId} />}
         />
       </BottomNavigation>

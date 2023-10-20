@@ -135,7 +135,7 @@ function MobileJobProgress({ jobStatus }: { jobStatus: any }) {
       <JobProgressLabel
         label="Job commenced"
         jobStatus={jobStatus}
-        status="isPaymentApproved"
+        status="jobCommenced"
       />
       <JobProgressLine />
       <JobprogressNumber number={3} />{" "}
