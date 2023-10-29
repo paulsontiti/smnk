@@ -2,7 +2,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
 import EditIcon from "@mui/icons-material/Edit";
 import { Badge } from "@mui/material";
@@ -10,6 +10,7 @@ import { readCorrection } from "@/lib/report";
 import { SmnkErrorBoundary } from "@/pages/_app";
 
 import ChatBottomNavigation from "../bottomNavigation/ChatBottomNavigation";
+import { useRouter } from "next/router";
 
 export default function SWCorrectionDetailsAccordion({
   correction,
@@ -22,6 +23,7 @@ export default function SWCorrectionDetailsAccordion({
   jobId: string;
   clientId?: string;
 }) {
+  const router = useRouter();
   if (!jobId || !correction || !reportId) return <p></p>;
   return (
     <SmnkErrorBoundary>
@@ -58,6 +60,16 @@ export default function SWCorrectionDetailsAccordion({
         </AccordionSummary>
         <AccordionDetails>
           <Box>{correction.correction}</Box>
+          <Box>
+            <Button
+              sx={{ textTransform: "capitalize" }}
+              onClick={() => {
+                router.push(`/report/${jobId}`);
+              }}
+            >
+              Re-upload evidence
+            </Button>
+          </Box>
           {clientId && <ChatBottomNavigation receiverId={clientId} />}
         </AccordionDetails>
       </Accordion>

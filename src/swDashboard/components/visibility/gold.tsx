@@ -26,7 +26,7 @@ export const Gold = () => {
   return (
     <Card
       sx={{
-        bgcolor: theme.smnk[500],
+        bgcolor: "#e1ba43",
         color: "white",
         maxHeight: 600,
         minHeight: 600,

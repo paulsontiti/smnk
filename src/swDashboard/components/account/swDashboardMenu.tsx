@@ -87,7 +87,7 @@ export default function SWDashboardMenu() {
           <AccountCircleIcon sx={{ color: theme.smnk[1000] }} />
         </ListItemIcon>
         <ListItemText
-          primary={<Typography variant="body2">Account</Typography>}
+          primary={<Typography variant="body1">Account</Typography>}
         />
         {openAccount ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>

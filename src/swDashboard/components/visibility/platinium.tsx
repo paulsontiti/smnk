@@ -19,7 +19,7 @@ export const Platinium = () => {
   return (
     <Card
       sx={{
-        bgcolor: theme.smnk[1000],
+        bgcolor: "#bfc1c2",
         color: "white",
         maxHeight: 600,
         minHeight: 600,

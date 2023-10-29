@@ -102,7 +102,12 @@ export default function Footer() {
                 "https://twitter.com/SMNKservicehub?t=15Dcj5Anh9NyTQnAw8f6fA&s=08";
             }}
           >
-            <TwitterIcon />
+            <Image
+              src={"/assets/twitter_icon.avif"}
+              width={20}
+              height={20}
+              alt=""
+            />
           </IconButton>
           <IconButton
             variant="plain"
