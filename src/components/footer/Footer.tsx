@@ -114,7 +114,7 @@ export default function Footer() {
             sx={{ color: "black" }}
             onClick={() => {
               window.location.href =
-                "https://www.instagram.com/smnkservicehub/";
+                "https://instagram.com/smnk704?igshid=YTQwZjQ0NmI0OA==";
             }}
           >
             <InstagramIcon />

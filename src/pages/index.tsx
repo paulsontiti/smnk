@@ -3,18 +3,20 @@ import Layout from "@/components/layout";
 import TestimonialStepper from "@/components/stepper/TestimonialStepper";
 import Head from "next/head";
 import ServiceCategories from "@/components/card/ServiceCategories";
-import { Typography, Box, Card, CardContent, IconButton } from "@mui/material";
+import { Typography, Box, Card, CardContent } from "@mui/material";
 import ReactPlayer from "react-player";
 
 //import { toast } from 'react-toastify';
 import { useEffect, useState } from "react";
-import { Cancel } from "@mui/icons-material";
+
 import HomePageStepper from "@/components/stepper/HomePageStepper";
 import BlogStepper from "@/components/stepper/BlogStepper";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { updatePageLoading } from "@/store/slices/userSlice";
 
+import { IconButton } from "@mui/material";
+import { Cancel } from "@mui/icons-material";
 export default function Home() {
   const [showVideo, setShowVideo] = useState("block");
   const [muted, setMuted] = useState(false);
@@ -33,39 +35,6 @@ export default function Home() {
       </Head>
       <main>
         <HomePageStepper />
-        <Box
-          bgcolor={"black"}
-          height={{ xs: 200, md: 300 }}
-          width={{ xs: 200, md: 300 }}
-          position={"fixed"}
-          top={400}
-          left={0}
-          display={showVideo}
-          zIndex={100}
-        >
-          <IconButton
-            sx={{ color: "white" }}
-            onClick={() => {
-              setShowVideo("none");
-              setMuted(true);
-            }}
-          >
-            <Cancel />
-          </IconButton>
-          <video
-            width="100%"
-            height="100%"
-            muted={muted}
-            // autoPlay={true}
-            loop
-            controls
-            style={{ objectFit: "fill" }}
-          >
-            <source src="/assets/video.mp4" type="video/mp4" />
-            <source src="/assets/video.mp4" type="video/ogg" />
-            Your browser does not support the video tag.
-          </video>
-        </Box>
 
         {/* <*/}
 
@@ -144,6 +113,30 @@ export default function Home() {
         </Box>
 
         <BlogStepper />
+        <Box bgcolor={"black"} display={showVideo} mt={2} mb={2}>
+          <IconButton
+            sx={{ color: "white" }}
+            onClick={() => {
+              setShowVideo("none");
+              setMuted(true);
+            }}
+          >
+            <Cancel />
+          </IconButton>
+          <video
+            width="100%"
+            height="100%"
+            muted={muted}
+            // autoPlay={true}
+            loop
+            controls
+            style={{ objectFit: "fill" }}
+          >
+            <source src="/assets/video.mp4" type="video/mp4" />
+            <source src="/assets/video.mp4" type="video/ogg" />
+            Your browser does not support the video tag.
+          </video>
+        </Box>
         <TestimonialStepper />
       </main>
     </Layout>

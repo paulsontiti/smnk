@@ -47,6 +47,9 @@ function TestimonialStepper() {
           xl: "5rem 30rem",
         }}
         sx={{ flexGrow: 1, mt: 2 }}
+        display={"flex"}
+        justifyContent={"center"}
+        flexDirection={"column"}
       >
         <Paper
           square
